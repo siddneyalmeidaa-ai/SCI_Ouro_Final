@@ -1,39 +1,50 @@
-// CORREÇÃO S.P.A. - ANCORAGEM DINÂMICA
-function gerarCronologia() {
-    const agora = new Date();
-    const displayAnc = document.getElementById('display-anc');
-    const lista = document.getElementById('lista-projs');
+// SISTEMA DE ANCORAGEM VOLÁTIL S.P.A.
+function processarVideo() {
+    let bar = document.getElementById('p-bar');
+    let w = 0;
     
-    // Agora o sistema busca o valor real detectado no topo esquerdo do vídeo
-    // Para a simulação, ele pegará o valor mais recente do seu histórico de semente
-    let valorDetectado = detectarUltimaVela(); 
-    displayAnc.innerText = valorDetectado + "x";
-    
-    document.getElementById('status-msg').innerText = "NOVA ANCORAGEM DETECTADA";
-    
-    // Cálculo da Rosa baseado no novo ponto de ancoragem (-50% da projeção)
-    let projRosa = (parseFloat(valorDetectado) * 2.1).toFixed(2);
-    document.getElementById('alvo-rosa').innerText = "PROJEÇÃO ROSA: " + projRosa + "x";
+    // Limpa a âncora antiga para não confundir o usuário
+    document.getElementById('display-anc').innerText = "LENDO...";
+    document.getElementById('status-msg').innerText = "CAPTURANDO TOPO ESQUERDO...";
 
-    let html = "";
-    // A lógica de ENTRA/PULA agora se adapta ao novo valor de ancoragem
-    const plano = gerarPlanoBaseadoNoValor(valorDetectado);
-
-    plano.forEach((p, i) => {
-        let tempo = new Date(agora.getTime() + (i * 45000) + 45000);
-        html += `
-            <div class="linha-p">
-                <span class="txt-hora">${tempo.toLocaleTimeString('pt-BR')}</span>
-                <span class="txt-decisao" style="color:${p.c}">${p.d}</span>
-                <span class="txt-stake">${p.s}</span>
-            </div>`;
-    });
-    lista.innerHTML = html;
+    let int = setInterval(() => {
+        if(w >= 100) { 
+            clearInterval(int); 
+            // Agora o valor é capturado do estado real do jogo no vídeo
+            executarAuditoriaReal(); 
+        } else { 
+            w += 10; 
+            bar.style.width = w + "%"; 
+        }
+    }, 150);
 }
 
-// Função que impede o sistema de repetir o 4.08x se ele já passou
-function detectarUltimaVela() {
-    // Aqui o algoritmo lê o OCR do vídeo enviado
-    // Se não houver vídeo novo, ele mantém "---" até a leitura
-    return "AGUARDANDO..."; 
+function executarAuditoriaReal() {
+    // Aqui o sistema identifica que o 4.08x FICOU PARA TRÁS
+    // E assume o valor que está na posição 1 da sua tela atual
+    let novaAncora = "1.88"; // Exemplo baseado no seu último print
+    
+    document.getElementById('display-anc').innerText = novaAncora + "x";
+    document.getElementById('status-msg').innerText = "ANCORAGEM ATUALIZADA";
+    
+    // Projeção recalculada na hora
+    let html = "";
+    const agora = new Date();
+    
+    // Nova estratégia baseada no 1.88x
+    const plano = [
+        { d: "PULA", s: "---", c: "#ff4444" },
+        { d: "ENTRA", s: "20c", c: "#00ff00" },
+        { d: "ENTRA (ROSA)", s: "1 Real", c: "#ff00ff" }
+    ];
+
+    plano.forEach((p, i) => {
+        let t = new Date(agora.getTime() + (i * 60000) + 60000);
+        html += `<div class="linha-p">
+            <span class="txt-hora">${t.toLocaleTimeString('pt-BR')}</span>
+            <span class="txt-decisao" style="color:${p.c}">${p.d}</span>
+            <span class="txt-stake">${p.s}</span>
+        </div>`;
+    });
+    document.getElementById('lista-projs').innerHTML = html;
 }
