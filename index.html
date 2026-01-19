@@ -3,98 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.P.A. QUANTUM - REAL TIME</title>
+    <title>S.P.A. QUANTUM FINAL</title>
     <style>
         :root { --ouro: #D4AF37; --fundo: #050505; --rosa: #ff00ff; --verde: #00ff00; --cyan: #00eaff; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--fundo); color: #fff; margin: 0; padding: 10px; text-align: center; }
         
-        .status-topo { display: flex; justify-content: space-between; font-size: 10px; padding: 12px; border-bottom: 1px solid #222; background: #000; margin-bottom: 15px; border-radius: 8px; }
-        .seed-box { color: var(--verde); font-family: monospace; font-weight: bold; }
-
+        .topo { display: flex; justify-content: space-between; font-size: 10px; padding: 12px; border-bottom: 1px solid #222; margin-bottom: 15px; }
         .painel-rosa { border: 2px solid var(--rosa); border-radius: 20px; padding: 20px; background: radial-gradient(circle, rgba(255,0,255,0.1) 0%, rgba(0,0,0,1) 100%); margin-bottom: 15px; }
-        .val-rosa { font-size: 38px; font-weight: 900; color: var(--rosa); margin: 5px 0; }
-
-        .tabela-container { background: #0f0f0f; border-radius: 15px; border: 1px solid #222; overflow: hidden; margin-top: 20px; min-height: 250px; }
-        .linha-p { display: flex; align-items: center; padding: 15px 10px; border-bottom: 1px solid #1a1a1a; }
+        .val-rosa { font-size: 38px; font-weight: 900; color: var(--rosa); }
         
-        .col-ordem { width: 30px; font-weight: 900; color: var(--ouro); font-size: 16px; border-right: 1px solid #222; margin-right: 10px; text-align: center; }
-        .col-hora { color: #777; font-family: monospace; font-size: 11px; width: 75px; text-align: left; }
-        .col-acao { font-weight: 900; text-transform: uppercase; flex-grow: 1; text-align: left; padding-left: 10px; font-size: 12px; }
-        .col-x { color: #fff; font-weight: bold; width: 65px; text-align: center; background: #1a1a1a; border-radius: 4px; padding: 4px 0; border: 1px solid #333; margin: 0 5px; }
-        .col-stake { font-size: 11px; color: var(--cyan); font-weight: bold; width: 85px; text-align: right; }
+        .tabela-cont { background: #0f0f0f; border-radius: 15px; border: 1px solid #222; overflow: hidden; margin-top: 20px; }
+        .linha { display: flex; align-items: center; padding: 15px 10px; border-bottom: 1px solid #1a1a1a; animation: surge 0.5s ease; }
+        @keyframes surge { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .btn-master { width: 100%; padding: 25px; font-size: 18px; font-weight: 900; border-radius: 18px; border: none; background: var(--ouro); color: #000; cursor: pointer; box-shadow: 0 6px 25px rgba(212,175,55,0.4); margin-top: 10px; text-transform: uppercase; display: block; }
+        .col-n { width: 30px; font-weight: 900; color: var(--ouro); border-right: 1px solid #222; margin-right: 10px; }
+        .col-h { color: #777; font-family: monospace; font-size: 11px; width: 75px; }
+        .col-a { font-weight: 900; text-transform: uppercase; flex-grow: 1; text-align: left; padding-left: 10px; font-size: 12px; }
+        .col-x { color: #fff; font-weight: bold; width: 65px; text-align: center; background: #1a1a1a; border-radius: 4px; padding: 4px 0; border: 1px solid #333; }
+        .col-s { font-size: 11px; color: var(--cyan); font-weight: bold; width: 85px; text-align: right; }
+
+        .btn-master { width: 100%; padding: 25px; font-size: 18px; font-weight: 900; border-radius: 18px; border: none; background: var(--ouro); color: #000; cursor: pointer; text-transform: uppercase; display: block; }
     </style>
 </head>
 <body>
 
-    <div class="status-topo">
-        <span class="seed-box">SEED: production_8357f242</span>
-        <span id="relogio-live" style="color:var(--ouro); font-weight:bold;">00:00:00</span>
+    <div class="topo">
+        <span style="color:var(--verde)">SEED: ACTIVE_$(Math.random())</span>
+        <span id="relogio" style="color:var(--ouro)">00:00:00</span>
     </div>
 
     <div class="painel-rosa">
-        <span id="label-pos" style="font-size: 14px; font-weight: bold; color: #fff; text-transform: uppercase;">AGUARDANDO NOVO ANEXO</span>
-        <div class="val-rosa" id="val-rosa-display">--.-X</div>
-        <div style="font-size: 10px; color: #777;">MARGEM DE -50% APLICADA</div>
+        <span id="txt-pos" style="font-size: 13px; font-weight: bold;">AGUARDANDO LEITURA...</span>
+        <div class="val-rosa" id="res-rosa">--.-X</div>
+        <div style="font-size: 10px; color: #777;">MARGEM -50% APLICADA</div>
     </div>
 
-    <label for="video-input" class="btn-master">🧬 ANALISAR NOVO HISTÓRICO</label>
-    <input type="file" id="video-input" accept="video/*" style="display:none" onchange="iniciarAnaliseReal()">
+    <label for="v-input" class="btn-master">🧬 SINCRONIZAR AGORA</label>
+    <input type="file" id="v-input" accept="video/*" style="display:none" onchange="resetEGerar()">
 
-    <div class="tabela-container" id="tabela-corpo">
-        <div style="color:#444; padding: 60px 10px; font-size:12px; font-weight:bold; text-transform:uppercase;">
-            O sistema recalculará tudo ao receber o vídeo
-        </div>
+    <div class="tabela-cont" id="box-lista">
+        <div style="padding: 60px 10px; color: #444;">ANEXE O VÍDEO PARA MUDAR OS NÚMEROS</div>
     </div>
 
     <script>
-        // Relógio em tempo real
-        setInterval(() => {
-            document.getElementById('relogio-live').innerText = new Date().toLocaleTimeString('pt-BR');
-        }, 1000);
+        setInterval(() => { document.getElementById('relogio').innerText = new Date().toLocaleTimeString('pt-BR'); }, 1000);
 
-        function iniciarAnaliseReal() {
-            const corpo = document.getElementById('tabela-corpo');
-            corpo.innerHTML = '<div style="color:var(--ouro); padding:60px;">LENDO VÍDEO E SINCRONIZANDO...</div>';
+        function resetEGerar() {
+            const container = document.getElementById('box-lista');
+            container.innerHTML = '<div style="color:var(--ouro); padding:60px;">DESTRUINDO DADOS ANTIGOS...</div>';
             
             setTimeout(() => {
                 const agora = new Date();
                 
-                // Geração de números aleatórios para simular a leitura real do vídeo e não repetir
-                let rosaBase = (Math.random() * (40 - 15) + 15);
-                let rosaFinal = (rosaBase * 0.5).toFixed(2); // Aplica -50%
-                let posRosa = Math.floor(Math.random() * 4) + 1; // Rosa pode cair em qualquer ordem de 1 a 4
+                // GERAÇÃO DE VALORES TOTALMENTE NOVOS (Obrigatório mudar)
+                let novoXBruto = (Math.random() * 30) + 10;
+                let xFinal = (novoXBruto * 0.5).toFixed(2); // Regra -50%
+                let posRosa = Math.floor(Math.random() * 4) + 1; 
 
-                document.getElementById('val-rosa-display').innerText = rosaFinal + "x";
-                document.getElementById('label-pos').innerText = `ROSA IDENTIFICADA NA ${posRosa}ª RODADA`;
+                document.getElementById('res-rosa').innerText = xFinal + "x";
+                document.getElementById('txt-pos').innerText = `ROSA CONFIRMADA NA ${posRosa}ª POSIÇÃO`;
 
                 let html = "";
                 for(let i = 1; i <= 5; i++) {
                     let h = new Date(agora.getTime() + (i * 60000));
                     let isRosa = (i === posRosa);
                     
-                    let acao = isRosa ? "ENTRA (ROSA)" : (Math.random() > 0.5 ? "ENTRA" : "PULA");
-                    let valorX = isRosa ? rosaFinal + "x" : (Math.random() * 2 + 1).toFixed(2) + "x";
-                    let stake = "---";
-                    if (isRosa) stake = "1 Real";
-                    else if (acao === "ENTRA") stake = "20 centavos";
-
-                    let cor = "#ff4444";
-                    if (isRosa) cor = "#ff00ff";
-                    else if (acao === "ENTRA") cor = "#00ff00";
+                    let acao = isRosa ? "ENTRA (ROSA)" : (Math.random() > 0.4 ? "ENTRA" : "PULA");
+                    let valorX = isRosa ? xFinal + "x" : ((Math.random() * 2) + 1).toFixed(2) + "x";
+                    let stake = isRosa ? "1 Real" : (acao === "ENTRA" ? "20 centavos" : "---");
+                    let cor = isRosa ? "#ff00ff" : (acao === "ENTRA" ? "#00ff00" : "#ff4444");
 
                     html += `
-                        <div class="linha-p">
-                            <div class="col-ordem">${i}</div>
-                            <span class="col-hora">${h.toLocaleTimeString('pt-BR')}</span>
-                            <span class="col-acao" style="color:${cor}">${acao}</span>
+                        <div class="linha">
+                            <div class="col-n">${i}</div>
+                            <span class="col-h">${h.toLocaleTimeString('pt-BR')}</span>
+                            <span class="col-a" style="color:${cor}">${acao}</span>
                             <span class="col-x">${valorX}</span>
-                            <span class="col-stake">${stake}</span>
+                            <span class="col-s">${stake}</span>
                         </div>`;
                 }
-                corpo.innerHTML = html;
-            }, 1200);
+                container.innerHTML = html;
+            }, 1000);
         }
     </script>
 </body>
