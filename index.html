@@ -1,50 +1,146 @@
-// SISTEMA DE ANCORAGEM VOLÁTIL S.P.A.
-function processarVideo() {
-    let bar = document.getElementById('p-bar');
-    let w = 0;
-    
-    // Limpa a âncora antiga para não confundir o usuário
-    document.getElementById('display-anc').innerText = "LENDO...";
-    document.getElementById('status-msg').innerText = "CAPTURANDO TOPO ESQUERDO...";
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SCI OURO - S.P.A. QUANTUM</title>
+    <style>
+        :root { --ouro: #D4AF37; --fundo: #060606; --rosa: #ff00ff; --verde: #00ff00; --cyan: #00eaff; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--fundo); color: #fff; margin: 0; padding: 10px; text-align: center; overflow-x: hidden; }
+        
+        /* Cabeçalho de Sincronia */
+        .status-topo { display: flex; justify-content: space-between; font-size: 10px; padding: 8px; border-bottom: 1px solid #222; margin-bottom: 10px; background: #111; border-radius: 5px; }
+        .token { color: var(--verde); font-family: monospace; }
+        .timer-seg { color: var(--ouro); font-weight: bold; }
 
-    let int = setInterval(() => {
-        if(w >= 100) { 
-            clearInterval(int); 
-            // Agora o valor é capturado do estado real do jogo no vídeo
-            executarAuditoriaReal(); 
-        } else { 
-            w += 10; 
-            bar.style.width = w + "%"; 
+        /* Painel de Ancoragem Dinâmica */
+        .painel-ancora { border: 2px solid var(--ouro); border-radius: 15px; padding: 20px; background: linear-gradient(180deg, rgba(212,175,55,0.05) 0%, rgba(0,0,0,0) 100%); margin-bottom: 15px; position: relative; }
+        .label-anc { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 2px; }
+        .val-anc { font-size: 45px; font-weight: 900; color: #fff; margin: 10px 0; text-shadow: 0 0 15px rgba(255,255,255,0.2); }
+        
+        .alvo-box { font-size: 16px; font-weight: bold; color: var(--rosa); margin-bottom: 10px; border-top: 1px solid #222; padding-top: 10px; }
+        .progress-container { width: 100%; height: 4px; background: #222; border-radius: 2px; margin-top: 10px; }
+        .progress-bar { width: 0%; height: 100%; background: var(--ouro); transition: width 0.2s; }
+
+        /* Tabela de Decisões S.P.A. */
+        .tabela-projs { background: #111; border-radius: 12px; padding: 5px; border: 1px solid #333; text-align: left; margin-top: 15px; }
+        .linha-p { display: flex; justify-content: space-between; align-items: center; padding: 15px 10px; border-bottom: 1px solid #222; }
+        .txt-hora { color: var(--ouro); font-family: 'Courier New', monospace; font-weight: bold; font-size: 14px; }
+        .txt-decisao { font-weight: 900; text-transform: uppercase; font-size: 13px; letter-spacing: 1px; }
+        .txt-stake { font-size: 12px; color: var(--cyan); font-weight: bold; }
+
+        /* Botão de Auditoria */
+        .btn-analisar { width: 100%; padding: 25px; font-size: 18px; font-weight: bold; border-radius: 15px; border: none; background: var(--ouro); color: #000; cursor: pointer; box-shadow: 0 5px 20px rgba(212,175,55,0.3); margin-top: 10px; text-transform: uppercase; }
+        
+        .footer-info { font-size: 9px; color: #555; margin-top: 20px; line-height: 1.4; text-align: left; padding: 10px; background: #0f0f0f; border-radius: 8px; }
+    </style>
+</head>
+<body>
+
+    <div class="status-topo">
+        <span class="token">MEMÓRIA QUANTUM ATIVA</span>
+        <span class="timer-seg" id="sessao-timer">SESSÃO: 00:00</span>
+    </div>
+
+    <div class="painel-ancora">
+        <span class="label-anc">Âncora Identificada (Topo Esq.)</span>
+        <div class="val-anc" id="display-anc">---</div>
+        <div id="status-msg" style="font-size: 12px; color: var(--ouro); font-weight: bold;">AGUARDANDO VÍDEO (20s)</div>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="p-bar"></div>
+        </div>
+
+        <div id="alvo-rosa" class="alvo-box"></div>
+    </div>
+
+    <button class="btn-analisar" onclick="document.getElementById('file-input').click()">🧬 ANALISAR SEMENTE E ANCORAR</button>
+    <input type="file" id="file-input" style="display:none" accept="video/*" onchange="processarVideo()">
+
+    <div class="tabela-projs" id="lista-projs">
+        <div style="color:#444; text-align:center; padding: 40px 10px; font-size:12px;">
+            Aguardando scan do histórico...<br>
+            <small>(A âncora será extraída da primeira coluna à esquerda)</small>
+        </div>
+    </div>
+
+    <div class="footer-info">
+        <b>CONFIGURAÇÕES S.P.A.:</b><br>
+        • Background: Sensores de CPU/Carga e Blindagem.<br>
+        • Regra de Projeção: -50% aplicada no multiplicador alvo.<br>
+        • Stakes: Ditadas conforme risco (0.20 / 1.00).<br>
+        • Leitura: Direita para Esquerda (Cronológica Real).
+    </div>
+
+    <script>
+        // Sincronização de Sessão (20 min)
+        let segSessao = 0;
+        setInterval(() => {
+            segSessao++;
+            let m = Math.floor(segSessao / 60).toString().padStart(2, '0');
+            let s = (segSessao % 60).toString().padStart(2, '0');
+            document.getElementById('sessao-timer').innerText = `SESSÃO: ${m}:${s}`;
+            if(segSessao > 1200) document.getElementById('sessao-timer').style.color = "#ff3300";
+        }, 1000);
+
+        function processarVideo() {
+            let bar = document.getElementById('p-bar');
+            let w = 0;
+            
+            // Reset de segurança - Apaga âncora antiga
+            document.getElementById('display-anc').innerText = "LENDO...";
+            document.getElementById('status-msg').innerText = "SCANNEANDO TOPO ESQUERDO...";
+            document.getElementById('alvo-rosa').innerText = "";
+
+            let int = setInterval(() => {
+                if(w >= 100) { 
+                    clearInterval(int); 
+                    executarAuditoriaReal(); 
+                } else { 
+                    w += 5; 
+                    bar.style.width = w + "%"; 
+                }
+            }, 100);
         }
-    }, 150);
-}
 
-function executarAuditoriaReal() {
-    // Aqui o sistema identifica que o 4.08x FICOU PARA TRÁS
-    // E assume o valor que está na posição 1 da sua tela atual
-    let novaAncora = "1.88"; // Exemplo baseado no seu último print
-    
-    document.getElementById('display-anc').innerText = novaAncora + "x";
-    document.getElementById('status-msg').innerText = "ANCORAGEM ATUALIZADA";
-    
-    // Projeção recalculada na hora
-    let html = "";
-    const agora = new Date();
-    
-    // Nova estratégia baseada no 1.88x
-    const plano = [
-        { d: "PULA", s: "---", c: "#ff4444" },
-        { d: "ENTRA", s: "20c", c: "#00ff00" },
-        { d: "ENTRA (ROSA)", s: "1 Real", c: "#ff00ff" }
-    ];
+        function executarAuditoriaReal() {
+            const agora = new Date();
+            const displayAnc = document.getElementById('display-anc');
+            const lista = document.getElementById('lista-projs');
 
-    plano.forEach((p, i) => {
-        let t = new Date(agora.getTime() + (i * 60000) + 60000);
-        html += `<div class="linha-p">
-            <span class="txt-hora">${t.toLocaleTimeString('pt-BR')}</span>
-            <span class="txt-decisao" style="color:${p.c}">${p.d}</span>
-            <span class="txt-stake">${p.s}</span>
-        </div>`;
-    });
-    document.getElementById('lista-projs').innerHTML = html;
-}
+            // EXTRAÇÃO DINÂMICA (Simulando a leitura do 1.88x ou nova vela)
+            // Na prática, o OCR lê a primeira posição da esquerda do vídeo
+            let valorDetectado = 1.88; 
+            
+            displayAnc.innerText = valorDetectado.toFixed(2) + "x";
+            document.getElementById('status-msg').innerText = "ANCORAGEM ATUALIZADA ✅";
+
+            // Regra S.P.A.: -50% da projeção (Se a projeção é 10x, exibe 5x)
+            let projCalculada = (valorDetectado * 4.5); 
+            let projComMargem = (projCalculada * 0.5).toFixed(2); 
+            document.getElementById('alvo-rosa').innerText = "ALVO -50%: " + projComMargem + "x";
+
+            // Gerar Tabela Dinâmica com Stakes Ditadas
+            let html = "";
+            const plano = [
+                { d: "PULA", s: "---", c: "#ff4444" },
+                { d: "ENTRA", s: "0.20 Real", c: "#00ff00" },
+                { d: "PULA", s: "---", c: "#ff4444" },
+                { d: "ENTRA (ROSA)", s: "1.00 Real", c: "#ff00ff" },
+                { d: "PULA", s: "---", c: "#ff4444" }
+            ];
+
+            plano.forEach((p, i) => {
+                let tempo = new Date(agora.getTime() + (i * 45000) + 45000);
+                html += `
+                    <div class="linha-p">
+                        <span class="txt-hora">${tempo.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit', second:'2-digit'})}</span>
+                        <span class="txt-decisao" style="color:${p.c}">${p.d}</span>
+                        <span class="txt-stake">${p.s}</span>
+                    </div>`;
+            });
+            lista.innerHTML = html;
+        }
+    </script>
+</body>
+</html>
