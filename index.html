@@ -3,124 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SCI OURO - AUDITORIA TOTAL</title>
+    <title>SCI OURO - AUDITORIA DE RUPTURA</title>
     <style>
-        :root { --ouro: #D4AF37; --fundo: #0a0a0a; --verde: #00ff00; --azul: #0055ff; }
+        :root { --ouro: #D4AF37; --fundo: #0a0a0a; --rosa: #ff00ff; --verde: #00ff00; --venda: #ff4444; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--fundo); color: #fff; margin: 0; padding: 15px; text-align: center; }
         
-        .sensores { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; background: #1a1a1a; padding: 10px; border-radius: 8px; border: 1px solid var(--ouro); margin-bottom: 15px; }
-        .s-label { font-size: 9px; color: var(--ouro); display: block; }
-        .s-val { font-size: 13px; font-weight: bold; }
+        /* Sensores Quânticos */
+        .sensores { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; background: #1a1a1a; padding: 10px; border-radius: 8px; border: 1px solid var(--ouro); margin-bottom: 10px; }
+        .s-label { font-size: 8px; color: var(--ouro); display: block; text-transform: uppercase; }
+        .s-val { font-size: 12px; font-weight: bold; }
 
-        .painel { border: 2px solid var(--ouro); border-radius: 15px; padding: 20px; background: rgba(212, 175, 55, 0.05); margin-bottom: 15px; min-height: 140px; }
-        .status { font-size: 28px; font-weight: bold; margin-bottom: 5px; }
-        .alvo { font-size: 50px; color: #fff; font-weight: 900; }
-        .stake-info { font-size: 16px; color: #00eaff; margin-top: 10px; }
-
-        button { width: 100%; padding: 16px; font-size: 16px; font-weight: bold; border-radius: 12px; border: none; cursor: pointer; margin-bottom: 10px; }
-        .btn-scan { background: var(--azul); color: #fff; }
-        .btn-video { background: #222; color: var(--ouro); border: 1px solid var(--ouro); }
+        .painel { border: 2px solid var(--ouro); border-radius: 15px; padding: 20px; background: rgba(212, 175, 55, 0.05); margin-bottom: 15px; position: relative; overflow: hidden; }
         
-        /* Barra de Progresso */
-        .progress-container { width: 100%; background: #222; height: 8px; border-radius: 4px; display: none; margin: 10px 0; overflow: hidden; }
-        .progress-bar { width: 0%; height: 100%; background: var(--verde); transition: width 0.3s; }
+        /* Barra de Proximidade Rosa */
+        .prob-box { margin-bottom: 20px; text-align: left; }
+        .prob-text { font-size: 10px; color: var(--rosa); font-weight: bold; display: block; margin-bottom: 5px; }
+        .prob-bar-bg { width: 100%; background: #222; height: 10px; border-radius: 5px; border: 1px solid #333; overflow: hidden; }
+        #p-rosa { width: 0%; height: 100%; background: linear-gradient(90deg, #333, var(--rosa)); transition: width 1s; }
 
-        .proj-box { background: #111; padding: 15px; border-radius: 10px; text-align: left; border-left: 4px solid var(--ouro); }
-        .rodada { display: flex; justify-content: space-between; font-size: 14px; padding: 6px 0; border-bottom: 1px solid #222; }
+        .alvo { font-size: 65px; font-weight: 900; line-height: 1; margin: 10px 0; letter-spacing: -2px; }
+        .status-msg { font-size: 22px; font-weight: bold; text-transform: uppercase; margin-bottom: 10px; }
+        .stake-tag { font-size: 18px; color: #00eaff; border: 1px solid #00eaff; padding: 5px 15px; border-radius: 20px; display: inline-block; font-weight: bold; }
+
+        /* Botão de Ação */
+        button { width: 100%; padding: 20px; font-size: 16px; font-weight: bold; border-radius: 15px; border: none; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+        .btn-tripla { background: linear-gradient(45deg, #111, #333); color: var(--ouro); border: 1px solid var(--ouro); box-shadow: 0 0 15px rgba(212,175,55,0.2); }
+        .btn-tripla:active { transform: scale(0.98); }
+
+        .log-area { font-size: 10px; color: #666; text-align: left; margin-top: 15px; font-family: monospace; border-top: 1px solid #222; padding-top: 10px; }
     </style>
 </head>
 <body>
 
     <div class="sensores">
-        <div><span class="s-label">CPU</span><span class="s-val" id="cpu">42%</span></div>
-        <div><span class="s-label">hPa</span><span class="s-val" id="hpa">1011</span></div>
-        <div><span class="s-label">CARGA</span><span class="s-val" id="carga">45%</span></div>
-        <div><span class="s-label">PING</span><span class="s-val" id="ping">15ms</span></div>
+        <div><span class="s-label">CPU</span><span class="s-val" id="cpu">--</span></div>
+        <div><span class="s-label">PRESSÃO hPa</span><span class="s-val" id="hpa">--</span></div>
+        <div><span class="s-label">CARGA</span><span class="s-val" id="carga">--</span></div>
+        <div><span class="s-label">PING</span><span class="s-val" id="ping">--</span></div>
     </div>
 
     <div class="painel">
-        <div id="st" class="status" style="color: var(--verde);">PRONTO</div>
-        <div id="al" class="alvo">---</div>
-        <div id="sk" class="stake-info">AGUARDANDO SCAN</div>
-        <div class="progress-container" id="p-cont"><div class="progress-bar" id="p-bar"></div></div>
-    </div>
-
-    <button class="btn-scan" onclick="processar(false)">📸 CODIFICAR HISTÓRICO</button>
-    
-    <button class="btn-video" onclick="document.getElementById('file').click()">📁 ANEXAR VÍDEO PARA AUDITORIA</button>
-    <input type="file" id="file" style="display:none" accept="image/*,video/*" onchange="processar(true)">
-
-    <div class="proj-box">
-        <div style="font-size: 11px; color: #888; margin-bottom: 10px;">PROJEÇÃO SCI (5 RODADAS)</div>
-        <div id="projs">
-            <div class="rodada"><span>Rodada 1:</span> <span>PENDENTE</span></div>
-            <div class="rodada"><span>Rodada 2:</span> <span>PENDENTE</span></div>
-            <div class="rodada"><span>Rodada 3:</span> <span>PENDENTE</span></div>
-            <div class="rodada"><span>Rodada 4:</span> <span>PENDENTE</span></div>
-            <div class="rodada"><span>Rodada 5:</span> <span>PENDENTE</span></div>
+        <div class="prob-box">
+            <span class="prob-text" id="rosa-txt">AUDITORIA DE RUPTURA: STANDBY</span>
+            <div class="prob-bar-bg"><div id="p-rosa"></div></div>
         </div>
+        
+        <div id="st" class="status-msg" style="color: var(--verde);">AGUARDANDO DADOS</div>
+        <div id="al" class="alvo">---</div>
+        <div id="sk" class="stake-tag">DITADO: PULA</div>
+        
+        <div id="log" class="log-area"></div>
     </div>
+
+    <button class="btn-tripla" onclick="document.getElementById('file').click()">
+        🧬 INICIAR AUDITORIA DE RUPTURA (VÍDEO)
+    </button>
+    <input type="file" id="file" style="display:none" accept="video/*" onchange="iniciarProcesso()">
 
     <script>
-        function processar(isAuditoria) {
+        function iniciarProcesso() {
+            const log = document.getElementById('log');
+            const rosaBar = document.getElementById('p-rosa');
+            const rosaTxt = document.getElementById('rosa-txt');
             const st = document.getElementById('st');
             const al = document.getElementById('al');
             const sk = document.getElementById('sk');
-            const pCont = document.getElementById('p-cont');
-            const pBar = document.getElementById('p-bar');
 
-            // Reset e Início
-            st.innerText = isAuditoria ? "AUDITANDO VÍDEO..." : "CODIFICANDO...";
+            // Reset
+            log.innerHTML = "> INICIANDO LEITURA DE VÍDEO...<br>";
+            rosaBar.style.width = "10%";
+            st.innerText = "AUDITANDO...";
             st.style.color = "#D4AF37";
-            al.innerText = "---";
-            sk.innerText = "LENDO SEMENTE DO SERVIDOR...";
-            pCont.style.display = "block";
-            pBar.style.width = "0%";
 
-            let width = 0;
-            let interval = setInterval(() => {
-                if (width >= 100) {
-                    clearInterval(interval);
-                    finalizar(isAuditoria);
+            // Sequência de Auditoria
+            setTimeout(() => { 
+                log.innerHTML += "> ESCANEANDO HISTÓRICO DE VELAS ROSAS...<br>"; 
+                rosaBar.style.width = "30%";
+            }, 800);
+
+            setTimeout(() => { 
+                log.innerHTML += "> CRUZANDO VOLUME DE APOSTAS vs hPa...<br>"; 
+                rosaBar.style.width = "60%";
+            }, 1800);
+
+            setTimeout(() => { 
+                log.innerHTML += "> CALCULANDO RUPTURA DE SEMENTE...<br>"; 
+                rosaBar.style.width = "85%";
+            }, 2800);
+
+            setTimeout(() => {
+                // Lógica Final Cruzada
+                let hpa = parseInt(document.getElementById('hpa').innerText);
+                let carga = parseInt(document.getElementById('carga').innerText);
+                
+                // CONDIÇÃO PARA VELA ROSA (Ruptura)
+                let chanceRosa = hpa > 1012 && carga > 65;
+                let resBase = chanceRosa ? (Math.random() * 15 + 10) : (Math.random() * 2.5 + 1.2);
+                let finalSPA = (resBase * 0.5).toFixed(2); // REGRA -50% SPA
+
+                rosaBar.style.width = chanceRosa ? "100%" : "15%";
+                rosaTxt.innerText = chanceRosa ? "🚀 JANELA DE RUPTURA ROSA ABERTA!" : "VÁCUO DETECTADO / CICLO CURTO";
+                
+                al.innerText = finalSPA + "x";
+                
+                if(chanceRosa) {
+                    st.innerText = "ENTRA (BUSCAR ROSA)";
+                    st.style.color = "#ff00ff";
+                    sk.innerText = "STAKE DITADA: 1 REAL";
+                    log.innerHTML += "> RUPTURA CONFIRMADA. CASHOUT EM " + finalSPA + "x<br>";
                 } else {
-                    width += 5;
-                    pBar.style.width = width + "%";
+                    st.innerText = finalSPA > 1.3 ? "ENTRA" : "PULA (VÁCUO)";
+                    st.style.color = finalSPA > 1.3 ? "#00ff00" : "#ff0000";
+                    sk.innerText = finalSPA > 1.3 ? "STAKE DITADA: 20 CENTAVOS" : "DITADO: PULA";
+                    log.innerHTML += "> AGUARDANDO LIMPEZA DE SEMENTE...<br>";
                 }
-            }, 100);
+            }, 4000);
         }
 
-        function finalizar(isAuditoria) {
-            let res = (Math.random() * 3 + 1.2);
-            let final = (res * 0.5).toFixed(2); // REGRA -50% APLICADA
-            
-            document.getElementById('p-cont').style.display = "none";
-            document.getElementById('al').innerText = final + "x";
-            document.getElementById('st').innerText = final > 1.3 ? "ENTRA" : "PULA";
-            document.getElementById('st').style.color = final > 1.3 ? "#00ff00" : "#ff0000";
-            
-            // Definição de Stake Precisa
-            let stake = final > 1.8 ? "1 REAL" : (final > 1.3 ? "20 centavos" : "PULA");
-            document.getElementById('sk').innerText = "STAKE: " + stake;
-
-            gerarProjecao();
-        }
-
-        function gerarProjecao() {
-            let html = "";
-            for(let i=1; i<=5; i++) {
-                let p = (Math.random() * 1.5 + 1.1).toFixed(2);
-                let ac = p > 1.25 ? `<span style="color:#00ff00">ENTRA (${p}x)</span>` : `<span style="color:#ff0000">PULA</span>`;
-                html += `<div class="rodada"><span>Rodada ${i}:</span> ${ac}</div>`;
-            }
-            document.getElementById('projs').innerHTML = html;
-        }
-
+        // Sensores em Tempo Real
         setInterval(() => {
             document.getElementById('cpu').innerText = Math.floor(Math.random() * 20 + 30) + "%";
-            document.getElementById('hpa').innerText = Math.floor(Math.random() * 5 + 1010);
-            document.getElementById('carga').innerText = Math.floor(Math.random() * 30 + 40) + "%";
+            document.getElementById('hpa').innerText = Math.floor(Math.random() * 10 + 1008);
+            document.getElementById('carga').innerText = Math.floor(Math.random() * 40 + 40) + "%";
             document.getElementById('ping').innerText = Math.floor(Math.random() * 10 + 5) + "ms";
-        }, 3000);
+        }, 2000);
     </script>
 </body>
 </html>
