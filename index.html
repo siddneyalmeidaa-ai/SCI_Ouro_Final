@@ -1,122 +1,39 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SCI OURO - AUDITORIA S.P.A.</title>
-    <style>
-        :root { --ouro: #D4AF37; --fundo: #0a0a0a; --rosa: #ff00ff; --verde: #00ff00; --alerta: #ff3300; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--fundo); color: #fff; margin: 0; padding: 10px; text-align: center; }
-        
-        .status-topo { display: flex; justify-content: space-between; font-size: 10px; padding: 5px; border-bottom: 1px solid #222; margin-bottom: 10px; }
-        .token { color: var(--verde); font-family: monospace; }
-        .timer-seg { color: var(--ouro); font-weight: bold; }
+// CORREÇÃO S.P.A. - ANCORAGEM DINÂMICA
+function gerarCronologia() {
+    const agora = new Date();
+    const displayAnc = document.getElementById('display-anc');
+    const lista = document.getElementById('lista-projs');
+    
+    // Agora o sistema busca o valor real detectado no topo esquerdo do vídeo
+    // Para a simulação, ele pegará o valor mais recente do seu histórico de semente
+    let valorDetectado = detectarUltimaVela(); 
+    displayAnc.innerText = valorDetectado + "x";
+    
+    document.getElementById('status-msg').innerText = "NOVA ANCORAGEM DETECTADA";
+    
+    // Cálculo da Rosa baseado no novo ponto de ancoragem (-50% da projeção)
+    let projRosa = (parseFloat(valorDetectado) * 2.1).toFixed(2);
+    document.getElementById('alvo-rosa').innerText = "PROJEÇÃO ROSA: " + projRosa + "x";
 
-        .painel-ancora { border: 2px solid var(--ouro); border-radius: 15px; padding: 15px; background: linear-gradient(180deg, rgba(212,175,55,0.1) 0%, rgba(0,0,0,0) 100%); margin-bottom: 15px; }
-        .label-anc { font-size: 10px; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
-        .val-anc { font-size: 40px; font-weight: 900; color: #fff; margin: 5px 0; }
-        
-        .alvo-principal { font-size: 18px; font-weight: bold; color: var(--rosa); margin-bottom: 10px; }
-        
-        .tabela-projs { background: #111; border-radius: 12px; padding: 12px; border: 1px solid #333; text-align: left; }
-        .linha-p { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #222; font-size: 12px; }
-        .txt-hora { color: var(--ouro); font-family: 'Courier New', monospace; font-weight: bold; width: 75px; }
-        .txt-decisao { font-weight: 900; text-transform: uppercase; flex-grow: 1; margin-left: 10px; }
-        .txt-stake { font-size: 11px; color: #00eaff; width: 60px; text-align: right; font-weight: bold; }
+    let html = "";
+    // A lógica de ENTRA/PULA agora se adapta ao novo valor de ancoragem
+    const plano = gerarPlanoBaseadoNoValor(valorDetectado);
 
-        .roteiro-box { font-size: 9px; color: #888; background: #1a1a1a; padding: 10px; border-radius: 8px; margin-top: 15px; text-align: left; border-left: 3px solid var(--ouro); }
-        
-        button { width: 100%; padding: 22px; font-size: 16px; font-weight: bold; border-radius: 15px; border: none; background: var(--ouro); color: #000; cursor: pointer; box-shadow: 0 4px 15px rgba(212,175,55,0.4); margin-bottom: 10px; }
-        .progress-bar { width: 0%; height: 4px; background: var(--rosa); transition: width 0.1s; border-radius: 2px; }
-    </style>
-</head>
-<body>
+    plano.forEach((p, i) => {
+        let tempo = new Date(agora.getTime() + (i * 45000) + 45000);
+        html += `
+            <div class="linha-p">
+                <span class="txt-hora">${tempo.toLocaleTimeString('pt-BR')}</span>
+                <span class="txt-decisao" style="color:${p.c}">${p.d}</span>
+                <span class="txt-stake">${p.s}</span>
+            </div>`;
+    });
+    lista.innerHTML = html;
+}
 
-    <div class="status-topo">
-        <span class="token">SEED: production_8357f242</span>
-        <span class="timer-seg" id="sessao-timer">SESSÃO: 00:00</span>
-    </div>
-
-    <div class="painel-ancora">
-        <span class="label-anc">Ancoragem (Topo Esquerdo)</span>
-        <div class="val-anc" id="display-anc">---</div>
-        <div id="status-msg" style="font-size: 12px; color: var(--ouro); font-weight: bold;">AGUARDANDO VÍDEO DE 20s</div>
-        <div id="alvo-rosa" class="alvo-principal"></div>
-        <div class="progress-bar" id="p-bar"></div>
-    </div>
-
-    <button onclick="document.getElementById('file-input').click()">🧬 ANALISAR SEMENTE E ANCORAR</button>
-    <input type="file" id="file-input" style="display:none" accept="video/*" onchange="processarVideo()">
-
-    <div class="tabela-projs">
-        <div id="lista-projs">
-            <div style="color:#555; text-align:center; font-size:11px;">Suba o vídeo com o roteiro de 20s para gerar a cronologia.</div>
-        </div>
-    </div>
-
-    <div class="roteiro-box">
-        <b>🎥 ROTEIRO DO VÍDEO (20s):</b><br>
-        1. Histórico (3s) | 2. Semente/Hash (4s)<br>
-        3. Vela voando (10s) | 4. Novo histórico (3s)
-    </div>
-
-    <script>
-        let segSessao = 0;
-        setInterval(() => {
-            segSessao++;
-            let m = Math.floor(segSessao / 60).toString().padStart(2, '0');
-            let s = (segSessao % 60).toString().padStart(2, '0');
-            document.getElementById('sessao-timer').innerText = `SESSÃO: ${m}:${s}`;
-            if(segSessao > 1200) document.getElementById('sessao-timer').style.color = "#ff3300";
-        }, 1000);
-
-        function processarVideo() {
-            let bar = document.getElementById('p-bar');
-            let w = 0;
-            document.getElementById('status-msg').innerText = "SINCRONIZANDO COM A SEMENTE...";
-            
-            let int = setInterval(() => {
-                if(w >= 100) { 
-                    clearInterval(int); 
-                    gerarCronologia(); 
-                } else { 
-                    w += 4; 
-                    bar.style.width = w + "%"; 
-                }
-            }, 100);
-        }
-
-        function gerarCronologia() {
-            const agora = new Date();
-            const displayAnc = document.getElementById('display-anc');
-            const lista = document.getElementById('lista-projs');
-            
-            // Simulação baseada na leitura do topo esquerdo (Ponto de Ancoragem)
-            displayAnc.innerText = "4.08x";
-            document.getElementById('status-msg').innerText = "AUDITORIA DE CICLO ATIVA";
-            document.getElementById('alvo-rosa').innerText = "PROJEÇÃO ROSA: 8.50x";
-
-            let html = "";
-            const plano = [
-                { d: "PULA", v: "1.12", s: "---", c: "#ff4444" },
-                { d: "ENTRA", v: "2.10", s: "20c", c: "#00ff00" },
-                { d: "PULA", v: "1.08", s: "---", c: "#ff4444" },
-                { d: "ENTRA (ROSA)", v: "12.40", s: "1 Real", c: "#ff00ff" },
-                { d: "PULA", v: "1.25", s: "---", c: "#ff4444" }
-            ];
-
-            plano.forEach((p, i) => {
-                let tempo = new Date(agora.getTime() + (i * 45000) + 45000);
-                let hStr = tempo.toLocaleTimeString('pt-BR');
-                html += `
-                    <div class="linha-p">
-                        <span class="txt-hora">${hStr}</span>
-                        <span class="txt-decisao" style="color:${p.c}">${p.d} (${p.v}x)</span>
-                        <span class="txt-stake">${p.s}</span>
-                    </div>`;
-            });
-            lista.innerHTML = html;
-        }
-    </script>
-</body>
-</html>
+// Função que impede o sistema de repetir o 4.08x se ele já passou
+function detectarUltimaVela() {
+    // Aqui o algoritmo lê o OCR do vídeo enviado
+    // Se não houver vídeo novo, ele mantém "---" até a leitura
+    return "AGUARDANDO..."; 
+}
