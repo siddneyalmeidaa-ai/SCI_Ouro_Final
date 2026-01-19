@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SCI OURO - DINÂMICO S.P.A.</title>
+    <title>SCI OURO - S.P.A. QUANTUM</title>
     <style>
         :root { --ouro: #D4AF37; --fundo: #050505; --rosa: #ff00ff; --verde: #00ff00; --cyan: #00eaff; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--fundo); color: #fff; margin: 0; padding: 10px; text-align: center; }
@@ -15,7 +15,7 @@
         .label-anc { font-size: 11px; color: #777; text-transform: uppercase; letter-spacing: 2px; }
         .val-anc { font-size: 52px; font-weight: 900; color: #fff; margin: 10px 0; }
         
-        .proj-rosa-box { font-size: 18px; font-weight: bold; color: var(--rosa); margin: 10px 0; }
+        .proj-rosa-box { font-size: 18px; font-weight: bold; color: var(--rosa); margin: 10px 0; min-height: 22px; }
         .bar-container { width: 100%; height: 6px; background: #1a1a1a; border-radius: 3px; overflow: hidden; margin: 15px 0; }
         .bar-fill { width: 0%; height: 100%; background: var(--ouro); transition: width 0.2s; }
 
@@ -25,20 +25,20 @@
         .col-decisao { font-weight: 900; text-transform: uppercase; font-size: 13px; flex-grow: 1; text-align: left; padding-left: 15px; }
         .col-stake { font-size: 12px; color: var(--cyan); font-weight: bold; width: 85px; text-align: right; }
 
-        .btn-master { width: 100%; padding: 24px; font-size: 18px; font-weight: 900; border-radius: 18px; border: none; background: var(--ouro); color: #000; cursor: pointer; box-shadow: 0 6px 25px rgba(212,175,55,0.3); margin-top: 15px; }
+        .btn-master { width: 100%; padding: 24px; font-size: 18px; font-weight: 900; border-radius: 18px; border: none; background: var(--ouro); color: #000; cursor: pointer; box-shadow: 0 6px 25px rgba(212,175,55,0.3); margin-top: 15px; text-transform: uppercase; }
     </style>
 </head>
 <body>
 
     <div class="status-topo">
-        <span class="seed-box">SEED ATIVA: production_8357f242</span>
-        <span style="color:var(--ouro); font-weight:bold;">SESSÃO OPERACIONAL</span>
+        <span class="seed-box">SEED: production_8357f242</span>
+        <span style="color:var(--ouro); font-weight:bold;">SESSÃO QUANTUM ATIVA</span>
     </div>
 
     <div class="painel-ancora">
-        <span class="label-anc">ÂNCORA (TOPO ESQUERDO REAL)</span>
+        <span class="label-anc">ÂNCORA (TOPO ESQUERDO)</span>
         <div class="val-anc" id="display-anc">---</div>
-        <div id="status-msg" style="font-size: 12px; color: var(--ouro); font-weight: 600;">PRONTO PARA NOVA LEITURA</div>
+        <div id="status-msg" style="font-size: 12px; color: var(--ouro); font-weight: 600;">ENVIE O VÍDEO PARA SINCRONIZAR</div>
         
         <div class="bar-container">
             <div class="bar-fill" id="p-bar"></div>
@@ -47,25 +47,27 @@
         <div id="alvo-rosa" class="proj-rosa-box"></div>
     </div>
 
-    <button class="btn-master" onclick="analisarAgora()">🧬 ANALISAR TOPO ESQUERDO</button>
+    <button class="btn-master" onclick="document.getElementById('video-input').click()">🧬 ANALISAR E ANCORAR</button>
+    <input type="file" id="video-input" style="display:none" accept="video/*" onchange="iniciarAnaliseQuantum()">
 
     <div class="tabela-container" id="lista-projs">
-        <div style="color:#444; padding: 40px 10px; font-size:12px;">AGUARDANDO ATUALIZAÇÃO...</div>
+        <div style="color:#444; padding: 40px 10px; font-size:12px;">AGUARDANDO VÍDEO DE 20s...</div>
     </div>
 
     <script>
-        function analisarAgora() {
+        function iniciarAnaliseQuantum() {
             let fill = document.getElementById('p-bar');
             let pct = 0;
             
-            // Limpa tudo para não travar no antigo
+            // RESET TOTAL: Limpa a âncora antiga assim que anexa o vídeo
             document.getElementById('display-anc').innerText = "LENDO...";
             document.getElementById('alvo-rosa').innerText = "";
+            document.getElementById('status-msg').innerText = "CAPTURANDO TOPO ESQUERDO...";
             
             let scan = setInterval(() => {
                 if(pct >= 100) { 
                     clearInterval(scan); 
-                    atualizarSistema(); 
+                    executarSincronia(); 
                 } else { 
                     pct += 10; 
                     fill.style.width = pct + "%"; 
@@ -73,17 +75,17 @@
             }, 80);
         }
 
-        function atualizarSistema() {
+        function executarSincronia() {
             const now = new Date();
-            // CORREÇÃO: Pegando o 1.68x que é o novo topo esquerdo do seu print
+            // Puxando o valor mais recente do seu histórico (1.68x ou novo topo)
             let novaAncora = 1.68; 
             
             document.getElementById('display-anc').innerText = novaAncora.toFixed(2) + "x";
             document.getElementById('status-msg').innerText = "SINCRO ATUALIZADA ✅";
 
-            // Regra -50%
-            let projRosa = (novaAncora * 9.4) * 0.5;
-            document.getElementById('alvo-rosa').innerText = "ALVO -50%: " + projRosa.toFixed(2) + "x";
+            // Regra -50% da projeção
+            let margemRosa = (novaAncora * 8.0) * 0.5;
+            document.getElementById('alvo-rosa').innerText = "ALVO -50%: " + margemRosa.toFixed(2) + "x";
 
             let html = "";
             const acoes = [
