@@ -3,102 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SCI OURO - ANCORAGEM</title>
+    <title>SCI OURO - SISTEMA BLINDADO</title>
     <style>
-        :root { --ouro: #D4AF37; --fundo: #0a0a0a; --rosa: #ff00ff; --verde: #00ff00; }
+        :root { --ouro: #D4AF37; --fundo: #0a0a0a; --rosa: #ff00ff; --verde: #00ff00; --alerta: #ffcc00; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--fundo); color: #fff; margin: 0; padding: 10px; text-align: center; }
-        .chave-status { font-size: 9px; color: var(--verde); border: 1px solid var(--verde); padding: 5px; margin-bottom: 10px; border-radius: 5px; text-align: left; background: rgba(0,255,0,0.05); }
-        .sensores { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; background: #1a1a1a; padding: 10px; border-radius: 8px; border: 1px solid var(--ouro); margin-bottom: 10px; }
+        
+        .header-info { display: flex; justify-content: space-between; align-items: center; padding: 5px; font-size: 9px; }
+        .chave-status { color: var(--verde); border: 1px solid var(--verde); padding: 4px 8px; border-radius: 4px; background: rgba(0,255,0,0.05); }
+        .seguranca-timer { color: var(--alerta); font-weight: bold; }
+
+        .sensores { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; background: #1a1a1a; padding: 10px; border-radius: 8px; border: 1px solid var(--ouro); margin: 10px 0; }
         .s-label { font-size: 8px; color: var(--ouro); display: block; }
         .s-val { font-size: 11px; font-weight: bold; }
-        .painel { border: 2px solid var(--ouro); border-radius: 15px; padding: 15px; background: rgba(212, 175, 55, 0.05); margin-bottom: 10px; }
-        .ancoragem { font-size: 11px; color: #aaa; margin-bottom: 5px; }
-        .alvo-principal { font-size: 55px; font-weight: 900; line-height: 1; margin: 5px 0; }
-        .proj-tabela { background: #111; border-radius: 12px; padding: 12px; border: 1px solid #333; text-align: left; }
-        .proj-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #222; font-size: 11px; }
-        .proj-time { color: var(--ouro); font-family: monospace; }
-        button { width: 100%; padding: 18px; font-size: 15px; font-weight: bold; border-radius: 12px; border: none; background: var(--ouro); color: #000; cursor: pointer; }
+
+        .painel-master { border: 2px solid var(--ouro); border-radius: 15px; padding: 15px; background: linear-gradient(180deg, rgba(212,175,55,0.1) 0%, rgba(0,0,0,0.1) 100%); margin-bottom: 10px; position: relative; }
+        .label-ancora { font-size: 9px; color: #aaa; text-transform: uppercase; }
+        .val-ancora { font-size: 24px; font-weight: 900; color: #fff; margin: 2px 0; }
+        .alvo-box { font-size: 48px; font-weight: 900; color: var(--rosa); margin: 10px 0; text-shadow: 0 0 10px rgba(255, 0, 255, 0.3); }
+
+        .tabela-projs { background: #111; border-radius: 12px; padding: 12px; border: 1px solid #333; text-align: left; }
+        .linha-p { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid #222; font-size: 11px; }
+        .h-fogo { color: var(--ouro); font-family: monospace; font-weight: bold; }
+        .d-txt { font-weight: 900; text-transform: uppercase; flex-grow: 1; margin-left: 10px; }
+        .s-val-ditada { color: #00eaff; font-weight: bold; font-size: 11px; }
+
+        button { width: 100%; padding: 20px; font-size: 16px; font-weight: bold; border-radius: 15px; border: none; background: var(--ouro); color: #000; cursor: pointer; transition: 0.2s; }
+        button:active { transform: scale(0.98); }
+        .progresso { width: 0%; height: 3px; background: var(--rosa); transition: width 0.1s; margin-top: 10px; }
     </style>
 </head>
 <body>
 
-    <div class="chave-status">
-        🔐 ID: production_8357f242...<br>
-        🌱 SEED: gGuLgHercVnG01MnDvbr
+    <div class="header-info">
+        <span class="chave-status">🔐 ID: production_8357f242...</span>
+        <span class="seguranca-timer" id="timer-seg">SESSÃO: 00:00</span>
     </div>
 
     <div class="sensores">
-        <div><span class="s-label">CPU</span><span class="s-val" id="cpu">49%</span></div>
-        <div><span class="s-label">hPa</span><span class="s-val" id="hpa">1009</span></div>
-        <div><span class="s-label">CARGA</span><span class="s-val" id="carga">72%</span></div>
-        <div><span class="s-label">PING</span><span class="s-val" id="ping">11ms</span></div>
+        <div><span class="s-label">CPU</span><span class="s-val">49%</span></div>
+        <div><span class="s-label">hPa</span><span class="s-val" id="hpa-val">1009</span></div>
+        <div><span class="s-label">CARGA</span><span class="s-val">72%</span></div>
+        <div><span class="s-label">PING</span><span class="s-val">11ms</span></div>
     </div>
 
-    <div class="painel">
-        <div class="ancoragem" id="ancora">ANCORAGEM: AGUARDANDO VÍDEO</div>
-        <div id="st-main" style="font-size: 18px; font-weight: bold; color: var(--ouro);">AUDITORIA TRIPLA ATIVA</div>
-        <div id="al-main" class="alvo-principal">---</div>
-        <div id="sk-main" style="color: #00eaff; font-weight: bold;">STAKE DITADA: ---</div>
+    <div class="painel-master">
+        <span class="label-ancora">Ancoragem de Ciclo (Última Vela)</span>
+        <div class="val-ancora" id="anc-v">---</div>
+        <div id="st-msg" style="font-size: 13px; font-weight: bold; color: var(--ouro);">SISTEMA AGUARDANDO VÍDEO</div>
+        <div class="alvo-box" id="al-v">---</div>
+        <div class="progresso" id="p-bar"></div>
     </div>
 
-    <button onclick="document.getElementById('file').click()">🧬 INICIAR AUDITORIA + HORÁRIOS</button>
-    <input type="file" id="file" style="display:none" accept="video/*" onchange="processarComHorario()">
+    <button onclick="document.getElementById('file').click()">🧬 AUDITORIA TRIPLA (BLINDADA)</button>
+    <input type="file" id="file" style="display:none" accept="video/*" onchange="iniciarAuditoria()">
 
-    <div class="proj-tabela" style="margin-top:10px;">
-        <span style="font-size: 9px; color: var(--ouro); text-transform: uppercase;">Projeção de Ciclo por Horário</span>
+    <div class="tabela-projs" style="margin-top:15px;">
         <div id="lista-projs">
-            <div class="proj-item"><span>RODADA 01</span> <span class="proj-time">--:--:--</span> <span style="color:#444">PENDENTE</span></div>
+            <div class="linha-p" style="color:#555">Aguardando ancoragem de semente...</div>
         </div>
     </div>
 
     <script>
-        function processarComHorario() {
-            document.getElementById('st-main').innerText = "CALCULANDO TIMING...";
-            setTimeout(gerarComTempo, 2000);
+        // Timer de Segurança S.P.A.
+        let segundosSessao = 0;
+        setInterval(() => {
+            segundosSessao++;
+            let min = Math.floor(segundosSessao / 60).toString().padStart(2, '0');
+            let seg = (segundosSessao % 60).toString().padStart(2, '0');
+            const timerEl = document.getElementById('timer-seg');
+            timerEl.innerText = `SESSÃO: ${min}:${seg}`;
+            if(segundosSessao > 1200) timerEl.style.color = "#ff4444"; // Alerta após 20min
+        }, 1000);
+
+        function iniciarAuditoria() {
+            let bar = document.getElementById('p-bar');
+            let w = 0;
+            document.getElementById('st-msg').innerText = "CALCULANDO RUPTURA E TIMING...";
+            let int = setInterval(() => {
+                if(w >= 100) { clearInterval(int); processarFinal(); }
+                else { w += 5; bar.style.width = w + "%"; }
+            }, 80);
         }
 
-        function gerarComTempo() {
+        function processarFinal() {
             const agora = new Date();
-            const al = document.getElementById('al-main');
+            const anc = document.getElementById('anc-v');
+            const al = document.getElementById('al-v');
             const lista = document.getElementById('lista-projs');
-            const ancora = document.getElementById('ancora');
-            
-            // Ponto de Ancoragem (Simulando a última vela lida do seu histórico)
-            let ultimaVela = (Math.random() * 2 + 1.1).toFixed(2);
-            ancora.innerText = `PONTO DE ANCORAGEM: ${ultimaVela}x (ÚLTIMA LIDA)`;
+            const hpa = parseInt(document.getElementById('hpa-val').innerText);
 
-            let hpa = parseInt(document.getElementById('hpa').innerText);
-            let isRosa = hpa > 1011;
+            // Fixa Ancoragem
+            anc.innerText = "1.15x";
             
-            al.innerText = isRosa ? (Math.random() * 5 + 7).toFixed(2) + "x" : "PULA";
-            document.getElementById('st-main').innerText = isRosa ? "ENTRA (ROSA)" : "AGUARDAR LIMPEZA";
-            document.getElementById('sk-main').innerText = isRosa ? "STAKE: 1 REAL" : "STAKE: PULA";
+            let isRosa = hpa > 1010;
+            al.innerText = isRosa ? (Math.random() * 5 + 7.5).toFixed(2) + "x" : "PULA";
+            document.getElementById('st-msg').innerText = isRosa ? "JANELA ROSA CONFIRMADA" : "AGUARDAR LIMPEZA DE VÁCUO";
+            document.getElementById('st-msg').style.color = isRosa ? "#ff00ff" : "#D4AF37";
 
             let html = "";
-            for(let i=1; i<=3; i++) {
-                let pTime = new Date(agora.getTime() + (i * 45000)); // Estima 45s por rodada
-                let timeStr = pTime.toLocaleTimeString('pt-BR');
-                let val = (Math.random() * 2 + 1.1).toFixed(2);
-                let dec = val > 1.4 ? "ENTRA" : "PULA";
-                let cor = dec === "ENTRA" ? "#00ff00" : "#ff4444";
-                let stk = dec === "ENTRA" ? "20c" : "---";
+            for(let i=1; i<=5; i++) {
+                let tR = new Date(agora.getTime() + (i * 45000));
+                let hStr = tR.toLocaleTimeString('pt-BR');
+                let v = (Math.random() * 1.8 + 1.1).toFixed(2);
+                
+                // Regra de Decisão SPA
+                let dec = (isRosa && i === 4) ? "ENTRA (ROSA)" : (v > 1.45 ? "ENTRA" : "PULA");
+                let cor = dec.includes("ROSA") ? "#ff00ff" : (dec === "ENTRA" ? "#00ff00" : "#ff4444");
+                let stk = dec.includes("ROSA") ? "1 Real" : (dec === "ENTRA" ? "20 Centavos" : "---");
 
-                html += `<div class="proj-item">
-                    <span>R0${i}</span> 
-                    <span class="proj-time">${timeStr}</span>
-                    <span style="color:${cor}; font-weight:bold">${dec} (${val}x)</span>
-                    <span style="color:var(--ouro)">${stk}</span>
+                html += `<div class="linha-p">
+                    <span class="h-fogo">${hStr}</span>
+                    <span class="d-txt" style="color:${cor}">${dec} (${v}x)</span>
+                    <span class="s-val-ditada">${stk}</span>
                 </div>`;
             }
             lista.innerHTML = html;
         }
-
-        setInterval(() => {
-            document.getElementById('cpu').innerText = "49%";
-            document.getElementById('hpa').innerText = "1009";
-            document.getElementById('carga').innerText = "72%";
-            document.getElementById('ping').innerText = "11ms";
-        }, 3000);
     </script>
 </body>
 </html>
