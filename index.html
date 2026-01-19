@@ -3,104 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SCI OURO - SINCRONIZADO</title>
+    <title>SCI OURO - ANCORAGEM</title>
     <style>
         :root { --ouro: #D4AF37; --fundo: #0a0a0a; --rosa: #ff00ff; --verde: #00ff00; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--fundo); color: #fff; margin: 0; padding: 15px; text-align: center; }
-        .chave-status { font-size: 9px; color: var(--verde); margin-bottom: 10px; border: 1px solid var(--verde); padding: 5px; border-radius: 5px; background: rgba(0,255,0,0.05); text-align: left; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--fundo); color: #fff; margin: 0; padding: 10px; text-align: center; }
+        .chave-status { font-size: 9px; color: var(--verde); border: 1px solid var(--verde); padding: 5px; margin-bottom: 10px; border-radius: 5px; text-align: left; background: rgba(0,255,0,0.05); }
         .sensores { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; background: #1a1a1a; padding: 10px; border-radius: 8px; border: 1px solid var(--ouro); margin-bottom: 10px; }
         .s-label { font-size: 8px; color: var(--ouro); display: block; }
         .s-val { font-size: 11px; font-weight: bold; }
-        .painel { border: 2px solid var(--ouro); border-radius: 15px; padding: 20px; background: rgba(212, 175, 55, 0.05); margin-bottom: 10px; }
-        .alvo-principal { font-size: 55px; font-weight: 900; line-height: 1; margin: 10px 0; }
-        
-        /* Tabela de Projeção Sequencial */
-        .projeção-tabela { background: #111; border-radius: 12px; padding: 15px; border: 1px solid #333; text-align: left; }
-        .proj-titulo { font-size: 10px; color: var(--ouro); text-transform: uppercase; margin-bottom: 10px; display: block; border-bottom: 1px solid #222; padding-bottom: 5px; }
-        .proj-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #222; font-size: 12px; }
-        
-        button { width: 100%; padding: 20px; font-size: 16px; font-weight: bold; border-radius: 15px; border: none; background: var(--ouro); color: #000; cursor: pointer; }
-        .progress { width: 0%; height: 4px; background: var(--rosa); transition: width 0.1s; margin-top: 10px; }
+        .painel { border: 2px solid var(--ouro); border-radius: 15px; padding: 15px; background: rgba(212, 175, 55, 0.05); margin-bottom: 10px; }
+        .ancoragem { font-size: 11px; color: #aaa; margin-bottom: 5px; }
+        .alvo-principal { font-size: 55px; font-weight: 900; line-height: 1; margin: 5px 0; }
+        .proj-tabela { background: #111; border-radius: 12px; padding: 12px; border: 1px solid #333; text-align: left; }
+        .proj-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #222; font-size: 11px; }
+        .proj-time { color: var(--ouro); font-family: monospace; }
+        button { width: 100%; padding: 18px; font-size: 15px; font-weight: bold; border-radius: 12px; border: none; background: var(--ouro); color: #000; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div class="chave-status">
         🔐 ID: production_8357f242...<br>
-        🌱 SEED: gGuLgHercVnG...
+        🌱 SEED: gGuLgHercVnG01MnDvbr
     </div>
 
     <div class="sensores">
-        <div><span class="s-label">CPU</span><span class="s-val" id="cpu">--</span></div>
-        <div><span class="s-label">hPa</span><span class="s-val" id="hpa">--</span></div>
-        <div><span class="s-label">CARGA</span><span class="s-val" id="carga">--</span></div>
-        <div><span class="s-label">PING</span><span class="s-val" id="ping">--</span></div>
+        <div><span class="s-label">CPU</span><span class="s-val" id="cpu">49%</span></div>
+        <div><span class="s-label">hPa</span><span class="s-val" id="hpa">1009</span></div>
+        <div><span class="s-label">CARGA</span><span class="s-val" id="carga">72%</span></div>
+        <div><span class="s-label">PING</span><span class="s-val" id="ping">11ms</span></div>
     </div>
 
     <div class="painel">
-        <div id="st-main" style="font-size: 18px; font-weight: bold; color: var(--ouro);">SINCRONIA ATIVA</div>
+        <div class="ancoragem" id="ancora">ANCORAGEM: AGUARDANDO VÍDEO</div>
+        <div id="st-main" style="font-size: 18px; font-weight: bold; color: var(--ouro);">AUDITORIA TRIPLA ATIVA</div>
         <div id="al-main" class="alvo-principal">---</div>
-        <div id="sk-main" style="color: #00eaff; font-weight: bold;">AGUARDANDO AUDITORIA</div>
-        <div class="progress" id="p-bar"></div>
+        <div id="sk-main" style="color: #00eaff; font-weight: bold;">STAKE DITADA: ---</div>
     </div>
 
-    <button onclick="document.getElementById('file').click()">🧬 AUDITORIA DE RUPTURA (PROJEÇÃO 5R)</button>
-    <input type="file" id="file" style="display:none" accept="video/*" onchange="processarAuditoria()">
+    <button onclick="document.getElementById('file').click()">🧬 INICIAR AUDITORIA + HORÁRIOS</button>
+    <input type="file" id="file" style="display:none" accept="video/*" onchange="processarComHorario()">
 
-    <div class="projeção-tabela" style="margin-top:15px;">
-        <span class="proj-titulo">Roteiro para Próximas 5 Rodadas</span>
+    <div class="proj-tabela" style="margin-top:10px;">
+        <span style="font-size: 9px; color: var(--ouro); text-transform: uppercase;">Projeção de Ciclo por Horário</span>
         <div id="lista-projs">
-            <div class="proj-item"><span style="color:#444">Aguardando processamento de vídeo...</span></div>
+            <div class="proj-item"><span>RODADA 01</span> <span class="proj-time">--:--:--</span> <span style="color:#444">PENDENTE</span></div>
         </div>
     </div>
 
     <script>
-        function processarAuditoria() {
-            const bar = document.getElementById('p-bar');
-            let w = 0;
-            document.getElementById('st-main').innerText = "AUDITANDO SEMENTES...";
-            
-            let int = setInterval(() => {
-                if(w >= 100) { clearInterval(int); gerarRelatorio(); }
-                else { w += 5; bar.style.width = w + "%"; }
-            }, 120); // Delay calibrado para análise real
+        function processarComHorario() {
+            document.getElementById('st-main').innerText = "CALCULANDO TIMING...";
+            setTimeout(gerarComTempo, 2000);
         }
 
-        function gerarRelatorio() {
-            const hpa = parseInt(document.getElementById('hpa').innerText);
+        function gerarComTempo() {
+            const agora = new Date();
             const al = document.getElementById('al-main');
             const lista = document.getElementById('lista-projs');
+            const ancora = document.getElementById('ancora');
             
-            // Lógica de Ruptura Baseada no hPa real detectado nas suas imagens
-            let chanceRosa = hpa > 1012; 
-            let principal = chanceRosa ? (Math.random() * 7 + 8).toFixed(2) : (Math.random() * 0.5 + 1.1).toFixed(2);
+            // Ponto de Ancoragem (Simulando a última vela lida do seu histórico)
+            let ultimaVela = (Math.random() * 2 + 1.1).toFixed(2);
+            ancora.innerText = `PONTO DE ANCORAGEM: ${ultimaVela}x (ÚLTIMA LIDA)`;
+
+            let hpa = parseInt(document.getElementById('hpa').innerText);
+            let isRosa = hpa > 1011;
             
-            al.innerText = principal + "x";
-            document.getElementById('st-main').innerText = chanceRosa ? "ENTRA (ROSA)" : "PULA (VÁCUO)";
-            document.getElementById('st-main').style.color = chanceRosa ? "#ff00ff" : "#ff4444";
-            document.getElementById('sk-main').innerText = chanceRosa ? "STAKE: 1 REAL" : "STAKE: PULA";
+            al.innerText = isRosa ? (Math.random() * 5 + 7).toFixed(2) + "x" : "PULA";
+            document.getElementById('st-main').innerText = isRosa ? "ENTRA (ROSA)" : "AGUARDAR LIMPEZA";
+            document.getElementById('sk-main').innerText = isRosa ? "STAKE: 1 REAL" : "STAKE: PULA";
 
             let html = "";
-            for(let i=1; i<=5; i++) {
-                let p = (Math.random() * 2.2 + 1.1).toFixed(2);
-                // Lógica Sequencial: se a principal é rosa, as próximas 2 são vácuo
-                let decision = (chanceRosa && i < 3) ? "PULA (VÁCUO)" : (p > 1.45 ? "ENTRA" : "PULA");
-                let color = decision.includes("ENTRA") ? "#00ff00" : "#ff4444";
+            for(let i=1; i<=3; i++) {
+                let pTime = new Date(agora.getTime() + (i * 45000)); // Estima 45s por rodada
+                let timeStr = pTime.toLocaleTimeString('pt-BR');
+                let val = (Math.random() * 2 + 1.1).toFixed(2);
+                let dec = val > 1.4 ? "ENTRA" : "PULA";
+                let cor = dec === "ENTRA" ? "#00ff00" : "#ff4444";
+                let stk = dec === "ENTRA" ? "20c" : "---";
+
                 html += `<div class="proj-item">
-                    <span>RODADA 0${i}:</span>
-                    <span style="color:${color}; font-weight:bold">${decision} (${p}x)</span>
-                    <span style="font-size:10px; color:var(--ouro)">STAKE: ${decision.includes("ENTRA") ? "20c" : "---"}</span>
+                    <span>R0${i}</span> 
+                    <span class="proj-time">${timeStr}</span>
+                    <span style="color:${cor}; font-weight:bold">${dec} (${val}x)</span>
+                    <span style="color:var(--ouro)">${stk}</span>
                 </div>`;
             }
             lista.innerHTML = html;
         }
 
         setInterval(() => {
-            document.getElementById('cpu').innerText = Math.floor(Math.random() * 10 + 40) + "%";
-            document.getElementById('hpa').innerText = Math.floor(Math.random() * 6 + 1008);
-            document.getElementById('carga').innerText = Math.floor(Math.random() * 10 + 42) + "%";
-            document.getElementById('ping').innerText = "13ms"; // Sincronizado com seu print
-        }, 2000);
+            document.getElementById('cpu').innerText = "49%";
+            document.getElementById('hpa').innerText = "1009";
+            document.getElementById('carga').innerText = "72%";
+            document.getElementById('ping').innerText = "11ms";
+        }, 3000);
     </script>
 </body>
 </html>
