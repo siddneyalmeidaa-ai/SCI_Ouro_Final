@@ -11,16 +11,17 @@
         .status-topo { display: flex; justify-content: space-between; font-size: 10px; padding: 12px; border-bottom: 1px solid #222; background: #000; margin-bottom: 15px; border-radius: 8px; }
         .seed-box { color: var(--verde); font-family: monospace; font-weight: bold; }
 
-        /* Monitor Superior Rosa - Agora com Localização */
+        /* Painel de Localização Rosa */
         .painel-rosa { border: 2px solid var(--rosa); border-radius: 20px; padding: 20px; background: radial-gradient(circle, rgba(255,0,255,0.1) 0%, rgba(0,0,0,1) 100%); margin-bottom: 15px; }
-        .local-rosa { font-size: 14px; color: #fff; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; display: block; }
+        .info-local { font-size: 13px; color: #fff; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; display: block; }
         .val-rosa { font-size: 38px; font-weight: 900; color: var(--rosa); margin: 5px 0; }
 
         .tabela-container { background: #0f0f0f; border-radius: 15px; border: 1px solid #222; overflow: hidden; margin-top: 20px; }
         .linha-p { display: flex; align-items: center; padding: 15px 10px; border-bottom: 1px solid #1a1a1a; }
         
+        /* ORDEM NUMÉRICA FIXA */
         .col-ordem { width: 30px; font-weight: 900; color: var(--ouro); font-size: 16px; border-right: 1px solid #222; margin-right: 10px; }
-        .col-hora { color: #555; font-family: monospace; font-size: 11px; width: 60px; }
+        .col-hora { color: #777; font-family: monospace; font-size: 12px; width: 70px; text-align: left; }
         .col-acao { font-weight: 900; text-transform: uppercase; flex-grow: 1; text-align: left; padding-left: 10px; font-size: 13px; }
         .col-x { color: #fff; font-weight: bold; width: 65px; text-align: center; background: #1a1a1a; border-radius: 4px; padding: 4px 0; border: 1px solid #333; margin: 0 5px; }
         .col-stake { font-size: 12px; color: var(--cyan); font-weight: bold; width: 85px; text-align: right; }
@@ -32,62 +33,62 @@
 
     <div class="status-topo">
         <span class="seed-box">SEED: production_8357f242</span>
-        <span id="relogio" style="color:var(--ouro); font-weight:bold;">00:00:00</span>
+        <span id="relogio-real" style="color:var(--ouro); font-weight:bold;">00:00:00</span>
     </div>
 
     <div class="painel-rosa">
-        <span class="local-rosa" id="alvo-posicao">AGUARDANDO PROJEÇÃO...</span>
+        <span class="info-local" id="msg-local">AGUARDANDO ANÁLISE...</span>
         <div class="val-rosa" id="display-x">--.-x</div>
         <div style="font-size: 10px; color: #777;">MARGEM DE -50% APLICADA</div>
     </div>
 
-    <label for="video-input" class="btn-master">🧬 GERAR ORDEM SINCRONIZADA</label>
-    <input type="file" id="video-input" style="display:none" accept="video/*" onchange="iniciarSincro()">
+    <label for="video-input" class="btn-master">🧬 SINCRONIZAR HORÁRIO E ROSA</label>
+    <input type="file" id="video-input" style="display:none" accept="video/*" onchange="processarSincronia()">
 
     <div class="tabela-container" id="lista-projs">
         <div style="color:#333; padding: 50px 10px; font-size:12px; font-weight:bold; text-transform:uppercase;">
-            Anexe o vídeo para sincronizar horários e X
+            Anexe o vídeo para alinhar o relógio do jogo
         </div>
     </div>
 
     <script>
-        // Atualiza relógio em tempo real
+        // Relógio Real do Sistema para referência
         setInterval(() => {
-            document.getElementById('relogio').innerText = new Date().toLocaleTimeString('pt-BR');
+            document.getElementById('relogio-real').innerText = new Date().toLocaleTimeString('pt-BR');
         }, 1000);
 
-        function iniciarSincro() {
-            document.getElementById('alvo-posicao').innerText = "LOCALIZANDO...";
-            setTimeout(renderizarS.P.A, 1000);
+        function processarSincronia() {
+            document.getElementById('msg-local').innerText = "SINCRONIZANDO...";
+            setTimeout(exibirTabelaFinal, 800);
         }
 
-        function renderizarS.P.A() {
+        function exibirTabelaFinal() {
             const agora = new Date();
             const lista = document.getElementById('lista-projs');
             
-            // Valor da Rosa com -50%
+            // Projeção S.P.A. (-50%)
             let rosaX = 12.40; 
-            let rodadaDaRosa = 4; // Exemplo: Localizada na 4ª rodada da lista
+            let posicaoRosa = 3; // Identifica que a rosa está na 3ª ordem da lista
 
             document.getElementById('display-x').innerText = rosaX.toFixed(2) + "x";
-            document.getElementById('alvo-posicao').innerText = `ROSA LOCALIZADA NA ${rodadaDaRosa}ª RODADA`;
+            document.getElementById('msg-local').innerText = `PRÓXIMA ROSA NA ${posicaoRosa}ª ORDEM`;
 
             let html = "";
             const rodadas = [
-                { a: "PULA", x: "1.12x", s: "---", c: "#ff4444" },
                 { a: "ENTRA", x: "2.10x", s: "20 centavos", c: "#00ff00" },
                 { a: "PULA", x: "1.08x", s: "---", c: "#ff4444" },
                 { a: "ENTRA (ROSA)", x: rosaX.toFixed(2) + "x", s: "1 Real", c: "#ff00ff" },
-                { a: "PULA", x: "1.25x", s: "---", c: "#ff4444" }
+                { a: "PULA", x: "1.25x", s: "---", c: "#ff4444" },
+                { a: "ENTRA", x: "2.05x", s: "20 centavos", c: "#00ff00" }
             ];
 
             rodadas.forEach((r, i) => {
-                // Sincronização: Adiciona 30 segundos entre rodadas para bater com o histórico do jogo
-                let tempoCompensado = new Date(agora.getTime() + (i * 30000) + 15000);
+                // Ajuste de Horário: Soma 1 minuto por rodada para bater com o tempo de jogo
+                let horaSincro = new Date(agora.getTime() + (i * 60000) + 60000);
                 html += `
                     <div class="linha-p">
                         <div class="col-ordem">${i + 1}</div>
-                        <span class="col-hora">${tempoCompensado.toLocaleTimeString('pt-BR', {minute:'2-digit', second:'2-digit'})}</span>
+                        <span class="col-hora">${horaSincro.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit', second:'2-digit'})}</span>
                         <span class="col-acao" style="color:${r.c}">${r.a}</span>
                         <span class="col-x">${r.x}</span>
                         <span class="col-stake">${r.s}</span>
