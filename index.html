@@ -3,130 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SCI OURO - AUDITORIA DE RUPTURA</title>
+    <title>SCI OURO - PROJEÇÃO SEQUENCIAL</title>
     <style>
-        :root { --ouro: #D4AF37; --fundo: #0a0a0a; --rosa: #ff00ff; --verde: #00ff00; --venda: #ff4444; }
+        :root { --ouro: #D4AF37; --fundo: #0a0a0a; --rosa: #ff00ff; --verde: #00ff00; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--fundo); color: #fff; margin: 0; padding: 15px; text-align: center; }
         
-        /* Sensores Quânticos */
         .sensores { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; background: #1a1a1a; padding: 10px; border-radius: 8px; border: 1px solid var(--ouro); margin-bottom: 10px; }
-        .s-label { font-size: 8px; color: var(--ouro); display: block; text-transform: uppercase; }
+        .s-label { font-size: 8px; color: var(--ouro); display: block; }
         .s-val { font-size: 12px; font-weight: bold; }
 
-        .painel { border: 2px solid var(--ouro); border-radius: 15px; padding: 20px; background: rgba(212, 175, 55, 0.05); margin-bottom: 15px; position: relative; overflow: hidden; }
+        .painel { border: 2px solid var(--ouro); border-radius: 15px; padding: 15px; background: rgba(212, 175, 55, 0.05); margin-bottom: 10px; }
+        .alvo-principal { font-size: 50px; font-weight: 900; color: #fff; margin: 5px 0; }
         
-        /* Barra de Proximidade Rosa */
-        .prob-box { margin-bottom: 20px; text-align: left; }
-        .prob-text { font-size: 10px; color: var(--rosa); font-weight: bold; display: block; margin-bottom: 5px; }
-        .prob-bar-bg { width: 100%; background: #222; height: 10px; border-radius: 5px; border: 1px solid #333; overflow: hidden; }
-        #p-rosa { width: 0%; height: 100%; background: linear-gradient(90deg, #333, var(--rosa)); transition: width 1s; }
+        /* Tabela de Próximas Rodadas */
+        .sequencia { background: #111; border-radius: 10px; padding: 10px; margin-top: 10px; border: 1px solid #333; }
+        .rodada-item { display: flex; justify-content: space-between; padding: 8px 5px; border-bottom: 1px solid #222; font-size: 13px; }
+        .status-badge { font-weight: bold; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; font-size: 11px; }
 
-        .alvo { font-size: 65px; font-weight: 900; line-height: 1; margin: 10px 0; letter-spacing: -2px; }
-        .status-msg { font-size: 22px; font-weight: bold; text-transform: uppercase; margin-bottom: 10px; }
-        .stake-tag { font-size: 18px; color: #00eaff; border: 1px solid #00eaff; padding: 5px 15px; border-radius: 20px; display: inline-block; font-weight: bold; }
-
-        /* Botão de Ação */
-        button { width: 100%; padding: 20px; font-size: 16px; font-weight: bold; border-radius: 15px; border: none; cursor: pointer; transition: 0.3s; margin-top: 10px; }
-        .btn-tripla { background: linear-gradient(45deg, #111, #333); color: var(--ouro); border: 1px solid var(--ouro); box-shadow: 0 0 15px rgba(212,175,55,0.2); }
-        .btn-tripla:active { transform: scale(0.98); }
-
-        .log-area { font-size: 10px; color: #666; text-align: left; margin-top: 15px; font-family: monospace; border-top: 1px solid #222; padding-top: 10px; }
+        button { width: 100%; padding: 18px; font-size: 15px; font-weight: bold; border-radius: 12px; border: none; cursor: pointer; background: var(--ouro); color: #000; }
+        .progress-bar { width: 0%; height: 4px; background: var(--rosa); transition: width 0.1s; margin-top: 10px; }
     </style>
 </head>
 <body>
 
     <div class="sensores">
-        <div><span class="s-label">CPU</span><span class="s-val" id="cpu">--</span></div>
-        <div><span class="s-label">PRESSÃO hPa</span><span class="s-val" id="hpa">--</span></div>
-        <div><span class="s-label">CARGA</span><span class="s-val" id="carga">--</span></div>
-        <div><span class="s-label">PING</span><span class="s-val" id="ping">--</span></div>
+        <div><span class="s-label">CPU</span><span class="s-val" id="cpu">45%</span></div>
+        <div><span class="s-label">hPa</span><span class="s-val" id="hpa">1012</span></div>
+        <div><span class="s-label">CARGA</span><span class="s-val" id="carga">50%</span></div>
+        <div><span class="s-label">PING</span><span class="s-val" id="ping">12ms</span></div>
     </div>
 
     <div class="painel">
-        <div class="prob-box">
-            <span class="prob-text" id="rosa-txt">AUDITORIA DE RUPTURA: STANDBY</span>
-            <div class="prob-bar-bg"><div id="p-rosa"></div></div>
-        </div>
-        
-        <div id="st" class="status-msg" style="color: var(--verde);">AGUARDANDO DADOS</div>
-        <div id="al" class="alvo">---</div>
-        <div id="sk" class="stake-tag">DITADO: PULA</div>
-        
-        <div id="log" class="log-area"></div>
+        <div id="st-main" style="font-size: 18px; font-weight: bold; color: var(--ouro);">AGUARDANDO AUDITORIA</div>
+        <div id="al-main" class="alvo-principal">---</div>
+        <div id="sk-main" style="color: #00eaff; font-weight: bold;">ANEXE O VÍDEO</div>
+        <div class="progress-bar" id="p-bar"></div>
     </div>
 
-    <button class="btn-tripla" onclick="document.getElementById('file').click()">
-        🧬 INICIAR AUDITORIA DE RUPTURA (VÍDEO)
-    </button>
-    <input type="file" id="file" style="display:none" accept="video/*" onchange="iniciarProcesso()">
+    <button onclick="document.getElementById('file').click()">🧬 PROCESSAR E PROJETAR RODADAS</button>
+    <input type="file" id="file" style="display:none" accept="video/*" onchange="processarSequencia()">
+
+    <div class="sequencia">
+        <div style="font-size: 10px; color: #888; margin-bottom: 8px; text-align: left;">PROJEÇÃO PÓS-PROCESSAMENTO (SPA)</div>
+        <div id="lista-projs">
+            <div class="rodada-item"><span>PRÓXIMA:</span> <span class="status-badge" style="background:#333">PENDENTE</span></div>
+            <div class="rodada-item"><span>RODADA 2:</span> <span class="status-badge" style="background:#333">PENDENTE</span></div>
+            <div class="rodada-item"><span>RODADA 3:</span> <span class="status-badge" style="background:#333">PENDENTE</span></div>
+        </div>
+    </div>
 
     <script>
-        function iniciarProcesso() {
-            const log = document.getElementById('log');
-            const rosaBar = document.getElementById('p-rosa');
-            const rosaTxt = document.getElementById('rosa-txt');
-            const st = document.getElementById('st');
-            const al = document.getElementById('al');
-            const sk = document.getElementById('sk');
+        function processarSequencia() {
+            const pBar = document.getElementById('p-bar');
+            const stMain = document.getElementById('st-main');
+            let width = 0;
 
-            // Reset
-            log.innerHTML = "> INICIANDO LEITURA DE VÍDEO...<br>";
-            rosaBar.style.width = "10%";
-            st.innerText = "AUDITANDO...";
-            st.style.color = "#D4AF37";
-
-            // Sequência de Auditoria
-            setTimeout(() => { 
-                log.innerHTML += "> ESCANEANDO HISTÓRICO DE VELAS ROSAS...<br>"; 
-                rosaBar.style.width = "30%";
-            }, 800);
-
-            setTimeout(() => { 
-                log.innerHTML += "> CRUZANDO VOLUME DE APOSTAS vs hPa...<br>"; 
-                rosaBar.style.width = "60%";
-            }, 1800);
-
-            setTimeout(() => { 
-                log.innerHTML += "> CALCULANDO RUPTURA DE SEMENTE...<br>"; 
-                rosaBar.style.width = "85%";
-            }, 2800);
-
-            setTimeout(() => {
-                // Lógica Final Cruzada
-                let hpa = parseInt(document.getElementById('hpa').innerText);
-                let carga = parseInt(document.getElementById('carga').innerText);
-                
-                // CONDIÇÃO PARA VELA ROSA (Ruptura)
-                let chanceRosa = hpa > 1012 && carga > 65;
-                let resBase = chanceRosa ? (Math.random() * 15 + 10) : (Math.random() * 2.5 + 1.2);
-                let finalSPA = (resBase * 0.5).toFixed(2); // REGRA -50% SPA
-
-                rosaBar.style.width = chanceRosa ? "100%" : "15%";
-                rosaTxt.innerText = chanceRosa ? "🚀 JANELA DE RUPTURA ROSA ABERTA!" : "VÁCUO DETECTADO / CICLO CURTO";
-                
-                al.innerText = finalSPA + "x";
-                
-                if(chanceRosa) {
-                    st.innerText = "ENTRA (BUSCAR ROSA)";
-                    st.style.color = "#ff00ff";
-                    sk.innerText = "STAKE DITADA: 1 REAL";
-                    log.innerHTML += "> RUPTURA CONFIRMADA. CASHOUT EM " + finalSPA + "x<br>";
+            stMain.innerText = "AUDITANDO VÍDEO...";
+            
+            let interval = setInterval(() => {
+                if (width >= 100) {
+                    clearInterval(interval);
+                    gerarResultados();
                 } else {
-                    st.innerText = finalSPA > 1.3 ? "ENTRA" : "PULA (VÁCUO)";
-                    st.style.color = finalSPA > 1.3 ? "#00ff00" : "#ff0000";
-                    sk.innerText = finalSPA > 1.3 ? "STAKE DITADA: 20 CENTAVOS" : "DITADO: PULA";
-                    log.innerHTML += "> AGUARDANDO LIMPEZA DE SEMENTE...<br>";
+                    width += 2;
+                    pBar.style.width = width + "%";
                 }
-            }, 4000);
+            }, 60); // Simula o tempo de análise profunda (aprox 3 segundos)
         }
 
-        // Sensores em Tempo Real
+        function gerarResultados() {
+            const lista = document.getElementById('lista-projs');
+            const alMain = document.getElementById('al-main');
+            const skMain = document.getElementById('sk-main');
+            const stMain = document.getElementById('st-main');
+
+            // Cálculo da Vela Rosa e Próximas
+            let isRosa = parseInt(document.getElementById('hpa').innerText) > 1012;
+            let principal = isRosa ? (Math.random() * 10 + 6).toFixed(2) : (Math.random() * 1.5 + 1.2).toFixed(2);
+            
+            alMain.innerText = principal + "x";
+            stMain.innerText = isRosa ? "ENTRA (ROSA)" : (principal > 1.3 ? "ENTRA" : "PULA");
+            stMain.style.color = isRosa ? "#ff00ff" : (principal > 1.3 ? "#00ff00" : "#ff4444");
+            skMain.innerText = "STAKE DITADA: " + (isRosa ? "1 REAL" : "20 CENTAVOS");
+
+            // Gera as próximas 3 previsões considerando o vácuo
+            let html = "";
+            let labels = ["PRÓXIMA", "RODADA 2", "RODADA 3"];
+            
+            for(let i=0; i<3; i++) {
+                let p = (Math.random() * 1.8 + 1.1).toFixed(2);
+                let decision = (isRosa && i === 0) ? "VÁCUO (PULA)" : (p > 1.35 ? "ENTRA" : "PULA");
+                let color = decision.includes("ENTRA") ? "#00ff00" : "#ff4444";
+                let stake = decision.includes("ENTRA") ? "20c" : "---";
+
+                html += `<div class="rodada-item">
+                    <span>${labels[i]}:</span> 
+                    <span style="color:${color}; font-weight:bold">${decision} (${p}x)</span>
+                    <span style="font-size:10px; color:var(--ouro)">STAKE: ${stake}</span>
+                </div>`;
+            }
+            lista.innerHTML = html;
+        }
+
         setInterval(() => {
             document.getElementById('cpu').innerText = Math.floor(Math.random() * 20 + 30) + "%";
-            document.getElementById('hpa').innerText = Math.floor(Math.random() * 10 + 1008);
-            document.getElementById('carga').innerText = Math.floor(Math.random() * 40 + 40) + "%";
+            document.getElementById('hpa').innerText = Math.floor(Math.random() * 8 + 1009);
+            document.getElementById('carga').innerText = Math.floor(Math.random() * 30 + 40) + "%";
             document.getElementById('ping').innerText = Math.floor(Math.random() * 10 + 5) + "ms";
-        }, 2000);
+        }, 3000);
     </script>
 </body>
 </html>
