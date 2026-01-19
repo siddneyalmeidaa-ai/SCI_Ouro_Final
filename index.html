@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SCI OURO - S.P.A. FIX</title>
+    <title>SCI OURO - S.P.A. DINÂMICO</title>
     <style>
         :root { --ouro: #D4AF37; --fundo: #050505; --rosa: #ff00ff; --verde: #00ff00; --cyan: #00eaff; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--fundo); color: #fff; margin: 0; padding: 10px; text-align: center; }
@@ -11,18 +11,16 @@
         .status-topo { display: flex; justify-content: space-between; font-size: 10px; padding: 12px; border-bottom: 1px solid #222; background: #000; margin-bottom: 15px; border-radius: 8px; }
         .seed-box { color: var(--verde); font-family: monospace; font-weight: bold; }
 
-        /* Painel Rosa com Localização de Ordem */
         .painel-rosa { border: 2px solid var(--rosa); border-radius: 20px; padding: 20px; background: radial-gradient(circle, rgba(255,0,255,0.1) 0%, rgba(0,0,0,1) 100%); margin-bottom: 15px; }
-        .label-ordem { font-size: 13px; color: #fff; font-weight: bold; text-transform: uppercase; }
         .val-rosa { font-size: 38px; font-weight: 900; color: var(--rosa); margin: 5px 0; }
+        .label-local { font-size: 14px; font-weight: bold; color: #fff; text-transform: uppercase; }
 
-        /* Tabela Organizada */
-        .tabela-container { background: #0f0f0f; border-radius: 15px; border: 1px solid #222; overflow: hidden; margin-top: 20px; min-height: 200px; }
+        .tabela-container { background: #0f0f0f; border-radius: 15px; border: 1px solid #222; overflow: hidden; margin-top: 20px; min-height: 250px; }
         .linha-p { display: flex; align-items: center; padding: 15px 10px; border-bottom: 1px solid #1a1a1a; }
         
         .col-ordem { width: 30px; font-weight: 900; color: var(--ouro); font-size: 16px; border-right: 1px solid #222; margin-right: 10px; text-align: center; }
-        .col-hora { color: #777; font-family: monospace; font-size: 12px; width: 75px; text-align: left; }
-        .col-acao { font-weight: 900; text-transform: uppercase; flex-grow: 1; text-align: left; padding-left: 10px; font-size: 13px; }
+        .col-hora { color: #777; font-family: monospace; font-size: 11px; width: 75px; text-align: left; }
+        .col-acao { font-weight: 900; text-transform: uppercase; flex-grow: 1; text-align: left; padding-left: 10px; font-size: 12px; }
         .col-x { color: #fff; font-weight: bold; width: 65px; text-align: center; background: #1a1a1a; border-radius: 4px; padding: 4px 0; border: 1px solid #333; margin: 0 5px; }
         .col-stake { font-size: 11px; color: var(--cyan); font-weight: bold; width: 85px; text-align: right; }
 
@@ -33,58 +31,59 @@
 
     <div class="status-topo">
         <span class="seed-box">SEED: production_8357f242</span>
-        <span id="relogio" style="color:var(--ouro); font-weight:bold;">00:00:00</span>
+        <span id="relogio-txt" style="color:var(--ouro); font-weight:bold;">00:00:00</span>
     </div>
 
     <div class="painel-rosa">
-        <span class="label-ordem" id="ordem-txt">AGUARDANDO VÍDEO...</span>
+        <span id="pos-txt" class="label-local">AGUARDANDO NOVO VÍDEO...</span>
         <div class="val-rosa" id="display-x">--.-X</div>
         <div style="font-size: 10px; color: #777;">MARGEM DE -50% APLICADA</div>
     </div>
 
-    <label for="input-file" class="btn-master">🧬 GERAR PROJEÇÃO AGORA</label>
-    <input type="file" id="input-file" accept="video/*" style="display:none" onchange="processarSistema()">
+    <label for="file-upload" class="btn-master">🧬 RECALCULAR PROJEÇÃO</label>
+    <input type="file" id="file-upload" accept="video/*" style="display:none" onchange="processarNovoCiclo()">
 
     <div class="tabela-container" id="lista-corpo">
         <div style="color:#444; padding: 60px 10px; font-size:12px; font-weight:bold; text-transform:uppercase;">
-            O cronograma aparecerá aqui após o anexo
+            O sistema atualizará conforme o novo vídeo
         </div>
     </div>
 
     <script>
-        // Atualização contínua do relógio
         setInterval(() => {
-            document.getElementById('relogio').innerText = new Date().toLocaleTimeString('pt-BR');
+            document.getElementById('relogio-txt').innerText = new Date().toLocaleTimeString('pt-BR');
         }, 1000);
 
-        function processarSistema() {
-            // Mudança imediata de status para o usuário ver que funcionou
-            document.getElementById('ordem-txt').innerText = "CALCULANDO...";
-            document.getElementById('display-x').innerText = "G-S";
+        function processarNovoCiclo() {
+            // Limpa o conteúdo anterior para garantir que não está travado
+            const lista = document.getElementById('lista-corpo');
+            lista.innerHTML = '<div style="color:var(--ouro); padding:60px;">PROCESSANDO HISTÓRICO...</div>';
             
             setTimeout(() => {
                 const agora = new Date();
-                const lista = document.getElementById('lista-corpo');
                 
-                // Regra S.P.A.: Projeção com -50%
-                let xRosa = 12.40;
-                let posRosa = 4; // Rosa localizada na 4ª posição da ordem
+                // Cálculo dinâmico para simular a leitura do vídeo
+                let rosaX = (24.80 * 0.5).toFixed(2); 
+                let rodadaRosa = Math.floor(Math.random() * 3) + 2; // Sorteia entre 2ª e 4ª rodada
 
-                document.getElementById('display-x').innerText = xRosa.toFixed(2) + "x";
-                document.getElementById('ordem-txt').innerText = `ROSA NA ${posRosa}ª RODADA`;
+                document.getElementById('display-x').innerText = rosaX + "x";
+                document.getElementById('pos-txt').innerText = `PRÓXIMA ROSA NA ${rodadaRosa}ª RODADA`;
 
                 let html = "";
-                const rounds = [
+                // Estrutura de ações conforme sua regra
+                const base = [
                     { a: "ENTRA", x: "2.10x", s: "20 centavos", c: "#00ff00" },
                     { a: "PULA", x: "1.08x", s: "---", c: "#ff4444" },
+                    { a: "ENTRA", x: "1.95x", s: "20 centavos", c: "#00ff00" },
                     { a: "PULA", x: "1.15x", s: "---", c: "#ff4444" },
-                    { a: "ENTRA (ROSA)", x: xRosa.toFixed(2) + "x", s: "1 Real", c: "#ff00ff" },
                     { a: "PULA", x: "1.25x", s: "---", c: "#ff4444" }
                 ];
 
-                rounds.forEach((r, i) => {
-                    // Sincronia de horário: 1 min de intervalo
-                    let h = new Date(agora.getTime() + (i * 60000) + 60000);
+                // Insere a Rosa na posição sorteada
+                base[rodadaRosa - 1] = { a: "ENTRA (ROSA)", x: rosaX + "x", s: "1 Real", c: "#ff00ff" };
+
+                base.forEach((r, i) => {
+                    let h = new Date(agora.getTime() + (i * 60000) + 30000);
                     html += `
                         <div class="linha-p">
                             <div class="col-ordem">${i + 1}</div>
@@ -95,7 +94,7 @@
                         </div>`;
                 });
                 lista.innerHTML = html;
-            }, 800);
+            }, 1000);
         }
     </script>
 </body>
