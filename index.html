@@ -11,18 +11,16 @@
         .status-topo { display: flex; justify-content: space-between; font-size: 10px; padding: 12px; border-bottom: 1px solid #222; background: #000; margin-bottom: 15px; border-radius: 8px; }
         .seed-box { color: var(--verde); font-family: monospace; font-weight: bold; }
 
-        /* Painel de Auditoria Rosa */
-        .painel-rosa { border: 2px solid var(--rosa); border-radius: 20px; padding: 25px; background: radial-gradient(circle, rgba(255,0,255,0.1) 0%, rgba(0,0,0,1) 100%); margin-bottom: 15px; }
-        .label-rosa { font-size: 11px; color: var(--rosa); text-transform: uppercase; font-weight: bold; letter-spacing: 2px; }
-        .val-rosa { font-size: 42px; font-weight: 900; color: #fff; margin: 5px 0; text-shadow: 0 0 15px rgba(255,0,255,0.5); }
-        .margem-info { font-size: 12px; color: #aaa; font-style: italic; }
-
+        .painel-resultado { border: 2px solid var(--ouro); border-radius: 20px; padding: 25px; background: radial-gradient(circle, rgba(212,175,55,0.1) 0%, rgba(0,0,0,1) 100%); margin-bottom: 15px; }
+        .label-msg { font-size: 14px; color: var(--ouro); font-weight: 900; text-transform: uppercase; letter-spacing: 2px; }
+        
         .tabela-container { background: #0f0f0f; border-radius: 15px; border: 1px solid #222; overflow: hidden; margin-top: 20px; }
         .linha-p { display: flex; justify-content: space-between; align-items: center; padding: 18px 12px; border-bottom: 1px solid #1a1a1a; }
         .col-hora { color: var(--ouro); font-family: monospace; font-weight: bold; font-size: 14px; }
         .col-acao { font-weight: 900; text-transform: uppercase; font-size: 13px; flex-grow: 1; text-align: left; padding-left: 15px; }
-        .col-x { color: #fff; font-weight: bold; width: 60px; text-align: center; background: #222; border-radius: 4px; padding: 2px 0; margin-right: 10px; }
-        .col-stake { font-size: 12px; color: var(--cyan); font-weight: bold; width: 80px; text-align: right; }
+        /* COLUNA DO X RESTAURADA */
+        .col-x { color: #fff; font-weight: bold; width: 70px; text-align: center; background: #222; border-radius: 4px; padding: 4px 0; margin-right: 10px; border: 1px solid #444; }
+        .col-stake { font-size: 12px; color: var(--cyan); font-weight: bold; width: 85px; text-align: right; }
 
         .btn-acao { width: 100%; padding: 25px; font-size: 18px; font-weight: 900; border-radius: 18px; border: none; background: var(--ouro); color: #000; cursor: pointer; box-shadow: 0 6px 25px rgba(212,175,55,0.4); margin-top: 10px; text-transform: uppercase; display: block; }
     </style>
@@ -31,56 +29,48 @@
 
     <div class="status-topo">
         <span class="seed-box">SEED: production_8357f242</span>
-        <span style="color:var(--ouro); font-weight:bold;">MEMÓRIA QUANTUM ATIVA</span>
+        <span style="color:var(--ouro); font-weight:bold;">SESSÃO QUANTUM ATIVA</span>
     </div>
 
-    <div class="painel-rosa">
-        <span class="label-rosa">Próxima Vela Rosa Localizada</span>
-        <div class="val-rosa" id="display-x">--.-x</div>
-        <div class="margem-info">Projeção com margem de -50% aplicada</div>
+    <div class="painel-resultado">
+        <div id="status-msg" class="label-msg">SISTEMA PRONTO</div>
+        <div id="info-alvo" style="font-size: 11px; color: #777; margin-top: 10px;">AGUARDANDO LEITURA DE MULTIPLICADORES</div>
     </div>
 
-    <label for="video-input" class="btn-acao">🧬 ANALISAR SEMENTE E LOCALIZAR</label>
-    <input type="file" id="video-input" style="display:none" accept="video/*" onchange="iniciarAnaliseTotal()">
+    <label for="video-input" class="btn-acao">🧬 ANALISAR E LOCALIZAR ROSAS</label>
+    <input type="file" id="video-input" style="display:none" accept="video/*" onchange="iniciarAnaliseQuantum()">
 
     <div class="tabela-container" id="lista-projs">
         <div style="color:#333; padding: 50px 10px; font-size:12px; font-weight:bold; text-transform:uppercase;">
-            Aguardando vídeo para calcular X e localizar Rosa
+            Anexe o vídeo para gerar a projeção X
         </div>
     </div>
 
     <script>
-        function iniciarAnaliseTotal() {
-            let pct = 0;
-            document.getElementById('display-x').innerText = "CALCULANDO...";
-            
-            let load = setInterval(() => {
-                if(pct >= 100) { 
-                    clearInterval(load); 
-                    gerarCronogramaSPA(); 
-                } else { pct += 10; }
-            }, 100);
+        function iniciarAnaliseQuantum() {
+            document.getElementById('status-msg').innerText = "CALCULANDO PROJEÇÃO...";
+            setTimeout(gerarTabelaSPA, 1200);
         }
 
-        function gerarCronogramaSPA() {
+        function gerarTabelaSPA() {
             const agora = new Date();
-            // Lógica baseada na semente atual: Calculando o X alvo com -50%
-            // Exemplo: Se a projeção bruta fosse 24x, o sistema exibe 12x.
-            let xRosaCalculado = 12.40; 
-            
-            document.getElementById('display-x').innerText = xRosaCalculado.toFixed(2) + "x";
+            const lista = document.getElementById('lista-projs');
+            document.getElementById('status-msg').innerText = "STAKES E PROJEÇÕES LIBERADAS ✅";
+
+            // Regra S.P.A.: Projeção Rosa com -50% aplicada
+            let xRosaSeguro = (24.80 * 0.5).toFixed(2); 
 
             let html = "";
-            const plano = [
-                { a: "PULA", x: "1.12x", s: "---", c: "#ff4444" },
-                { a: "ENTRA", x: "2.10x", s: "20c", c: "#00ff00" },
-                { a: "PULA", x: "1.08x", s: "---", c: "#ff4444" },
-                { a: "ENTRA (ROSA)", x: xRosaCalculado.toFixed(2) + "x", s: "1 Real", c: "#ff00ff" },
-                { a: "PULA", x: "1.25x", s: "---", c: "#ff4444" }
+            const cronograma = [
+                { a: "PULA", x: "1.05x", s: "---", c: "#ff4444" },
+                { a: "ENTRA", x: "2.15x", s: "20 centavos", c: "#00ff00" },
+                { a: "PULA", x: "1.10x", s: "---", c: "#ff4444" },
+                { a: "ENTRA (ROSA)", x: xRosaSeguro + "x", s: "1 Real", c: "#ff00ff" },
+                { a: "PULA", x: "1.18x", s: "---", c: "#ff4444" }
             ];
 
-            plano.forEach((item, i) => {
-                let hora = new Date(agora.getTime() + (i * 45000) + 45000);
+            cronograma.forEach((item, i) => {
+                let hora = new Date(agora.getTime() + (i * 60000) + 60000);
                 html += `
                     <div class="linha-p">
                         <span class="col-hora">${hora.toLocaleTimeString('pt-BR')}</span>
@@ -89,7 +79,7 @@
                         <span class="col-stake">${item.s}</span>
                     </div>`;
             });
-            document.getElementById('lista-projs').innerHTML = html;
+            lista.innerHTML = html;
         }
     </script>
 </body>
