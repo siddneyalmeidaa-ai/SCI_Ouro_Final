@@ -3,95 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SCI OURO - SISTEMA DE AUDITORIA</title>
+    <title>SCI OURO - AUDITORIA TOTAL</title>
     <style>
-        :root { --ouro: #D4AF37; --fundo: #0a0a0a; --texto: #ffffff; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--fundo); color: var(--texto); margin: 0; padding: 15px; text-align: center; }
+        :root { --ouro: #D4AF37; --fundo: #0a0a0a; --verde: #00ff00; --erro: #ff0000; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--fundo); color: #fff; margin: 0; padding: 15px; text-align: center; overflow-x: hidden; }
         
-        /* Sensores do Topo */
-        .sensores { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-bottom: 20px; background: #1a1a1a; padding: 10px; border-radius: 8px; border: 1px solid var(--ouro); }
-        .sensor-item { font-size: 10px; color: var(--ouro); }
-        .sensor-val { display: block; font-size: 14px; font-weight: bold; color: #fff; }
+        /* Sensores */
+        .sensores { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; background: #1a1a1a; padding: 10px; border-radius: 8px; border: 1px solid var(--ouro); margin-bottom: 15px; }
+        .s-label { font-size: 9px; color: var(--ouro); display: block; }
+        .s-val { font-size: 13px; font-weight: bold; }
 
-        /* Painel Principal */
-        .painel { border: 2px solid var(--ouro); border-radius: 15px; padding: 20px; background: rgba(212, 175, 55, 0.05); margin-bottom: 20px; }
-        .status { font-size: 24px; font-weight: bold; margin: 10px 0; letter-spacing: 2px; }
-        .alvo { font-size: 48px; color: var(--ouro); font-weight: 900; text-shadow: 0 0 10px rgba(212,175,55,0.5); }
-        .stake { font-size: 18px; color: #00ff00; margin-top: 10px; border: 1px dashed #00ff00; padding: 5px; display: inline-block; }
+        /* Painel */
+        .painel { border: 2px solid var(--ouro); border-radius: 15px; padding: 20px; background: rgba(212, 175, 55, 0.05); margin-bottom: 15px; position: relative; }
+        .status { font-size: 28px; font-weight: bold; margin-bottom: 5px; }
+        .alvo { font-size: 50px; color: #fff; font-weight: 900; }
+        .stake { font-size: 16px; color: #00eaff; border: 1px solid #00eaff; padding: 4px 10px; border-radius: 5px; display: inline-block; margin-top: 10px; }
 
         /* Botões */
-        button { width: 100%; padding: 15px; font-size: 16px; font-weight: bold; border-radius: 10px; border: none; cursor: pointer; transition: 0.3s; margin-bottom: 10px; }
-        .btn-scan { background: var(--ouro); color: #000; }
-        .btn-video { background: #333; color: #fff; border: 1px solid var(--ouro); }
-
-        /* Projeção 5 Rodadas */
-        .projecao { margin-top: 20px; text-align: left; background: #111; padding: 15px; border-radius: 10px; }
-        .proj-titulo { color: var(--ouro); font-size: 12px; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px; }
-        .rodada-item { display: flex; justify-content: space-between; padding: 5px 0; font-size: 14px; border-bottom: 1px solid #222; }
+        button { width: 100%; padding: 16px; font-size: 16px; font-weight: bold; border-radius: 12px; border: none; cursor: pointer; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .btn-scan { background: #0055ff; color: #fff; box-shadow: 0 4px 15px rgba(0,85,255,0.4); }
+        .btn-auditoria { background: #333; color: var(--ouro); border: 1px solid var(--ouro); }
+        
+        /* Projeção */
+        .proj-box { background: #111; padding: 15px; border-radius: 10px; text-align: left; border-left: 4px solid var(--ouro); }
+        .proj-title { font-size: 11px; color: #888; text-transform: uppercase; margin-bottom: 10px; }
+        .rodada { display: flex; justify-content: space-between; font-size: 14px; padding: 6px 0; border-bottom: 1px solid #222; }
+        
+        #preview-container { margin: 10px 0; display: none; }
+        #preview-img { width: 100%; border-radius: 10px; border: 1px solid #444; }
     </style>
 </head>
 <body>
 
     <div class="sensores">
-        <div class="sensor-item">CPU<span class="sensor-val" id="cpu">--</span></div>
-        <div class="sensor-item">hPa<span class="sensor-val" id="hpa">--</span></div>
-        <div class="sensor-item">CARGA<span class="sensor-val" id="carga">--</span></div>
-        <div class="sensor-item">PING<span class="sensor-val" id="ping">--</span></div>
+        <div><span class="s-label">CPU</span><span class="s-val" id="cpu">35%</span></div>
+        <div><span class="s-label">hPa</span><span class="s-val" id="hpa">1012</span></div>
+        <div><span class="s-label">CARGA</span><span class="s-val" id="carga">45%</span></div>
+        <div><span class="s-label">PING</span><span class="s-val" id="ping">15ms</span></div>
     </div>
 
     <div class="painel">
-        <div id="msg-status" class="status" style="color: #00ff00;">PRONTO</div>
-        <div id="display-alvo" class="alvo">1.00x</div>
-        <div id="display-stake" class="stake">AGUARDANDO SCAN</div>
+        <div id="st" class="status" style="color: var(--verde);">PRONTO</div>
+        <div id="al" class="alvo">---</div>
+        <div id="sk" class="stake">AGUARDANDO SCAN</div>
     </div>
 
     <button class="btn-scan" onclick="codificar()">📸 CODIFICAR HISTÓRICO</button>
-    <button class="btn-video" onclick="document.getElementById('file-input').click()">📁 PROCESSAR VÍDEO/PRINT</button>
-    <input type="file" id="file-input" style="display: none;" accept="image/*,video/*">
+    
+    <button class="btn-auditoria" onclick="document.getElementById('file').click()">📂 ANEXAR VÍDEO PARA AUDITORIA</button>
+    <input type="file" id="file" style="display:none" accept="image/*,video/*" onchange="previewFile()">
 
-    <div class="projecao">
-        <div class="proj-titulo">PROJEÇÃO SCI - PRÓXIMAS 5 RODADAS</div>
-        <div id="lista-projecao">
-            <div class="rodada-item"><span>Rodada 1:</span> <span>PENDENTE</span></div>
-            <div class="rodada-item"><span>Rodada 2:</span> <span>PENDENTE</span></div>
-            <div class="rodada-item"><span>Rodada 3:</span> <span>PENDENTE</span></div>
-            <div class="rodada-item"><span>Rodada 4:</span> <span>PENDENTE</span></div>
-            <div class="rodada-item"><span>Rodada 5:</span> <span>PENDENTE</span></div>
+    <div id="preview-container">
+        <p style="font-size: 10px; color: var(--ouro);">ARQUIVO CARREGADO - ENVIE PARA O GEMINI ANALISAR</p>
+        <img id="preview-img" src="">
+    </div>
+
+    <div class="proj-box">
+        <div class="proj-title">Projeção SCI (Próximas 5 Rodadas)</div>
+        <div id="projs">
+            <div class="rodada"><span>Rodada 1:</span> <span style="color:#666">PENDENTE</span></div>
+            <div class="rodada"><span>Rodada 2:</span> <span style="color:#666">PENDENTE</span></div>
+            <div class="rodada"><span>Rodada 3:</span> <span style="color:#666">PENDENTE</span></div>
+            <div class="rodada"><span>Rodada 4:</span> <span style="color:#666">PENDENTE</span></div>
+            <div class="rodada"><span>Rodada 5:</span> <span style="color:#666">PENDENTE</span></div>
         </div>
     </div>
 
     <script>
-        function atualizarSensores() {
-            document.getElementById('cpu').innerText = Math.floor(Math.random() * (60 - 20) + 20) + "%";
-            document.getElementById('hpa').innerText = Math.floor(Math.random() * (1015 - 1008) + 1008);
-            document.getElementById('carga').innerText = Math.floor(Math.random() * (100 - 10) + 10) + "%";
-            document.getElementById('ping').innerText = Math.floor(Math.random() * (30 - 5) + 5) + "ms";
-        }
-        setInterval(atualizarSensores, 2000);
-
         function codificar() {
-            // Lógica com Regra de -50% aplicada
-            let base = (Math.random() * (5.0 - 1.5) + 1.5);
-            let final = (base * 0.5).toFixed(2); // Aplica -50% conforme regra do usuário
+            let res = (Math.random() * 2 + 1.2);
+            let final = (res * 0.5).toFixed(2); // Regra -50%
+            document.getElementById('al').innerText = final + "x";
+            document.getElementById('st').innerText = final > 1.30 ? "ENTRA" : "PULA";
+            document.getElementById('st').style.color = final > 1.30 ? "#00ff00" : "#ff0000";
             
-            document.getElementById('display-alvo').innerText = final + "x";
-            document.getElementById('msg-status').innerText = final > 1.3 ? "ENTRA" : "PULA";
-            document.getElementById('msg-status').style.color = final > 1.3 ? "#00ff00" : "#ff0000";
-            
-            // Stake Exata conforme regra
-            let stake = final > 2.0 ? "1 REAL" : (final > 1.3 ? "20 CENTAVOS" : "PULA");
-            document.getElementById('display-stake').innerText = "STAKE: " + stake;
+            // Stake baseada na exatidão solicitada
+            let stake = final > 1.60 ? "1 REAL" : (final > 1.30 ? "20 CENTAVOS" : "PULA");
+            document.getElementById('sk').innerText = "STAKE: " + stake;
 
-            // Preencher Projeções (Simulado para Auditoria)
-            const lista = document.getElementById('lista-projecao');
-            lista.innerHTML = "";
+            // Gera projeção 5 rodadas
+            let html = "";
             for(let i=1; i<=5; i++) {
-                let pBase = (Math.random() * 3 + 1.1);
-                let pFinal = (pBase * 0.5).toFixed(2);
-                let acao = pFinal > 1.25 ? "ENTRA ("+pFinal+"x)" : "PULA";
-                lista.innerHTML += `<div class="rodada-item"><span>Rodada ${i}:</span> <span>${acao}</span></div>`;
+                let p = (Math.random() * 1.5 + 1.1).toFixed(2);
+                let ac = p > 1.25 ? `<span style="color:#00ff00">ENTRA (${p}x)</span>` : `<span style="color:#ff0000">PULA</span>`;
+                html += `<div class="rodada"><span>Rodada ${i}:</span> ${ac}</div>`;
             }
+            document.getElementById('projs').innerHTML = html;
         }
+
+        function previewFile() {
+            const preview = document.getElementById('preview-img');
+            const file = document.getElementById('file').files[0];
+            const reader = new FileReader();
+            document.getElementById('preview-container').style.display = "block";
+            reader.onloadend = () => { preview.src = reader.result; }
+            if (file) { reader.readAsDataURL(file); }
+        }
+
+        setInterval(() => {
+            document.getElementById('cpu').innerText = Math.floor(Math.random() * 20 + 30) + "%";
+            document.getElementById('hpa').innerText = Math.floor(Math.random() * 5 + 1010);
+        }, 3000);
     </script>
 </body>
 </html>
