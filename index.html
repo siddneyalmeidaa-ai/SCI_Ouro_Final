@@ -5,53 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>SCI OURO - AUDITORIA TOTAL</title>
     <style>
-        :root { --ouro: #D4AF37; --fundo: #0a0a0a; --verde: #00ff00; }
+        :root { --ouro: #D4AF37; --fundo: #0a0a0a; --verde: #00ff00; --azul: #0055ff; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--fundo); color: #fff; margin: 0; padding: 15px; text-align: center; }
         
         .sensores { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; background: #1a1a1a; padding: 10px; border-radius: 8px; border: 1px solid var(--ouro); margin-bottom: 15px; }
         .s-label { font-size: 9px; color: var(--ouro); display: block; }
-        
-        .painel { border: 2px solid var(--ouro); border-radius: 15px; padding: 20px; background: rgba(212, 175, 55, 0.05); margin-bottom: 15px; min-height: 150px; display: flex; flex-direction: column; justify-content: center; }
-        .status { font-size: 28px; font-weight: bold; }
-        .alvo { font-size: 50px; font-weight: 900; color: var(--ouro); }
-        
-        /* Botões Estilizados */
-        button { width: 100%; padding: 16px; font-size: 16px; font-weight: bold; border-radius: 12px; border: none; cursor: pointer; margin-bottom: 10px; }
-        .btn-scan { background: var(--ouro); color: #000; }
-        .btn-video { background: #222; color: #fff; border: 1px solid var(--ouro); position: relative; overflow: hidden; }
+        .s-val { font-size: 13px; font-weight: bold; }
 
-        /* Barra de Processamento */
-        #loading-bar { display: none; width: 0%; height: 4px; background: var(--verde); position: absolute; bottom: 0; left: 0; transition: width 0.5s; }
+        .painel { border: 2px solid var(--ouro); border-radius: 15px; padding: 20px; background: rgba(212, 175, 55, 0.05); margin-bottom: 15px; min-height: 140px; }
+        .status { font-size: 28px; font-weight: bold; margin-bottom: 5px; }
+        .alvo { font-size: 50px; color: #fff; font-weight: 900; }
+        .stake-info { font-size: 16px; color: #00eaff; margin-top: 10px; }
+
+        button { width: 100%; padding: 16px; font-size: 16px; font-weight: bold; border-radius: 12px; border: none; cursor: pointer; margin-bottom: 10px; }
+        .btn-scan { background: var(--azul); color: #fff; }
+        .btn-video { background: #222; color: var(--ouro); border: 1px solid var(--ouro); }
         
-        .proj-box { background: #111; padding: 15px; border-radius: 10px; text-align: left; border-left: 4px solid var(--ouro); font-size: 14px; }
-        .rodada { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #222; }
+        /* Barra de Progresso */
+        .progress-container { width: 100%; background: #222; height: 8px; border-radius: 4px; display: none; margin: 10px 0; overflow: hidden; }
+        .progress-bar { width: 0%; height: 100%; background: var(--verde); transition: width 0.3s; }
+
+        .proj-box { background: #111; padding: 15px; border-radius: 10px; text-align: left; border-left: 4px solid var(--ouro); }
+        .rodada { display: flex; justify-content: space-between; font-size: 14px; padding: 6px 0; border-bottom: 1px solid #222; }
     </style>
 </head>
 <body>
 
     <div class="sensores">
-        <div><span class="s-label">CPU</span><span id="cpu">--</span></div>
-        <div><span class="s-label">hPa</span><span id="hpa">--</span></div>
-        <div><span class="s-label">CARGA</span><span id="carga">--</span></div>
-        <div><span class="s-label">PING</span><span id="ping">--</span></div>
+        <div><span class="s-label">CPU</span><span class="s-val" id="cpu">42%</span></div>
+        <div><span class="s-label">hPa</span><span class="s-val" id="hpa">1011</span></div>
+        <div><span class="s-label">CARGA</span><span class="s-val" id="carga">45%</span></div>
+        <div><span class="s-label">PING</span><span class="s-val" id="ping">15ms</span></div>
     </div>
 
-    <div class="painel" id="main-display">
+    <div class="painel">
         <div id="st" class="status" style="color: var(--verde);">PRONTO</div>
         <div id="al" class="alvo">---</div>
-        <div id="sk" style="color: #00eaff;">AGUARDANDO COMANDO</div>
+        <div id="sk" class="stake-info">AGUARDANDO SCAN</div>
+        <div class="progress-container" id="p-cont"><div class="progress-bar" id="p-bar"></div></div>
     </div>
 
-    <button class="btn-scan" onclick="codificar()">📸 CODIFICAR HISTÓRICO</button>
+    <button class="btn-scan" onclick="processar(false)">📸 CODIFICAR HISTÓRICO</button>
     
-    <button class="btn-video" id="video-btn" onclick="document.getElementById('file').click()">
-        📁 PROCESSAR VÍDEO/PRINT
-        <div id="loading-bar"></div>
-    </button>
-    <input type="file" id="file" style="display:none" accept="image/*,video/*" onchange="processarVideo()">
+    <button class="btn-video" onclick="document.getElementById('file').click()">📁 ANEXAR VÍDEO PARA AUDITORIA</button>
+    <input type="file" id="file" style="display:none" accept="image/*,video/*" onchange="processar(true)">
 
     <div class="proj-box">
-        <div style="color: var(--ouro); margin-bottom: 10px; font-size: 12px;">PROJEÇÃO SCI - PRÓXIMAS 5 RODADAS</div>
+        <div style="font-size: 11px; color: #888; margin-bottom: 10px;">PROJEÇÃO SCI (5 RODADAS)</div>
         <div id="projs">
             <div class="rodada"><span>Rodada 1:</span> <span>PENDENTE</span></div>
             <div class="rodada"><span>Rodada 2:</span> <span>PENDENTE</span></div>
@@ -62,42 +62,46 @@
     </div>
 
     <script>
-        function processarVideo() {
-            const btn = document.getElementById('video-btn');
-            const bar = document.getElementById('loading-bar');
+        function processar(isAuditoria) {
             const st = document.getElementById('st');
             const al = document.getElementById('al');
             const sk = document.getElementById('sk');
+            const pCont = document.getElementById('p-cont');
+            const pBar = document.getElementById('p-bar');
 
-            // Inicia Processamento Visual
-            btn.innerHTML = "⌛ AGUARDANDO PROCESSAMENTO... <div id='loading-bar' style='display:block; width:100%'></div>";
-            st.innerHTML = "AUDITANDO...";
+            // Reset e Início
+            st.innerText = isAuditoria ? "AUDITANDO VÍDEO..." : "CODIFICANDO...";
             st.style.color = "#D4AF37";
             al.innerText = "---";
             sk.innerText = "LENDO SEMENTE DO SERVIDOR...";
+            pCont.style.display = "block";
+            pBar.style.width = "0%";
 
-            setTimeout(() => {
-                // Finaliza e mostra resultado com Regra de -50%
-                let res = (Math.random() * 3 + 1.5).toFixed(2);
-                let final = (res * 0.5).toFixed(2);
-                
-                btn.innerHTML = "📁 PROCESSAR VÍDEO/PRINT <div id='loading-bar'></div>";
-                st.innerText = final > 1.3 ? "ENTRA" : "PULA";
-                st.style.color = final > 1.3 ? "#00ff00" : "#ff0000";
-                al.innerText = final + "x";
-                sk.innerText = "STAKE: " + (final > 1.8 ? "1 REAL" : "20 centavos");
-                
-                gerarProjecao();
-            }, 3000); // 3 segundos de "carregamento" para exatidão
+            let width = 0;
+            let interval = setInterval(() => {
+                if (width >= 100) {
+                    clearInterval(interval);
+                    finalizar(isAuditoria);
+                } else {
+                    width += 5;
+                    pBar.style.width = width + "%";
+                }
+            }, 100);
         }
 
-        function codificar() {
-            let res = (Math.random() * 2 + 1.2);
-            let final = (res * 0.5).toFixed(2);
+        function finalizar(isAuditoria) {
+            let res = (Math.random() * 3 + 1.2);
+            let final = (res * 0.5).toFixed(2); // REGRA -50% APLICADA
+            
+            document.getElementById('p-cont').style.display = "none";
             document.getElementById('al').innerText = final + "x";
             document.getElementById('st').innerText = final > 1.3 ? "ENTRA" : "PULA";
             document.getElementById('st').style.color = final > 1.3 ? "#00ff00" : "#ff0000";
-            document.getElementById('sk').innerText = "STAKE: " + (final > 1.3 ? "20 centavos" : "PULA");
+            
+            // Definição de Stake Precisa
+            let stake = final > 1.8 ? "1 REAL" : (final > 1.3 ? "20 centavos" : "PULA");
+            document.getElementById('sk').innerText = "STAKE: " + stake;
+
             gerarProjecao();
         }
 
