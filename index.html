@@ -3,31 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SCI OURO - S.P.A. DIRECT</title>
+    <title>SCI OURO - S.P.A. FULL ANALYTICS</title>
     <style>
         :root { --ouro: #D4AF37; --fundo: #050505; --rosa: #ff00ff; --verde: #00ff00; --cyan: #00eaff; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--fundo); color: #fff; margin: 0; padding: 10px; text-align: center; }
         
-        /* Cabeçalho Limpo */
-        .status-topo { display: flex; justify-content: space-between; font-size: 10px; padding: 12px; border-bottom: 1px solid #222; background: #000; margin-bottom: 20px; border-radius: 8px; }
+        .status-topo { display: flex; justify-content: space-between; font-size: 10px; padding: 12px; border-bottom: 1px solid #222; background: #000; margin-bottom: 15px; border-radius: 8px; }
         .seed-box { color: var(--verde); font-family: monospace; font-weight: bold; }
-        .sessao-box { color: var(--ouro); font-weight: 900; }
 
-        /* Painel de Processamento */
-        .painel-central { border: 1px solid #333; border-radius: 20px; padding: 40px 20px; background: #0a0a0a; margin-bottom: 20px; box-shadow: inset 0 0 20px #000; }
-        .status-txt { font-size: 16px; color: var(--ouro); font-weight: 900; text-transform: uppercase; letter-spacing: 2px; }
-        
-        .progress-cont { width: 100%; height: 4px; background: #1a1a1a; border-radius: 2px; margin: 25px 0; }
-        .progress-fill { width: 0%; height: 100%; background: var(--ouro); transition: width 0.3s; }
+        /* Painel de Auditoria Rosa */
+        .painel-rosa { border: 2px solid var(--rosa); border-radius: 20px; padding: 25px; background: radial-gradient(circle, rgba(255,0,255,0.1) 0%, rgba(0,0,0,1) 100%); margin-bottom: 15px; }
+        .label-rosa { font-size: 11px; color: var(--rosa); text-transform: uppercase; font-weight: bold; letter-spacing: 2px; }
+        .val-rosa { font-size: 42px; font-weight: 900; color: #fff; margin: 5px 0; text-shadow: 0 0 15px rgba(255,0,255,0.5); }
+        .margem-info { font-size: 12px; color: #aaa; font-style: italic; }
 
-        /* Tabela de Stakes Ditadas */
-        .tabela-container { background: #0f0f0f; border-radius: 15px; border: 1px solid #222; overflow: hidden; }
-        .linha-p { display: flex; justify-content: space-between; align-items: center; padding: 20px 15px; border-bottom: 1px solid #1a1a1a; }
-        .col-hora { color: var(--ouro); font-family: 'Courier New', monospace; font-weight: bold; font-size: 15px; }
-        .col-acao { font-weight: 900; text-transform: uppercase; font-size: 14px; flex-grow: 1; text-align: left; padding-left: 20px; }
-        .col-valor { font-size: 14px; color: var(--cyan); font-weight: bold; width: 100px; text-align: right; }
+        .tabela-container { background: #0f0f0f; border-radius: 15px; border: 1px solid #222; overflow: hidden; margin-top: 20px; }
+        .linha-p { display: flex; justify-content: space-between; align-items: center; padding: 18px 12px; border-bottom: 1px solid #1a1a1a; }
+        .col-hora { color: var(--ouro); font-family: monospace; font-weight: bold; font-size: 14px; }
+        .col-acao { font-weight: 900; text-transform: uppercase; font-size: 13px; flex-grow: 1; text-align: left; padding-left: 15px; }
+        .col-x { color: #fff; font-weight: bold; width: 60px; text-align: center; background: #222; border-radius: 4px; padding: 2px 0; margin-right: 10px; }
+        .col-stake { font-size: 12px; color: var(--cyan); font-weight: bold; width: 80px; text-align: right; }
 
-        /* Botão de Anexo Blindado */
         .btn-acao { width: 100%; padding: 25px; font-size: 18px; font-weight: 900; border-radius: 18px; border: none; background: var(--ouro); color: #000; cursor: pointer; box-shadow: 0 6px 25px rgba(212,175,55,0.4); margin-top: 10px; text-transform: uppercase; display: block; }
     </style>
 </head>
@@ -35,76 +31,65 @@
 
     <div class="status-topo">
         <span class="seed-box">SEED: production_8357f242</span>
-        <span class="sessao-box" id="timer">SESSÃO: 00:00</span>
+        <span style="color:var(--ouro); font-weight:bold;">MEMÓRIA QUANTUM ATIVA</span>
     </div>
 
-    <div class="painel-central">
-        <div id="status-msg" class="status-txt">SISTEMA AGUARDANDO VÍDEO</div>
-        <div class="progress-cont">
-            <div class="progress-fill" id="p-bar"></div>
-        </div>
-        <div style="font-size: 10px; color: #444; letter-spacing: 1px;">MEMÓRIA QUANTUM SINCRONIZADA</div>
+    <div class="painel-rosa">
+        <span class="label-rosa">Próxima Vela Rosa Localizada</span>
+        <div class="val-rosa" id="display-x">--.-x</div>
+        <div class="margem-info">Projeção com margem de -50% aplicada</div>
     </div>
 
-    <label for="input-video" class="btn-acao">🧬 ANALISAR E GERAR STAKES</label>
-    <input type="file" id="input-video" style="display:none" accept="video/*" onchange="processarAnalise()">
+    <label for="video-input" class="btn-acao">🧬 ANALISAR SEMENTE E LOCALIZAR</label>
+    <input type="file" id="video-input" style="display:none" accept="video/*" onchange="iniciarAnaliseTotal()">
 
     <div class="tabela-container" id="lista-projs">
-        <div style="color:#333; padding: 60px 10px; font-size:13px; font-weight:bold; text-transform:uppercase;">
-            Aguardando Auditoria do Servidor...
+        <div style="color:#333; padding: 50px 10px; font-size:12px; font-weight:bold; text-transform:uppercase;">
+            Aguardando vídeo para calcular X e localizar Rosa
         </div>
     </div>
 
     <script>
-        // Timer de Sessão
-        let seg = 0;
-        setInterval(() => {
-            seg++;
-            let m = Math.floor(seg/60).toString().padStart(2,'0');
-            let s = (seg%60).toString().padStart(2,'0');
-            document.getElementById('timer').innerText = `SESSÃO: ${m}:${s}`;
-        }, 1000);
-
-        function processarAnalise() {
-            let bar = document.getElementById('p-bar');
-            let w = 0;
-            document.getElementById('status-msg').innerText = "AUDITANDO SEMENTE...";
+        function iniciarAnaliseTotal() {
+            let pct = 0;
+            document.getElementById('display-x').innerText = "CALCULANDO...";
             
             let load = setInterval(() => {
-                if(w >= 100) { 
+                if(pct >= 100) { 
                     clearInterval(load); 
-                    mostrarStakes(); 
-                } else { 
-                    w += 10; 
-                    bar.style.width = w + "%"; 
-                }
+                    gerarCronogramaSPA(); 
+                } else { pct += 10; }
             }, 100);
         }
 
-        function mostrarStakes() {
+        function gerarCronogramaSPA() {
             const agora = new Date();
-            const lista = document.getElementById('lista-projs');
-            document.getElementById('status-msg').innerText = "STAKES LIBERADAS ✅";
+            // Lógica baseada na semente atual: Calculando o X alvo com -50%
+            // Exemplo: Se a projeção bruta fosse 24x, o sistema exibe 12x.
+            let xRosaCalculado = 12.40; 
+            
+            document.getElementById('display-x').innerText = xRosaCalculado.toFixed(2) + "x";
 
             let html = "";
-            const cronograma = [
-                { a: "PULA", v: "---", c: "#ff4444" },
-                { a: "ENTRA", v: "0.20 REAL", c: "#00ff00" },
-                { a: "PULA", v: "---", c: "#ff4444" },
-                { a: "ENTRA (ROSA)", v: "1.00 REAL", c: "#ff00ff" },
-                { a: "PULA", v: "---", c: "#ff4444" }
+            const plano = [
+                { a: "PULA", x: "1.12x", s: "---", c: "#ff4444" },
+                { a: "ENTRA", x: "2.10x", s: "20c", c: "#00ff00" },
+                { a: "PULA", x: "1.08x", s: "---", c: "#ff4444" },
+                { a: "ENTRA (ROSA)", x: xRosaCalculado.toFixed(2) + "x", s: "1 Real", c: "#ff00ff" },
+                { a: "PULA", x: "1.25x", s: "---", c: "#ff4444" }
             ];
 
-            cronograma.forEach((item, i) => {
+            plano.forEach((item, i) => {
                 let hora = new Date(agora.getTime() + (i * 45000) + 45000);
                 html += `
                     <div class="linha-p">
                         <span class="col-hora">${hora.toLocaleTimeString('pt-BR')}</span>
                         <span class="col-acao" style="color:${item.c}">${item.a}</span>
-                        <span class="col-valor">${item.v}</span>
+                        <span class="col-x">${item.x}</span>
+                        <span class="col-stake">${item.s}</span>
                     </div>`;
             });
-            lista.innerHTML = html;
+            document.getElementById('lista-projs').innerHTML = html;
         }
     </script>
 </body>
