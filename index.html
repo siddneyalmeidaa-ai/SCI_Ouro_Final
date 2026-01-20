@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.P.A. QUANTUM 2.4 - SENTINELA</title>
+    <title>S.P.A. 2.5 - REATIVO POR RODADA</title>
     <style>
         :root { --ouro: #D4AF37; --fundo: #050505; --rosa: #ff00ff; --verde: #00ff00; --cyan: #00eaff; --vermelho: #ff4d4d; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--fundo); color: #fff; margin: 0; padding: 10px; text-align: center; }
@@ -16,8 +16,8 @@
         .input-container label { color: #000; font-weight: 900; font-size: 14px; text-transform: uppercase; }
         .input-container input { position: absolute; opacity: 0; width: 100%; height: 100%; cursor: pointer; }
         .tabela-cont { background: #0f0f0f; border-radius: 15px; border: 1px solid #222; overflow: hidden; margin-top: 20px; }
-        .linha { display: flex; align-items: center; padding: 12px 8px; border-bottom: 1px solid #1a1a1a; font-size: 9px; }
-        .col-h { width: 60px; color: var(--ouro); font-weight: bold; } /* COLUNA DE HORÁRIO */
+        .linha { display: flex; align-items: center; padding: 12px 8px; border-bottom: 1px solid #1a1a1a; font-size: 9px; transition: 0.3s; }
+        .col-h { width: 60px; color: var(--ouro); font-weight: bold; }
         .col-a { flex-grow: 1; text-align: left; padding-left: 5px; font-weight: bold; }
         .col-x { color: #fff; font-weight: bold; width: 50px; text-align: center; background: #1a1a1a; border-radius: 4px; padding: 3px 0; }
         .col-s { color: var(--cyan); font-weight: bold; width: 70px; text-align: right; }
@@ -26,74 +26,80 @@
 <body>
 
     <div class="topo">
-        <span id="ping" style="color:var(--verde)">PING: 16ms</span>
-        <span id="relogio" style="color:var(--ouro)">19:26:19</span>
+        <span id="ping" style="color:var(--verde)">PING: 14ms</span>
+        <span id="relogio" style="color:var(--ouro)">19:38:20</span>
     </div>
 
     <div class="painel-rosa">
         <div class="metricas-rede">
-            <div class="card-mini">PRESSÃO: <span id="pressao-val">2%</span></div>
+            <div class="card-mini">PRESSÃO: <span id="pressao-val">4%</span></div>
             <div class="card-mini">LATÊNCIA: EXCELENTE</div>
         </div>
-        <span style="font-size: 11px; font-weight: bold;">PROVA MATEMÁTICA OK</span>
-        <div class="val-rosa" id="res-rosa">3.04X</div>
-        <div id="janela-comando" style="color: var(--ouro); font-size: 10px; margin-top: 5px; font-weight: bold;">MEIO DA BARRA | CHECK: 19:27:22</div>
-        <div id="banca-evolucao" style="font-size: 12px; color: var(--verde); font-weight: bold; margin-top:10px;">BANCA: R$ 50,90 | EVOLUÇÃO: 1.8%</div>
+        <span id="status-analise" style="font-size: 11px; font-weight: bold;">AGUARDANDO RODADA...</span>
+        <div class="val-rosa" id="res-rosa">--.-X</div>
+        <div id="janela-comando" style="color: var(--ouro); font-size: 10px; margin-top: 5px; font-weight: bold;">SINCRONIZAÇÃO NECESSÁRIA</div>
     </div>
 
     <div class="input-container">
-        <label>🧬 SINCRONIZAR GALERIA</label>
-        <input type="file" accept="image/*,video/*" onchange="processarSistema()">
+        <label>🧬 ANALISAR PRÓXIMA RODADA</label>
+        <input type="file" accept="image/*,video/*" onchange="processarRodada()">
     </div>
 
     <div class="tabela-cont">
         <div class="linha" style="background:#111; color:var(--ouro); font-weight:900;">
             <div style="width:60px">HORA</div>
-            <div style="flex-grow:1; text-align:left; padding-left:5px">STATUS</div>
+            <div style="flex-grow:1; text-align:left; padding-left:5px">ANÁLISE INDIVIDUAL</div>
             <div style="width:50px">ALVO</div>
             <div style="width:70px">STAKE</div>
         </div>
         <div id="itens-lista">
-            <div style="padding: 40px 10px; color: #444;">AGUARDANDO ARQUIVO...</div>
+            <div style="padding: 40px 10px; color: #444;">AGUARDANDO DADOS DA RODADA...</div>
         </div>
     </div>
 
     <script>
-        function gerarStakeQuebrada() {
-            return (1.00 + (Math.random() * 0.12)).toFixed(2);
-        }
+        let bancaAtual = 50.92;
 
-        function processarSistema() {
+        function processarRodada() {
             const container = document.getElementById('itens-lista');
-            container.innerHTML = '<div style="color:var(--ouro); padding:40px;">AUDITANDO...</div>';
+            const statusAnalise = document.getElementById('status-analise');
+            const resRosa = document.getElementById('res-rosa');
+            
+            statusAnalise.innerText = "CALCULANDO SEMENTE...";
             
             setTimeout(() => {
-                container.innerHTML = '';
-                let horaBase = new Date();
+                let pressao = Math.floor(Math.random() * 100);
+                document.getElementById('pressao-val').innerText = pressao + "%";
                 
-                for (let i = 0; i < 5; i++) {
-                    horaBase.setSeconds(horaBase.getSeconds() + (Math.floor(Math.random() * 20) + 40));
-                    let hStr = horaBase.toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit', second:'2-digit'});
-                    
-                    let status, cor, stake, alvo;
-                    if (i === 0) {
-                        status = "LIBERADO 98%"; cor = "var(--verde)";
-                        stake = "R$ " + gerarStakeQuebrada(); alvo = "1.76X";
-                    } else {
-                        status = "MIMETISMO"; cor = "var(--cyan)";
-                        stake = "R$ 0,00"; alvo = (1.2 + Math.random()).toFixed(2) + "X";
-                    }
-
-                    container.innerHTML += `
-                        <div class="linha">
-                            <div class="col-h">${hStr}</div>
-                            <div class="col-a" style="color:${cor}">${status}</div>
-                            <div class="col-x">${alvo}</div>
-                            <div class="col-s">${stake}</div>
-                        </div>
-                    `;
+                let semente = (Math.random() * 3 + 2).toFixed(2);
+                let alvoFinal = (semente * 0.5).toFixed(2); // Regra -50%
+                
+                resRosa.innerText = alvoFinal + "X";
+                let hora = new Date().toLocaleTimeString('pt-BR');
+                
+                let status, cor, stake;
+                
+                if (pressao > 75) {
+                    status = "RODADA CANCELADA - RISCO";
+                    cor = "var(--vermelho)";
+                    stake = "R$ 0,00";
+                    statusAnalise.innerText = "VÁCUO DETECTADO";
+                } else {
+                    status = "RODADA LIBERADA (OK)";
+                    cor = "var(--verde)";
+                    stake = "R$ " + (1.00 + Math.random()*0.1).toFixed(2);
+                    statusAnalise.innerText = "PROVA MATEMÁTICA OK";
                 }
-            }, 1500);
+
+                container.innerHTML = `
+                    <div class="linha" style="border-left: 4px solid ${cor}">
+                        <div class="col-h">${hora}</div>
+                        <div class="col-a" style="color:${cor}">${status}</div>
+                        <div class="col-x">${alvoFinal}X</div>
+                        <div class="col-s">${stake}</div>
+                    </div>
+                ` + container.innerHTML;
+            }, 1200);
         }
 
         setInterval(() => { 
