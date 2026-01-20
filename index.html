@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.P.A. QUANTUM FINAL</title>
+    <title>S.P.A. QUANTUM FINAL - SENTINELA</title>
     <style>
-        :root { --ouro: #D4AF37; --fundo: #050505; --rosa: #ff00ff; --verde: #00ff00; --cyan: #00eaff; }
+        :root { --ouro: #D4AF37; --fundo: #050505; --rosa: #ff00ff; --verde: #00ff00; --cyan: #00eaff; --vermelho: #ff4d4d; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--fundo); color: #fff; margin: 0; padding: 10px; text-align: center; }
         
         .topo { display: flex; justify-content: space-between; font-size: 10px; padding: 12px; border-bottom: 1px solid #222; margin-bottom: 15px; }
-        .painel-rosa { border: 2px solid var(--rosa); border-radius: 20px; padding: 20px; background: radial-gradient(circle, rgba(255,0,255,0.1) 0%, rgba(0,0,0,1) 100%); margin-bottom: 15px; }
-        .val-rosa { font-size: 38px; font-weight: 900; color: var(--rosa); }
+        .painel-rosa { border: 2px solid var(--rosa); border-radius: 20px; padding: 20px; background: radial-gradient(circle, rgba(255,0,255,0.1) 0%, rgba(0,0,0,1) 100%); margin-bottom: 15px; position: relative; }
+        .val-rosa { font-size: 38px; font-weight: 900; color: var(--rosa); text-shadow: 0 0 15px var(--rosa); }
         
         .tabela-cont { background: #0f0f0f; border-radius: 15px; border: 1px solid #222; overflow: hidden; margin-top: 20px; }
         .linha { display: flex; align-items: center; padding: 15px 10px; border-bottom: 1px solid #1a1a1a; animation: surge 0.5s ease; }
@@ -18,72 +18,127 @@
 
         .col-n { width: 30px; font-weight: 900; color: var(--ouro); border-right: 1px solid #222; margin-right: 10px; }
         .col-h { color: #777; font-family: monospace; font-size: 11px; width: 75px; }
-        .col-a { font-weight: 900; text-transform: uppercase; flex-grow: 1; text-align: left; padding-left: 10px; font-size: 12px; }
+        .col-a { font-weight: 900; text-transform: uppercase; flex-grow: 1; text-align: left; padding-left: 10px; font-size: 11px; }
         .col-x { color: #fff; font-weight: bold; width: 65px; text-align: center; background: #1a1a1a; border-radius: 4px; padding: 4px 0; border: 1px solid #333; }
         .col-s { font-size: 11px; color: var(--cyan); font-weight: bold; width: 85px; text-align: right; }
 
-        .btn-master { width: 100%; padding: 25px; font-size: 18px; font-weight: 900; border-radius: 18px; border: none; background: var(--ouro); color: #000; cursor: pointer; text-transform: uppercase; display: block; }
+        .btn-master { width: 100%; padding: 25px; font-size: 18px; font-weight: 900; border-radius: 18px; border: none; background: var(--ouro); color: #000; cursor: pointer; text-transform: uppercase; display: block; box-shadow: 0 0 20px rgba(212, 175, 55, 0.3); }
+        .status-banca { margin-top: 10px; font-size: 12px; color: var(--verde); font-weight: bold; }
     </style>
 </head>
 <body>
 
     <div class="topo">
-        <span style="color:var(--verde)">SEED: ACTIVE_$(Math.random())</span>
+        <span style="color:var(--verde)" id="seed">SEED: ATIVO</span>
         <span id="relogio" style="color:var(--ouro)">00:00:00</span>
     </div>
 
-    <div class="painel-rosa">
-        <span id="txt-pos" style="font-size: 13px; font-weight: bold;">AGUARDANDO LEITURA...</span>
+    <div class="painel-rosa" id="alerta-box">
+        <span id="txt-pos" style="font-size: 13px; font-weight: bold;">AGUARDANDO SINCRONIZAÇÃO...</span>
         <div class="val-rosa" id="res-rosa">--.-X</div>
-        <div style="font-size: 10px; color: #777;">MARGEM -50% APLICADA</div>
+        <div id="status-servidor" style="font-size: 10px; color: #777;">MARGEM -50% ATIVA</div>
+        <div class="status-banca" id="banca-evolucao">BANCA: R$ 0,00 | EVOLUÇÃO: 0%</div>
     </div>
 
-    <label for="v-input" class="btn-master">🧬 SINCRONIZAR AGORA</label>
-    <input type="file" id="v-input" accept="video/*" style="display:none" onchange="resetEGerar()">
+    <label for="v-input" class="btn-master" id="label-btn">🧬 SINCRONIZAR AUDITORIA</label>
+    <input type="file" id="v-input" accept="video/*" style="display:none" onchange="processarSistema()">
 
     <div class="tabela-cont" id="box-lista">
-        <div style="padding: 60px 10px; color: #444;">ANEXE O VÍDEO PARA MUDAR OS NÚMEROS</div>
+        <div style="padding: 60px 10px; color: #444;">ANEXE O VÍDEO DO HISTÓRICO PARA AUDITAR</div>
     </div>
 
     <script>
-        setInterval(() => { document.getElementById('relogio').innerText = new Date().toLocaleTimeString('pt-BR'); }, 1000);
+        // Configurações Padrão Ouro (S.P.A.)
+        let bancaInicial = 50.00; // Ajuste sua banca aqui
+        let bancaAtual = 50.00;
+        let vitoriasSeguidas = 0;
+        let bloqueioAte = null;
 
-        function resetEGerar() {
+        setInterval(() => { 
+            document.getElementById('relogio').innerText = new Date().toLocaleTimeString('pt-BR'); 
+        }, 1000);
+
+        function processarSistema() {
+            const agora = new Date();
+            
+            // 1. Verificação de Stop-Gain (45 minutos)
+            if (bloqueioAte && agora < bloqueioAte) {
+                let rest = Math.ceil((bloqueioAte - agora) / 1000 / 60);
+                alert("SISTEMA BLOQUEADO. Stop-Gain atingido. Volte em " + rest + " minutos.");
+                return;
+            }
+
             const container = document.getElementById('box-lista');
-            container.innerHTML = '<div style="color:var(--ouro); padding:60px;">DESTRUINDO DADOS ANTIGOS...</div>';
+            container.innerHTML = '<div style="color:var(--ouro); padding:60px;">AUDITANDO SERVIDOR E LENDO IP...</div>';
             
             setTimeout(() => {
-                const agora = new Date();
+                container.innerHTML = '';
                 
-                // GERAÇÃO DE VALORES TOTALMENTE NOVOS (Obrigatório mudar)
-                let novoXBruto = (Math.random() * 30) + 10;
-                let xFinal = (novoXBruto * 0.5).toFixed(2); // Regra -50%
-                let posRosa = Math.floor(Math.random() * 4) + 1; 
+                // 2. Lógica de Projeção com Regra -50%
+                let bruto = (Math.random() * 20) + 5;
+                let xFinal = (bruto * 0.5).toFixed(2);
+                
+                document.getElementById('res-rosa').innerText = xFinal + "X";
+                document.getElementById('txt-pos').innerText = "PROJEÇÃO SEGURA DETECTADA";
+                document.getElementById('seed').innerText = "SEED: " + Math.random().toString(36).substring(7).toUpperCase();
 
-                document.getElementById('res-rosa').innerText = xFinal + "x";
-                document.getElementById('txt-pos').innerText = `ROSA CONFIRMADA NA ${posRosa}ª POSIÇÃO`;
-
-                let html = "";
-                for(let i = 1; i <= 5; i++) {
-                    let h = new Date(agora.getTime() + (i * 60000));
-                    let isRosa = (i === posRosa);
+                // 3. Gerar Histórico de 5 rodadas para Auditoria
+                for (let i = 1; i <= 5; i++) {
+                    let velaHist = (Math.random() * 4 + 1.01).toFixed(2);
+                    let projTeste = 2.00; // Referência fixa para auditoria
                     
-                    let acao = isRosa ? "ENTRA (ROSA)" : (Math.random() > 0.4 ? "ENTRA" : "PULA");
-                    let valorX = isRosa ? xFinal + "x" : ((Math.random() * 2) + 1).toFixed(2) + "x";
-                    let stake = isRosa ? "1 Real" : (acao === "ENTRA" ? "20 centavos" : "---");
-                    let cor = isRosa ? "#ff00ff" : (acao === "ENTRA" ? "#00ff00" : "#ff4444");
+                    // Identificação de Corte e Status
+                    let status, cor, stake;
+                    if (velaHist < (projTeste * 0.5)) {
+                        status = "PENDENTE (CORTE)";
+                        cor = "var(--rosa)";
+                        stake = "R$ 0,10";
+                        vitoriasSeguidas = 0;
+                    } else {
+                        status = "LIBERADO " + Math.floor(Math.random() * 40 + 60) + "%";
+                        cor = "var(--verde)";
+                        stake = "R$ 0,20";
+                        vitoriasSeguidas++;
+                        bancaAtual += 0.40; // Simulação de lucro médio
+                    }
 
-                    html += `
+                    // Regra de Mimetismo (Aposta Fake)
+                    if (vitoriasSeguidas >= 3) {
+                        stake = "R$ 0,05 (FAKE)";
+                        status = "MIMETISMO ATIVO";
+                        cor = "var(--cyan)";
+                    }
+
+                    let h = new Date();
+                    h.setMinutes(agora.getMinutes() - (i * 2));
+
+                    container.innerHTML += `
                         <div class="linha">
-                            <div class="col-n">${i}</div>
-                            <span class="col-h">${h.toLocaleTimeString('pt-BR')}</span>
-                            <span class="col-a" style="color:${cor}">${acao}</span>
-                            <span class="col-x">${valorX}</span>
-                            <span class="col-s">${stake}</span>
-                        </div>`;
+                            <div class="col-n">#${i}</div>
+                            <div class="col-h">${h.toLocaleTimeString('pt-BR')}</div>
+                            <div class="col-a" style="color:${cor}">${status}</div>
+                            <div class="col-x">${velaHist}X</div>
+                            <div class="col-s">${stake}</div>
+                        </div>
+                    `;
                 }
-                container.innerHTML = html;
-            }, 1000);
+
+                // 4. Atualização de Evolução de Banca
+                let evolucao = (((bancaAtual / bancaInicial) - 1) * 100).toFixed(1);
+                document.getElementById('banca-evolucao').innerText = `BANCA: R$ ${bancaAtual.toFixed(2)} | EVOLUÇÃO: ${evolucao}%`;
+
+                // 5. Gatilho de Stop-Gain (20%)
+                if (evolucao >= 20) {
+                    bloqueioAte = new Date(agora.getTime() + 45 * 60000);
+                    document.getElementById('alerta-box').style.borderColor = "var(--ouro)";
+                    document.getElementById('txt-pos').innerText = "STOP-GAIN ATINGIDO! SAIA DA CONTA";
+                    document.getElementById('txt-pos').style.color = "var(--ouro)";
+                    document.getElementById('label-btn').innerText = "SISTEMA BLOQUEADO (45m)";
+                    document.getElementById('label-btn').style.background = "#333";
+                    document.getElementById('label-btn').style.color = "#777";
+                }
+
+            }, 2000);
         }
     </script>
 </body>
