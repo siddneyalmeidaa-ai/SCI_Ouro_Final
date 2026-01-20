@@ -3,110 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.P.A. 2.8 - SENTINELA DE PRESSÃO</title>
+    <title>S.P.A. 3.0 - PROTOCOLO SNIPER</title>
     <style>
-        :root { --ouro: #D4AF37; --fundo: #050505; --rosa: #ff00ff; --verde: #00ff00; --cyan: #00eaff; --vermelho: #ff4d4d; --amber: #ffbf00; }
+        :root { --ouro: #D4AF37; --fundo: #050505; --rosa: #ff00ff; --verde: #00ff00; --cyan: #00eaff; --vermelho: #ff4d4d; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--fundo); color: #fff; margin: 0; padding: 10px; text-align: center; }
-        
         .topo { display: flex; justify-content: space-between; font-size: 10px; padding: 12px; border-bottom: 1px solid #222; }
-        
-        .painel-central { 
-            border: 2px solid var(--rosa); border-radius: 25px; padding: 25px; 
-            background: radial-gradient(circle, rgba(255,0,255,0.1) 0%, rgba(0,0,0,1) 100%); 
-            margin: 15px 0; position: relative;
-        }
-
-        .display-x { font-size: 45px; font-weight: 900; color: var(--rosa); text-shadow: 0 0 20px var(--rosa); }
-        
-        /* Termômetro de Pressão */
-        .barra-pressao-cont { width: 100%; height: 12px; background: #222; border-radius: 6px; margin: 15px 0; overflow: hidden; border: 1px solid #333; }
-        .barra-pressao-fill { width: 0%; height: 100%; background: linear-gradient(90, var(--verde), var(--amber), var(--vermelho)); transition: 1s; }
-
-        .btn-sinc { 
-            width: 100%; padding: 22px; background: linear-gradient(145, #D4AF37, #AA841D); 
-            border-radius: 18px; border: none; font-weight: 900; color: #000; cursor: pointer; text-transform: uppercase;
-        }
-
-        .tabela { background: #0f0f0f; border-radius: 15px; margin-top: 20px; overflow: hidden; }
-        .linha { display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid #1a1a1a; font-size: 10px; align-items: center; }
-        .status-badge { padding: 4px 8px; border-radius: 5px; font-weight: bold; font-size: 9px; }
+        .painel-sniper { border: 2px solid var(--ouro); border-radius: 25px; padding: 25px; background: rgba(0,0,0,1); margin: 15px 0; }
+        .status-box { font-size: 11px; font-weight: bold; margin-bottom: 10px; padding: 5px; border-radius: 5px; }
+        .display-x { font-size: 48px; font-weight: 900; color: var(--rosa); text-shadow: 0 0 20px var(--rosa); }
+        .btn-auditar { width: 100%; padding: 20px; background: linear-gradient(145, #D4AF37, #AA841D); border-radius: 15px; border: none; font-weight: 900; color: #000; cursor: pointer; text-transform: uppercase; }
+        .fluxo-container { display: flex; justify-content: space-around; margin-top: 20px; }
+        .passo { width: 18%; padding: 10px 0; border-radius: 8px; background: #111; font-size: 9px; font-weight: bold; border: 1px solid #222; }
+        .passo.ativo { border-color: var(--verde); color: var(--verde); box-shadow: 0 0 10px rgba(0,255,0,0.2); }
+        .passo.alvo { border-color: var(--rosa); color: var(--rosa); animation: pulse 1s infinite; }
+        @keyframes pulse { 0% {opacity: 1;} 50% {opacity: 0.5;} 100% {opacity: 1;} }
     </style>
 </head>
 <body>
 
     <div class="topo">
-        <span id="ping" style="color:var(--verde)">PING: 14ms</span>
-        <span id="relogio" style="color:var(--ouro)">19:43:58</span>
+        <span id="ping" style="color:var(--verde)">PING: 12ms</span>
+        <span id="relogio" style="color:var(--ouro)">20:15:30</span>
     </div>
 
-    <div class="painel-central">
-        <div style="font-size: 10px; font-weight: bold; color: var(--ouro); margin-bottom: 5px;">PRESSÃO DO SERVIDOR: <span id="pressao-pct">0%</span></div>
-        <div class="barra-pressao-cont">
-            <div id="pressao-barra" class="barra-pressao-fill"></div>
-        </div>
-        
-        <div class="display-x" id="main-x">--.-X</div>
-        <div id="comando" style="font-weight: bold; font-size: 12px;">AGUARDANDO AUDITORIA...</div>
-        <div id="banca" style="color: var(--verde); font-size: 11px; margin-top: 10px; font-weight: bold;">BANCA ATUAL: R$ 51,80</div>
+    <div class="painel-sniper">
+        <div id="msg-status" class="status-box" style="color: var(--ouro);">AGUARDANDO NOVA SEMENTE...</div>
+        <div class="display-x" id="display-principal">--.-X</div>
+        <div id="stake-val" style="color: var(--cyan); font-weight: bold; font-size: 14px; margin-top: 5px;">STAKE: R$ 0,00</div>
     </div>
 
-    <label class="btn-sinc" for="input-file">🧬 AUDITAR VÍDEO/PRINT</label>
-    <input type="file" id="input-file" accept="image/*,video/*" style="display:none" onchange="iniciarAuditoria()">
+    <button class="btn-auditar" onclick="processarSniper()">🧬 CAPTURAR E PULAR RODADAS</button>
 
-    <div class="tabela" id="lista-corpo">
-        <div style="padding: 40px; color: #444; font-size: 11px;">O RESULTADO DA AUDITORIA APARECERÁ AQUI</div>
+    <div class="fluxo-container">
+        <div class="passo" id="p1">PULAR 1</div>
+        <div class="passo" id="p2">PULAR 2</div>
+        <div class="passo" id="p3">PULAR 3</div>
+        <div class="passo" id="p4" style="background: rgba(255,0,255,0.1)">ENTRAR</div>
     </div>
 
     <script>
-        function iniciarAuditoria() {
-            const lista = document.getElementById('lista-corpo');
-            const barra = document.getElementById('pressao-barra');
-            const pct = document.getElementById('pressao-pct');
-            const mainX = document.getElementById('main-x');
-            const comando = document.getElementById('comando');
+        function processarSniper() {
+            const msg = document.getElementById('msg-status');
+            const display = document.getElementById('display-principal');
+            const stake = document.getElementById('stake-val');
+            const passos = [document.getElementById('p1'), document.getElementById('p2'), document.getElementById('p3'), document.getElementById('p4')];
 
-            lista.innerHTML = '<div style="padding:40px; color:var(--ouro)">PROCESSANDO SEMENTE EUROPEIA...</div>';
+            msg.innerText = "AUDITANDO FLUXO...";
             
             setTimeout(() => {
-                // Simulação de Pressão Baseada na Semente
-                let pressao = Math.floor(Math.random() * 95);
-                barra.style.width = pressao + "%";
-                pct.innerText = pressao + "%";
+                let sementeOriginal = (Math.random() * 4 + 2).toFixed(2);
+                let alvoFinal = (sementeOriginal * 0.5).toFixed(2);
                 
-                let semente = (Math.random() * 3.5 + 2.5).toFixed(2);
-                let projecaoPrincipal = (semente * 0.5).toFixed(2);
-                mainX.innerText = projecaoPrincipal + "X";
+                // Reseta passos
+                passos.forEach(p => p.classList.remove('ativo', 'alvo'));
+                
+                msg.innerText = "MIMETISMO ATIVO: AGUARDE 3 RODADAS";
+                display.innerText = "ESPERE";
+                stake.innerText = "STAKE: R$ 0,00";
 
-                lista.innerHTML = "";
-                let horaBase = new Date();
-
-                for(let i=0; i<5; i++) {
-                    horaBase.setSeconds(horaBase.getSeconds() + (i === 0 ? 35 : 55));
-                    let h = horaBase.toLocaleTimeString('pt-BR');
-                    
-                    let status, cor, stake, alvo;
-                    if (pressao > 85) {
-                        status = "PENDENTE"; cor = "var(--vermelho)"; stake = "R$ 0,00"; alvo = "VÁCUO";
-                        comando.innerText = "RISCO ALTO: AGUARDE";
-                        comando.style.color = "var(--vermelho)";
-                    } else if (i === 0) {
-                        status = "LIBERADO"; cor = "var(--verde)"; stake = "R$ 1,06"; alvo = projecaoPrincipal + "X";
-                        comando.innerText = "MEIO DA BARRA | PRÓXIMO: " + h;
-                        comando.style.color = "var(--verde)";
+                // Simulação visual do salto de rodadas
+                let i = 0;
+                let intervalo = setInterval(() => {
+                    if(i < 3) {
+                        passos[i].classList.add('ativo');
+                        i++;
                     } else {
-                        status = "MIMETISMO"; cor = "var(--cyan)"; stake = "R$ 0,00"; alvo = (1.1 + Math.random()).toFixed(2) + "X";
+                        clearInterval(intervalo);
+                        passos[3].classList.add('alvo');
+                        msg.innerText = "AGORA! SEMENTE LIMPA DETECTADA";
+                        display.innerText = alvoFinal + "X";
+                        stake.innerText = "STAKE: R$ 1,07"; // Stake quebrada para segurança
                     }
-
-                    lista.innerHTML += `
-                        <div class="linha">
-                            <span style="color:var(--ouro)">${h}</span>
-                            <span class="status-badge" style="background:${cor}; color:#000">${status}</span>
-                            <span style="font-weight:bold">${alvo}</span>
-                            <span style="color:var(--cyan)">${stake}</span>
-                        </div>
-                    `;
-                }
-            }, 2000);
+                }, 1500); // Velocidade da simulação de auditoria
+            }, 1000);
         }
 
         setInterval(() => { 
