@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.P.A. QUANTUM FINAL - SENTINELA 2.1</title>
+    <title>S.P.A. QUANTUM FINAL - SENTINELA 2.2</title>
     <style>
         :root { --ouro: #D4AF37; --fundo: #050505; --rosa: #ff00ff; --verde: #00ff00; --cyan: #00eaff; --vermelho: #ff4d4d; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--fundo); color: #fff; margin: 0; padding: 10px; text-align: center; overflow-x: hidden; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--fundo); color: #fff; margin: 0; padding: 10px; text-align: center; }
         
         .topo { display: flex; justify-content: space-between; font-size: 10px; padding: 12px; border-bottom: 1px solid #222; }
         
@@ -21,13 +21,37 @@
         .metricas-rede { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
         .card-mini { background: #111; padding: 8px; border-radius: 10px; border: 1px solid #222; font-size: 9px; }
 
-        /* Botão Reforçado para Celular */
-        .btn-master { 
-            display: block; width: 90%; margin: 0 auto; padding: 25px 10px; 
-            font-size: 16px; font-weight: 900; border-radius: 20px; 
-            border: none; background: linear-gradient(145, #D4AF37, #AA841D); color: #000; 
-            cursor: pointer; text-transform: uppercase; box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-            -webkit-tap-highlight-color: transparent;
+        /* NOVO BOTÃO: INPUT NATIVO ESTILIZADO (CORREÇÃO DEFINITIVA) */
+        .input-container {
+            position: relative;
+            width: 90%;
+            margin: 10px auto;
+            height: 80px;
+            background: linear-gradient(145, #D4AF37, #AA841D);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            overflow: hidden;
+        }
+
+        .input-container label {
+            color: #000;
+            font-weight: 900;
+            font-size: 16px;
+            text-transform: uppercase;
+            pointer-events: none;
+        }
+
+        .input-container input[type="file"] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0; /* O input fica invisível mas ocupa todo o botão */
+            cursor: pointer;
         }
 
         .tabela-cont { background: #0f0f0f; border-radius: 15px; border: 1px solid #222; overflow: hidden; margin-top: 20px; }
@@ -36,7 +60,7 @@
         
         .col-a { flex-grow: 1; text-align: left; font-size: 10px; font-weight: bold; }
         .col-x { color: #fff; font-weight: bold; width: 65px; text-align: center; background: #1a1a1a; border-radius: 4px; padding: 4px 0; border: 1px solid #333; }
-        .col-s { color: var(--cyan); font-weight: bold; font-size: 11px; width: 90px; text-align: right; }
+        .col-s { color: var(--cyan); font-weight: bold; font-size: 11px; width: 95px; text-align: right; }
     </style>
 </head>
 <body>
@@ -51,17 +75,16 @@
             <div class="card-mini">PRESSÃO: <span id="pressao-val">0%</span></div>
             <div class="card-mini">LATÊNCIA: <span id="latencia-status">--</span></div>
         </div>
-        <span id="txt-pos" style="font-size: 12px; font-weight: bold;">AGUARDANDO ARQUIVO...</span>
+        <span id="txt-pos" style="font-size: 12px; font-weight: bold;">AGUARDANDO AUDITORIA...</span>
         <div class="val-rosa" id="res-rosa">--.-X</div>
-        <div id="janela-comando" style="color: var(--ouro); font-size: 10px; margin-top: 5px; font-weight: bold; text-transform: uppercase;">Aguardando Sincronização</div>
+        <div id="janela-comando" style="color: var(--ouro); font-size: 10px; margin-top: 5px; font-weight: bold; text-transform: uppercase;">Pronto para Sincronizar</div>
         <div id="banca-evolucao" style="font-size: 12px; color: var(--verde); font-weight: bold; margin-top:10px;">BANCA: R$ 50,00 | EVOLUÇÃO: 0%</div>
     </div>
 
-    <button type="button" class="btn-master" onclick="document.getElementById('v-input').click();">
-        🧬 SINCRONIZAR GALERIA
-    </button>
-    
-    <input type="file" id="v-input" accept="image/*,video/*" style="display:none" onchange="processarSistema()">
+    <div class="input-container">
+        <label>🧬 CLIQUE PARA GALERIA</label>
+        <input type="file" id="v-input" accept="image/*,video/*" onchange="processarSistema()">
+    </div>
 
     <div class="tabela-cont" id="box-lista">
         <div style="padding: 60px 10px; color: #444;">ANEXE O VÍDEO OU PRINT DO HISTÓRICO</div>
@@ -71,11 +94,10 @@
         let bancaInicial = 50.00;
         let bancaAtual = 50.00;
         let historicoSementes = [];
-        let bloqueioAte = null;
 
         setInterval(() => { 
             document.getElementById('relogio').innerText = new Date().toLocaleTimeString('pt-BR'); 
-            let p = Math.floor(Math.random() * 25 + 12);
+            let p = Math.floor(Math.random() * 20 + 10);
             document.getElementById('ping').innerText = `PING: ${p}ms`;
         }, 1000);
 
@@ -88,24 +110,18 @@
             let seg = Math.floor(Math.random() * 40) + 35;
             let tempo = new Date();
             tempo.setSeconds(tempo.getSeconds() + seg);
-            return "PRÓX. CHECK: " + tempo.toLocaleTimeString('pt-BR');
+            return "CHECK: " + tempo.toLocaleTimeString('pt-BR');
         }
 
         function processarSistema() {
-            const agora = new Date();
-            if (bloqueioAte && agora < bloqueioAte) {
-                alert("SISTEMA BLOQUEADO: Stop-Gain de 20% atingido."); return;
-            }
-
             const container = document.getElementById('box-lista');
-            container.innerHTML = '<div style="color:var(--ouro); padding:60px;">AUDITANDO SEMENTE EUROPEIA...</div>';
+            container.innerHTML = '<div style="color:var(--ouro); padding:60px;">AUDITANDO...</div>';
             
             setTimeout(() => {
                 container.innerHTML = '';
                 
-                // IA da Europa: Verificação de Robustez
                 let sementeBruta = (Math.random() * 4) + 3.5; 
-                let xFinal = (sementeBruta * 0.5).toFixed(2); // Sua Regra -50%
+                let xFinal = (sementeBruta * 0.5).toFixed(2); // Regra -50%
                 let pressao = Math.floor(Math.random() * 100);
                 
                 let robusto = true;
@@ -123,12 +139,12 @@
                 document.getElementById('janela-comando').innerText = momento + " | " + calcularProximaSinc();
 
                 if(!robusto) {
-                    document.getElementById('txt-pos').innerText = "VÁCUO LÓGICO DETECTADO";
+                    document.getElementById('txt-pos').innerText = "VÁCUO / ALTA PRESSÃO";
                     document.getElementById('alerta-box').style.borderColor = "var(--vermelho)";
                     document.getElementById('res-rosa').style.color = "var(--vermelho)";
                     document.getElementById('latencia-status').innerText = "INSTÁVEL";
                 } else {
-                    document.getElementById('txt-pos').innerText = "S.P.A. - PROVA MATEMÁTICA OK";
+                    document.getElementById('txt-pos').innerText = "PROVA MATEMÁTICA OK";
                     document.getElementById('alerta-box').style.borderColor = "var(--rosa)";
                     document.getElementById('res-rosa').style.color = "var(--rosa)";
                     document.getElementById('latencia-status').innerText = "EXCELENTE";
@@ -139,15 +155,15 @@
                     let status, cor, stake;
                     
                     if (!robusto) {
-                        status = "PENDENTE (RISCO)";
+                        status = "PENDENTE";
                         cor = "var(--vermelho)"; stake = "R$ 0,00";
                     } else if (i === 1) { 
-                        status = "LIBERADO 98% (ÚNICA)";
+                        status = "LIBERADO 98%";
                         cor = "var(--verde)";
                         stake = "R$ " + gerarStakeQuebrada();
-                        bancaAtual += 0.92;
+                        bancaAtual += 0.90;
                     } else {
-                        status = "MIMETISMO (PULAR)";
+                        status = "MIMETISMO";
                         cor = "var(--cyan)"; stake = "R$ 0,00";
                     }
 
@@ -162,11 +178,7 @@
 
                 let evolucao = (((bancaAtual / bancaInicial) - 1) * 100).toFixed(1);
                 document.getElementById('banca-evolucao').innerText = `BANCA: R$ ${bancaAtual.toFixed(2)} | EVOLUÇÃO: ${evolucao}%`;
-
-                if (evolucao >= 20) {
-                    bloqueioAte = new Date(agora.getTime() + 45 * 60000);
-                }
-            }, 2200);
+            }, 1800);
         }
     </script>
 </body>
