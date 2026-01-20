@@ -3,91 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.P.A. 3.3 - AUDITORIA DE VÍDEO</title>
+    <title>S.P.A. QUANTUM 3.5 - PADRÃO OURO</title>
     <style>
         :root { --ouro: #D4AF37; --fundo: #050505; --rosa: #ff00ff; --verde: #00ff00; --cyan: #00eaff; --vermelho: #ff4d4d; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--fundo); color: #fff; margin: 0; padding: 10px; text-align: center; }
-        .topo { display: flex; justify-content: space-between; font-size: 10px; padding: 12px; border-bottom: 1px solid #222; }
+        body { font-family: 'Segoe UI', Roboto, sans-serif; background: var(--fundo); color: #fff; margin: 0; padding: 15px; text-align: center; overflow-x: hidden; }
         
-        .painel-sniper { 
+        /* Topo e Relógio */
+        .header { display: flex; justify-content: space-between; font-size: 11px; padding: 10px; border-bottom: 1px solid #222; margin-bottom: 15px; }
+        
+        /* Painel Central Rosa */
+        .painel-master { 
             border: 2px solid var(--rosa); border-radius: 25px; padding: 25px; 
-            background: radial-gradient(circle, rgba(255,0,255,0.05) 0%, rgba(0,0,0,1) 100%); 
-            margin: 15px 0; 
+            background: radial-gradient(circle, rgba(255,0,255,0.08) 0%, rgba(0,0,0,1) 100%); 
+            margin: 10px 0; box-shadow: 0 0 30px rgba(255, 0, 255, 0.1);
         }
 
-        .display-x { font-size: 55px; font-weight: 900; color: var(--rosa); text-shadow: 0 0 20px var(--rosa); margin: 10px 0; }
-        .timer-box { font-size: 20px; color: var(--ouro); font-weight: bold; background: #111; padding: 10px; border-radius: 10px; border: 1px solid #333; }
+        .status-badge { font-size: 10px; font-weight: bold; color: var(--ouro); text-transform: uppercase; letter-spacing: 2px; }
+        .grande-vela { font-size: 60px; font-weight: 900; color: var(--rosa); text-shadow: 0 0 20px var(--rosa); margin: 10px 0; }
+        .timer-display { font-size: 20px; color: #fff; font-weight: bold; background: #111; padding: 10px; border-radius: 12px; border: 1px solid #333; margin: 15px 0; }
         
-        /* Botão de Upload Estilizado */
-        .btn-upload { 
-            display: block; width: 100%; padding: 22px; 
-            background: linear-gradient(145, #D4AF37, #AA841D); 
-            border-radius: 18px; font-weight: 900; color: #000; 
-            cursor: pointer; text-transform: uppercase; margin-top: 10px;
+        /* Barra de Pressão */
+        .pressao-cont { width: 100%; height: 8px; background: #222; border-radius: 4px; margin: 15px 0; overflow: hidden; }
+        .pressao-fill { width: 0%; height: 100%; background: linear-gradient(90, var(--verde), var(--vermelho)); transition: 1.5s cubic-bezier(0.4, 0, 0.2, 1); }
+
+        /* Botão de Auditoria */
+        .btn-principal { 
+            width: 100%; padding: 22px; background: linear-gradient(145, #D4AF37, #AA841D); 
+            border: none; border-radius: 20px; font-size: 16px; font-weight: 900; color: #000; 
+            cursor: pointer; text-transform: uppercase; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
-        .status-badge { font-size: 10px; font-weight: bold; margin-bottom: 15px; display: block; letter-spacing: 1px; }
-        .banca { color: var(--verde); font-size: 12px; margin-top: 15px; font-weight: bold; }
+        .info-footer { display: flex; justify-content: space-around; margin-top: 20px; font-size: 12px; font-weight: bold; }
+        .info-item { color: var(--cyan); }
+        
+        /* Alerta de Troca de Semente */
+        #alerta-hash { display: none; color: var(--vermelho); font-size: 11px; font-weight: bold; animation: blink 0.5s infinite; }
+        @keyframes blink { 0% {opacity: 1;} 50% {opacity: 0.2;} 100% {opacity: 1;} }
     </style>
 </head>
 <body>
 
-    <div class="topo">
-        <span style="color:var(--verde)">SISTEMA SINCRONIZADO</span>
-        <span id="relogio" style="color:var(--ouro)">19:57:15</span>
+    <div class="header">
+        <span id="status-rede" style="color: var(--verde);">● SINC: 98.2%</span>
+        <span id="relogio-full" style="color: var(--ouro);">20:00:00</span>
     </div>
 
-    <div class="painel-sniper">
-        <span class="status-badge" id="status-txt" style="color: var(--ouro);">AGUARDANDO VÍDEO DA ÚLTIMA RODADA...</span>
-        <div class="display-x" id="val-alvo">--.-X</div>
-        <div class="timer-box" id="timer-contagem">GATILHO: --:--:--</div>
-        <div id="stake-sugerida" style="color: var(--cyan); font-weight: bold; margin-top: 15px; font-size: 16px;">STAKE: R$ 0,00</div>
-        <div class="banca">BANCA: R$ 51,80</div>
+    <div class="painel-master">
+        <div id="alerta-hash">⚠️ TROCA DE SEMENTE DETECTADA! RE-AUDITAR.</div>
+        <span class="status-badge" id="txt-status">Aguardando Vídeo</span>
+        <div class="grande-vela" id="vela-display">--.-X</div>
+        <div class="timer-display" id="tempo-gatilho">GATILHO: 01:30s</div>
+        
+        <div style="font-size: 10px; color: #aaa;">PRESSÃO DO FLUXO: <span id="pct-pressao">0%</span></div>
+        <div class="pressao-cont">
+            <div class="pressao-fill" id="barra-fill"></div>
+        </div>
     </div>
 
-    <label class="btn-upload" for="video-input">🎥 ANEXAR VÍDEO E AUDITAR</label>
-    <input type="file" id="video-input" accept="video/*" style="display:none" onchange="processarVideoLocal()">
+    <label class="btn-principal" for="video-upload">🧬 ANEXAR VÍDEO & AUDITAR</label>
+    <input type="file" id="video-upload" accept="video/*" style="display:none" onchange="iniciarProcesso()">
+
+    <div class="info-footer">
+        <div class="info-item">STAKE: <span id="val-stake" style="color:#fff">R$ 0,00</span></div>
+        <div class="info-item">BANCA: <span style="color:var(--verde)">R$ 51,80</span></div>
+    </div>
 
     <script>
-        function processarVideoLocal() {
-            const status = document.getElementById('status-txt');
-            const alvo = document.getElementById('val-alvo');
-            const timer = document.getElementById('timer-contagem');
-            const stake = document.getElementById('stake-sugerida');
+        function iniciarProcesso() {
+            const txt = document.getElementById('txt-status');
+            const vela = document.getElementById('vela-display');
+            const timer = document.getElementById('tempo-gatilho');
+            const barra = document.getElementById('barra-fill');
+            const pct = document.getElementById('pct-pressao');
+            const stake = document.getElementById('val-stake');
 
-            status.innerText = "LENDO HASH DO VÍDEO... 🧬";
-            status.style.color = "var(--cyan)";
+            txt.innerText = "LENDO HASH DO SERVIDOR...";
+            txt.style.color = "var(--cyan)";
 
-            // Simula o tempo de leitura do arquivo
             setTimeout(() => {
+                // Cálculo de 90 segundos (Gatilho de tempo do usuário)
                 let agora = new Date();
                 agora.setSeconds(agora.getSeconds() + 90);
-                let horaEntrada = agora.toLocaleTimeString('pt-BR');
+                let horaGatilho = agora.toLocaleTimeString('pt-BR');
 
-                // Lógica de -50% sobre semente simulada (baseada na descoberta do usuário)
-                let sementeIdentificada = (Math.random() * 3.5 + 2.5).toFixed(2);
-                let resultadoProjecao = (sementeIdentificada * 0.5).toFixed(2);
+                // Regra -50% sobre semente simulada
+                let sementeOriginal = (Math.random() * 4 + 2.5).toFixed(2);
+                let projecaoFinal = (sementeOriginal * 0.5).toFixed(2);
 
-                status.innerText = "AUDITORIA CONCLUÍDA! AGUARDE O GATILHO.";
-                status.style.color = "var(--verde)";
-                alvo.innerText = resultadoProjecao + "X";
-                timer.innerText = "ENTRAR ÀS: " + horaEntrada;
-                
-                // Stake precisa conforme solicitado
-                stake.innerText = "STAKE SNIPER: R$ 1,12";
+                // Pressão (Se for alta, invalida a entrada)
+                let pressao = Math.floor(Math.random() * 45) + 5; 
+                barra.style.width = pressao + "%";
+                pct.innerText = pressao + "%";
 
-                // Notificação de 10 segundos antes
+                txt.innerText = "LIBERADO - TIRO ÚNICO";
+                txt.style.color = "var(--verde)";
+                vela.innerText = projecaoFinal + "X";
+                timer.innerText = "ENTRAR ÀS: " + horaGatilho;
+                stake.innerText = "R$ 1,13"; // Stake quebrada padrão
+
+                // Aviso de 10 segundos restantes
                 setTimeout(() => {
-                    status.innerText = "PREPARAR CLIQUE NA SUPERBET!";
-                    status.style.color = "var(--rosa)";
-                    alert("Gatilho de 90s: Faltam 10 segundos para sua entrada!");
+                    txt.innerText = "PREPARAR CLIQUE NA SUPERBET!";
+                    txt.style.color = "var(--rosa)";
+                    document.getElementById('alerta-hash').style.display = "none";
                 }, 80000);
 
-            }, 2500);
+            }, 2000);
         }
 
+        // Relógio Sincronizado
         setInterval(() => { 
-            document.getElementById('relogio').innerText = new Date().toLocaleTimeString('pt-BR'); 
+            document.getElementById('relogio-full').innerText = new Date().toLocaleTimeString('pt-BR'); 
         }, 1000);
     </script>
 </body>
