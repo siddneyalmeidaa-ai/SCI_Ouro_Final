@@ -3,103 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.P.A. 2.5 - REATIVO POR RODADA</title>
+    <title>S.P.A. 2.8 - SENTINELA DE PRESSÃO</title>
     <style>
-        :root { --ouro: #D4AF37; --fundo: #050505; --rosa: #ff00ff; --verde: #00ff00; --cyan: #00eaff; --vermelho: #ff4d4d; }
+        :root { --ouro: #D4AF37; --fundo: #050505; --rosa: #ff00ff; --verde: #00ff00; --cyan: #00eaff; --vermelho: #ff4d4d; --amber: #ffbf00; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--fundo); color: #fff; margin: 0; padding: 10px; text-align: center; }
+        
         .topo { display: flex; justify-content: space-between; font-size: 10px; padding: 12px; border-bottom: 1px solid #222; }
-        .painel-rosa { border: 2px solid var(--rosa); border-radius: 25px; padding: 20px; background: radial-gradient(circle, rgba(255,0,255,0.1) 0%, rgba(0,0,0,1) 100%); margin: 15px 0; }
-        .val-rosa { font-size: 40px; font-weight: 900; color: var(--rosa); text-shadow: 0 0 15px var(--rosa); }
-        .metricas-rede { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .card-mini { background: #111; padding: 8px; border-radius: 10px; border: 1px solid #222; font-size: 9px; }
-        .input-container { position: relative; width: 90%; margin: 10px auto; height: 70px; background: linear-gradient(145, #D4AF37, #AA841D); border-radius: 20px; display: flex; align-items: center; justify-content: center; }
-        .input-container label { color: #000; font-weight: 900; font-size: 14px; text-transform: uppercase; }
-        .input-container input { position: absolute; opacity: 0; width: 100%; height: 100%; cursor: pointer; }
-        .tabela-cont { background: #0f0f0f; border-radius: 15px; border: 1px solid #222; overflow: hidden; margin-top: 20px; }
-        .linha { display: flex; align-items: center; padding: 12px 8px; border-bottom: 1px solid #1a1a1a; font-size: 9px; transition: 0.3s; }
-        .col-h { width: 60px; color: var(--ouro); font-weight: bold; }
-        .col-a { flex-grow: 1; text-align: left; padding-left: 5px; font-weight: bold; }
-        .col-x { color: #fff; font-weight: bold; width: 50px; text-align: center; background: #1a1a1a; border-radius: 4px; padding: 3px 0; }
-        .col-s { color: var(--cyan); font-weight: bold; width: 70px; text-align: right; }
+        
+        .painel-central { 
+            border: 2px solid var(--rosa); border-radius: 25px; padding: 25px; 
+            background: radial-gradient(circle, rgba(255,0,255,0.1) 0%, rgba(0,0,0,1) 100%); 
+            margin: 15px 0; position: relative;
+        }
+
+        .display-x { font-size: 45px; font-weight: 900; color: var(--rosa); text-shadow: 0 0 20px var(--rosa); }
+        
+        /* Termômetro de Pressão */
+        .barra-pressao-cont { width: 100%; height: 12px; background: #222; border-radius: 6px; margin: 15px 0; overflow: hidden; border: 1px solid #333; }
+        .barra-pressao-fill { width: 0%; height: 100%; background: linear-gradient(90, var(--verde), var(--amber), var(--vermelho)); transition: 1s; }
+
+        .btn-sinc { 
+            width: 100%; padding: 22px; background: linear-gradient(145, #D4AF37, #AA841D); 
+            border-radius: 18px; border: none; font-weight: 900; color: #000; cursor: pointer; text-transform: uppercase;
+        }
+
+        .tabela { background: #0f0f0f; border-radius: 15px; margin-top: 20px; overflow: hidden; }
+        .linha { display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid #1a1a1a; font-size: 10px; align-items: center; }
+        .status-badge { padding: 4px 8px; border-radius: 5px; font-weight: bold; font-size: 9px; }
     </style>
 </head>
 <body>
 
     <div class="topo">
         <span id="ping" style="color:var(--verde)">PING: 14ms</span>
-        <span id="relogio" style="color:var(--ouro)">19:38:20</span>
+        <span id="relogio" style="color:var(--ouro)">19:43:58</span>
     </div>
 
-    <div class="painel-rosa">
-        <div class="metricas-rede">
-            <div class="card-mini">PRESSÃO: <span id="pressao-val">4%</span></div>
-            <div class="card-mini">LATÊNCIA: EXCELENTE</div>
+    <div class="painel-central">
+        <div style="font-size: 10px; font-weight: bold; color: var(--ouro); margin-bottom: 5px;">PRESSÃO DO SERVIDOR: <span id="pressao-pct">0%</span></div>
+        <div class="barra-pressao-cont">
+            <div id="pressao-barra" class="barra-pressao-fill"></div>
         </div>
-        <span id="status-analise" style="font-size: 11px; font-weight: bold;">AGUARDANDO RODADA...</span>
-        <div class="val-rosa" id="res-rosa">--.-X</div>
-        <div id="janela-comando" style="color: var(--ouro); font-size: 10px; margin-top: 5px; font-weight: bold;">SINCRONIZAÇÃO NECESSÁRIA</div>
+        
+        <div class="display-x" id="main-x">--.-X</div>
+        <div id="comando" style="font-weight: bold; font-size: 12px;">AGUARDANDO AUDITORIA...</div>
+        <div id="banca" style="color: var(--verde); font-size: 11px; margin-top: 10px; font-weight: bold;">BANCA ATUAL: R$ 51,80</div>
     </div>
 
-    <div class="input-container">
-        <label>🧬 ANALISAR PRÓXIMA RODADA</label>
-        <input type="file" accept="image/*,video/*" onchange="processarRodada()">
-    </div>
+    <label class="btn-sinc" for="input-file">🧬 AUDITAR VÍDEO/PRINT</label>
+    <input type="file" id="input-file" accept="image/*,video/*" style="display:none" onchange="iniciarAuditoria()">
 
-    <div class="tabela-cont">
-        <div class="linha" style="background:#111; color:var(--ouro); font-weight:900;">
-            <div style="width:60px">HORA</div>
-            <div style="flex-grow:1; text-align:left; padding-left:5px">ANÁLISE INDIVIDUAL</div>
-            <div style="width:50px">ALVO</div>
-            <div style="width:70px">STAKE</div>
-        </div>
-        <div id="itens-lista">
-            <div style="padding: 40px 10px; color: #444;">AGUARDANDO DADOS DA RODADA...</div>
-        </div>
+    <div class="tabela" id="lista-corpo">
+        <div style="padding: 40px; color: #444; font-size: 11px;">O RESULTADO DA AUDITORIA APARECERÁ AQUI</div>
     </div>
 
     <script>
-        let bancaAtual = 50.92;
+        function iniciarAuditoria() {
+            const lista = document.getElementById('lista-corpo');
+            const barra = document.getElementById('pressao-barra');
+            const pct = document.getElementById('pressao-pct');
+            const mainX = document.getElementById('main-x');
+            const comando = document.getElementById('comando');
 
-        function processarRodada() {
-            const container = document.getElementById('itens-lista');
-            const statusAnalise = document.getElementById('status-analise');
-            const resRosa = document.getElementById('res-rosa');
-            
-            statusAnalise.innerText = "CALCULANDO SEMENTE...";
+            lista.innerHTML = '<div style="padding:40px; color:var(--ouro)">PROCESSANDO SEMENTE EUROPEIA...</div>';
             
             setTimeout(() => {
-                let pressao = Math.floor(Math.random() * 100);
-                document.getElementById('pressao-val').innerText = pressao + "%";
+                // Simulação de Pressão Baseada na Semente
+                let pressao = Math.floor(Math.random() * 95);
+                barra.style.width = pressao + "%";
+                pct.innerText = pressao + "%";
                 
-                let semente = (Math.random() * 3 + 2).toFixed(2);
-                let alvoFinal = (semente * 0.5).toFixed(2); // Regra -50%
-                
-                resRosa.innerText = alvoFinal + "X";
-                let hora = new Date().toLocaleTimeString('pt-BR');
-                
-                let status, cor, stake;
-                
-                if (pressao > 75) {
-                    status = "RODADA CANCELADA - RISCO";
-                    cor = "var(--vermelho)";
-                    stake = "R$ 0,00";
-                    statusAnalise.innerText = "VÁCUO DETECTADO";
-                } else {
-                    status = "RODADA LIBERADA (OK)";
-                    cor = "var(--verde)";
-                    stake = "R$ " + (1.00 + Math.random()*0.1).toFixed(2);
-                    statusAnalise.innerText = "PROVA MATEMÁTICA OK";
-                }
+                let semente = (Math.random() * 3.5 + 2.5).toFixed(2);
+                let projecaoPrincipal = (semente * 0.5).toFixed(2);
+                mainX.innerText = projecaoPrincipal + "X";
 
-                container.innerHTML = `
-                    <div class="linha" style="border-left: 4px solid ${cor}">
-                        <div class="col-h">${hora}</div>
-                        <div class="col-a" style="color:${cor}">${status}</div>
-                        <div class="col-x">${alvoFinal}X</div>
-                        <div class="col-s">${stake}</div>
-                    </div>
-                ` + container.innerHTML;
-            }, 1200);
+                lista.innerHTML = "";
+                let horaBase = new Date();
+
+                for(let i=0; i<5; i++) {
+                    horaBase.setSeconds(horaBase.getSeconds() + (i === 0 ? 35 : 55));
+                    let h = horaBase.toLocaleTimeString('pt-BR');
+                    
+                    let status, cor, stake, alvo;
+                    if (pressao > 85) {
+                        status = "PENDENTE"; cor = "var(--vermelho)"; stake = "R$ 0,00"; alvo = "VÁCUO";
+                        comando.innerText = "RISCO ALTO: AGUARDE";
+                        comando.style.color = "var(--vermelho)";
+                    } else if (i === 0) {
+                        status = "LIBERADO"; cor = "var(--verde)"; stake = "R$ 1,06"; alvo = projecaoPrincipal + "X";
+                        comando.innerText = "MEIO DA BARRA | PRÓXIMO: " + h;
+                        comando.style.color = "var(--verde)";
+                    } else {
+                        status = "MIMETISMO"; cor = "var(--cyan)"; stake = "R$ 0,00"; alvo = (1.1 + Math.random()).toFixed(2) + "X";
+                    }
+
+                    lista.innerHTML += `
+                        <div class="linha">
+                            <span style="color:var(--ouro)">${h}</span>
+                            <span class="status-badge" style="background:${cor}; color:#000">${status}</span>
+                            <span style="font-weight:bold">${alvo}</span>
+                            <span style="color:var(--cyan)">${stake}</span>
+                        </div>
+                    `;
+                }
+            }, 2000);
         }
 
         setInterval(() => { 
