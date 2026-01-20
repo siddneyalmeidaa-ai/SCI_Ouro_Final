@@ -3,79 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.P.A. 3.0 - PROTOCOLO SNIPER</title>
+    <title>S.P.A. 3.1 - GATILHO RÁPIDO</title>
     <style>
         :root { --ouro: #D4AF37; --fundo: #050505; --rosa: #ff00ff; --verde: #00ff00; --cyan: #00eaff; --vermelho: #ff4d4d; }
         body { font-family: 'Segoe UI', sans-serif; background: var(--fundo); color: #fff; margin: 0; padding: 10px; text-align: center; }
         .topo { display: flex; justify-content: space-between; font-size: 10px; padding: 12px; border-bottom: 1px solid #222; }
-        .painel-sniper { border: 2px solid var(--ouro); border-radius: 25px; padding: 25px; background: rgba(0,0,0,1); margin: 15px 0; }
-        .status-box { font-size: 11px; font-weight: bold; margin-bottom: 10px; padding: 5px; border-radius: 5px; }
-        .display-x { font-size: 48px; font-weight: 900; color: var(--rosa); text-shadow: 0 0 20px var(--rosa); }
-        .btn-auditar { width: 100%; padding: 20px; background: linear-gradient(145, #D4AF37, #AA841D); border-radius: 15px; border: none; font-weight: 900; color: #000; cursor: pointer; text-transform: uppercase; }
-        .fluxo-container { display: flex; justify-content: space-around; margin-top: 20px; }
-        .passo { width: 18%; padding: 10px 0; border-radius: 8px; background: #111; font-size: 9px; font-weight: bold; border: 1px solid #222; }
-        .passo.ativo { border-color: var(--verde); color: var(--verde); box-shadow: 0 0 10px rgba(0,255,0,0.2); }
-        .passo.alvo { border-color: var(--rosa); color: var(--rosa); animation: pulse 1s infinite; }
-        @keyframes pulse { 0% {opacity: 1;} 50% {opacity: 0.5;} 100% {opacity: 1;} }
+        .painel-gatilho { border: 2px solid var(--rosa); border-radius: 25px; padding: 25px; background: rgba(0,0,0,1); margin: 15px 0; }
+        .display-x { font-size: 52px; font-weight: 900; color: var(--rosa); text-shadow: 0 0 20px var(--rosa); }
+        .timer-destaque { font-size: 18px; color: var(--ouro); font-weight: bold; margin: 10px 0; }
+        .btn-analise { width: 100%; padding: 22px; background: linear-gradient(145, #D4AF37, #AA841D); border-radius: 18px; border: none; font-weight: 900; color: #000; cursor: pointer; text-transform: uppercase; }
+        .info-banca { color: var(--verde); font-size: 11px; margin-top: 10px; font-weight: bold; }
     </style>
 </head>
 <body>
 
     <div class="topo">
-        <span id="ping" style="color:var(--verde)">PING: 12ms</span>
-        <span id="relogio" style="color:var(--ouro)">20:15:30</span>
+        <span style="color:var(--verde)">SISTEMA ATIVO</span>
+        <span id="relogio" style="color:var(--ouro)">20:20:15</span>
     </div>
 
-    <div class="painel-sniper">
-        <div id="msg-status" class="status-box" style="color: var(--ouro);">AGUARDANDO NOVA SEMENTE...</div>
-        <div class="display-x" id="display-principal">--.-X</div>
-        <div id="stake-val" style="color: var(--cyan); font-weight: bold; font-size: 14px; margin-top: 5px;">STAKE: R$ 0,00</div>
+    <div class="painel-gatilho">
+        <div id="status-txt" style="font-size: 12px; color: var(--ouro);">PRONTO PARA AUDITORIA</div>
+        <div class="display-x" id="val-alvo">--.-X</div>
+        <div class="timer-destaque" id="timer-entrada">ENTRADA EM: --:--</div>
+        <div id="stake-sugerida" style="color: var(--cyan); font-weight: bold;">STAKE: R$ 0,00</div>
+        <div class="info-banca">BANCA: R$ 51,80</div>
     </div>
 
-    <button class="btn-auditar" onclick="processarSniper()">🧬 CAPTURAR E PULAR RODADAS</button>
-
-    <div class="fluxo-container">
-        <div class="passo" id="p1">PULAR 1</div>
-        <div class="passo" id="p2">PULAR 2</div>
-        <div class="passo" id="p3">PULAR 3</div>
-        <div class="passo" id="p4" style="background: rgba(255,0,255,0.1)">ENTRAR</div>
-    </div>
+    <button class="btn-analise" onclick="iniciarGatilho()">🧬 ANALISAR E GERAR ENTRADA (90s)</button>
 
     <script>
-        function processarSniper() {
-            const msg = document.getElementById('msg-status');
-            const display = document.getElementById('display-principal');
-            const stake = document.getElementById('stake-val');
-            const passos = [document.getElementById('p1'), document.getElementById('p2'), document.getElementById('p3'), document.getElementById('p4')];
+        function iniciarGatilho() {
+            const status = document.getElementById('status-txt');
+            const alvo = document.getElementById('val-alvo');
+            const timer = document.getElementById('timer-entrada');
+            const stake = document.getElementById('stake-sugerida');
 
-            msg.innerText = "AUDITANDO FLUXO...";
+            status.innerText = "PROCESSANDO VÍDEO...";
             
             setTimeout(() => {
-                let sementeOriginal = (Math.random() * 4 + 2).toFixed(2);
-                let alvoFinal = (sementeOriginal * 0.5).toFixed(2);
-                
-                // Reseta passos
-                passos.forEach(p => p.classList.remove('ativo', 'alvo'));
-                
-                msg.innerText = "MIMETISMO ATIVO: AGUARDE 3 RODADAS";
-                display.innerText = "ESPERE";
-                stake.innerText = "STAKE: R$ 0,00";
+                // Cálculo de 90 segundos à frente
+                let agora = new Date();
+                agora.setSeconds(agora.getSeconds() + 90);
+                let horaEntrada = agora.toLocaleTimeString('pt-BR');
 
-                // Simulação visual do salto de rodadas
-                let i = 0;
-                let intervalo = setInterval(() => {
-                    if(i < 3) {
-                        passos[i].classList.add('ativo');
-                        i++;
-                    } else {
-                        clearInterval(intervalo);
-                        passos[3].classList.add('alvo');
-                        msg.innerText = "AGORA! SEMENTE LIMPA DETECTADA";
-                        display.innerText = alvoFinal + "X";
-                        stake.innerText = "STAKE: R$ 1,07"; // Stake quebrada para segurança
-                    }
-                }, 1500); // Velocidade da simulação de auditoria
-            }, 1000);
+                // Projeção baseada na semente (-50%)
+                let semente = (Math.random() * 3 + 2).toFixed(2);
+                let calculoFinal = (semente * 0.5).toFixed(2);
+
+                status.innerText = "AUDITORIA CONCLUÍDA - PREPARAR";
+                alvo.innerText = calculoFinal + "X";
+                timer.innerText = "ENTRADA ÀS: " + horaEntrada;
+                stake.innerText = "STAKE SNIPER: R$ 1,12"; // Stake quebrada
+
+                // Alerta de proximidade (faltando 10s)
+                setTimeout(() => {
+                    status.innerText = "ENTRAR AGORA NO MEIO DA BARRA!";
+                    status.style.color = "var(--verde)";
+                }, 80000);
+
+            }, 1500); // Tempo de processamento do vídeo
         }
 
         setInterval(() => { 
