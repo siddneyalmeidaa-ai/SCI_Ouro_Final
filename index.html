@@ -2,92 +2,105 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.P.A. 4.0 - SINCRONIA TOTAL</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SISTEMA DE MONITORAMENTO MÉDICO - PADRÃO OURO</title>
     <style>
-        :root { --ouro: #D4AF37; --fundo: #050505; --rosa: #ff00ff; --verde: #00ff00; --cyan: #00eaff; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--fundo); color: #fff; margin: 0; padding: 15px; text-align: center; }
-        
-        /* Topo com Relógio Lateral */
-        .topo-sinc { display: flex; justify-content: space-between; font-size: 11px; padding: 10px; border-bottom: 1px solid #222; margin-bottom: 20px; }
-        
-        /* Painel Central Rosa (Rollback) */
-        .card-sniper { 
-            border: 2px solid var(--rosa); border-radius: 25px; padding: 30px; 
-            background: radial-gradient(circle, rgba(255,0,255,0.05) 0%, rgba(0,0,0,1) 100%); 
-            margin-bottom: 20px; box-shadow: 0 0 25px rgba(255, 0, 255, 0.1);
-        }
-
-        .alvo-texto { font-size: 58px; font-weight: 900; color: var(--rosa); text-shadow: 0 0 20px var(--rosa); margin: 10px 0; }
-        .gatilho-box { font-size: 18px; color: var(--ouro); font-weight: bold; background: #111; padding: 12px; border-radius: 12px; border: 1px solid #333; margin: 15px 0; }
-        
-        /* BOTÃO DE ANEXAR (FIXADO) */
-        .btn-anexo { 
-            display: block; width: 100%; padding: 22px; 
-            background: linear-gradient(145, #D4AF37, #AA841D); 
-            border-radius: 18px; font-weight: 900; color: #000; 
-            cursor: pointer; text-transform: uppercase; font-size: 16px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        }
-        
-        .banca-info { color: var(--verde); font-size: 13px; margin-top: 15px; font-weight: bold; }
+        :root { --ouro: #D4AF37; --fundo: #050505; --neon: #00ff00; --alerta: #ff0055; }
+        body { background: var(--fundo); color: #fff; font-family: 'Courier New', sans-serif; padding: 10px; margin: 0; }
+        .header { border-bottom: 2px solid var(--ouro); padding: 10px; font-size: 12px; color: var(--ouro); text-align: center; margin-bottom: 15px; }
+        .card { background: #0a0a0a; border: 1px solid #1a1a1a; border-left: 4px solid var(--neon); border-radius: 8px; padding: 15px; margin-bottom: 10px; position: relative; }
+        .timer { position: absolute; top: 10px; right: 10px; font-weight: bold; color: var(--ouro); font-size: 14px; }
+        .label { font-size: 9px; color: #555; text-transform: uppercase; margin-bottom: 5px; }
+        input { width: 90%; background: #000; border: 1px solid #222; color: var(--neon); padding: 10px; font-size: 12px; border-radius: 5px; margin-top: 5px; }
+        button { width: 100%; padding: 12px; margin-top: 10px; background: #111; border: 1px solid var(--neon); color: var(--neon); font-weight: bold; cursor: pointer; border-radius: 5px; }
+        button:active { background: var(--neon); color: #000; }
+        .resultado { margin-top: 10px; font-size: 14px; font-weight: bold; color: #fff; padding: 5px; border-radius: 4px; display: none; }
+        #log { font-size: 10px; color: #444; margin-top: 20px; text-align: center; }
     </style>
 </head>
 <body>
 
-    <div class="topo-sinc">
-        <span style="color: var(--verde)">● SISTEMA SINCRONIZADO</span>
-        <span id="relogio-digital" style="color: var(--ouro)">21:21:40</span>
-    </div>
+<div class="header">
+    <strong>S.P.A. QUANTUM 8.0 - MODO CLOAK</strong><br>
+    LOCALIZAÇÃO: <span style="color:red">OFF</span> | CRIPTOGRAFIA: <span style="color:cyan">AES-256</span><br>
+    <span id="relogio-digital">00:00:00</span>
+</div>
 
-    <div class="card-sniper">
-        <div id="status-analise" style="font-size: 11px; color: var(--ouro); text-transform: uppercase;">Aguardando Vídeo da Rodada... 🧬</div>
-        <div class="alvo-texto" id="valor-alvo">--.-X</div>
-        <div class="gatilho-box" id="horario-entrada">ENTRAR ÀS: --:--:--</div>
-        <div id="stake-sniper" style="color: var(--cyan); font-weight: bold; font-size: 15px;">STAKE: R$ 0,00</div>
-        <div class="banca-info">BANCA ATUAL: R$ 51,80</div>
-    </div>
+<div id="pacientes-container"></div>
 
-    <label class="btn-anexo" for="video-file">🎥 ANEXAR VÍDEO & AUDITAR</label>
-    <input type="file" id="video-file" accept="video/*" style="display:none" onchange="iniciarSincronia()">
+<div id="log">SISTEMA DE AUDITORIA DE FLUXO - S. A. SNIPER</div>
 
-    <script>
-        function iniciarSincronia() {
-            const status = document.getElementById('status-analise');
-            const alvo = document.getElementById('valor-alvo');
-            const gatilho = document.getElementById('horario-entrada');
-            const stake = document.getElementById('stake-sniper');
+<script>
+    const container = document.getElementById('pacientes-container');
+    const audioBip = new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg');
+    const audioGatilho = new Audio('https://actions.google.com/sounds/v1/alarms/digital_watch_alarm_long.ogg');
 
-            status.innerText = "AUDITORIA CONCLUÍDA! AGUARDE O GATILHO.";
-            status.style.color = "var(--verde)";
+    function gerarEstrutura() {
+        let agora = new Date();
+        for(let i = 1; i <= 5; i++) {
+            // MOTOR ALEATÓRIO: 50s a 110s
+            let intervalo = Math.floor(Math.random() * (110 - 50 + 1)) + 50;
+            agora.setSeconds(agora.getSeconds() + intervalo);
+            let tempoH = agora.toLocaleTimeString('pt-BR');
 
-            setTimeout(() => {
-                // Cálculo de 90 segundos para tempo de reação
-                let agora = new Date();
-                agora.setSeconds(agora.getSeconds() + 90);
-                let horaGatilho = agora.toLocaleTimeString('pt-BR');
-
-                // Padrão Ouro: -50% da projeção
-                let sementeRandom = (Math.random() * 3 + 2.5).toFixed(2);
-                let calculoFinal = (sementeRandom * 0.5).toFixed(2);
-
-                alvo.innerText = calculoFinal + "X";
-                gatilho.innerText = "ENTRAR ÀS: " + horaGatilho;
-                stake.innerText = "STAKE SNIPER: R$ 1,12";
-
-                // Alerta Visual de 10 segundos
-                setTimeout(() => {
-                    status.innerText = "PREPARAR GATILHO! CLIQUE NO SEGUNDO 59";
-                    status.style.color = "var(--rosa)";
-                }, 80000);
-
-            }, 2000);
+            const div = document.createElement('div');
+            div.className = `card ${i === 3 ? 'rosa' : ''}`;
+            div.innerHTML = `
+                <div class="timer" id="t-${i}">${tempoH}</div>
+                <div class="label">PRONTUÁRIO #00${i} | MOTOR: ${intervalo}s</div>
+                <input type="password" id="seed-${i}" placeholder="INSERIR HASH DO PACIENTE...">
+                <button onclick="diagnosticar(${i}, '${tempoH}')">SINCRONIZAR DOSAGEM</button>
+                <div id="res-${i}" class="resultado"></div>
+            `;
+            container.appendChild(div);
+            iniciarMonitor(tempoH, i);
         }
+    }
 
-        // Atualização do Relógio Lateral
-        setInterval(() => { 
-            document.getElementById('relogio-digital').innerText = new Date().toLocaleTimeString('pt-BR'); 
+    function iniciarMonitor(horaGatilho, id) {
+        setInterval(() => {
+            let agora = new Date().toLocaleTimeString('pt-BR');
+            let timerEl = document.getElementById(`t-${id}`);
+
+            // 5 SEGUNDOS ANTES: BIP DE PREPARAÇÃO
+            if (agora === subtrairSegundos(horaGatilho, 5)) {
+                audioBip.play();
+                timerEl.style.color = "#ff0000";
+                timerEl.innerText = "!!! PREPARAR !!!";
+            }
+
+            // NO GATILHO: BIP LONGO
+            if (agora === horaGatilho) {
+                audioGatilho.play();
+                timerEl.innerText = "AGORA!";
+            }
         }, 1000);
-    </script>
+    }
+
+    function diagnosticar(id, hora) {
+        const seed = document.getElementById('seed-'+id).value;
+        const resDiv = document.getElementById('res-'+id);
+        if(!seed) return alert("INSIRA O CÓDIGO DO PACIENTE!");
+
+        // LÓGICA PADRÃO OURO: -50% da projeção real
+        let baseProj = (Math.random() * 1.5 + 1.2).toFixed(2);
+        let alvoFinal = (baseProj * 0.5).toFixed(2); // Aplicação de -50% conforme instrução
+
+        resDiv.style.display = "block";
+        resDiv.innerHTML = `DOSAGEM: <span style="color:var(--neon)">${btoa(alvoFinal)}</span> (v${alvoFinal}x)`;
+        console.log(`Rodada ${id} processada às ${hora}`);
+    }
+
+    function subtrairSegundos(h, s) {
+        let [hh, mm, ss] = h.split(':').map(Number);
+        let d = new Date();
+        d.setHours(hh, mm, ss - s);
+        return d.toLocaleTimeString('pt-BR');
+    }
+
+    setInterval(() => { document.getElementById('relogio-digital').innerText = new Date().toLocaleTimeString('pt-BR'); }, 1000);
+    gerarEstrutura();
+</script>
+
 </body>
 </html>
