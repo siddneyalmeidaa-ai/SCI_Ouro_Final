@@ -2,55 +2,108 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.P.A. 3.8 - MODO INVISÍVEL</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>S.P.A. 3.9 - SINCRONIA TOTAL</title>
     <style>
-        :root { --ouro: #D4AF37; --fundo: #050505; --cyan: #00eaff; --vermelho: #ff0000; }
-        body { background: var(--fundo); color: #fff; font-family: sans-serif; text-align: center; padding: 15px; }
-        .box-invisivel { border: 2px dashed #333; border-radius: 20px; padding: 25px; margin: 15px 0; }
-        .alvo-seguro { font-size: 50px; color: var(--cyan); font-weight: 900; text-shadow: 0 0 15px var(--cyan); }
-        .relogio { font-size: 14px; color: var(--ouro); margin-bottom: 10px; }
-        .btn-auditoria { width: 100%; padding: 20px; background: #222; border: 1px solid var(--ouro); border-radius: 15px; color: var(--ouro); font-weight: bold; cursor: pointer; }
-        .instrucao { font-size: 11px; color: #aaa; margin-top: 15px; line-height: 1.4; }
+        :root { --ouro: #D4AF37; --fundo: #050505; --rosa: #ff00ff; --verde: #00ff00; --cyan: #00eaff; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--fundo); color: #fff; margin: 0; padding: 15px; text-align: center; }
+        
+        /* Layout Sincronizado */
+        .header { display: flex; justify-content: space-between; font-size: 10px; padding: 10px; border-bottom: 1px solid #222; }
+        .monitor-principal { 
+            border: 2px solid var(--rosa); border-radius: 25px; padding: 25px; 
+            background: radial-gradient(circle, rgba(255,0,255,0.05) 0%, rgba(0,0,0,1) 100%); 
+            margin: 15px 0; 
+        }
+
+        .valor-alvo { font-size: 55px; font-weight: 900; color: var(--rosa); text-shadow: 0 0 20px var(--rosa); margin: 10px 0; }
+        .display-tempo { font-size: 18px; color: var(--ouro); font-weight: bold; background: #111; padding: 12px; border-radius: 12px; border: 1px solid #333; margin: 15px 0; }
+        
+        /* BARRA DE PRESSÃO */
+        .barra-bg { width: 100%; height: 8px; background: #222; border-radius: 4px; margin: 15px 0; overflow: hidden; }
+        .barra-fill { width: 0%; height: 100%; background: linear-gradient(90, var(--verde), #ff0000); transition: 2s; }
+
+        /* BOTÃO DE ANEXO (CORRIGIDO) */
+        .label-upload { 
+            display: block; width: 100%; padding: 22px; 
+            background: linear-gradient(145, #D4AF37, #AA841D); 
+            border-radius: 20px; font-weight: 900; color: #000; 
+            cursor: pointer; text-transform: uppercase; font-size: 16px;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+        
+        .footer-info { display: flex; justify-content: space-around; margin-top: 20px; font-size: 12px; font-weight: bold; }
     </style>
 </head>
 <body>
-    <div class="relogio" id="real-time">21:18:10</div>
-    
-    <div class="box-invisivel">
-        <div style="font-size: 10px; letter-spacing: 2px;">STATUS: MODO OFUSCAÇÃO</div>
-        <div class="alvo-seguro" id="display-alvo">1.10X</div>
-        <div id="display-gatilho" style="font-weight: bold; margin: 10px 0;">AGUARDANDO ANALISE...</div>
-        <div style="color: var(--vermelho); font-weight: bold; font-size: 14px;">STAKE: R$ 0,50</div>
+
+    <div class="header">
+        <span style="color: var(--verde)">● SINCRONIZADO</span>
+        <span id="relogio-txt">21:18:28</span>
     </div>
 
-    <button class="btn-auditoria" onclick="gerarEntradaOfuscada()">🧬 GERAR GATILHO DE DESVIO</button>
+    <div class="monitor-principal">
+        <div id="status-txt" style="font-size: 11px; color: var(--ouro);">AGUARDANDO HASH DO VÍDEO... 🧬</div>
+        <div class="valor-alvo" id="alvo-final">--.-X</div>
+        <div class="display-tempo" id="gatilho-hora">GATILHO: 00:00:00</div>
+        
+        <div style="font-size: 10px; color: #777; margin-bottom: 5px;">PRESSÃO DE FLUXO: <span id="pct-txt">0%</span></div>
+        <div class="barra-bg"><div class="barra-fill" id="barra-pressao"></div></div>
+    </div>
 
-    <div class="instrucao">
-        <b>REGRA DE OURO:</b> Saída automática em 1.10x.<br>
-        Clique <b>2 SEGUNDOS DEPOIS</b> do horário indicado.<br>
-        Objetivo: Limpar o rastro do ID para o FGTS amanhã.
+    <label class="label-upload" for="input-video">🎥 ANEXAR VÍDEO & AUDITAR</label>
+    <input type="file" id="input-video" accept="video/*" style="display:none" onchange="processarAnalise()">
+
+    <div class="footer-info">
+        <div>STAKE: <span id="stake-txt" style="color: var(--cyan)">R$ 0,00</span></div>
+        <div>BANCA: <span style="color: var(--verde)">R$ 51,80</span></div>
     </div>
 
     <script>
-        function gerarEntradaOfuscada() {
-            const gatilho = document.getElementById('display-gatilho');
-            const alvo = document.getElementById('display-alvo');
-            
-            let tempo = [50, 80, 110]; // Tempos quebrados
-            let escolhido = tempo[Math.floor(Math.random() * tempo.length)];
-            
-            let dataGatilho = new Date();
-            dataGatilho.setSeconds(dataGatilho.getSeconds() + escolhido);
-            
-            gatilho.innerText = "GATILHO: " + dataGatilho.toLocaleTimeString('pt-BR');
-            alvo.innerText = "1.10X"; // Alvo fixo para recuperar confiança do sistema
-            
-            alert("SISTEMA DE DESVIO: Entre com R$ 0,50 e saia em 1.10x. Não busque velas altas agora!");
+        function processarAnalise() {
+            const status = document.getElementById('status-txt');
+            const alvo = document.getElementById('alvo-final');
+            const gatilho = document.getElementById('gatilho-hora');
+            const barra = document.getElementById('barra-pressao');
+            const pct = document.getElementById('pct-txt');
+            const stake = document.getElementById('stake-txt');
+
+            status.innerText = "AUDITANDO VÍDEO... AGUARDE";
+            status.style.color = "var(--cyan)";
+
+            setTimeout(() => {
+                // Cálculo de 90 segundos para seu tempo de reação
+                let agora = new Date();
+                agora.setSeconds(agora.getSeconds() + 90);
+                let horaFormatada = agora.toLocaleTimeString('pt-BR');
+
+                // Regra -50% (Padrão Ouro)
+                let semente = (Math.random() * 3 + 2.4).toFixed(2);
+                let calculoFinal = (semente * 0.5).toFixed(2);
+
+                // Pressão
+                let pressao = Math.floor(Math.random() * 35) + 5;
+
+                status.innerText = "AUDITORIA CONCLUÍDA - LIBERADO";
+                status.style.color = "var(--verde)";
+                alvo.innerText = calculoFinal + "X";
+                gatilho.innerText = "GATILHO ÀS: " + horaFormatada;
+                barra.style.width = pressao + "%";
+                pct.innerText = pressao + "%";
+                stake.innerText = "R$ 1,14";
+
+                // Alerta de proximidade (80s depois, faltando 10s para o gatilho)
+                setTimeout(() => {
+                    alert("PREPARAR GATILHO! 10 SEGUNDOS.");
+                    status.innerText = "CLICAR NO SEGUNDO 59!";
+                    status.style.color = "var(--rosa)";
+                }, 80000);
+
+            }, 2500);
         }
 
         setInterval(() => { 
-            document.getElementById('real-time').innerText = new Date().toLocaleTimeString('pt-BR'); 
+            document.getElementById('relogio-txt').innerText = new Date().toLocaleTimeString('pt-BR'); 
         }, 1000);
     </script>
 </body>
