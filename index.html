@@ -2,58 +2,56 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>S.P.A. 3.6 - ANTI-TRACKING</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S.P.A. 3.8 - MODO INVISÍVEL</title>
     <style>
-        :root { --rosa: #ff00ff; --ouro: #D4AF37; --fundo: #050505; --verde: #00ff00; }
-        body { background: var(--fundo); color: #fff; font-family: 'Segoe UI', sans-serif; text-align: center; padding: 15px; }
-        .painel { border: 2px solid var(--ouro); border-radius: 20px; padding: 20px; background: #000; margin-bottom: 15px; }
-        .timer-caos { font-size: 24px; color: var(--rosa); font-weight: bold; margin: 10px 0; }
-        .btn-random { width: 100%; padding: 20px; background: linear-gradient(145, #D4AF37, #AA841D); border: none; border-radius: 15px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
-        .btn-clear { background: #222; color: #777; font-size: 10px; margin-top: 10px; padding: 5px; border: 1px solid #333; border-radius: 5px; cursor: pointer; }
+        :root { --ouro: #D4AF37; --fundo: #050505; --cyan: #00eaff; --vermelho: #ff0000; }
+        body { background: var(--fundo); color: #fff; font-family: sans-serif; text-align: center; padding: 15px; }
+        .box-invisivel { border: 2px dashed #333; border-radius: 20px; padding: 25px; margin: 15px 0; }
+        .alvo-seguro { font-size: 50px; color: var(--cyan); font-weight: 900; text-shadow: 0 0 15px var(--cyan); }
+        .relogio { font-size: 14px; color: var(--ouro); margin-bottom: 10px; }
+        .btn-auditoria { width: 100%; padding: 20px; background: #222; border: 1px solid var(--ouro); border-radius: 15px; color: var(--ouro); font-weight: bold; cursor: pointer; }
+        .instrucao { font-size: 11px; color: #aaa; margin-top: 15px; line-height: 1.4; }
     </style>
 </head>
 <body>
-    <div style="font-size: 10px; color: var(--verde);">SISTEMA ANTI-MAPEAMENTO ATIVO</div>
+    <div class="relogio" id="real-time">21:18:10</div>
     
-    <div class="painel">
-        <div id="status">AGUARDANDO NOVA SEMENTE...</div>
-        <div style="font-size: 45px; font-weight: 900; color: var(--rosa);" id="alvo">--.-X</div>
-        <div class="timer-caos" id="display-tempo">GATILHO: VARIÁVEL</div>
-        <div id="stake" style="color: #00eaff; font-weight: bold;">STAKE: R$ 0,00</div>
+    <div class="box-invisivel">
+        <div style="font-size: 10px; letter-spacing: 2px;">STATUS: MODO OFUSCAÇÃO</div>
+        <div class="alvo-seguro" id="display-alvo">1.10X</div>
+        <div id="display-gatilho" style="font-weight: bold; margin: 10px 0;">AGUARDANDO ANALISE...</div>
+        <div style="color: var(--vermelho); font-weight: bold; font-size: 14px;">STAKE: R$ 0,50</div>
     </div>
 
-    <button class="btn-random" onclick="gerarGatilhoCaos()">🧬 GERAR GATILHO ALEATÓRIO</button>
-    <button class="btn-clear" onclick="location.reload()">🔄 LIMPAR RASTRO (FLUSH)</button>
+    <button class="btn-auditoria" onclick="gerarEntradaOfuscada()">🧬 GERAR GATILHO DE DESVIO</button>
+
+    <div class="instrucao">
+        <b>REGRA DE OURO:</b> Saída automática em 1.10x.<br>
+        Clique <b>2 SEGUNDOS DEPOIS</b> do horário indicado.<br>
+        Objetivo: Limpar o rastro do ID para o FGTS amanhã.
+    </div>
 
     <script>
-        function gerarGatilhoCaos() {
-            const display = document.getElementById('display-tempo');
-            const status = document.getElementById('status');
-            const alvo = document.getElementById('alvo');
-            const stake = document.getElementById('stake');
-
-            // Sorteia um tempo aleatório para quebrar o mapeamento da casa
-            const tempos = [45, 60, 75, 95, 120];
-            const segundos = tempos[Math.floor(Math.random() * tempos.length)];
+        function gerarEntradaOfuscada() {
+            const gatilho = document.getElementById('display-gatilho');
+            const alvo = document.getElementById('display-alvo');
             
-            let agora = new Date();
-            agora.setSeconds(agora.getSeconds() + segundos);
+            let tempo = [50, 80, 110]; // Tempos quebrados
+            let escolhido = tempo[Math.floor(Math.random() * tempo.length)];
             
-            status.innerText = "CALCULANDO JANELA INVISÍVEL...";
+            let dataGatilho = new Date();
+            dataGatilho.setSeconds(dataGatilho.getSeconds() + escolhido);
             
-            setTimeout(() => {
-                status.innerText = "ENTRADA ÚNICA DETECTADA";
-                alvo.innerText = (Math.random() * 1.5 + 1.2).toFixed(2) + "X";
-                display.innerText = "GATILHO ÀS: " + agora.toLocaleTimeString('pt-BR');
-                stake.innerText = "STAKE: R$ " + (1 + Math.random() * 0.2).toFixed(2);
-                
-                // Piscar a tela faltando 3 segundos (como sugerido)
-                setTimeout(() => {
-                    document.body.style.backgroundColor = "#1a001a";
-                    alert("PREPARAR GATILHO! 3 SEGUNDOS.");
-                }, (segundos - 3) * 1000);
-            }, 1500);
+            gatilho.innerText = "GATILHO: " + dataGatilho.toLocaleTimeString('pt-BR');
+            alvo.innerText = "1.10X"; // Alvo fixo para recuperar confiança do sistema
+            
+            alert("SISTEMA DE DESVIO: Entre com R$ 0,50 e saia em 1.10x. Não busque velas altas agora!");
         }
+
+        setInterval(() => { 
+            document.getElementById('real-time').innerText = new Date().toLocaleTimeString('pt-BR'); 
+        }, 1000);
     </script>
 </body>
 </html>
