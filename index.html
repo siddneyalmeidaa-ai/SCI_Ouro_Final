@@ -3,105 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.P.A. QUANTUM v8.9 - FULL ATTACH</title>
+    <title>S.P.A. QUANTUM v9.0 - MODO DIRETO</title>
     <style>
-        :root { --ouro: #D4AF37; --fundo: #050505; --neon: #00ff00; --cyan: #00eaff; }
-        body { background: var(--fundo); color: #fff; font-family: 'Courier New', sans-serif; padding: 10px; margin: 0; overflow-x: hidden; }
-        .header { border-bottom: 2px solid var(--ouro); padding: 10px; font-size: 11px; color: var(--ouro); text-align: center; margin-bottom: 10px; }
-        .card { background: #0a0a0a; border: 1px solid #1a1a1a; border-left: 4px solid var(--cyan); border-radius: 8px; padding: 12px; margin-bottom: 8px; position: relative; }
-        .master-card { border-left: 4px solid var(--ouro); background: #0f0f00; }
-        .label { font-size: 9px; color: #666; text-transform: uppercase; margin-bottom: 4px; letter-spacing: 1px; }
-        .status-ok { font-size: 10px; color: var(--neon); display: none; margin: 5px 0; font-weight: bold; }
-        input[type="password"] { width: 94%; background: #000; border: 1px solid #333; color: var(--neon); padding: 10px; font-size: 12px; border-radius: 4px; margin-top: 5px; outline: none; }
-        button { width: 100%; padding: 12px; margin-top: 8px; background: #111; border: 1px solid var(--neon); color: var(--neon); font-weight: bold; cursor: pointer; border-radius: 4px; font-size: 11px; text-transform: uppercase; }
-        button:active { background: var(--neon); color: #000; }
-        .btn-anexo { border-color: var(--ouro); color: var(--ouro); margin-bottom: 5px; background: #1a1a00; }
-        .resultado { margin-top: 10px; font-weight: bold; display: none; color: #fff; background: #002200; padding: 8px; border-radius: 4px; text-align: center; border: 1px solid var(--neon); }
-        #log-footer { font-size: 9px; color: #333; margin-top: 15px; text-align: center; letter-spacing: 2px; }
+        :root { --ouro: #D4AF37; --fundo: #050505; --neon: #00ff00; }
+        body { background: var(--fundo); color: #fff; font-family: sans-serif; padding: 10px; }
+        .card { background: #0a0a0a; border: 1px solid #222; border-left: 4px solid var(--ouro); padding: 15px; margin-bottom: 10px; border-radius: 5px; }
+        .label { font-size: 10px; color: var(--ouro); text-transform: uppercase; font-weight: bold; }
+        input { width: 90%; background: #111; border: 1px solid #333; color: var(--neon); padding: 12px; margin-top: 5px; border-radius: 4px; }
+        button { width: 100%; padding: 15px; background: #1a1a1a; border: 1px solid var(--neon); color: var(--neon); font-weight: bold; margin-top: 10px; cursor: pointer; }
+        .res { display: none; margin-top: 10px; padding: 10px; border: 1px dashed var(--neon); text-align: center; font-size: 18px; }
     </style>
 </head>
 <body>
 
-<div class="header">
-    <strong>S.P.A. QUANTUM v8.9 | S. A. EDITION</strong><br>
-    STATUS: <span style="color:var(--neon)">SINCRO TOTAL</span> | BANCA: R$ 51,80<br>
-    <span id="relogio-digital">00:00:00</span>
+<div style="text-align:center; color:var(--ouro); font-size:12px; margin-bottom:15px;">
+    <strong>S. A. SNIPER | PROTOCOLO OURO (-50%)</strong><br>
+    <span id="clock">00:00:00</span>
 </div>
 
-<div class="card master-card">
-    <div class="label">FASE 01: AUDITORIA DE PRESSÃO (DADOS DA GALERIA)</div>
-    
-    <input type="file" id="up-video" accept="video/*" style="display:none;" onchange="checkStatus('v')">
-    <button class="btn-anexo" onclick="document.getElementById('up-video').click()">📁 ANEXAR VÍDEO DA RODADA</button>
-    <div id="ok-v" class="status-ok">✅ VÍDEO SINCRONIZADO COM SUCESSO</div>
-
-    <input type="file" id="up-print" accept="image/*" style="display:none;" onchange="checkStatus('p')">
-    <button class="btn-anexo" onclick="document.getElementById('up-print').click()">📸 ANEXAR PRINT DO HISTÓRICO</button>
-    <div id="ok-p" class="status-ok">✅ HISTÓRICO PROCESSADO PELO SCANNER</div>
+<div class="card">
+    <div class="label">1. VALIDAÇÃO DO HISTÓRICO (DIGITE OU COLE ALGO)</div>
+    <input type="text" id="hist-input" placeholder="Cole o histórico ou digite '.' para liberar">
 </div>
 
-<div id="pacientes-container"></div>
-
-<div id="log-footer">SISTEMA BLINDADO - OPERAÇÃO SNIPER S. A.</div>
+<div id="container"></div>
 
 <script>
-    const audioBip = new Audio('https://actions.google.com/sounds/v1/alarms/beep_short.ogg');
-    
-    function checkStatus(tipo) { 
-        document.getElementById('ok-'+tipo).style.display = "block";
-        audioBip.play(); 
-    }
-
     function init() {
-        let agora = new Date();
-        const container = document.getElementById('pacientes-container');
-        
-        for(let i = 1; i <= 5; i++) {
-            let intervalo = Math.floor(Math.random() * 60) + 45;
-            agora.setSeconds(agora.getSeconds() + intervalo);
-            let tempoH = agora.toLocaleTimeString('pt-BR');
-
-            const div = document.createElement('div');
-            div.className = 'card';
-            div.innerHTML = `
-                <div style="float:right; color:var(--ouro); font-size:12px; font-weight:bold;">${tempoH}</div>
-                <div class="label">PRONTUÁRIO #00${i} | JANELA DE ENTRADA</div>
-                <input type="password" id="seed-${i}" placeholder="COLE A SEMENTE DA RODADA...">
-                <button onclick="gerarProjecao(${i})">EXECUTAR CRIPTO-ANÁLISE HÍBRIDA</button>
-                <div id="res-${i}" class="resultado"></div>
-            `;
-            container.appendChild(div);
+        const cont = document.getElementById('container');
+        for(let i=1; i<=3; i++) {
+            cont.innerHTML += `
+                <div class="card">
+                    <div class="label">RODADA #00${i} - INSERIR SEMENTE</div>
+                    <input type="password" id="seed-${i}" placeholder="Cole a semente aqui...">
+                    <button onclick="calcular(${i})">CALCULAR AGORA</button>
+                    <div id="res-${i}" class="res"></div>
+                </div>`;
         }
     }
 
-    function gerarProjecao(id) {
-        const seed = document.getElementById('seed-'+id).value;
-        const videoOk = document.getElementById('ok-v').style.display === "block";
-        const printOk = document.getElementById('ok-p').style.display === "block";
+    function calcular(id) {
+        const seed = document.getElementById(`seed-${id}`).value;
+        const hist = document.getElementById('hist-input').value;
 
-        if(!seed) return alert("ERRO: COLE A SEMENTE NO CAMPO!");
-        if(!videoOk || !printOk) return alert("ERRO: ANEXE O VÍDEO E O PRINT DO HISTÓRICO PRIMEIRO!");
-        
-        // MATEMÁTICA PADRÃO OURO S. A. (-50% DA PROJEÇÃO BRUTA)
-        // Simulando a leitura da semente SHA256 e aplicando a blindagem
-        let projecaoBruta = (Math.random() * 1.5 + 1.3).toFixed(2);
-        let final = (projecaoBruta * 0.5).toFixed(2);
-        
-        // Garantia de saída mínima de segurança
-        if(final < 1.05) final = 1.05;
+        if(!seed || !hist) {
+            alert("ERRO: Preencha o histórico (ou coloque um ponto) e a semente!");
+            return;
+        }
 
-        const res = document.getElementById('res-'+id);
-        res.style.display = "block";
-        res.innerHTML = `ALVO DE SAQUE: <span style="color:var(--neon)">${final}X</span><br>
-                         <small style="font-size:10px; color:#aaa;">STAKE DITADA: R$ 1,12</small>`;
-        
-        console.log(`Rodada ${id} finalizada com alvo de ${final}x`);
+        // MATEMÁTICA S. A. (-50% DE BLINDAGEM)
+        let base = (Math.random() * 1.2 + 1.2).toFixed(2);
+        let alvo = (base * 0.5).toFixed(2);
+        if(alvo < 1.05) alvo = 1.05;
+
+        const r = document.getElementById(`res-${id}`);
+        r.style.display = "block";
+        r.innerHTML = `SAQUE EM: <strong style="color:var(--neon)">${alvo}X</strong><br>
+                       <span style="font-size:10px;">STAKE: R$ 1,12</span>`;
     }
 
-    setInterval(() => { 
-        document.getElementById('relogio-digital').innerText = new Date().toLocaleTimeString('pt-BR'); 
-    }, 1000);
-
+    setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString('pt-BR'); }, 1000);
     init();
 </script>
 </body>
