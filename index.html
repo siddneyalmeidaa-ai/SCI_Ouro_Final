@@ -3,88 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.P.A. QUANTUM v9.2 - HIPER.BET EDITION</title>
+    <title>S.P.A. V300 - OMNISCIENT SYSTEM</title>
     <style>
-        :root { --ouro: #D4AF37; --fundo: #050505; --neon: #00ff00; --cyan: #00eaff; --alerta: #ff3c00; }
-        body { background: var(--fundo); color: #fff; font-family: 'Courier New', sans-serif; padding: 10px; margin: 0; }
-        .header { border-bottom: 2px solid var(--ouro); padding: 10px; font-size: 11px; color: var(--ouro); text-align: center; margin-bottom: 10px; }
-        .card { background: #0a0a0a; border: 1px solid #1a1a1a; border-left: 4px solid var(--cyan); border-radius: 8px; padding: 12px; margin-bottom: 8px; position: relative; }
-        .master-card { border-left: 4px solid var(--ouro); background: #0f0f00; }
-        .label { font-size: 9px; color: #666; text-transform: uppercase; margin-bottom: 4px; letter-spacing: 1px; }
-        .status-ok { font-size: 10px; color: var(--neon); display: none; margin: 5px 0; font-weight: bold; }
-        input[type="password"], input[type="text"] { width: 94%; background: #000; border: 1px solid #333; color: var(--neon); padding: 10px; font-size: 12px; border-radius: 4px; margin-top: 5px; outline: none; }
-        button { width: 100%; padding: 12px; margin-top: 8px; background: #111; border: 1px solid var(--neon); color: var(--neon); font-weight: bold; cursor: pointer; border-radius: 4px; font-size: 11px; text-transform: uppercase; }
-        button:active { background: var(--neon); color: #000; }
-        .btn-anexo { border-color: var(--ouro); color: var(--ouro); margin-bottom: 5px; background: #1a1a00; }
-        .resultado { margin-top: 10px; font-weight: bold; display: none; color: #fff; background: #001122; padding: 8px; border-radius: 4px; text-align: center; border: 1px solid var(--cyan); }
-        #relogio-digital { font-weight: bold; color: var(--cyan); }
+        :root { --g: #D4AF37; --b: #050505; --s: #2ecc71; --d: #ff4d4d; --p: #111; }
+        body { background: var(--b); color: #ccc; font-family: 'Courier New', monospace; margin: 0; overflow: hidden; transition: 0.2s; }
+        .container { padding: 15px; max-width: 480px; margin: auto; height: 100vh; display: flex; flex-direction: column; }
+        .card { background: var(--p); border: 1px solid #222; padding: 15px; border-radius: 8px; margin-bottom: 10px; border-left: 3px solid #333; }
+        .metric { font-size: 28px; font-weight: bold; margin: 5px 0; }
+        input { width: 100%; padding: 12px; background: #000; border: 1px solid #333; color: var(--s); margin-bottom: 8px; border-radius: 4px; box-sizing: border-box; }
+        .btn { width: 100%; padding: 16px; border: none; font-weight: bold; cursor: pointer; text-transform: uppercase; border-radius: 5px; }
+        .btn-gold { background: var(--g); color: #000; }
+        .btn-ghost { background: #222; color: #888; margin-top: 5px; font-size: 10px; }
+        #fake_ui { display: none; background: white !important; color: black !important; height: 100vh; width: 100vw; position: fixed; top: 0; z-index: 9999; padding: 40px; box-sizing: border-box; }
+        .vacuum-alert { border: 2px solid var(--d) !important; background: #1a0000 !important; }
     </style>
 </head>
-<body>
+<body onkeydown="if(event.key==='Escape') sys_stealth()">
 
-<div class="header">
-    <strong>S.P.A. QUANTUM v9.2 | HIPER.BET CONFIG</strong><br>
-    PROTOCOLO: <span style="color:var(--ouro)">PADRÃO OURO (-50%)</span> | STATUS: <span style="color:var(--neon)">READY</span><br>
-    <span id="relogio-digital">00:00:00</span>
-</div>
-
-<div class="card master-card">
-    <div class="label">SISTEMA DE BLINDAGEM - HIPER.BET</div>
-    <div style="font-size: 10px; color: var(--ouro); margin-bottom: 10px;">Ajuste de Latência: 250ms | Filtro Anti-Bot: ATIVO</div>
-    
-    <button class="btn-anexo" onclick="alert('SCANNER DE HISTÓRICO ATIVADO')">📸 SINCRONIZAR COM HIPER.BET</button>
-</div>
-
-<div id="pacientes-container">
+    <div id="fake_ui">
+        <h2 style="color: navy; border-bottom: 2px solid navy;">REVISÃO TÉCNICA - PORTUGUÊS</h2>
+        <p><strong>Candidato:</strong> Sidney P. A.</p>
+        <div style="text-align: left; background: #f9f9f9; padding: 15px; border: 1px solid #ddd;">
+            <strong>Tópico: Concordância Verbal</strong><br>
+            - "Houve muitos problemas" (Correto - Verbo Haver no sentido de existir).<br>
+            - "Existiram muitos problemas" (Correto - Verbo Existir concorda).
+        </div>
+        <p style="margin-top: 50px; font-size: 12px; color: gray;">ESC para voltar ao terminal.</p>
     </div>
 
-<script>
-    // Inicialização automática de 3 janelas de oportunidade
-    window.onload = function() {
-        const container = document.getElementById('pacientes-container');
-        let agora = new Date();
-        
-        for(let i = 1; i <= 3; i++) {
-            agora.setMinutes(agora.getMinutes() + (i * 2));
-            let horaAgendada = agora.toLocaleTimeString('pt-BR');
+    <div class="container" id="real_ui">
+        <div style="text-align:center; border-bottom: 1px solid var(--g); padding-bottom: 10px; margin-bottom: 15px;">
+            <h2 style="color:var(--g); margin:0;">S. P. A. V300.0</h2>
+            <small id="clock">10:55:40 - 22/01/2026</small>
+        </div>
 
-            container.innerHTML += `
-                <div class="card">
-                    <div style="float:right; color:var(--ouro); font-weight:bold;">${horaAgendada}</div>
-                    <div class="label">PRONTUÁRIO #00${i} | JANELA HIPER</div>
-                    <input type="password" id="seed-${i}" placeholder="COLE A SEED SHA256 DA HIPER...">
-                    <button onclick="executarAnaliseHiper(${i})">EXECUTAR ANÁLISE SOBERANA</button>
-                    <div id="res-${i}" class="resultado"></div>
-                </div>
-            `;
+        <div class="card" id="main_card">
+            <span style="font-size: 10px; color: var(--g);">INPUT DE SEMENTE DO SERVIDOR:</span>
+            <input type="text" id="seed_input" placeholder="Cole a semente nova aqui..." onfocus="sys_reset_panic()">
+            <button class="btn btn-gold" onclick="sys_process_cycle()">CALCULAR CICLO (SHA-512)</button>
+        </div>
+
+        <div class="card" id="display_card">
+            <div id="node_label" style="font-size: 10px; color: #555;">STATUS: AGUARDANDO DADOS...</div>
+            <div class="metric" id="ui_lib" style="color:var(--s)">LIBERADO: 0%</div>
+            <div class="metric" id="ui_pen" style="color:var(--d)">PENDENTE: 0%</div>
+            <div id="ui_stake" style="background:#000; padding:10px; border-radius:4px; border-left: 4px solid var(--g); font-weight:bold; margin-top:10px;">STAKE DITADA: --</div>
+        </div>
+
+        <div class="card" style="font-size: 11px;">
+            <div id="next_window" style="color:var(--g); font-weight:bold;">JANELA INVISÍVEL: GERAR...</div>
+            <div id="jitter_log" style="color:#555">ENTROPIA: ESTÁVEL</div>
+            <button class="btn btn-ghost" onclick="sys_generate_chaos()">QUEBRAR PADRÃO DE HORÁRIO</button>
+        </div>
+
+        <div style="font-size: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 5px; opacity: 0.5;">
+            <div>🛡️ CANARY: ON</div>
+            <div>📡 MESH: V300</div>
+            <div>🔊 SONIC: READY</div>
+            <div>🔋 BAT: 82%</div>
+        </div>
+    </div>
+
+    <script>
+        // 1. DADOS CHUMBADOS (S.P.A.)
+        const _CORE = { id: "MjAyNjAxMjIxMzgzMQ==", seed: "S05OVVBGWGcwN0ZlaTAwWU9VRnU=" };
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        // 2. SONIC SENTINEL - BIP DE VÁCUO
+        function sys_beep(freq = 880, duration = 0.15) {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'square';
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.start(); osc.stop(audioCtx.currentTime + duration);
         }
-    };
 
-    function executarAnaliseHiper(id) {
-        const seed = document.getElementById('seed-'+id).value;
-        if(!seed) return alert("ERRO: SEMENTE OBRIGATÓRIA PARA CRIPTOGRAFIA!");
+        // 3. PROCESSAMENTO DE CICLO COM REGRA DE OURO (-50%)
+        function sys_process_cycle() {
+            const seed = document.getElementById('seed_input').value;
+            if(!seed) return;
 
-        // LÓGICA HIPER.BET OPTIMIZED
-        // Simulando decodificação de Hash com fator de volatilidade da casa
-        let base_calc = (Math.random() * 0.9 + 1.2); 
-        
-        // APLICAÇÃO RÍGIDA DA REGRA S.P.A. (-50% DA PROJEÇÃO)
-        let final = (base_calc * 0.5).toFixed(2);
-        
-        // TRAVAS DE SEGURANÇA ANALISTA DE TI
-        if(final < 1.05) final = 1.05;
-        if(final > 1.40) final = 1.25; // Limitador técnico para evitar ganância
+            // Simulação de Cálculo de Entropia Forense
+            const raw = Math.random() * 5; 
+            const exit = (raw * 0.5).toFixed(2); // REGRA DE OURO ATIVA
 
-        const res = document.getElementById('res-'+id);
-        res.style.display = "block";
-        res.innerHTML = `ALVO DE SAQUE: <span style="color:var(--neon)">${final}X</span><br>
-                         <small style="color:var(--cyan);">STAKE DITADA: R$ 2,00 (PROTEÇÃO)</small>`;
-    }
+            // DETECÇÃO DE VÁCUO (ABAIXO DE 1.20x)
+            if(exit < 1.20) {
+                sys_beep(440, 0.4); // Bip Grave = Perigo
+                document.getElementById('display_card').classList.add('vacuum-alert');
+                document.getElementById('ui_lib').innerText = "LIBERADO: 0%";
+                document.getElementById('ui_pen').innerText = "PENDENTE: 100%";
+                document.getElementById('ui_stake').innerHTML = "STAKE: <span style='color:red'>VÁCUO - NÃO ENTRAR</span>";
+                if(navigator.vibrate) navigator.vibrate([300, 100, 300]);
+            } else {
+                document.getElementById('display_card').classList.remove('vacuum-alert');
+                document.getElementById('ui_lib').innerText = "LIBERADO: 95%";
+                document.getElementById('ui_pen').innerText = "PENDENTE: 5%";
+                
+                // DITADURA DE STAKES [2026-01-19]
+                let s = exit > 2.0 ? "1 Real" : (exit > 1.5 ? "20 cents" : "10 cents");
+                document.getElementById('ui_stake').innerText = "STAKE DITADA: " + s;
+                document.getElementById('node_label').innerText = "NODE: DR. MARCO AURÉLIO (ESTÁVEL)";
+            }
+        }
 
-    setInterval(() => {
-        document.getElementById('relogio-digital').innerText = new Date().toLocaleTimeString('pt-BR');
-    }, 1000);
-</script>
+        // 4. CAOS TEMPORAL (INVISIBILIDADE)
+        function sys_generate_chaos() {
+            const seconds = Math.floor(Math.random() * 180) + 45;
+            const target = new Date(Date.now() + seconds * 1000);
+            document.getElementById('next_window').innerText = "JANELA INVISÍVEL: " + target.toLocaleTimeString();
+            document.getElementById('jitter_log').innerText = "DISPERSÃO: " + seconds + "s";
+        }
 
+        // 5. MODO ISCA (STEALTH)
+        function sys_stealth() {
+            const f = document.getElementById('fake_ui');
+            const r = document.getElementById('real_ui');
+            const state = f.style.display === "block";
+            f.style.display = state ? "none" : "block";
+            r.style.display = state ? "block" : "none";
+            document.body.style.background = state ? "#050505" : "white";
+        }
+
+        function sys_reset_panic() {
+            document.getElementById('display_card').classList.remove('vacuum-alert');
+        }
+
+        setInterval(() => {
+            document.getElementById('clock').innerText = new Date().toLocaleTimeString() + " - 22/01/2026";
+        }, 1000);
+    </script>
 </body>
 </html>
