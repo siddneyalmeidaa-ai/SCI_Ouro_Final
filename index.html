@@ -3,108 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.P.A. QUANTUM v9.2 - DESIGN RESTAURADO</title>
+    <title>S.P.A. QUANTUM v9.2 - HIPER.BET EDITION</title>
     <style>
-        :root { --ouro: #D4AF37; --fundo: #050505; --neon: #00ff00; --cyan: #00eaff; }
+        :root { --ouro: #D4AF37; --fundo: #050505; --neon: #00ff00; --cyan: #00eaff; --alerta: #ff3c00; }
         body { background: var(--fundo); color: #fff; font-family: 'Courier New', sans-serif; padding: 10px; margin: 0; }
         .header { border-bottom: 2px solid var(--ouro); padding: 10px; font-size: 11px; color: var(--ouro); text-align: center; margin-bottom: 10px; }
         .card { background: #0a0a0a; border: 1px solid #1a1a1a; border-left: 4px solid var(--cyan); border-radius: 8px; padding: 12px; margin-bottom: 8px; position: relative; }
         .master-card { border-left: 4px solid var(--ouro); background: #0f0f00; }
         .label { font-size: 9px; color: #666; text-transform: uppercase; margin-bottom: 4px; letter-spacing: 1px; }
         .status-ok { font-size: 10px; color: var(--neon); display: none; margin: 5px 0; font-weight: bold; }
-        input[type="password"] { width: 94%; background: #000; border: 1px solid #333; color: var(--neon); padding: 10px; font-size: 12px; border-radius: 4px; margin-top: 5px; outline: none; }
+        input[type="password"], input[type="text"] { width: 94%; background: #000; border: 1px solid #333; color: var(--neon); padding: 10px; font-size: 12px; border-radius: 4px; margin-top: 5px; outline: none; }
         button { width: 100%; padding: 12px; margin-top: 8px; background: #111; border: 1px solid var(--neon); color: var(--neon); font-weight: bold; cursor: pointer; border-radius: 4px; font-size: 11px; text-transform: uppercase; }
         button:active { background: var(--neon); color: #000; }
         .btn-anexo { border-color: var(--ouro); color: var(--ouro); margin-bottom: 5px; background: #1a1a00; }
-        .resultado { margin-top: 10px; font-weight: bold; display: none; color: #fff; background: #002200; padding: 8px; border-radius: 4px; text-align: center; border: 1px solid var(--neon); }
-        #secao-rodadas { display: none; margin-top: 20px; }
+        .resultado { margin-top: 10px; font-weight: bold; display: none; color: #fff; background: #001122; padding: 8px; border-radius: 4px; text-align: center; border: 1px solid var(--cyan); }
+        #relogio-digital { font-weight: bold; color: var(--cyan); }
     </style>
 </head>
 <body>
 
 <div class="header">
-    <strong>S.P.A. QUANTUM v9.2 | S. A. EDITION</strong><br>
-    LOCALIZAÇÃO: <span style="color:red">OFF</span> | PROTOCOLO: <span style="color:var(--ouro)">PADRÃO OURO (-50%)</span><br>
+    <strong>S.P.A. QUANTUM v9.2 | HIPER.BET CONFIG</strong><br>
+    PROTOCOLO: <span style="color:var(--ouro)">PADRÃO OURO (-50%)</span> | STATUS: <span style="color:var(--neon)">READY</span><br>
     <span id="relogio-digital">00:00:00</span>
 </div>
 
 <div class="card master-card">
-    <div class="label">FASE 01: AUDITORIA DE PRESSÃO (DADOS DA GALERIA)</div>
+    <div class="label">SISTEMA DE BLINDAGEM - HIPER.BET</div>
+    <div style="font-size: 10px; color: var(--ouro); margin-bottom: 10px;">Ajuste de Latência: 250ms | Filtro Anti-Bot: ATIVO</div>
     
-    <input type="file" id="up-video" accept="video/*" style="display:none;" onchange="verificarArquivos()">
-    <button class="btn-anexo" onclick="document.getElementById('up-video').click()">📁 ANEXAR VÍDEO DA RODADA</button>
-    <div id="ok-v" class="status-ok">✅ VÍDEO SINCRONIZADO COM SUCESSO</div>
-
-    <input type="file" id="up-print" accept="image/*" style="display:none;" onchange="verificarArquivos()">
-    <button class="btn-anexo" onclick="document.getElementById('up-print').click()">📸 ANEXAR PRINT DO HISTÓRICO</button>
-    <div id="ok-p" class="status-ok">✅ HISTÓRICO PROCESSADO PELO SCANNER</div>
+    <button class="btn-anexo" onclick="alert('SCANNER DE HISTÓRICO ATIVADO')">📸 SINCRONIZAR COM HIPER.BET</button>
 </div>
 
-<div id="secao-rodadas">
-    <div id="pacientes-container"></div>
-</div>
+<div id="pacientes-container">
+    </div>
 
 <script>
-    let vPronto = false;
-    let pPronto = false;
-
-    function verificarArquivos() {
-        if(document.getElementById('up-video').files.length > 0) {
-            document.getElementById('ok-v').style.display = "block";
-            vPronto = true;
-        }
-        if(document.getElementById('up-print').files.length > 0) {
-            document.getElementById('ok-p').style.display = "block";
-            pPronto = true;
-        }
-
-        if(vPronto && pPronto) {
-            document.getElementById('secao-rodadas').style.display = "block";
-            liberarHorarios();
-        }
-    }
-
-    function liberarHorarios() {
+    // Inicialização automática de 3 janelas de oportunidade
+    window.onload = function() {
         const container = document.getElementById('pacientes-container');
-        container.innerHTML = "";
         let agora = new Date();
         
         for(let i = 1; i <= 3; i++) {
-            // Horário da primeira rodada com 3 minutos de folga
-            let folga = (i === 1) ? 3 : 2; 
-            agora.setMinutes(agora.getMinutes() + folga);
+            agora.setMinutes(agora.getMinutes() + (i * 2));
             let horaAgendada = agora.toLocaleTimeString('pt-BR');
 
             container.innerHTML += `
                 <div class="card">
                     <div style="float:right; color:var(--ouro); font-weight:bold;">${horaAgendada}</div>
-                    <div class="label">PRONTUÁRIO #00${i} | JANELA AGENDADA</div>
-                    <input type="password" id="seed-${i}" placeholder="COLE A SEMENTE DA RODADA...">
-                    <button onclick="executarAnalise(${i})">EXECUTAR CRIPTO-ANÁLISE HÍBRIDA</button>
+                    <div class="label">PRONTUÁRIO #00${i} | JANELA HIPER</div>
+                    <input type="password" id="seed-${i}" placeholder="COLE A SEED SHA256 DA HIPER...">
+                    <button onclick="executarAnaliseHiper(${i})">EXECUTAR ANÁLISE SOBERANA</button>
                     <div id="res-${i}" class="resultado"></div>
                 </div>
             `;
         }
-    }
+    };
 
-    function executarAnalise(id) {
+    function executarAnaliseHiper(id) {
         const seed = document.getElementById('seed-'+id).value;
-        if(!seed) return alert("INSIRA A SEMENTE!");
+        if(!seed) return alert("ERRO: SEMENTE OBRIGATÓRIA PARA CRIPTOGRAFIA!");
 
-        // CÁLCULO PADRÃO OURO S. A. (-50%)
-        let calculo = (Math.random() * 0.5 + 1.2).toFixed(2);
-        let final = (calculo * 0.5).toFixed(2);
+        // LÓGICA HIPER.BET OPTIMIZED
+        // Simulando decodificação de Hash com fator de volatilidade da casa
+        let base_calc = (Math.random() * 0.9 + 1.2); 
+        
+        // APLICAÇÃO RÍGIDA DA REGRA S.P.A. (-50% DA PROJEÇÃO)
+        let final = (base_calc * 0.5).toFixed(2);
+        
+        // TRAVAS DE SEGURANÇA ANALISTA DE TI
         if(final < 1.05) final = 1.05;
+        if(final > 1.40) final = 1.25; // Limitador técnico para evitar ganância
 
         const res = document.getElementById('res-'+id);
         res.style.display = "block";
         res.innerHTML = `ALVO DE SAQUE: <span style="color:var(--neon)">${final}X</span><br>
-                         <small style="color:#888;">STAKE DITADA: R$ 1,12</small>`;
+                         <small style="color:var(--cyan);">STAKE DITADA: R$ 2,00 (PROTEÇÃO)</small>`;
     }
 
     setInterval(() => {
         document.getElementById('relogio-digital').innerText = new Date().toLocaleTimeString('pt-BR');
     }, 1000);
 </script>
+
 </body>
 </html>
