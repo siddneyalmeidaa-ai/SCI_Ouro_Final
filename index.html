@@ -1,96 +1,59 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.P.A. V300.4 - HUNTER MODE</title>
-    <style>
-        :root { --g: #D4AF37; --b: #050505; --s: #2ecc71; --r: #ff00ff; --p: #111; }
-        body { background: var(--b); color: #ccc; font-family: 'Courier New', monospace; margin: 0; overflow: hidden; }
-        .container { padding: 15px; max-width: 480px; margin: auto; height: 100vh; display: flex; flex-direction: column; }
-        .card { background: var(--p); border: 1px solid #222; padding: 12px; border-radius: 8px; margin-bottom: 10px; position: relative; }
-        .metric { font-size: 24px; font-weight: bold; margin: 5px 0; color: var(--s); }
-        .rosa-alert { color: var(--r); font-size: 14px; font-weight: bold; animation: blink 1s infinite; display: none; }
-        @keyframes blink { 0% {opacity: 1;} 50% {opacity: 0.3;} 100% {opacity: 1;} }
-        input { width: 100%; padding: 10px; background: #000; border: 1px solid #333; color: var(--g); margin-bottom: 5px; border-radius: 4px; }
-        .btn { width: 100%; padding: 15px; border: none; font-weight: bold; cursor: pointer; border-radius: 5px; background: var(--g); color: #000; }
-        #log { font-size: 9px; color: #555; height: 40px; overflow: hidden; margin-top: 5px; }
-    </style>
-</head>
-<body>
-
-    <div class="container">
-        <div style="text-align:center; border-bottom: 1px solid var(--g); padding-bottom: 5px; margin-bottom: 10px;">
-            <h2 style="color:var(--g); margin:0; font-size: 18px;">V300.4 HUNTER</h2>
-            <small id="clock">02:54:00 - 26/01/2026</small>
-        </div>
-
-        <div class="card">
-            <span style="font-size: 10px; color: var(--g);">SINCRO DE CICLO (MINUTO DA ÚLTIMA ROSA)</span>
-            <input type="number" id="last_rosa" placeholder="Ex: 42 (Minuto da Rosa anterior)">
-            <button class="btn" onclick="iniciarAnalise()">IDENTIFICAR JANELA DE BOTE</button>
-        </div>
-
-        <div class="card" id="display">
-            <div id="status_scan" style="font-size: 10px; color: #777;">STATUS: AGUARDANDO DADOS...</div>
-            <div id="rosa_timer" class="rosa-alert">⚠️ JANELA ROSA SE APROXIMANDO!</div>
-            <div class="metric" id="ui_lib">PENDENTE: 0%</div>
-            <div id="ui_stake" style="background:#000; padding:8px; border-radius:4px; border-left: 4px solid var(--g); font-size: 14px;">STAKE: AGUARDANDO...</div>
-        </div>
-
-        <div class="card">
-            <span style="font-size: 10px;">ÚLTIMAS VELAS (DIRETO DO HISTÓRICO):</span>
-            <input type="text" id="sequence" placeholder="Ex: 1.2, 1.05, 1.95">
-            <div id="log">Aguardando cruzamento de dados...</div>
-        </div>
-
-        <div style="font-size: 9px; color: #444; text-align: center;">
-            DNS: ENCRYPTED | FINGERPRINT: NOISE | ID: 2026012213831
-        </div>
+<div class="card" id="display" style="border: 2px solid #333; transition: 0.5s;">
+    <div id="status_scan" style="font-size: 10px; color: var(--g); text-shadow: 0 0 5px gold;">🛰️ SCANNER DE PROXIMIDADE ATIVO</div>
+    
+    <div style="width: 100%; background: #000; height: 10px; border-radius: 5px; margin: 10px 0; border: 1px solid #222;">
+        <div id="progress_bar" style="width: 10%; height: 100%; background: var(--s); transition: 1s; border-radius: 5px;"></div>
     </div>
 
-    <script>
-        function iniciarAnalise() {
-            const lastRosaMin = parseInt(document.getElementById('last_rosa').value);
-            const seq = document.getElementById('sequence').value;
-            const log = document.getElementById('log');
+    <div id="rosa_timer" class="rosa-alert" style="font-size: 20px;">🎯 ALVO IDENTIFICADO: ROSA IMINENTE!</div>
+    <div class="metric" id="ui_lib" style="font-size: 35px;">0%</div>
+    <div id="ui_stake" style="background:#222; padding:12px; border-radius:4px; border: 1px solid var(--g); font-weight: bold; color: #fff;">AGUARDANDO CICLO...</div>
+</div>
+
+<script>
+    function iniciarAnalise() {
+        const lastRosaMin = parseInt(document.getElementById('last_rosa').value);
+        const log = document.getElementById('log');
+        const display = document.getElementById('display');
+        const bar = document.getElementById('progress_bar');
+        
+        if(isNaN(lastRosaMin)) { alert("Insira o minuto da última Rosa!"); return; }
+
+        document.getElementById('status_scan').innerText = "CALCULANDO CRUZAMENTO DE DADOS...";
+        
+        setTimeout(() => {
+            const currentMin = new Date().getMinutes();
+            let gap = 12; // Média de recarga padrão
+            let proximaJanela = (lastRosaMin + gap) % 60;
             
-            // 1. Simulação de "Processamento Humano" (Delay de 1.5s)
-            document.getElementById('status_scan').innerText = "SCRAPPING SERVIDOR... (LATÊNCIA 45ms)";
-            
-            setTimeout(() => {
-                // 2. Cálculo do Ciclo (Média de Recarga de 12 minutos)
-                const currentMin = new Date().getMinutes();
-                const proximaJanela = (lastRosaMin + 12) % 60;
-                const tempoFaltante = proximaJanela - currentMin;
+            // Cálculo de distância
+            let diff = proximaJanela - currentMin;
+            if (diff < 0) diff += 60;
 
-                // 3. Regra de Ouro (-50% na projeção) e Stake Ditada
-                let base_proj = 2.0; // Projeção base
-                let final_x = (base_proj * 0.5).toFixed(2); // Aplicando -50%
+            // Nível de Carga do Balde (0 a 100%)
+            let carga = Math.min(100, Math.max(0, (1 - (diff / gap)) * 100));
+            bar.style.width = carga + "%";
 
-                // 4. Cruzamento de Indução (Se tem vela perto de 2.0x, a Rosa tá vindo)
-                const isInducing = seq.includes("1.8") || seq.includes("1.9");
+            if (diff <= 2 || diff >= 58) {
+                // ESTADO DE ROSA
+                display.style.borderColor = "#ff00ff";
+                display.style.boxShadow = "0 0 20px #ff00ff";
+                document.getElementById('rosa_timer').style.display = "block";
+                document.getElementById('ui_lib').innerText = "LIBERADO: 99%";
+                document.getElementById('ui_stake').innerText = "DITAR STAKE: 1 Real";
+                document.getElementById('ui_lib').style.color = "#ff00ff";
+                log.innerText = "CERCO FECHADO. O servidor atingiu o ponto de saturação.";
+            } else {
+                // ESTADO DE ACUMULAÇÃO
+                display.style.borderColor = "#333";
+                display.style.boxShadow = "none";
+                document.getElementById('rosa_timer').style.display = "none";
+                document.getElementById('ui_lib').innerText = "PENDENTE: " + Math.floor(carga) + "%";
+                document.getElementById('ui_stake').innerText = "DITAR STAKE: 10 cents";
+                document.getElementById('ui_lib').style.color = "var(--s)";
+                log.innerText = "Aguardando recarga. Próxima janela em " + diff + " minutos.";
+            }
+        }, 1200);
+    }
+                </script>
                 
-                if (tempoFaltante <= 2 || isInducing) {
-                    document.getElementById('rosa_timer').style.display = "block";
-                    document.getElementById('ui_lib').innerText = "LIBERADO: 98%";
-                    document.getElementById('ui_stake').innerText = "STAKE DITADA: 1 Real (ALTO RISCO)";
-                    log.innerText = "ALERTA: Vela de indução detectada. O balde está transbordando.";
-                } else {
-                    document.getElementById('rosa_timer').style.display = "none";
-                    document.getElementById('ui_lib').innerText = "PENDENTE: 15%";
-                    document.getElementById('ui_stake').innerText = "STAKE DITADA: 10 cents (RUÍDO)";
-                    log.innerText = "Ciclo de acumulação. Próxima janela em aprox. " + tempoFaltante + " min.";
-                }
-                
-                document.getElementById('status_scan').innerText = "SCANNER ATIVO - MODO FANTASMA";
-                console.clear(); // Limpeza de Logs automática
-            }, 1500);
-        }
-
-        setInterval(() => {
-            document.getElementById('clock').innerText = new Date().toLocaleTimeString() + " - 26/01/2026";
-        }, 1000);
-    </script>
-</body>
-</html>
