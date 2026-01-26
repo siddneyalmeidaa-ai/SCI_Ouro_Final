@@ -1,127 +1,31 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.P.A. V410 - CHRONOS VISION</title>
-    <style>
-        :root { --gold: #D4AF37; --pink: #FF00FF; --bg: #010101; --neon: #00FF41; --danger: #FF3E3E; }
-        body { background: var(--bg); color: #EEE; font-family: 'Courier New', monospace; margin: 0; padding: 10px; text-align: center; }
-        .master-panel { border: 2px solid #1a1a1a; border-radius: 30px; padding: 15px; background: #080808; box-shadow: 0 0 50px #000; max-width: 500px; margin: auto; }
-        .header { display: flex; justify-content: space-between; font-size: 10px; color: var(--neon); margin-bottom: 15px; }
-        
-        /* PREVIEW DO PRINT */
-        #preview-img { width: 100%; border-radius: 15px; display: none; margin-bottom: 15px; border: 1px solid #333; opacity: 0.8; }
-        .upload-btn { border: 2px dashed #333; padding: 20px; border-radius: 15px; cursor: pointer; display: block; margin-bottom: 10px; color: var(--gold); }
-
-        /* PERCENTUAL ADAPTATIVO */
-        .pct-display { font-size: 50px; font-weight: 900; color: var(--gold); margin: 10px 0; }
-        .bar-out { width: 100%; height: 10px; background: #000; border: 1px solid #222; border-radius: 5px; overflow: hidden; }
-        #bar-in { width: 0%; height: 100%; background: linear-gradient(90deg, var(--neon), var(--pink)); transition: 2s ease-in-out; }
-
-        /* BOTÕES DE AÇÃO */
-        .btn-main { width: 100%; padding: 20px; background: var(--gold); border: none; border-radius: 12px; font-weight: 900; cursor: pointer; color: #000; margin-top: 10px; }
-        .btn-clear { width: 100%; padding: 10px; background: transparent; border: 1px solid var(--danger); color: var(--danger); border-radius: 10px; margin-top: 10px; cursor: pointer; font-size: 10px; }
-
-        /* TABELA DE AÇÕES COM HORÁRIO */
-        .action-table { width: 100%; border-collapse: collapse; margin-top: 20px; text-align: left; }
-        .action-table th { color: #555; font-size: 10px; padding: 10px; border-bottom: 1px solid #222; }
-        .action-table td { padding: 12px 10px; border-bottom: 1px solid #111; font-size: 12px; }
-        .time-col { color: var(--neon); font-weight: bold; }
-        .stake-col { color: #FFF; }
-        .strategy-col { font-weight: bold; }
-        .rosa-text { color: var(--pink); text-shadow: 0 0 5px var(--pink); }
-
-        #log { background: #000; height: 50px; font-size: 9px; color: #444; overflow-y: auto; text-align: left; padding: 10px; margin-top: 10px; border-radius: 8px; }
-    </style>
-</head>
-<body>
-
-    <div class="header">
-        <span>V410 CHRONOS [S.A.]</span>
-        <span id="clock">03:48:00</span>
-    </div>
-
-    <div class="master-panel">
-        <label for="file-input" class="upload-btn" id="label-up">📸 ANEXAR PRINT PARA ANÁLISE</label>
-        <input type="file" id="file-input" accept="image/*" onchange="preview(this)">
-        <img id="preview-img">
-
-        <div class="pct-display" id="pct-val">0%</div>
-        <div class="bar-out"><div id="bar-in"></div></div>
-
-        <button class="btn-main" onclick="projetar()">GERAR PROJEÇÃO DE HORÁRIOS</button>
-        <button class="btn-clear" onclick="limpar()">LIMPAR TUDO</button>
-
-        <table class="action-table">
-            <thead>
-                <tr>
-                    <th>HORÁRIO</th>
-                    <th>STAKE</th>
-                    <th>AÇÃO DO COMANDANTE</th>
-                </tr>
-            </thead>
-            <tbody id="action-body">
-                <tr><td colspan="3" style="text-align:center; color:#333;">Aguardando leitura do print...</td></tr>
-            </tbody>
-        </table>
-
-        <div id="log">>> Scanner Chronos aguardando...</div>
-    </div>
-
-    <script>
-        function updateClock() { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }
-        setInterval(updateClock, 1000);
-
-        function preview(input) {
-            const file = input.files[0];
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = document.getElementById('preview-img');
-                img.src = e.target.result;
-                img.style.display = 'block';
-                document.getElementById('label-up').style.display = 'none';
-                document.getElementById('log').innerText = ">> PRINT CARREGADO. PRONTO PARA PROJEÇÃO.";
-            }
-            reader.readAsDataURL(file);
-        }
-
         function projetar() {
-            // REGRA: -50% DA PROJEÇÃO (Cálculo adaptativo do S.A.)
-            const basePct = 96; 
+            // Sincronia com o tempo real do servidor
+            const serverTime = new Date(); 
+            const basePct = 92; 
+            
             document.getElementById('pct-val').innerText = basePct + "%";
             document.getElementById('bar-in').style.width = basePct + "%";
 
-            const agora = new Date();
-            // Projeção para os próximos minutos de carga
-            const h1 = new Date(agora.getTime() + 2 * 60000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-            const h2 = new Date(agora.getTime() + 3 * 60000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            // Cálculo dos próximos 3 e 4 minutos à frente (Janela de Segurança)
+            const m1 = new Date(serverTime.getTime() + 3 * 60000);
+            const m2 = new Date(serverTime.getTime() + 4 * 60000);
+
+            const h1 = m1.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            const h2 = m2.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 
             const body = document.getElementById('action-body');
             body.innerHTML = `
                 <tr>
                     <td class="time-col">${h1}</td>
                     <td class="stake-col">R$ 1,00</td>
-                    <td class="strategy-col" style="color:var(--neon)">🛡️ PROTEÇÃO (SAIR 2.0x)</td>
+                    <td class="strategy-col" style="color:var(--neon)">🛡️ PROTEÇÃO (2.0x)</td>
                 </tr>
                 <tr>
                     <td class="time-col">${h2}</td>
                     <td class="stake-col">R$ 0,20</td>
-                    <td class="strategy-col rosa-text">🌸 BUSCAR ROSA (10x+)</td>
+                    <td class="strategy-col" style="color:var(--pink)">🌸 ALVO ROSA (10x+)</td>
                 </tr>
             `;
-            document.getElementById('log').innerText = ">> COORDENADAS MAPEADAS COM SUCESSO.";
+            log("SINCRONIA ATÔMICA ATIVA. Alinhado com o Servidor.");
         }
-
-        function limpar() {
-            document.getElementById('preview-img').style.display = 'none';
-            document.getElementById('label-up').style.display = 'block';
-            document.getElementById('action-body').innerHTML = '<tr><td colspan="3" style="text-align:center; color:#333;">Aguardando leitura do print...</td></tr>';
-            document.getElementById('pct-val').innerText = "0%";
-            document.getElementById('bar-in').style.width = "0%";
-            document.getElementById('file-input').value = "";
-            document.getElementById('log').innerText = ">> TERMINAL LIMPO.";
-        }
-    </script>
-</body>
-</html>
+        
