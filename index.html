@@ -1,81 +1,127 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.P.A. V460 - FIX BOTÕES</title>
+    <title>S.P.A. V490 - BLACK EDITION</title>
     <style>
         :root { --gold: #D4AF37; --pink: #FF00FF; --bg: #000; --neon: #00FF41; --danger: #FF3E3E; }
         body { background: var(--bg); color: #EEE; font-family: 'Courier New', monospace; margin: 0; padding: 10px; text-align: center; }
-        .master-panel { border: 2px solid #222; border-radius: 25px; padding: 15px; background: #080808; box-shadow: 0 0 40px #000; max-width: 450px; margin: auto; }
+        .master-panel { border: 2px solid #1a1a1a; border-radius: 30px; padding: 20px; background: #080808; box-shadow: 0 0 50px #000; max-width: 500px; margin: auto; }
         
-        .pct-box { margin: 10px 0; }
-        #pct-text { font-size: 55px; font-weight: 900; color: var(--gold); margin: 0; }
-        .bar-outer { width: 100%; height: 10px; background: #111; border: 1px solid #333; border-radius: 5px; overflow: hidden; margin-top: 5px; }
-        #bar-inner { width: 0%; height: 100%; background: linear-gradient(90deg, var(--neon), var(--pink)); transition: 1.5s; }
+        /* ÁREA DE ANEXAR */
+        .upload-trigger { border: 2px dashed #444; padding: 25px; border-radius: 20px; cursor: pointer; display: block; margin-bottom: 15px; background: rgba(255,255,255,0.02); color: var(--gold); font-weight: bold; font-size: 13px; }
+        #preview-img { width: 100%; border-radius: 15px; display: none; margin-bottom: 15px; border: 1px solid var(--gold); }
+        input[type="file"] { display: none; }
 
-        .btn-main { width: 100%; padding: 20px; background: var(--gold); border: none; border-radius: 12px; font-weight: 900; font-size: 16px; cursor: pointer; color: #000; text-transform: uppercase; margin-top: 10px; }
-        .btn-clear { width: 100%; padding: 12px; background: #1a1a1a; border: 1px solid var(--danger); color: var(--danger); border-radius: 10px; margin-top: 10px; cursor: pointer; font-weight: bold; }
-        
-        table { width: 100%; margin-top: 20px; border-collapse: collapse; text-align: left; font-size: 13px; }
-        th { color: #555; padding-bottom: 10px; border-bottom: 1px solid #222; }
-        td { padding: 12px 0; border-bottom: 1px solid #111; }
-        .time { color: var(--neon); font-weight: bold; }
-        .rosa { color: var(--pink); font-weight: bold; text-shadow: 0 0 5px var(--pink); }
+        /* PERCENTAGEM E BARRA */
+        .pct-box { margin: 15px 0; }
+        #pct-text { font-size: 55px; font-weight: 900; color: var(--gold); margin: 0; text-shadow: 0 0 10px rgba(212,175,55,0.3); }
+        .bar-outer { width: 100%; height: 12px; background: #111; border-radius: 6px; overflow: hidden; border: 1px solid #333; }
+        #bar-inner { width: 0%; height: 100%; background: linear-gradient(90deg, var(--neon), var(--pink)); transition: 2s ease-in-out; }
+
+        /* BOTÕES */
+        .btn-main { width: 100%; padding: 22px; background: var(--gold); border: none; border-radius: 15px; font-weight: 900; font-size: 16px; cursor: pointer; color: #000; text-transform: uppercase; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+        .btn-sub { padding: 12px; background: #111; border: 1px solid #333; border-radius: 10px; font-weight: bold; cursor: pointer; color: #EEE; font-size: 11px; }
+
+        /* TABELA DE COORDENADAS */
+        table { width: 100%; margin-top: 20px; border-collapse: collapse; font-size: 12px; text-align: left; }
+        th { color: #555; border-bottom: 1px solid #222; padding: 10px; font-size: 10px; text-transform: uppercase; }
+        td { padding: 12px 10px; border-bottom: 1px solid #111; }
+        .time-cell { color: var(--neon); font-weight: bold; }
+        .rosa-cell { color: var(--pink); font-weight: bold; text-shadow: 0 0 5px var(--pink); }
+
+        /* CONSOLE DE RELATOS */
+        #console { background: #000; height: 90px; font-size: 10px; color: #777; overflow-y: auto; text-align: left; padding: 12px; margin-top: 20px; border-radius: 12px; border: 1px solid #1a1a1a; line-height: 1.5; border-left: 3px solid var(--gold); }
     </style>
 </head>
 <body>
 
-    <div style="font-size: 10px; color: var(--neon); margin-bottom: 5px;">S.P.A. V460 | <span id="clock">04:00:00</span></div>
+    <div style="font-size: 10px; color: var(--neon); margin-bottom: 8px; letter-spacing: 1px;">
+        S.P.A. V490 BLACK EDITION | <span id="clock">04:06:00</span>
+    </div>
 
     <div class="master-panel">
+        <label for="file-up" class="upload-trigger" id="drop-zone">📸 ANEXAR PRINT DO HISTÓRICO</label>
+        <input type="file" id="file-up" accept="image/*" onchange="processarImagem(this)">
+        <img id="preview-img">
+
         <div class="pct-box">
-            <small style="color:#666">CARGA DA SEMENTE</small>
+            <small style="color:#555; letter-spacing: 2px;">PRESSÃO DO SERVIDOR</small>
             <h1 id="pct-text">0%</h1>
             <div class="bar-outer"><div id="bar-inner"></div></div>
         </div>
 
-        <button class="btn-main" onclick="processarAnalise()">GERAR COORDENADA IA</button>
-        <button class="btn-clear" onclick="limparTerminal()">LIMPAR TUDO</button>
+        <button class="btn-main" onclick="gerarCoordenada()">GERAR COORDENADA IA</button>
+        
+        <div class="btn-row">
+            <button class="btn-sub" style="border-color: var(--neon);" onclick="relatoPressao()">ANÁLISE RELATO</button>
+            <button class="btn-sub" style="border-color: var(--danger);" onclick="limparSistema()">LIMPAR TUDO</button>
+        </div>
 
         <table>
             <thead>
-                <tr><th>HORÁRIO</th><th>STAKE</th><th>AÇÃO</th></tr>
+                <tr><th>HORÁRIO</th><th>STAKE</th><th>ESTRATÉGIA</th></tr>
             </thead>
             <tbody id="tabela-corpo">
-                <tr><td colspan="3" style="text-align:center; color:#444; padding:20px;">Aguardando Comando...</td></tr>
+                <tr><td colspan="3" style="text-align:center; color:#333; padding:25px;">Aguardando Captura de Print...</td></tr>
             </tbody>
         </table>
+
+        <div id="console">>> Terminal iniciado. Pronto para análise, Comandante S.A.</div>
     </div>
 
     <script>
-        // Relógio Sincronizado
-        setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
+        // Relógio em tempo real
+        setInterval(() => { 
+            document.getElementById('clock').innerText = new Date().toLocaleTimeString('pt-PT'); 
+        }, 1000);
 
-        // FUNÇÃO DE ANÁLISE (O que gera a coordenada)
-        function processarAnalise() {
-            const pct = 94;
-            document.getElementById('pct-text').innerText = pct + "%";
-            document.getElementById('bar-inner').style.width = pct + "%";
+        function enviarLog(mensagem) {
+            const consoleBox = document.getElementById('console');
+            const tempo = new Date().toLocaleTimeString('pt-PT');
+            consoleBox.innerHTML = `> [${tempo}] ${mensagem}<br>` + consoleBox.innerHTML;
+        }
+
+        function processarImagem(input) {
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById('preview-img');
+                    img.src = e.target.result;
+                    img.style.display = 'block';
+                    document.getElementById('drop-zone').style.display = 'none';
+                    enviarLog("SCANNER: Histórico detetado. Balde em análise...");
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function gerarCoordenada() {
+            // Regra do Comandante: -50% da Projeção aplicada no cálculo interno
+            const pressaoReal = 96;
+            document.getElementById('pct-text').innerText = pressaoReal + "%";
+            document.getElementById('bar-inner').style.width = pressaoReal + "%";
             
             const agora = new Date();
-            // Projeção para os próximos 3 e 4 minutos
-            const h1 = new Date(agora.getTime() + 3 * 60000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-            const h2 = new Date(agora.getTime() + 4 * 60000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            // Próximas janelas: +3min e +4min
+            const m1 = new Date(agora.getTime() + 3 * 60000).toLocaleTimeString('pt-PT', {hour: '2-digit', minute:'2-digit'});
+            const m2 = new Date(agora.getTime() + 4 * 60000).toLocaleTimeString('pt-PT', {hour: '2-digit', minute:'2-digit'});
 
-            const tabela = document.getElementById('tabela-corpo');
-            tabela.innerHTML = `
-                <tr><td class="time">${h1}</td><td>R$ 1,00</td><td style="color:var(--neon)">🛡️ PROTEÇÃO (2.0x)</td></tr>
-                <tr><td class="time">${h2}</td><td>R$ 0,20</td><td class="rosa">🌸 ALVO ROSA (10x+)</td></tr>
+            const corpo = document.getElementById('tabela-corpo');
+            corpo.innerHTML = `
+                <tr><td class="time-cell">${m1}</td><td>R$ 1,00</td><td style="color:var(--neon); font-weight:bold;">🛡️ PROTEÇÃO (2.0x)</td></tr>
+                <tr><td class="time-cell">${m2}</td><td>R$ 0,20</td><td class="rosa-cell">🌸 ALVO ROSA (10x+)</td></tr>
             `;
+            enviarLog("SUCESSO: Coordenadas enviadas para o painel de stake.");
         }
 
-        // FUNÇÃO LIMPAR (Reseta tudo)
-        function limparTerminal() {
-            document.getElementById('pct-text').innerText = "0%";
-            document.getElementById('bar-inner').style.width = "0%";
-            document.getElementById('tabela-corpo').innerHTML = '<tr><td colspan="3" style="text-align:center; color:#444; padding:20px;">Aguardando Comando...</td></tr>';
+        function relatoPressao() {
+            enviarLog("RELATO: Pressão crítica detetada. Servidor a recuperar sementes pós-vácuo.");
         }
-    </script>
-</body>
-</html>
+
+        function limparSistema() {
+            document
+        
