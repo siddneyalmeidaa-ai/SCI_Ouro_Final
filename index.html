@@ -1,72 +1,47 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>V300.4 - HUNTER</title>
-    <style>
-        body { background: #050505; color: #eee; font-family: monospace; margin: 0; padding: 15px; text-align: center; }
-        .radar { border: 2px solid #333; border-radius: 10px; padding: 20px; transition: 0.5s; background: #111; }
-        .bar-bg { width: 100%; background: #000; height: 12px; border-radius: 6px; margin: 15px 0; border: 1px solid #222; overflow: hidden; }
-        #bar { width: 0%; height: 100%; background: #2ecc71; transition: 1s; }
-        .rosa { color: #ff00ff; font-weight: bold; font-size: 22px; display: none; text-shadow: 0 0 10px #ff00ff; }
-        input { width: 80%; padding: 10px; background: #000; border: 1px solid #d4af37; color: #d4af37; margin: 10px 0; border-radius: 5px; }
-        button { width: 85%; padding: 15px; background: #d4af37; border: none; font-weight: bold; cursor: pointer; border-radius: 5px; }
-        #stake { margin-top: 15px; font-size: 18px; padding: 10px; border-top: 1px solid #333; }
-    </style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  body { background: #000; color: #D4AF37; font-family: sans-serif; text-align: center; padding: 20px; }
+  .box { border: 2px solid #333; padding: 20px; border-radius: 10px; background: #111; }
+  .rosa { color: #ff00ff; display: none; font-size: 20px; margin: 10px; }
+  button { width: 100%; padding: 15px; background: #D4AF37; border: none; font-weight: bold; margin-top: 10px; }
+  input { width: 90%; padding: 10px; margin: 10px 0; text-align: center; }
+</style>
 </head>
 <body>
-    <h3 style="color:#d4af37; margin:0;">S.P.A. V300.4 - HUNTER</h3>
-    <p style="font-size: 10px; color: #666;">ID: 2026012213831 | 03:04</p>
+  <h2>V300.4 HUNTER</h2>
+  <div class="box" id="main">
+    <div id="status">SISTEMA PRONTO</div>
+    <div id="alvo" class="rosa">⚠️ ALVO DETECTADO: ROSA!</div>
+    <h1 id="pct">0%</h1>
+    <p id="stk">STAKE: AGUARDANDO...</p>
+  </div>
+  <input type="number" id="min" placeholder="Minuto da Rosa (Ex: 59)">
+  <button onclick="caçar()">RASTREAR ROSA</button>
 
-    <div class="radar" id="box">
-        <div id="status">RADAR AGUARDANDO CICLO</div>
-        <div class="bar-bg"><div id="bar"></div></div>
-        <div id="msg_rosa" class="rosa">🎯 ALVO: ROSA DETECTADA!</div>
-        <div id="pct" style="font-size: 30px; font-weight: bold;">0%</div>
-        <div id="stake">DITAR STAKE: --</div>
-    </div>
-
-    <input type="number" id="minuto" placeholder="Minuto da última Rosa (Ex: 58)">
-    <button onclick="scan()">RASTREAR SERVIDOR</button>
-
-    <script>
-        function scan() {
-            let m = parseInt(document.getElementById('minuto').value);
-            if(isNaN(m)) return alert("Insira o minuto!");
-            
-            let box = document.getElementById('box');
-            let bar = document.getElementById('bar');
-            let msg = document.getElementById('msg_rosa');
-            let pct = document.getElementById('pct');
-            let stk = document.getElementById('stake');
-
-            document.getElementById('status').innerText = "CRUZANDO DADOS...";
-
-            setTimeout(() => {
-                let agora = new Date().getMinutes();
-                let prox = (m + 12) % 60; // Ciclo médio de 12 min
-                let diff = prox - agora;
-                if(diff < 0) diff += 60;
-
-                let carga = Math.min(100, Math.max(5, (1 - (diff/12)) * 100));
-                bar.style.width = carga + "%";
-                pct.innerText = Math.floor(carga) + "%";
-
-                if(diff <= 2 || diff >= 58) {
-                    box.style.borderColor = "#ff00ff";
-                    msg.style.display = "block";
-                    stk.innerText = "DITAR STAKE: 1 REAL";
-                    stk.style.color = "#ff00ff";
-                } else {
-                    box.style.borderColor = "#333";
-                    msg.style.display = "none";
-                    stk.innerText = "DITAR STAKE: 10 CENTS";
-                    stk.style.color = "#eee";
-                }
-                document.getElementById('status').innerText = "SCANNER EM TEMPO REAL";
-            }, 1000);
-        }
-    </script>
+  <script>
+    function caçar() {
+      let m = parseInt(document.getElementById('min').value);
+      let agora = new Date().getMinutes();
+      let prox = (m + 12) % 60;
+      let diff = prox - agora;
+      if (diff < 0) diff += 60;
+      
+      let p = Math.floor((1 - (diff/12)) * 100);
+      document.getElementById('pct').innerText = (p < 0 ? 5 : p) + "%";
+      
+      if (diff <= 2 || diff >= 58) {
+        document.getElementById('alvo').style.display = "block";
+        document.getElementById('stk').innerText = "STAKE DITADA: 1 REAL";
+        document.getElementById('main').style.borderColor = "#ff00ff";
+      } else {
+        document.getElementById('alvo').style.display = "none";
+        document.getElementById('stk').innerText = "STAKE DITADA: 10 CENTS";
+        document.getElementById('main').style.borderColor = "#333";
+      }
+    }
+  </script>
 </body>
 </html>
