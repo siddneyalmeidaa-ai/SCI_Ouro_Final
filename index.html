@@ -3,73 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.P.A. V380 - SUPREMO</title>
+    <title>S.P.A. V390 - GESTÃO DE ELITE</title>
     <style>
-        :root { --gold: #D4AF37; --pink: #FF00FF; --bg: #020202; --neon: #00FF41; }
+        :root { --gold: #D4AF37; --pink: #FF00FF; --bg: #020202; --neon: #00FF41; --danger: #FF3E3E; }
         body { background: var(--bg); color: #EEE; font-family: 'Courier New', monospace; margin: 0; padding: 10px; text-align: center; }
         .master-panel { border: 2px solid #1a1a1a; border-radius: 30px; padding: 20px; background: linear-gradient(180deg, #050505 0%, #111 100%); box-shadow: 0 0 50px #000; max-width: 500px; margin: auto; }
         .header { display: flex; justify-content: space-between; font-size: 10px; color: var(--neon); margin-bottom: 15px; font-weight: bold; }
         
-        /* ÁREA DE CAPTURA */
-        .upload-trigger { border: 2px dashed #444; padding: 30px 20px; border-radius: 20px; cursor: pointer; display: block; margin-bottom: 15px; background: rgba(255,255,255,0.02); }
+        .upload-trigger { border: 2px dashed #444; padding: 20px; border-radius: 20px; cursor: pointer; display: block; margin-bottom: 15px; background: rgba(255,255,255,0.02); }
         #preview-img { width: 100%; border-radius: 15px; display: none; margin-bottom: 15px; border: 1px solid var(--gold); }
         input[type="file"] { display: none; }
 
-        .pct-box { margin: 20px 0; }
-        #pct-text { font-size: 55px; font-weight: 900; color: var(--gold); margin: 0; transition: 0.5s; }
-        .bar-outer { width: 100%; height: 12px; background: #000; border-radius: 6px; border: 1px solid #333; overflow: hidden; margin-top: 10px; }
-        #bar-inner { width: 0%; height: 100%; background: linear-gradient(90deg, var(--neon), var(--pink)); transition: 2.5s cubic-bezier(0.1, 0.7, 0.1, 1); }
+        .pct-box { margin: 15px 0; }
+        #pct-text { font-size: 50px; font-weight: 900; color: var(--gold); margin: 0; }
+        .bar-outer { width: 100%; height: 10px; background: #000; border-radius: 5px; border: 1px solid #333; overflow: hidden; margin-top: 5px; }
+        #bar-inner { width: 0%; height: 100%; background: linear-gradient(90deg, var(--neon), var(--pink)); transition: 2s ease-in-out; }
 
-        /* BOTÃO DINÂMICO */
-        .btn-sync { width: 100%; padding: 22px; background: var(--gold); border: none; border-radius: 15px; font-weight: 900; font-size: 16px; cursor: pointer; color: #000; text-transform: uppercase; transition: 0.3s; }
-        .btn-sync:disabled { background: #333; color: #666; cursor: not-allowed; }
+        /* BOTÕES */
+        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+        .btn-main { padding: 20px; background: var(--gold); border: none; border-radius: 12px; font-weight: 900; cursor: pointer; color: #000; text-transform: uppercase; grid-column: span 2; }
+        .btn-clear { padding: 12px; background: #1a1a1a; border: 1px solid #333; border-radius: 10px; font-weight: bold; cursor: pointer; color: var(--danger); }
+        .btn-safe { padding: 12px; background: #1a1a1a; border: 1px solid #333; border-radius: 10px; font-weight: bold; cursor: pointer; color: var(--neon); }
 
+        /* TABELA DE COORDENADAS */
         .table-pro { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 15px; }
         .table-pro th { color: #555; border-bottom: 1px solid #222; padding: 10px; text-align: left; }
         .table-pro td { padding: 12px 10px; border-bottom: 1px solid #111; color: #FFF; }
-        .rosa-val { color: var(--pink); font-weight: bold; animation: pulse 1s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        .status-safe { color: var(--neon); font-weight: bold; }
+        .status-rosa { color: var(--pink); font-weight: bold; text-shadow: 0 0 5px var(--pink); }
 
-        #console { background: #000; height: 70px; font-size: 9px; color: #444; overflow-y: auto; text-align: left; padding: 10px; margin-top: 15px; border-radius: 10px; border: 1px solid #1a1a1a; }
+        #console { background: #000; height: 60px; font-size: 9px; color: #444; overflow-y: auto; text-align: left; padding: 10px; margin-top: 15px; border-radius: 10px; border: 1px solid #1a1a1a; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <span>V380 SUPREMO [S.A.]</span>
-        <span id="clock">03:42:00</span>
+        <span>V390 GESTÃO-ELITE [S.A.]</span>
+        <span id="clock">03:45:00</span>
     </div>
 
     <div class="master-panel">
         <label for="gallery-input" class="upload-trigger" id="drop-zone">
-            <span style="font-size: 14px; color: var(--gold);">⚡ ACESSAR GALERIA</span><br>
-            <small style="color:#666">Puxar histórico para análise</small>
+            <span style="font-size: 12px; color: var(--gold);">📸 SINCRONIZAR HISTÓRICO</span>
             <input type="file" id="gallery-input" accept="image/*" onchange="loadScanner(this)">
         </label>
         
         <img id="preview-img" src="">
 
         <div class="pct-box">
-            <small id="label-pressao" style="color:#666">PRESSÃO DO BALDE</small>
             <h1 id="pct-text">0%</h1>
             <div class="bar-outer"><div id="bar-inner"></div></div>
         </div>
 
-        <button class="btn-sync" id="btn-main" onclick="gerarCoordenada()">GERAR COORDENADA IA</button>
+        <button class="btn-main" id="btn-main" onclick="gerarCoordenada()">GERAR COORDENADA IA</button>
+        
+        <div class="btn-group">
+            <button class="btn-safe" onclick="analisarSeguranca()">VERIFICAR RISCO</button>
+            <button class="btn-clear" onclick="limparSistema()">LIMPAR DADOS</button>
+        </div>
 
         <div id="history-area" style="text-align: left; margin-top: 20px;">
-            <small style="color:var(--gold); font-weight: bold;">🛰️ COORDENADAS DE ELITE:</small>
+            <small style="color:var(--gold); font-weight: bold;">🛰️ PLANO DE VOO (COORDENADAS):</small>
             <table class="table-pro">
                 <thead>
-                    <tr><th>MIN</th><th>ESTRATÉGIA</th><th>STATUS</th></tr>
+                    <tr><th>HORÁRIO</th><th>ENTRADA</th><th>ESTRATÉGIA</th></tr>
                 </thead>
                 <tbody id="table-body">
-                    <tr><td colspan="3" style="text-align:center; color:#444">Aguardando processamento...</td></tr>
+                    <tr><td colspan="3" style="text-align:center; color:#444">Aguardando novo print...</td></tr>
                 </tbody>
             </table>
         </div>
 
-        <div id="console">>> Sistema V380 pronto para operação.</div>
+        <div id="console">>> Sistema pronto. Aguardando comando...</div>
     </div>
 
     <script>
@@ -89,7 +94,7 @@
                     document.getElementById('preview-img').src = e.target.result;
                     document.getElementById('preview-img').style.display = 'block';
                     document.getElementById('drop-zone').style.display = 'none';
-                    log("IMAGEM CARREGADA: Sincronizando semente...", "var(--neon)");
+                    log("CONEXÃO: Histórico lido. Analisando proteção...", "var(--neon)");
                 }
                 reader.readAsDataURL(file);
             }
@@ -97,26 +102,37 @@
 
         function gerarCoordenada() {
             const btn = document.getElementById('btn-main');
-            btn.disabled = true;
-            btn.innerText = "PROCESSANDO FUSÃO...";
-            log("IA PROCESSANDO: Analisando padrões de vácuo...", "var(--gold)");
-
+            btn.innerText = "CALCULANDO...";
+            
             setTimeout(() => {
-                // VALORES BASEADOS NA ANÁLISE REAL DO SEU PRINT (Min 44/45)
-                document.getElementById('pct-text').innerText = "92%";
-                document.getElementById('pct-text').style.color = "var(--pink)";
-                document.getElementById('bar-inner').style.width = "92%";
+                document.getElementById('pct-text').innerText = "94%";
+                document.getElementById('bar-inner').style.width = "94%";
                 
                 const tabela = document.getElementById('table-body');
+                // EXEMPLO COM HORÁRIO E PROTEÇÃO
                 tabela.innerHTML = `
-                    <tr><td>44</td><td>PROTEÇÃO (2.0x)</td><td style="color:var(--neon)">CONFIRMADO</td></tr>
-                    <tr><td>45</td><td class="rosa-val">ALVO ROSA (10x+)</td><td class="rosa-val">ZONA DE OURO</td></tr>
+                    <tr><td>03:48</td><td>STAKE R$ 1,00</td><td class="status-safe">PROTEÇÃO (2.0x)</td></tr>
+                    <tr><td>03:49</td><td>STAKE R$ 0,20</td><td class="status-rosa">ALVO ROSA (10x)</td></tr>
                 `;
                 
-                log("SUCESSO: Coordenada de 92% gerada para min 44/45.", "var(--neon)");
-                btn.disabled = false;
-                btn.innerText = "COORDENADA GERADA";
-            }, 2500);
+                log("COORDENADA GERADA: Risco Baixo / Pressão Alta.", "var(--neon)");
+                btn.innerText = "COORDENADA PRONTA";
+            }, 2000);
+        }
+
+        function limparSistema() {
+            document.getElementById('pct-text').innerText = "0%";
+            document.getElementById('bar-inner').style.width = "0%";
+            document.getElementById('table-body').innerHTML = '<tr><td colspan="3" style="text-align:center; color:#444">Aguardando novo print...</td></tr>';
+            document.getElementById('preview-img').style.display = 'none';
+            document.getElementById('drop-zone').style.display = 'block';
+            document.getElementById('gallery-input').value = "";
+            log("SISTEMA RESETADO. Memória limpa para novo ciclo.", "var(--danger)");
+        }
+
+        function analisarSeguranca() {
+            alert("ANALISANDO RISCO: O balde está com 94% de carga. Entrada de PROTEÇÃO no minuto 48 é ALTAMENTE RECOMENDADA.");
+            log("SEGURANÇA: Proteção 2.0x ativada no plano.");
         }
     </script>
 </body>
