@@ -3,50 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.P.A. V300.7 - PARALELO</title>
+    <title>S.P.A. V320 - MURALHA DE FERRO</title>
     <style>
-        :root { --g: #D4AF37; --r: #FF00FF; --b: #050505; --s: #2ECC71; --d: #FF4D4D; }
-        body { background: var(--b); color: #EEE; font-family: 'Courier New', monospace; margin: 0; padding: 15px; text-align: center; }
-        .radar-box { border: 2px solid #222; border-radius: 15px; padding: 25px; background: #111; transition: 0.4s; position: relative; overflow: hidden; }
-        .radar-active { border-color: var(--r); box-shadow: 0 0 30px var(--r); }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; }
-        input { width: 90%; background: #000; border: 1px solid #444; color: var(--g); padding: 12px; border-radius: 8px; text-align: center; font-size: 16px; }
-        .btn-main { width: 100%; padding: 20px; background: var(--g); border: none; font-weight: bold; border-radius: 10px; cursor: pointer; font-size: 18px; margin-top: 10px; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
-        #terminal { background: #000; border: 1px solid #222; height: 100px; overflow-y: auto; font-size: 11px; text-align: left; padding: 10px; margin-top: 15px; color: #555; border-radius: 5px; }
-        .load-bar { width: 100%; background: #000; height: 6px; border-radius: 3px; margin: 15px 0; border: 1px solid #222; }
-        #fill { width: 0%; height: 100%; background: var(--s); transition: 1s linear; }
-        .status-tag { font-size: 10px; letter-spacing: 1px; color: var(--s); }
+        :root { --gold: #D4AF37; --pink: #FF00FF; --bg: #030303; --neon: #00FF41; --danger: #FF3E3E; }
+        body { background: var(--bg); color: #EEE; font-family: 'Segoe UI', monospace; margin: 0; padding: 10px; overflow-x: hidden; }
+        .master-panel { border: 2px solid #1a1a1a; border-radius: 25px; padding: 20px; background: linear-gradient(180deg, #080808 0%, #0f0f0f 100%); position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
+        .system-header { display: flex; justify-content: space-between; font-size: 10px; color: var(--neon); text-transform: uppercase; margin-bottom: 15px; letter-spacing: 1px; }
+        .scanner-ring { width: 180px; height: 180px; border: 4px solid #111; border-top-color: var(--gold); border-radius: 50%; margin: 20px auto; display: flex; align-items: center; justify-content: center; position: relative; transition: 0.5s; }
+        .active-scan { animation: spin 2s linear infinite; border-top-color: var(--pink); box-shadow: 0 0 20px var(--pink); }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        .display-value { position: absolute; transform: rotate(0deg); text-align: center; }
+        .display-value h1 { font-size: 48px; margin: 0; color: var(--gold); font-weight: 900; }
+        .pressure-bar-container { width: 100%; background: #000; height: 10px; border-radius: 5px; border: 1px solid #222; margin: 15px 0; overflow: hidden; }
+        #pressure-fill { width: 0%; height: 100%; background: linear-gradient(90deg, var(--neon), var(--gold), var(--pink)); transition: 1s cubic-bezier(0.17, 0.67, 0.83, 0.67); }
+        .grid-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        input { width: 90%; padding: 14px; background: #000; border: 1px solid #333; color: var(--gold); border-radius: 12px; text-align: center; font-size: 18px; outline: none; }
+        input:focus { border-color: var(--gold); }
+        .btn-strike { width: 100%; padding: 22px; background: var(--gold); border: none; font-weight: 900; border-radius: 15px; cursor: pointer; font-size: 18px; text-transform: uppercase; transition: 0.2s; }
+        .btn-strike:active { transform: scale(0.96); opacity: 0.8; }
+        #status-card { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 15px; margin-top: 15px; border: 1px solid #1a1a1a; }
+        #terminal { background: #000; height: 80px; overflow-y: auto; font-size: 9px; padding: 10px; margin-top: 10px; border-radius: 8px; color: #555; text-align: left; }
     </style>
 </head>
 <body>
 
-    <div style="margin-bottom: 20px;">
-        <h2 style="color: var(--g); margin: 0;">V300.7 ULTRA-INSTINTO</h2>
-        <small id="clock">03:12:00 - 26/01/2026</small>
+    <div class="system-header">
+        <span>V320 IRON WALL</span>
+        <span id="clock">03:26:00</span>
     </div>
 
-    <div class="grid">
-        <div>
-            <small style="color:var(--g)">ÚLTIMA ROSA (MIN)</small>
-            <input type="number" id="m_rosa" placeholder="Ex: 59">
+    <div class="master-panel" id="ui-frame">
+        <div class="scanner-ring" id="ring">
+            <div class="display-value">
+                <small id="label-top" style="color:#666">PRESSÃO</small>
+                <h1 id="pct-val">0%</h1>
+                <small id="label-btm" style="color:var(--neon)">ESTÁVEL</small>
+            </div>
         </div>
-        <div>
-            <small style="color:var(--g)">VÁCUO ATUAL</small>
-            <input type="number" id="v_count" placeholder="Qtd">
+
+        <div class="pressure-bar-container">
+            <div id="pressure-fill"></div>
         </div>
+
+        <div class="grid-inputs">
+            <div>
+                <small style="color:#555">ÚLTIMA ROSA</small>
+                <input type="number" id="in-seed" placeholder="Min">
+            </div>
+            <div>
+                <small style="color:#555">VÁCUO ATUAL</small>
+                <input type="number" id="in-vac" placeholder="Qtd">
+            </div>
+        </div>
+
+        <button class="btn-strike" onclick="executeIronWall()">INICIAR RASTREIO DE ELITE</button>
+
+        <div id="status-card">
+            <div id="stk-val" style="font-size: 14px; color: #999;">DETERMINAÇÃO: AGUARDANDO DADOS</div>
+            <div id="msg-alert" style="font-size: 11px; margin-top: 5px; font-weight: bold;"></div>
+        </div>
+
+        <div id="terminal">>> [S.A. PROTOCOL] Muralha de Ferro Ativa.</div>
     </div>
-
-    <div class="radar-box" id="box">
-        <div class="status-tag" id="st_text">ANTIVÍRUS: PROTEGIDO</div>
-        <div class="load-bar"><div id="fill"></div></div>
-        <div id="pct" style="font-size: 45px; font-weight: bold; margin: 10px 0;">0%</div>
-        <div id="msg" style="display:none; color: var(--r); font-weight: bold; animation: blink 0.8s infinite;">🎯 ALVO IDENTIFICADO</div>
-        <div id="stk" style="background:#000; padding:12px; border-radius:8px; border: 1px solid #333; font-size: 18px;">STAKE: AGUARDANDO...</div>
-    </div>
-
-    <button class="btn-main" onclick="startSincro()">INICIAR CÁLCULO PARALELO</button>
-
-    <div id="terminal">>> Sistema inicializado.<br>>> Deep-Shield v5 carregado.<br>>> Aguardando semente do servidor...</div>
 
     <script>
         function log(m, c = "#555") {
@@ -54,59 +72,62 @@
             t.innerHTML = `<span style="color:${c}">[${new Date().toLocaleTimeString()}] ${m}</span><br>` + t.innerHTML;
         }
 
-        async function startSincro() {
-            const m = parseInt(document.getElementById('m_rosa').value);
-            const v = parseInt(document.getElementById('v_count').value) || 0;
-            const fill = document.getElementById('fill');
-            const box = document.getElementById('box');
-            const stk = document.getElementById('stk');
-            
-            if(isNaN(m)) return alert("Comandante, insira o minuto da última Rosa!");
+        function executeIronWall() {
+            const seed = parseInt(document.getElementById('in-seed').value);
+            const vac = parseInt(document.getElementById('in-vac').value) || 0;
+            const ring = document.getElementById('ring');
+            const fill = document.getElementById('pressure-fill');
+            const pct = document.getElementById('pct-val');
+            const stk = document.getElementById('stk-val');
+            const msg = document.getElementById('msg-alert');
+            const frame = document.getElementById('ui-frame');
 
-            log("Iniciando Thread Paralela de Processamento...", "var(--g)");
-            
-            // Simulação de Cálculo em Paralelo
+            if(isNaN(seed)) { log("ERRO: Semente Temporal necessária.", "var(--danger)"); return; }
+
+            ring.classList.add('active-scan');
+            log("Sincronizando com latência do servidor...", "var(--gold)");
+
             setTimeout(() => {
+                ring.classList.remove('active-scan');
                 const agora = new Date().getMinutes();
-                let prox = (m + 12) % 60; // Ciclo padrão de 12 min
-                let diff = prox - agora;
+                let diff = (seed + 12) % 60 - agora;
                 if(diff < 0) diff += 60;
 
-                // LÓGICA DE MUTANTE: Ponto de Saturação
-                let carga = Math.floor((1 - (diff / 12)) * 100) + (v * 5);
-                carga = Math.min(99, Math.max(5, carga));
+                // CÁLCULO MURALHA DE FERRO (Multi-Inteligência)
+                let pressao = (vac * 8.5) + ((12 - diff) * 4);
                 
-                fill.style.width = carga + "%";
-                document.getElementById('pct').innerText = carga + "%";
-
-                // ANTIVÍRUS DEEP-SHIELD (Detector de Armadilha)
-                if(v > 12) {
-                    log("ALERTA: Armadilha de Vácuo Longo detectada. Bloqueando Stake Alta.", "var(--d)");
-                    carga = 10;
-                    document.getElementById('pct').innerText = "VÁCUO";
+                // ANTI-ISCA: Neutraliza o 1.99x da casa
+                if(vac < 4 && diff <= 1) {
+                    log("ANTIVÍRUS: Detectada armadilha de tempo fixo. Recalibrando...", "var(--pink)");
+                    pressao = 40;
                 }
 
-                if(carga >= 85 || diff <= 1) {
-                    box.classList.add('radar-active');
-                    document.getElementById('msg').style.display = "block";
-                    stk.innerText = "STAKE DITADA: 1 REAL";
-                    stk.style.color = "var(--r)";
-                    stk.style.borderColor = "var(--r)";
-                    log("BALDE SATURADO. Rosa detectada na janela temporal.", "var(--r)");
+                pressao = Math.min(99, Math.max(5, Math.floor(pressao)));
+                fill.style.width = pressao + "%";
+                pct.innerText = pressao + "%";
+
+                if(pressao >= 85) {
+                    frame.style.borderColor = "var(--pink)";
+                    msg.innerText = "ALVO CONFIRMADO: BRECHA NO BALDE";
+                    msg.style.color = "var(--pink)";
+                    stk.innerHTML = "STAKE DITADA: <b style='color:var(--pink); font-size:20px;'>1 REAL</b>";
+                    log("SISTEMA: Carga crítica detectada. Inicie o bote.", "var(--pink)");
                 } else {
-                    box.classList.remove('radar-active');
-                    document.getElementById('msg').style.display = "none";
-                    stk.innerText = "STAKE DITADA: 10 CENTS";
-                    stk.style.color = "#EEE";
-                    stk.style.borderColor = "#333";
-                    log("Aguardando recarga do balde... " + diff + " min restantes.");
+                    frame.style.borderColor = "#1a1a1a";
+                    msg.innerText = "MODO GHOST: MANTENDO CAMUFLAGEM";
+                    msg.style.color = var(--neon);
+                    stk.innerHTML = "STAKE DITADA: <b style='color:#FFF;'>10 CENTS</b>";
+                    log("SISTEMA: Pressão insuficiente para Rosa. Mantenha ruído.");
                 }
-            }, 800);
+            }, 1200);
         }
 
-        // Injeção de Ruído Comportamental (Anti-Rastreio)
-        setInterval(() => { log("Antivírus: Injetando ruído de navegação..."); }, 20000);
-        setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString() + " - 26/01/2026"; }, 1000);
+        setInterval(() => {
+            document.getElementById('clock').innerText = new Date().toLocaleTimeString();
+        }, 1000);
+
+        // Injeção de Ruído para Neutralizar Monitoramento de IP
+        setInterval(() => { log("Ghost: Regenerando tokens de navegação..."); }, 25000);
     </script>
 </body>
 </html>
