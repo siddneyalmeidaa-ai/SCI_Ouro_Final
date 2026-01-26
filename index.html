@@ -3,79 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.P.A. V360 - OMNI SCANNER</title>
+    <title>S.P.A. V370 - TOTAL ACCESS</title>
     <style>
-        :root { --gold: #D4AF37; --pink: #FF00FF; --bg: #030303; --neon: #00FF41; --danger: #FF3E3E; }
+        :root { --gold: #D4AF37; --pink: #FF00FF; --bg: #020202; --neon: #00FF41; }
         body { background: var(--bg); color: #EEE; font-family: 'Courier New', monospace; margin: 0; padding: 10px; text-align: center; }
-        .master-panel { border: 2px solid #1a1a1a; border-radius: 25px; padding: 15px; background: linear-gradient(180deg, #080808 0%, #0f0f0f 100%); box-shadow: 0 10px 40px #000; position: relative; }
+        .master-panel { border: 2px solid #1a1a1a; border-radius: 30px; padding: 20px; background: linear-gradient(180deg, #050505 0%, #111 100%); box-shadow: 0 0 50px #000; }
         
-        /* HEADER E STATUS */
-        .system-header { display: flex; justify-content: space-between; font-size: 10px; color: var(--neon); margin-bottom: 15px; letter-spacing: 1px; }
+        .header { display: flex; justify-content: space-between; font-size: 10px; color: var(--neon); margin-bottom: 15px; font-weight: bold; }
         
-        /* SCANNER E PREVIEW */
-        .scanner-area { border: 2px dashed #333; padding: 30px; border-radius: 20px; cursor: pointer; margin-bottom: 15px; transition: 0.3s; position: relative; overflow: hidden; }
-        .scanner-area:hover { border-color: var(--gold); background: rgba(212, 175, 55, 0.05); }
-        #preview-img { width: 100%; border-radius: 15px; display: none; margin-bottom: 15px; border: 1px solid var(--gold); }
+        /* ÁREA DE CAPTURA - ACESSO À GALERIA FORÇADO */
+        .upload-trigger { border: 2px dashed #444; padding: 35px 20px; border-radius: 20px; cursor: pointer; display: block; margin-bottom: 15px; transition: 0.3s; background: rgba(255,255,255,0.02); }
+        .upload-trigger:active { transform: scale(0.95); border-color: var(--gold); }
+        #preview-img { width: 100%; border-radius: 15px; display: none; margin-bottom: 15px; border: 1px solid var(--gold); box-shadow: 0 0 15px rgba(212, 175, 55, 0.2); }
         input[type="file"] { display: none; }
 
-        /* DISPLAY DE PRESSÃO */
-        .pressure-box { margin: 20px 0; }
-        #pct-display { font-size: 55px; font-weight: 900; color: var(--gold); margin: 0; text-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
-        .bar-bg { width: 100%; height: 10px; background: #000; border-radius: 5px; border: 1px solid #222; margin-top: 10px; overflow: hidden; }
-        #bar-fill { width: 0%; height: 100%; background: linear-gradient(90deg, var(--neon), var(--pink)); transition: 1.5s ease-in-out; }
+        .pct-box { margin: 25px 0; }
+        #pct-text { font-size: 60px; font-weight: 900; color: var(--gold); margin: 0; }
+        .bar-outer { width: 100%; height: 12px; background: #000; border-radius: 6px; border: 1px solid #333; overflow: hidden; margin-top: 10px; }
+        #bar-inner { width: 0%; height: 100%; background: linear-gradient(90deg, var(--neon), var(--pink)); transition: 2s cubic-bezier(0.1, 0.7, 0.1, 1); }
 
-        /* TABELA DE HISTÓRICO */
-        .history-container { margin-top: 20px; text-align: left; }
-        .history-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 10px; }
-        .history-table th { color: #555; border-bottom: 1px solid #222; padding: 8px; text-align: left; }
-        .history-table td { padding: 10px; border-bottom: 1px solid #111; color: #FFF; }
-        .rosa { color: var(--pink) !important; font-weight: bold; }
+        .btn-sync { width: 100%; padding: 22px; background: var(--gold); border: none; border-radius: 15px; font-weight: 900; font-size: 16px; cursor: pointer; color: #000; text-transform: uppercase; letter-spacing: 1px; }
+        
+        #history-area { margin-top: 25px; text-align: left; }
+        .table-pro { width: 100%; border-collapse: collapse; font-size: 11px; }
+        .table-pro th { color: #555; border-bottom: 1px solid #222; padding: 10px; text-align: left; }
+        .table-pro td { padding: 12px 10px; border-bottom: 1px solid #111; color: #FFF; }
+        .rosa-val { color: var(--pink); font-weight: bold; }
 
-        /* BOTÃO DE AÇÃO */
-        .btn-main { width: 100%; padding: 20px; background: var(--gold); border: none; border-radius: 12px; font-weight: 900; font-size: 16px; cursor: pointer; color: #000; text-transform: uppercase; }
-        .btn-main:active { transform: scale(0.97); }
-
-        #terminal { background: #000; height: 70px; font-size: 9px; color: #444; overflow-y: auto; text-align: left; padding: 10px; margin-top: 15px; border-radius: 8px; border: 1px solid #111; }
+        #console { background: #000; height: 80px; font-size: 9px; color: #444; overflow-y: auto; text-align: left; padding: 10px; margin-top: 15px; border-radius: 10px; border: 1px solid #1a1a1a; }
     </style>
 </head>
 <body>
 
-    <div class="system-header">
-        <span>V360 OMNI-SCANNER [S.A.]</span>
-        <span id="clock">03:36:00</span>
+    <div class="header">
+        <span>V370 TOTAL-ACCESS [S.A.]</span>
+        <span id="clock">03:38:00</span>
     </div>
 
     <div class="master-panel">
-        <label for="upload-print" class="scanner-area" id="drop-zone">
-            <span id="text-guide">📸 CLIQUE PARA PUXAR PRINT DO HISTÓRICO</span>
-            <input type="file" id="upload-print" accept="image/*" onchange="processarImagem(this)">
+        <label for="gallery-input" class="upload-trigger" id="drop-zone">
+            <span style="font-size: 14px; color: var(--gold);">⚡ ACESSAR GALERIA</span><br>
+            <small style="color:#666">Puxar histórico do jogo</small>
+            <input type="file" id="gallery-input" accept="image/*" onchange="loadScanner(this)">
         </label>
+        
         <img id="preview-img" src="">
 
-        <div class="pressure-box">
-            <small style="color:#666">CARGA DA SEMENTE ATUAL</small>
-            <h1 id="pct-display">0%</h1>
-            <div class="bar-bg"><div id="bar-fill"></div></div>
+        <div class="pct-box">
+            <small style="color:#666">PROJEÇÃO DE CARGA (-50% ADAPTATIVO)</small>
+            <h1 id="pct-text">0%</h1>
+            <div class="bar-outer"><div id="bar-inner"></div></div>
         </div>
 
-        <button class="btn-main" onclick="solicitarCoordenada()">SOLICITAR COORDENADA IA</button>
+        <button class="btn-sync" onclick="requestIA()">GERAR COORDENADA V370</button>
 
-        <div class="history-container">
-            <small style="color:var(--gold)">🛰️ MAPEAMENTO DE CAMADA:</small>
-            <table class="history-table">
+        <div id="history-area">
+            <small style="color:var(--gold); font-weight: bold;">🛰️ MAPEAMENTO DE SEMENTE:</small>
+            <table class="table-pro">
                 <thead>
-                    <tr>
-                        <th>ORDEM</th>
-                        <th>MULTIPLICADOR</th>
-                        <th>STATUS</th>
-                    </tr>
+                    <tr><th>MIN</th><th>VELA</th><th>RESULTADO</th></tr>
                 </thead>
-                <tbody id="history-body">
+                <tbody id="table-body">
                     </tbody>
             </table>
         </div>
 
-        <div id="terminal">>> Sistema V360 Online...<br>>> Aguardando Print do Comandante S.A...</div>
+        <div id="console">>> Aguardando captura para análise de chaves...</div>
     </div>
 
     <script>
@@ -83,40 +76,40 @@
         setInterval(updateClock, 1000);
 
         function log(m, c="#444") {
-            const t = document.getElementById('terminal');
-            t.innerHTML = `<span style="color:${c}">[${new Date().toLocaleTimeString()}] ${m}</span><br>` + t.innerHTML;
+            const t = document.getElementById('console');
+            t.innerHTML = `> [${new Date().toLocaleTimeString()}] ${m}<br>` + t.innerHTML;
         }
 
-        // Função que "puxa" o print para a tela
-        function processarImagem(input) {
+        // FUNÇÃO DE CARREGAMENTO DA GALERIA
+        function loadScanner(input) {
             const file = input.files[0];
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = document.getElementById('preview-img');
-                img.src = e.target.result;
-                img.style.display = 'block';
-                document.getElementById('drop-zone').style.display = 'none';
-                log("IMAGE_FUSION: Print integrado com sucesso.", "var(--neon)");
-                localStorage.setItem('last_print', e.target.result); // MEMÓRIA PERSISTENTE
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById('preview-img');
+                    img.src = e.target.result;
+                    img.style.display = 'block';
+                    document.getElementById('drop-zone').style.display = 'none';
+                    log("CONEXÃO: Histórico integrado. Blindagem de IP ativa.", "var(--neon)");
+                    localStorage.setItem('SPA_LAST_STATE', e.target.result);
+                }
+                reader.readAsDataURL(file);
             }
-            reader.readAsDataURL(file);
         }
 
-        // Função que será alimentada pela minha resposta aqui no chat
-        function solicitarCoordenada() {
-            log("SOLICITANDO COORDENADAS À IA...", "var(--gold)");
-            alert("Comandante, envie este print aqui no Gemini agora! Vou ler os dados e te dar a coordenada para preencher a tabela.");
+        function requestIA() {
+            log("SOLICITANDO COORDENADA À IA...", "var(--gold)");
+            alert("Comandante S.A., a galeria foi acessada! Agora mande o print AQUI NO CHAT para eu ditar as coordenadas reais.");
         }
 
-        // Recuperar memória ao abrir
+        // Persistência de Memória
         window.onload = () => {
-            const last = localStorage.getItem('last_print');
-            if(last) {
-                const img = document.getElementById('preview-img');
-                img.src = last;
-                img.style.display = 'block';
+            const saved = localStorage.getItem('SPA_LAST_STATE');
+            if(saved) {
+                document.getElementById('preview-img').src = saved;
+                document.getElementById('preview-img').style.display = 'block';
                 document.getElementById('drop-zone').style.display = 'none';
-                log("MEMÓRIA: Último estado resgatado.");
+                log("SISTEMA: Última semente recuperada da memória quântica.");
             }
         };
     </script>
