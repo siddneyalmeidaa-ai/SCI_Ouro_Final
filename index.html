@@ -3,131 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.P.A. V320 - MURALHA DE FERRO</title>
+    <title>S.P.A. V330 - VISION FLOW</title>
     <style>
         :root { --gold: #D4AF37; --pink: #FF00FF; --bg: #030303; --neon: #00FF41; --danger: #FF3E3E; }
-        body { background: var(--bg); color: #EEE; font-family: 'Segoe UI', monospace; margin: 0; padding: 10px; overflow-x: hidden; }
-        .master-panel { border: 2px solid #1a1a1a; border-radius: 25px; padding: 20px; background: linear-gradient(180deg, #080808 0%, #0f0f0f 100%); position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
-        .system-header { display: flex; justify-content: space-between; font-size: 10px; color: var(--neon); text-transform: uppercase; margin-bottom: 15px; letter-spacing: 1px; }
-        .scanner-ring { width: 180px; height: 180px; border: 4px solid #111; border-top-color: var(--gold); border-radius: 50%; margin: 20px auto; display: flex; align-items: center; justify-content: center; position: relative; transition: 0.5s; }
-        .active-scan { animation: spin 2s linear infinite; border-top-color: var(--pink); box-shadow: 0 0 20px var(--pink); }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-        .display-value { position: absolute; transform: rotate(0deg); text-align: center; }
-        .display-value h1 { font-size: 48px; margin: 0; color: var(--gold); font-weight: 900; }
-        .pressure-bar-container { width: 100%; background: #000; height: 10px; border-radius: 5px; border: 1px solid #222; margin: 15px 0; overflow: hidden; }
-        #pressure-fill { width: 0%; height: 100%; background: linear-gradient(90deg, var(--neon), var(--gold), var(--pink)); transition: 1s cubic-bezier(0.17, 0.67, 0.83, 0.67); }
-        .grid-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        input { width: 90%; padding: 14px; background: #000; border: 1px solid #333; color: var(--gold); border-radius: 12px; text-align: center; font-size: 18px; outline: none; }
-        input:focus { border-color: var(--gold); }
-        .btn-strike { width: 100%; padding: 22px; background: var(--gold); border: none; font-weight: 900; border-radius: 15px; cursor: pointer; font-size: 18px; text-transform: uppercase; transition: 0.2s; }
-        .btn-strike:active { transform: scale(0.96); opacity: 0.8; }
-        #status-card { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 15px; margin-top: 15px; border: 1px solid #1a1a1a; }
-        #terminal { background: #000; height: 80px; overflow-y: auto; font-size: 9px; padding: 10px; margin-top: 10px; border-radius: 8px; color: #555; text-align: left; }
+        body { background: var(--bg); color: #EEE; font-family: 'Courier New', monospace; margin: 0; padding: 10px; text-align: center; }
+        .master-panel { border: 2px solid #1a1a1a; border-radius: 25px; padding: 20px; background: linear-gradient(180deg, #080808 0%, #0f0f0f 100%); box-shadow: 0 10px 40px rgba(0,0,0,0.9); position: relative; }
+        .header { display: flex; justify-content: space-between; font-size: 10px; color: var(--neon); margin-bottom: 20px; }
+        .vision-display { border: 1px solid #222; border-radius: 15px; padding: 30px 10px; background: rgba(255,255,255,0.02); margin-bottom: 20px; }
+        #pct-main { font-size: 65px; font-weight: 900; color: var(--gold); text-shadow: 0 0 20px rgba(212, 175, 55, 0.4); margin: 0; }
+        .bar-outer { width: 100%; height: 8px; background: #000; border-radius: 4px; border: 1px solid #222; margin: 15px 0; overflow: hidden; }
+        #bar-inner { width: 0%; height: 100%; background: linear-gradient(90deg, var(--neon), var(--pink)); transition: 1.5s cubic-bezier(0.1, 0.7, 0.1, 1); }
+        .coord-box { background: #000; border: 1px solid var(--gold); border-radius: 12px; padding: 15px; margin-top: 10px; }
+        .stake-label { font-size: 12px; color: #666; text-transform: uppercase; }
+        #stake-val { font-size: 22px; font-weight: bold; color: #FFF; margin-top: 5px; }
+        #terminal { background: #000; height: 100px; overflow-y: auto; font-size: 10px; color: #444; text-align: left; padding: 10px; margin-top: 15px; border-radius: 8px; border: 1px solid #111; }
+        .btn-sync { width: 100%; padding: 20px; background: var(--gold); border: none; border-radius: 12px; font-weight: 900; font-size: 16px; cursor: pointer; transition: 0.3s; color: #000; }
+        .btn-sync:active { transform: scale(0.97); background: #b8962d; }
+        .pulse { animation: pulse-border 2s infinite; }
+        @keyframes pulse-border { 0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); } 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); } }
     </style>
 </head>
 <body>
 
-    <div class="system-header">
-        <span>V320 IRON WALL</span>
-        <span id="clock">03:26:00</span>
+    <div class="header">
+        <span>V330 VISION-FLOW [S.A.]</span>
+        <span id="clock">03:31:00</span>
     </div>
 
-    <div class="master-panel" id="ui-frame">
-        <div class="scanner-ring" id="ring">
-            <div class="display-value">
-                <small id="label-top" style="color:#666">PRESSÃO</small>
-                <h1 id="pct-val">0%</h1>
-                <small id="label-btm" style="color:var(--neon)">ESTÁVEL</small>
-            </div>
+    <div class="master-panel pulse" id="panel">
+        <div class="vision-display">
+            <small style="color: var(--neon); letter-spacing: 2px;">CARGA DO BALDE</small>
+            <h1 id="pct-main">0%</h1>
+            <div class="bar-outer"><div id="bar-inner"></div></div>
+            <small id="status-text" style="color: #555;">AGUARDANDO PRINT DO COMANDANTE</small>
         </div>
 
-        <div class="pressure-bar-container">
-            <div id="pressure-fill"></div>
+        <div class="coord-box">
+            <span class="stake-label">Coordenada de Stake</span>
+            <div id="stake-val">PENDENTE</div>
         </div>
 
-        <div class="grid-inputs">
-            <div>
-                <small style="color:#555">ÚLTIMA ROSA</small>
-                <input type="number" id="in-seed" placeholder="Min">
-            </div>
-            <div>
-                <small style="color:#555">VÁCUO ATUAL</small>
-                <input type="number" id="in-vac" placeholder="Qtd">
-            </div>
-        </div>
-
-        <button class="btn-strike" onclick="executeIronWall()">INICIAR RASTREIO DE ELITE</button>
-
-        <div id="status-card">
-            <div id="stk-val" style="font-size: 14px; color: #999;">DETERMINAÇÃO: AGUARDANDO DADOS</div>
-            <div id="msg-alert" style="font-size: 11px; margin-top: 5px; font-weight: bold;"></div>
-        </div>
-
-        <div id="terminal">>> [S.A. PROTOCOL] Muralha de Ferro Ativa.</div>
+        <div id="terminal">>> Sistema V330 inicializado.<br>>> Módulo OCR pronto para recepção de imagem.<br>>> Deep-Shield v5.5 monitorando semente...</div>
+        
+        <br>
+        <button class="btn-sync" onclick="alert('Comandante, envie o print aqui no chat para eu processar as coordenadas!')">AGUARDANDO PRINT</button>
     </div>
 
     <script>
-        function log(m, c = "#555") {
-            const t = document.getElementById('terminal');
-            t.innerHTML = `<span style="color:${c}">[${new Date().toLocaleTimeString()}] ${m}</span><br>` + t.innerHTML;
-        }
-
-        function executeIronWall() {
-            const seed = parseInt(document.getElementById('in-seed').value);
-            const vac = parseInt(document.getElementById('in-vac').value) || 0;
-            const ring = document.getElementById('ring');
-            const fill = document.getElementById('pressure-fill');
-            const pct = document.getElementById('pct-val');
-            const stk = document.getElementById('stk-val');
-            const msg = document.getElementById('msg-alert');
-            const frame = document.getElementById('ui-frame');
-
-            if(isNaN(seed)) { log("ERRO: Semente Temporal necessária.", "var(--danger)"); return; }
-
-            ring.classList.add('active-scan');
-            log("Sincronizando com latência do servidor...", "var(--gold)");
-
-            setTimeout(() => {
-                ring.classList.remove('active-scan');
-                const agora = new Date().getMinutes();
-                let diff = (seed + 12) % 60 - agora;
-                if(diff < 0) diff += 60;
-
-                // CÁLCULO MURALHA DE FERRO (Multi-Inteligência)
-                let pressao = (vac * 8.5) + ((12 - diff) * 4);
-                
-                // ANTI-ISCA: Neutraliza o 1.99x da casa
-                if(vac < 4 && diff <= 1) {
-                    log("ANTIVÍRUS: Detectada armadilha de tempo fixo. Recalibrando...", "var(--pink)");
-                    pressao = 40;
-                }
-
-                pressao = Math.min(99, Math.max(5, Math.floor(pressao)));
-                fill.style.width = pressao + "%";
-                pct.innerText = pressao + "%";
-
-                if(pressao >= 85) {
-                    frame.style.borderColor = "var(--pink)";
-                    msg.innerText = "ALVO CONFIRMADO: BRECHA NO BALDE";
-                    msg.style.color = "var(--pink)";
-                    stk.innerHTML = "STAKE DITADA: <b style='color:var(--pink); font-size:20px;'>1 REAL</b>";
-                    log("SISTEMA: Carga crítica detectada. Inicie o bote.", "var(--pink)");
-                } else {
-                    frame.style.borderColor = "#1a1a1a";
-                    msg.innerText = "MODO GHOST: MANTENDO CAMUFLAGEM";
-                    msg.style.color = var(--neon);
-                    stk.innerHTML = "STAKE DITADA: <b style='color:#FFF;'>10 CENTS</b>";
-                    log("SISTEMA: Pressão insuficiente para Rosa. Mantenha ruído.");
-                }
-            }, 1200);
-        }
-
-        setInterval(() => {
+        function updateClock() {
             document.getElementById('clock').innerText = new Date().toLocaleTimeString();
-        }, 1000);
+        }
+        setInterval(updateClock, 1000);
 
-        // Injeção de Ruído para Neutralizar Monitoramento de IP
-        setInterval(() => { log("Ghost: Regenerando tokens de navegação..."); }, 25000);
+        // Esta função será alimentada pela minha leitura do seu print
+        function aplicarCoordenada(percent, stake, msg) {
+            document.getElementById('pct-main').innerText = percent + "%";
+            document.getElementById('bar-inner').style.width = percent + "%";
+            document.getElementById('stake-val').innerText = stake;
+            document.getElementById('status-text').innerText = msg;
+            
+            const term = document.getElementById('terminal');
+            const log = `<span style="color:var(--gold)">[${new Date().toLocaleTimeString()}] Sincronia via Print concluída.</span><br>`;
+            term.innerHTML = log + term.innerHTML;
+
+            if(percent >= 85) {
+                document.getElementById('stake-val').style.color = "var(--pink)";
+                document.getElementById('panel').style.borderColor = "var(--pink)";
+            } else {
+                document.getElementById('stake-val').style.color = "#FFF";
+                document.getElementById('panel').style.borderColor = "#1a1a1a";
+            }
+        }
     </script>
 </body>
 </html>
