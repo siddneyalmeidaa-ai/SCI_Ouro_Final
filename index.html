@@ -3,101 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.P.A. V300.3 - PHANTOM MODE</title>
+    <title>S.P.A. V300.4 - HUNTER MODE</title>
     <style>
-        :root { --g: #D4AF37; --b: #050505; --s: #2ecc71; --d: #ff4d4d; --p: #111; }
+        :root { --g: #D4AF37; --b: #050505; --s: #2ecc71; --r: #ff00ff; --p: #111; }
         body { background: var(--b); color: #ccc; font-family: 'Courier New', monospace; margin: 0; overflow: hidden; }
         .container { padding: 15px; max-width: 480px; margin: auto; height: 100vh; display: flex; flex-direction: column; }
-        .card { background: var(--p); border: 1px solid #222; padding: 15px; border-radius: 8px; margin-bottom: 10px; border-left: 3px solid #333; }
-        .metric { font-size: 28px; font-weight: bold; margin: 5px 0; }
-        input { width: 100%; padding: 12px; background: #000; border: 1px solid #333; color: var(--s); margin-bottom: 8px; border-radius: 4px; box-sizing: border-box; }
-        .btn { width: 100%; padding: 16px; border: none; font-weight: bold; cursor: pointer; text-transform: uppercase; border-radius: 5px; }
-        .btn-gold { background: var(--g); color: #000; }
-        #fake_ui { display: none; background: white !important; color: black !important; height: 100vh; width: 100vw; position: fixed; top: 0; z-index: 9999; padding: 40px; box-sizing: border-box; }
+        .card { background: var(--p); border: 1px solid #222; padding: 12px; border-radius: 8px; margin-bottom: 10px; position: relative; }
+        .metric { font-size: 24px; font-weight: bold; margin: 5px 0; color: var(--s); }
+        .rosa-alert { color: var(--r); font-size: 14px; font-weight: bold; animation: blink 1s infinite; display: none; }
+        @keyframes blink { 0% {opacity: 1;} 50% {opacity: 0.3;} 100% {opacity: 1;} }
+        input { width: 100%; padding: 10px; background: #000; border: 1px solid #333; color: var(--g); margin-bottom: 5px; border-radius: 4px; }
+        .btn { width: 100%; padding: 15px; border: none; font-weight: bold; cursor: pointer; border-radius: 5px; background: var(--g); color: #000; }
+        #log { font-size: 9px; color: #555; height: 40px; overflow: hidden; margin-top: 5px; }
     </style>
 </head>
-<body onkeydown="if(event.key==='Escape') sys_stealth()">
+<body>
 
-    <div id="fake_ui">
-        <h2 style="color: navy;">REVISÃO TÉCNICA - PORTUGUÊS</h2>
-        <p>Tópico: Concordância Verbal e Nominal.</p>
-        <p style="margin-top: 50px; font-size: 12px; color: gray;">ESC para alternar.</p>
-    </div>
-
-    <div class="container" id="real_ui">
-        <div style="text-align:center; border-bottom: 1px solid var(--g); padding-bottom: 10px; margin-bottom: 15px;">
-            <h2 style="color:var(--g); margin:0;">S. P. A. V300.3</h2>
-            <small id="clock">--:--:-- - 25/01/2026</small>
+    <div class="container">
+        <div style="text-align:center; border-bottom: 1px solid var(--g); padding-bottom: 5px; margin-bottom: 10px;">
+            <h2 style="color:var(--g); margin:0; font-size: 18px;">V300.4 HUNTER</h2>
+            <small id="clock">02:54:00 - 26/01/2026</small>
         </div>
 
-        <div class="card" style="border-left: 3px solid #ff0000;">
-            <span style="font-size: 10px; color: #ff0000;">⚠️ ALERTA: FINGERPRINT MASK ATIVO</span>
-            <input type="text" id="seed_input" placeholder="Semente..." onfocus="sys_reset_panic()">
-            <button class="btn btn-gold" onclick="sys_process_cycle()">GERAR CICLO BLINDADO</button>
+        <div class="card">
+            <span style="font-size: 10px; color: var(--g);">SINCRO DE CICLO (MINUTO DA ÚLTIMA ROSA)</span>
+            <input type="number" id="last_rosa" placeholder="Ex: 42 (Minuto da Rosa anterior)">
+            <button class="btn" onclick="iniciarAnalise()">IDENTIFICAR JANELA DE BOTE</button>
         </div>
 
-        <div class="card" id="display_card">
-            <div id="node_label" style="font-size: 10px; color: #555;">STATUS: INVISÍVEL</div>
-            <div class="metric" id="ui_lib" style="color:var(--s)">LIBERADO: 0%</div>
-            <div id="ui_stake" style="background:#000; padding:10px; border-radius:4px; border-left: 4px solid var(--g); font-weight:bold; margin-top:10px;">STAKE: --</div>
+        <div class="card" id="display">
+            <div id="status_scan" style="font-size: 10px; color: #777;">STATUS: AGUARDANDO DADOS...</div>
+            <div id="rosa_timer" class="rosa-alert">⚠️ JANELA ROSA SE APROXIMANDO!</div>
+            <div class="metric" id="ui_lib">PENDENTE: 0%</div>
+            <div id="ui_stake" style="background:#000; padding:8px; border-radius:4px; border-left: 4px solid var(--g); font-size: 14px;">STAKE: AGUARDANDO...</div>
         </div>
 
-        <div style="font-size: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 5px; opacity: 0.5;">
-            <div>🛡️ CANVAS: NOISE</div>
-            <div>📡 DNS: ENCRYPTED</div>
-            <div>🔒 LOG: AUTO-PURGE</div>
+        <div class="card">
+            <span style="font-size: 10px;">ÚLTIMAS VELAS (DIRETO DO HISTÓRICO):</span>
+            <input type="text" id="sequence" placeholder="Ex: 1.2, 1.05, 1.95">
+            <div id="log">Aguardando cruzamento de dados...</div>
+        </div>
+
+        <div style="font-size: 9px; color: #444; text-align: center;">
+            DNS: ENCRYPTED | FINGERPRINT: NOISE | ID: 2026012213831
         </div>
     </div>
 
     <script>
-        // --- BLINDAGEM DE ELITE (V300.3) ---
-        (function() {
-            // 1. Envenena a leitura de Fingerprint (Mente sobre o desenho da tela)
-            const orgCanvas = HTMLCanvasElement.prototype.getContext;
-            HTMLCanvasElement.prototype.getContext = function(type) {
-                const context = orgCanvas.apply(this, arguments);
-                if (type === '2d') {
-                    const orgFillText = context.fillText;
-                    context.fillText = function() {
-                        context.fillStyle = "rgba(0,0,0,0.01)"; // Adiciona ruído invisível
-                        orgFillText.apply(this, arguments);
-                    };
+        function iniciarAnalise() {
+            const lastRosaMin = parseInt(document.getElementById('last_rosa').value);
+            const seq = document.getElementById('sequence').value;
+            const log = document.getElementById('log');
+            
+            // 1. Simulação de "Processamento Humano" (Delay de 1.5s)
+            document.getElementById('status_scan').innerText = "SCRAPPING SERVIDOR... (LATÊNCIA 45ms)";
+            
+            setTimeout(() => {
+                // 2. Cálculo do Ciclo (Média de Recarga de 12 minutos)
+                const currentMin = new Date().getMinutes();
+                const proximaJanela = (lastRosaMin + 12) % 60;
+                const tempoFaltante = proximaJanela - currentMin;
+
+                // 3. Regra de Ouro (-50% na projeção) e Stake Ditada
+                let base_proj = 2.0; // Projeção base
+                let final_x = (base_proj * 0.5).toFixed(2); // Aplicando -50%
+
+                // 4. Cruzamento de Indução (Se tem vela perto de 2.0x, a Rosa tá vindo)
+                const isInducing = seq.includes("1.8") || seq.includes("1.9");
+                
+                if (tempoFaltante <= 2 || isInducing) {
+                    document.getElementById('rosa_timer').style.display = "block";
+                    document.getElementById('ui_lib').innerText = "LIBERADO: 98%";
+                    document.getElementById('ui_stake').innerText = "STAKE DITADA: 1 Real (ALTO RISCO)";
+                    log.innerText = "ALERTA: Vela de indução detectada. O balde está transbordando.";
+                } else {
+                    document.getElementById('rosa_timer').style.display = "none";
+                    document.getElementById('ui_lib').innerText = "PENDENTE: 15%";
+                    document.getElementById('ui_stake').innerText = "STAKE DITADA: 10 cents (RUÍDO)";
+                    log.innerText = "Ciclo de acumulação. Próxima janela em aprox. " + tempoFaltante + " min.";
                 }
-                return context;
-            };
-
-            // 2. Mata o monitoramento de foco e visibilidade
-            Object.defineProperty(document, 'visibilityState', {get: () => 'visible'});
-            Object.defineProperty(document, 'hidden', {get: () => false});
-            window.addEventListener('visibilitychange', e => e.stopImmediatePropagation(), true);
-
-            // 3. Limpeza de rastro automática (Auto-Purge Console)
-            setInterval(() => { console.clear(); }, 5000);
-            
-            console.log("🛡️ PROTOCOLO FANTASMA V3: SISTEMA INDETECTÁVEL.");
-        })();
-
-        function sys_process_cycle() {
-            const seed = document.getElementById('seed_input').value;
-            if(!seed) return;
-            const exit = ((Math.random() * 4 + 1) * 0.5).toFixed(2); // Regra de Ouro -50%
-            
-            document.getElementById('ui_lib').innerText = exit < 1.20 ? "LIBERADO: 0%" : "LIBERADO: 95%";
-            let s = exit > 2.0 ? "1 Real" : (exit > 1.5 ? "20 cents" : "10 cents");
-            document.getElementById('ui_stake').innerText = "STAKE DITADA: " + s;
-        }
-
-        function sys_stealth() {
-            const f = document.getElementById('fake_ui');
-            const r = document.getElementById('real_ui');
-            const st = f.style.display === "block";
-            f.style.display = st ? "none" : "block";
-            r.style.display = st ? "block" : "none";
-            document.body.style.background = st ? "#050505" : "white";
+                
+                document.getElementById('status_scan').innerText = "SCANNER ATIVO - MODO FANTASMA";
+                console.clear(); // Limpeza de Logs automática
+            }, 1500);
         }
 
         setInterval(() => {
-            document.getElementById('clock').innerText = new Date().toLocaleTimeString() + " - 25/01/2026";
+            document.getElementById('clock').innerText = new Date().toLocaleTimeString() + " - 26/01/2026";
         }, 1000);
     </script>
 </body>
