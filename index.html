@@ -1,47 +1,112 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-  body { background: #000; color: #D4AF37; font-family: sans-serif; text-align: center; padding: 20px; }
-  .box { border: 2px solid #333; padding: 20px; border-radius: 10px; background: #111; }
-  .rosa { color: #ff00ff; display: none; font-size: 20px; margin: 10px; }
-  button { width: 100%; padding: 15px; background: #D4AF37; border: none; font-weight: bold; margin-top: 10px; }
-  input { width: 90%; padding: 10px; margin: 10px 0; text-align: center; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>S.P.A. V300.7 - PARALELO</title>
+    <style>
+        :root { --g: #D4AF37; --r: #FF00FF; --b: #050505; --s: #2ECC71; --d: #FF4D4D; }
+        body { background: var(--b); color: #EEE; font-family: 'Courier New', monospace; margin: 0; padding: 15px; text-align: center; }
+        .radar-box { border: 2px solid #222; border-radius: 15px; padding: 25px; background: #111; transition: 0.4s; position: relative; overflow: hidden; }
+        .radar-active { border-color: var(--r); box-shadow: 0 0 30px var(--r); }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; }
+        input { width: 90%; background: #000; border: 1px solid #444; color: var(--g); padding: 12px; border-radius: 8px; text-align: center; font-size: 16px; }
+        .btn-main { width: 100%; padding: 20px; background: var(--g); border: none; font-weight: bold; border-radius: 10px; cursor: pointer; font-size: 18px; margin-top: 10px; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
+        #terminal { background: #000; border: 1px solid #222; height: 100px; overflow-y: auto; font-size: 11px; text-align: left; padding: 10px; margin-top: 15px; color: #555; border-radius: 5px; }
+        .load-bar { width: 100%; background: #000; height: 6px; border-radius: 3px; margin: 15px 0; border: 1px solid #222; }
+        #fill { width: 0%; height: 100%; background: var(--s); transition: 1s linear; }
+        .status-tag { font-size: 10px; letter-spacing: 1px; color: var(--s); }
+    </style>
 </head>
 <body>
-  <h2>V300.4 HUNTER</h2>
-  <div class="box" id="main">
-    <div id="status">SISTEMA PRONTO</div>
-    <div id="alvo" class="rosa">⚠️ ALVO DETECTADO: ROSA!</div>
-    <h1 id="pct">0%</h1>
-    <p id="stk">STAKE: AGUARDANDO...</p>
-  </div>
-  <input type="number" id="min" placeholder="Minuto da Rosa (Ex: 59)">
-  <button onclick="caçar()">RASTREAR ROSA</button>
 
-  <script>
-    function caçar() {
-      let m = parseInt(document.getElementById('min').value);
-      let agora = new Date().getMinutes();
-      let prox = (m + 12) % 60;
-      let diff = prox - agora;
-      if (diff < 0) diff += 60;
-      
-      let p = Math.floor((1 - (diff/12)) * 100);
-      document.getElementById('pct').innerText = (p < 0 ? 5 : p) + "%";
-      
-      if (diff <= 2 || diff >= 58) {
-        document.getElementById('alvo').style.display = "block";
-        document.getElementById('stk').innerText = "STAKE DITADA: 1 REAL";
-        document.getElementById('main').style.borderColor = "#ff00ff";
-      } else {
-        document.getElementById('alvo').style.display = "none";
-        document.getElementById('stk').innerText = "STAKE DITADA: 10 CENTS";
-        document.getElementById('main').style.borderColor = "#333";
-      }
-    }
-  </script>
+    <div style="margin-bottom: 20px;">
+        <h2 style="color: var(--g); margin: 0;">V300.7 ULTRA-INSTINTO</h2>
+        <small id="clock">03:12:00 - 26/01/2026</small>
+    </div>
+
+    <div class="grid">
+        <div>
+            <small style="color:var(--g)">ÚLTIMA ROSA (MIN)</small>
+            <input type="number" id="m_rosa" placeholder="Ex: 59">
+        </div>
+        <div>
+            <small style="color:var(--g)">VÁCUO ATUAL</small>
+            <input type="number" id="v_count" placeholder="Qtd">
+        </div>
+    </div>
+
+    <div class="radar-box" id="box">
+        <div class="status-tag" id="st_text">ANTIVÍRUS: PROTEGIDO</div>
+        <div class="load-bar"><div id="fill"></div></div>
+        <div id="pct" style="font-size: 45px; font-weight: bold; margin: 10px 0;">0%</div>
+        <div id="msg" style="display:none; color: var(--r); font-weight: bold; animation: blink 0.8s infinite;">🎯 ALVO IDENTIFICADO</div>
+        <div id="stk" style="background:#000; padding:12px; border-radius:8px; border: 1px solid #333; font-size: 18px;">STAKE: AGUARDANDO...</div>
+    </div>
+
+    <button class="btn-main" onclick="startSincro()">INICIAR CÁLCULO PARALELO</button>
+
+    <div id="terminal">>> Sistema inicializado.<br>>> Deep-Shield v5 carregado.<br>>> Aguardando semente do servidor...</div>
+
+    <script>
+        function log(m, c = "#555") {
+            const t = document.getElementById('terminal');
+            t.innerHTML = `<span style="color:${c}">[${new Date().toLocaleTimeString()}] ${m}</span><br>` + t.innerHTML;
+        }
+
+        async function startSincro() {
+            const m = parseInt(document.getElementById('m_rosa').value);
+            const v = parseInt(document.getElementById('v_count').value) || 0;
+            const fill = document.getElementById('fill');
+            const box = document.getElementById('box');
+            const stk = document.getElementById('stk');
+            
+            if(isNaN(m)) return alert("Comandante, insira o minuto da última Rosa!");
+
+            log("Iniciando Thread Paralela de Processamento...", "var(--g)");
+            
+            // Simulação de Cálculo em Paralelo
+            setTimeout(() => {
+                const agora = new Date().getMinutes();
+                let prox = (m + 12) % 60; // Ciclo padrão de 12 min
+                let diff = prox - agora;
+                if(diff < 0) diff += 60;
+
+                // LÓGICA DE MUTANTE: Ponto de Saturação
+                let carga = Math.floor((1 - (diff / 12)) * 100) + (v * 5);
+                carga = Math.min(99, Math.max(5, carga));
+                
+                fill.style.width = carga + "%";
+                document.getElementById('pct').innerText = carga + "%";
+
+                // ANTIVÍRUS DEEP-SHIELD (Detector de Armadilha)
+                if(v > 12) {
+                    log("ALERTA: Armadilha de Vácuo Longo detectada. Bloqueando Stake Alta.", "var(--d)");
+                    carga = 10;
+                    document.getElementById('pct').innerText = "VÁCUO";
+                }
+
+                if(carga >= 85 || diff <= 1) {
+                    box.classList.add('radar-active');
+                    document.getElementById('msg').style.display = "block";
+                    stk.innerText = "STAKE DITADA: 1 REAL";
+                    stk.style.color = "var(--r)";
+                    stk.style.borderColor = "var(--r)";
+                    log("BALDE SATURADO. Rosa detectada na janela temporal.", "var(--r)");
+                } else {
+                    box.classList.remove('radar-active');
+                    document.getElementById('msg').style.display = "none";
+                    stk.innerText = "STAKE DITADA: 10 CENTS";
+                    stk.style.color = "#EEE";
+                    stk.style.borderColor = "#333";
+                    log("Aguardando recarga do balde... " + diff + " min restantes.");
+                }
+            }, 800);
+        }
+
+        // Injeção de Ruído Comportamental (Anti-Rastreio)
+        setInterval(() => { log("Antivírus: Injetando ruído de navegação..."); }, 20000);
+        setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString() + " - 26/01/2026"; }, 1000);
+    </script>
 </body>
 </html>
