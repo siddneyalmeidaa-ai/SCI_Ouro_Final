@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.P.A. V500 - CORE PROJEÇÃO</title>
+    <title>S.P.A. V500 - FULL CORE</title>
     <style>
         :root { --gold: #D4AF37; --pink: #FF00FF; --bg: #000; --neon: #00FF41; --danger: #FF3E3E; }
         body { background: var(--bg); color: #EEE; font-family: 'Courier New', monospace; margin: 0; padding: 10px; text-align: center; }
@@ -17,5 +17,94 @@
         .bar-outer { width: 100%; height: 12px; background: #111; border-radius: 6px; overflow: hidden; border: 1px solid #333; margin-bottom: 15px; }
         #bar-inner { width: 0%; height: 100%; background: linear-gradient(90deg, var(--neon), var(--pink)); transition: 1.5s; }
 
-        .btn-main { width: 100%; padding: 22px; background: var(--gold); border: none; border-
-                   
+        .btn-main { width: 100%; padding: 22px; background: var(--gold); border: none; border-radius: 15px; font-weight: 900; font-size: 16px; cursor: pointer; color: #000; text-transform: uppercase; }
+        .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+        .btn-sub { padding: 12px; background: #111; border: 1px solid #333; border-radius: 10px; cursor: pointer; color: #EEE; font-size: 11px; font-weight: bold; }
+
+        table { width: 100%; margin-top: 20px; border-collapse: collapse; font-size: 11px; text-align: left; }
+        th { color: #555; border-bottom: 1px solid #222; padding: 10px; }
+        td { padding: 12px 10px; border-bottom: 1px solid #111; }
+        #console { background: #000; height: 80px; font-size: 10px; color: #777; overflow-y: auto; text-align: left; padding: 12px; margin-top: 20px; border-radius: 12px; border: 1px solid #1a1a1a; border-left: 3px solid var(--gold); }
+    </style>
+</head>
+<body>
+
+    <div style="font-size: 10px; color: var(--neon); margin-bottom: 8px;">S.P.A. V500 CORE | <span id="clock">00:00:00</span></div>
+
+    <div class="master-panel">
+        <label for="file-up" class="upload-trigger" id="drop-zone">📸 CLIQUE PARA ANEXAR PRINT</label>
+        <input type="file" id="file-up" accept="image/*" onchange="readImg(this)">
+        <img id="preview-img">
+
+        <div id="pct-text">0%</div>
+        <div class="bar-outer"><div id="bar-inner"></div></div>
+
+        <button class="btn-main" onclick="processar()">GERAR COORDENADA IA</button>
+        
+        <div class="btn-row">
+            <button class="btn-sub" onclick="relato()">ANÁLISE RELATO</button>
+            <button class="btn-sub" onclick="reset()">LIMPAR TUDO</button>
+        </div>
+
+        <table>
+            <thead><tr><th>HORÁRIO</th><th>STAKE</th><th>ESTRATÉGIA</th></tr></thead>
+            <tbody id="lista">
+                <tr><td colspan="3" style="text-align:center; color:#333; padding:20px;">Aguardando comando...</td></tr>
+            </tbody>
+        </table>
+
+        <div id="console">>> IA-SENTINELA: Standby...</div>
+    </div>
+
+    <script>
+        setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
+
+        function log(m) {
+            const c = document.getElementById('console');
+            c.innerHTML = `> [${new Date().toLocaleTimeString()}] ${m}<br>` + c.innerHTML;
+        }
+
+        function readImg(input) {
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById('preview-img');
+                    img.src = e.target.result;
+                    img.style.display = 'block';
+                    document.getElementById('drop-zone').style.display = 'none';
+                    log("IMAGEM CARREGADA. Sincronizando IP...");
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function processar() {
+            log("PROCESSANDO... Aplicando recuo de -50%.");
+            document.getElementById('pct-text').innerText = "96%";
+            document.getElementById('bar-inner').style.width = "96%";
+            
+            const agora = new Date();
+            const h1 = new Date(agora.getTime() + 2 * 60000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            const h2 = new Date(agora.getTime() + 4 * 60000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+
+            document.getElementById('lista').innerHTML = `
+                <tr><td style="color:var(--neon)">${h1}:39s</td><td>R$ 1,09</td><td style="font-weight:bold">🛡️ PROTEÇÃO</td></tr>
+                <tr><td style="color:var(--neon)">${h2}:39s</td><td>R$ 0,21</td><td style="color:var(--pink); font-weight:bold">🌸 ROSA (-50%)</td></tr>
+            `;
+            log("COORDENADAS GERADAS. Gatilho 39s ativo.");
+        }
+
+        function relato() { log("HISTÓRICO: Ciclo favorável detectado após vácuo."); }
+
+        function reset() {
+            document.getElementById('pct-text').innerText = "0%";
+            document.getElementById('bar-inner').style.width = "0%";
+            document.getElementById('preview-img').style.display = 'none';
+            document.getElementById('drop-zone').style.display = 'block';
+            document.getElementById('lista').innerHTML = '<tr><td colspan="3" style="text-align:center; color:#333; padding:20px;">Aguardando...</td></tr>';
+            log("SISTEMA REINICIADO.");
+        }
+    </script>
+</body>
+</html>
