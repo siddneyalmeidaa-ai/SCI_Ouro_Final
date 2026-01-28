@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.P.A. V500 - MUTRÔNICA CORE</title>
+    <title>S.P.A. V500 - BLACK SHIELD</title>
     <style>
-        :root { --gold: #D4AF37; --pink: #FF00FF; --bg: #000; --neon: #00FF41; --danger: #FF3E3E; }
+        :root { --gold: #D4AF37; --pink: #FF00FF; --bg: #000; --neon: #00FF41; --danger: #FF3E3E; --shield: #007FFF; }
         body { background: var(--bg); color: #EEE; font-family: 'Courier New', monospace; margin: 0; padding: 10px; text-align: center; }
-        .master-panel { border: 2px solid #1a1a1a; border-radius: 30px; padding: 20px; background: #080808; box-shadow: 0 0 50px #000; max-width: 500px; margin: auto; }
+        .master-panel { border: 2px solid #1a1a1a; border-radius: 30px; padding: 20px; background: #080808; box-shadow: 0 0 50px #000; max-width: 500px; margin: auto; position: relative; }
+        .shield-active { position: absolute; top: 10px; right: 20px; color: var(--shield); font-size: 10px; font-weight: bold; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
         
         .upload-trigger { border: 2px dashed #444; padding: 20px; border-radius: 20px; cursor: pointer; display: block; margin-bottom: 15px; color: var(--gold); font-size: 12px; }
         #preview-img { width: 100%; border-radius: 15px; display: none; margin-bottom: 15px; border: 1px solid var(--gold); }
@@ -15,45 +17,47 @@
 
         #pct-text { font-size: 55px; font-weight: 900; color: var(--gold); margin: 0; }
         .bar-outer { width: 100%; height: 12px; background: #111; border-radius: 6px; overflow: hidden; border: 1px solid #333; margin-bottom: 15px; }
-        #bar-inner { width: 0%; height: 100%; background: linear-gradient(90deg, var(--neon), var(--pink)); transition: 1.5s; }
+        #bar-inner { width: 0%; height: 100%; background: linear-gradient(90deg, var(--shield), var(--neon), var(--pink)); transition: 1.5s; }
 
-        .btn-main { width: 100%; padding: 22px; background: var(--gold); border: none; border-radius: 15px; font-weight: 900; font-size: 16px; cursor: pointer; color: #000; text-transform: uppercase; }
+        .btn-main { width: 100%; padding: 22px; background: var(--shield); border: none; border-radius: 15px; font-weight: 900; font-size: 16px; cursor: pointer; color: #FFF; text-transform: uppercase; box-shadow: 0 0 15px rgba(0, 127, 255, 0.4); }
         .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
         .btn-sub { padding: 12px; background: #111; border: 1px solid #333; border-radius: 10px; cursor: pointer; color: #EEE; font-size: 11px; font-weight: bold; }
+        .btn-danger { background: #200; border: 1px solid var(--danger); color: var(--danger); }
 
         table { width: 100%; margin-top: 20px; border-collapse: collapse; font-size: 11px; text-align: left; }
         th { color: #555; border-bottom: 1px solid #222; padding: 10px; }
         td { padding: 12px 10px; border-bottom: 1px solid #111; }
-        #console { background: #000; height: 95px; font-size: 10px; color: #777; overflow-y: auto; text-align: left; padding: 12px; margin-top: 20px; border-radius: 12px; border: 1px solid #1a1a1a; border-left: 3px solid var(--neon); }
+        #console { background: #000; height: 95px; font-size: 10px; color: #777; overflow-y: auto; text-align: left; padding: 12px; margin-top: 20px; border-radius: 12px; border: 1px solid #1a1a1a; border-left: 3px solid var(--shield); }
     </style>
 </head>
 <body>
 
-    <div style="font-size: 10px; color: var(--neon); margin-bottom: 8px;">S.P.A. V500 CORE | MUTRÔNICA ATIVA | <span id="clock">00:00:00</span></div>
+    <div style="font-size: 10px; color: var(--shield); margin-bottom: 8px;">🛡️ BLACK SHIELD V500 | ANTI-MAPPING ATIVO | <span id="clock">00:00:00</span></div>
 
     <div class="master-panel">
-        <label for="file-up" class="upload-trigger" id="drop-zone">📸 ANEXAR PRINT PARA ANÁLISE CAÓTICA</label>
+        <div class="shield-active">PROTEÇÃO MUTRÔNICA [MAX]</div>
+        <label for="file-up" class="upload-trigger" id="drop-zone">📸 ANEXAR PRINT (CRIPTOGRAFIA DE PONTA)</label>
         <input type="file" id="file-up" accept="image/*" onchange="readImg(this)">
         <img id="preview-img">
 
         <div id="pct-text">0%</div>
         <div class="bar-outer"><div id="bar-inner"></div></div>
 
-        <button class="btn-main" onclick="processar()">GERAR COORDENADA IA</button>
+        <button class="btn-main" onclick="processar()">GERAR COORDENADA FANTASMA</button>
         
         <div class="btn-row">
-            <button class="btn-sub" onclick="relato()">ANÁLISE RELATO</button>
-            <button class="btn-sub" onclick="reset()">LIMPAR TUDO</button>
+            <button class="btn-sub btn-danger" onclick="decoy()">MODO DECOY (ERRO)</button>
+            <button class="btn-sub" onclick="reset()">RESET TRACKER</button>
         </div>
 
         <table>
-            <thead><tr><th>HORÁRIO</th><th>STAKE</th><th>ESTRATÉGIA</th></tr></thead>
+            <thead><tr><th>JANELA</th><th>STAKE SUJA</th><th>AÇÃO</th></tr></thead>
             <tbody id="lista">
-                <tr><td colspan="3" style="text-align:center; color:#333; padding:20px;">Aguardando leitura Mutrônica...</td></tr>
+                <tr><td colspan="3" style="text-align:center; color:#333; padding:20px;">Aguardando sinal seguro...</td></tr>
             </tbody>
         </table>
 
-        <div id="console">>> IA-SENTINELA: Standby...</div>
+        <div id="console">>> IA-SENTINELA: Protocolo Black Shield ativado...</div>
     </div>
 
     <script>
@@ -73,51 +77,53 @@
                     img.src = e.target.result;
                     img.style.display = 'block';
                     document.getElementById('drop-zone').style.display = 'none';
-                    log("IMAGEM CARREGADA. Quebrando rastro linear.");
+                    log("PRINT ANALISADO. Fragmentando identidade...");
                 };
                 reader.readAsDataURL(file);
             }
         }
 
         function processar() {
-            log("IA-MUTRÔNICA: Sorteando janelas temporais...");
-            document.getElementById('pct-text').innerText = "96%";
-            document.getElementById('bar-inner').style.width = "96%";
+            log("IA-SENTINELA: Injetando ruído de navegação...");
+            let pctFinal = (Math.random() * (99 - 94) + 94).toFixed(0); 
+            document.getElementById('pct-text').innerText = pctFinal + "%";
+            document.getElementById('bar-inner').style.width = pctFinal + "%";
             
             const agora = new Date();
+            const m1 = Math.floor(Math.random() * 3) + 1;
+            const s1 = Math.floor(Math.random() * 59).toString().padStart(2, '0');
             
-            // LÓGICA MUTRÔNICA: Intervalos e Segundos Aleatórios
-            const janelas = [1, 2, 3, 4];
-            const segs = [37, 39, 41, 44, 47, 51, 54];
+            const displayH1 = new Date(agora.getTime() + m1 * 60000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + ":" + s1 + "s";
+
+            // Lógica de Stake Suja (Valores quebrados)
+            const baseStakes = [0.20, 0.50, 1.00];
+            let suja = (baseStakes[Math.floor(Math.random() * baseStakes.length)] + (Math.random() * 0.09)).toFixed(2);
             
-            const m1 = janelas[Math.floor(Math.random() * janelas.length)];
-            const m2 = m1 + janelas[Math.floor(Math.random() * janelas.length)];
-            const s1 = segs[Math.floor(Math.random() * segs.length)];
-            const s2 = segs[Math.floor(Math.random() * segs.length)];
-
-            const h1 = new Date(agora.getTime() + m1 * 60000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-            const h2 = new Date(agora.getTime() + m2 * 60000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-
-            // Stakes Sujas
-            const st1 = (1 + Math.random() * 0.15).toFixed(2);
-            const st2 = (0.2 + Math.random() * 0.08).toFixed(2);
+            // Regra -50% Projeção
+            let proj = (Math.random() * 6 + 2).toFixed(2);
+            let xFinal = (proj * 0.5).toFixed(2);
 
             document.getElementById('lista').innerHTML = `
-                <tr><td style="color:var(--neon)">${h1}:${s1}s</td><td>R$ ${st1}</td><td style="font-weight:bold">🛡️ PROTEÇÃO (GHOST)</td></tr>
-                <tr><td style="color:var(--neon)">${h2}:${s2}s</td><td>R$ ${st2}</td><td style="color:var(--pink); font-weight:bold">🌸 ROSA (-50%)</td></tr>
+                <tr><td style="color:var(--neon)">${displayH1}</td><td>R$ ${suja}</td><td style="font-weight:bold">ENTRA (x${xFinal})</td></tr>
+                <tr><td style="color:var(--pink)">SCANNER</td><td>--</td><td style="font-weight:bold">PULA (ANTI-MAPPING)</td></tr>
             `;
-            log(`MUTRÔNICA: Janelas de +${m1} e +${m2} min aplicadas.`);
+            log(`MUTRÔNICA: Coordenada ${displayH1} com stake fragmentada.`);
         }
 
-        function relato() { log("HISTÓRICO: Padrão do servidor oscilando. IA ativa."); }
+        function decoy() {
+            log("MODO DECOY: Gerando entrada de erro proposital para despistar...");
+            document.getElementById('lista').innerHTML = `
+                <tr><td style="color:var(--danger)">IMEDIATO</td><td>R$ 0.12</td><td style="color:var(--danger)">ERRO PROPOSITAL</td></tr>
+            `;
+        }
 
         function reset() {
             document.getElementById('pct-text').innerText = "0%";
             document.getElementById('bar-inner').style.width = "0%";
             document.getElementById('preview-img').style.display = 'none';
             document.getElementById('drop-zone').style.display = 'block';
-            document.getElementById('lista').innerHTML = '<tr><td colspan="3" style="text-align:center; color:#333; padding:20px;">Aguardando...</td></tr>';
-            log("SISTEMA REINICIADO.");
+            document.getElementById('lista').innerHTML = '<tr><td colspan="3" style="text-align:center; color:#333; padding:20px;">Standby...</td></tr>';
+            log("LIMPEZA DE RASTRO COMPLETA.");
         }
     </script>
 </body>
