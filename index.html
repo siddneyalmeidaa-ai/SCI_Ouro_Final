@@ -3,127 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.P.A. V500 - BLACK SHIELD</title>
+    <title>Relatorio_Vendas_Privado.pdf</title>
     <style>
-        :root { --gold: #D4AF37; --pink: #FF00FF; --bg: #000; --neon: #00FF41; --danger: #FF3E3E; --shield: #007FFF; }
+        :root { --gold: #D4AF37; --bg: #000; --neon: #00FF41; --danger: #FF3E3E; --shield: #007FFF; }
         body { background: var(--bg); color: #EEE; font-family: 'Courier New', monospace; margin: 0; padding: 10px; text-align: center; }
-        .master-panel { border: 2px solid #1a1a1a; border-radius: 30px; padding: 20px; background: #080808; box-shadow: 0 0 50px #000; max-width: 500px; margin: auto; position: relative; }
-        .shield-active { position: absolute; top: 10px; right: 20px; color: var(--shield); font-size: 10px; font-weight: bold; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        .master-panel { border: 1px solid #1a1a1a; border-radius: 30px; padding: 20px; background: #080808; max-width: 500px; margin: auto; position: relative; }
         
-        .upload-trigger { border: 2px dashed #444; padding: 20px; border-radius: 20px; cursor: pointer; display: block; margin-bottom: 15px; color: var(--gold); font-size: 12px; }
+        /* SENSOR DE MONITORAMENTO VISUAL */
+        .radar-box { margin-bottom: 15px; padding: 10px; border: 1px solid #222; border-radius: 15px; background: #050505; }
+        .radar-label { font-size: 10px; color: #555; text-transform: uppercase; }
+        #risk-level { font-size: 14px; font-weight: bold; color: var(--neon); }
+        .scanner-bar { width: 100%; height: 4px; background: #111; margin-top: 5px; border-radius: 2px; overflow: hidden; }
+        #scanner-fill { width: 20%; height: 100%; background: var(--neon); transition: 1s; }
+
+        .upload-trigger { border: 1px dashed #333; padding: 20px; border-radius: 20px; cursor: pointer; display: block; margin-bottom: 15px; color: #444; font-size: 11px; }
         #preview-img { width: 100%; border-radius: 15px; display: none; margin-bottom: 15px; border: 1px solid var(--gold); }
         input[type="file"] { display: none; }
 
-        #pct-text { font-size: 55px; font-weight: 900; color: var(--gold); margin: 0; }
-        .bar-outer { width: 100%; height: 12px; background: #111; border-radius: 6px; overflow: hidden; border: 1px solid #333; margin-bottom: 15px; }
-        #bar-inner { width: 0%; height: 100%; background: linear-gradient(90deg, var(--shield), var(--neon), var(--pink)); transition: 1.5s; }
-
-        .btn-main { width: 100%; padding: 22px; background: var(--shield); border: none; border-radius: 15px; font-weight: 900; font-size: 16px; cursor: pointer; color: #FFF; text-transform: uppercase; box-shadow: 0 0 15px rgba(0, 127, 255, 0.4); }
-        .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-        .btn-sub { padding: 12px; background: #111; border: 1px solid #333; border-radius: 10px; cursor: pointer; color: #EEE; font-size: 11px; font-weight: bold; }
-        .btn-danger { background: #200; border: 1px solid var(--danger); color: var(--danger); }
-
+        #pct-text { font-size: 48px; font-weight: 900; color: var(--gold); margin: 0; }
+        .btn-main { width: 100%; padding: 22px; background: transparent; border: 1px solid var(--shield); border-radius: 15px; font-weight: 900; color: var(--shield); cursor: pointer; text-transform: uppercase; }
+        
         table { width: 100%; margin-top: 20px; border-collapse: collapse; font-size: 11px; text-align: left; }
-        th { color: #555; border-bottom: 1px solid #222; padding: 10px; }
         td { padding: 12px 10px; border-bottom: 1px solid #111; }
-        #console { background: #000; height: 95px; font-size: 10px; color: #777; overflow-y: auto; text-align: left; padding: 12px; margin-top: 20px; border-radius: 12px; border: 1px solid #1a1a1a; border-left: 3px solid var(--shield); }
+        #console { background: #000; height: 80px; font-size: 9px; color: #555; overflow-y: auto; text-align: left; padding: 12px; margin-top: 20px; border-radius: 12px; border: 1px solid #1a1a1a; }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
 
-    <div style="font-size: 10px; color: var(--shield); margin-bottom: 8px;">🛡️ BLACK SHIELD V500 | ANTI-MAPPING ATIVO | <span id="clock">00:00:00</span></div>
+    <div style="font-size: 9px; color: #333; margin-bottom: 8px;">MODO GHOST: LOCALIZAÇÃO OFF | <span id="clock">00:00:00</span></div>
 
     <div class="master-panel">
-        <div class="shield-active">PROTEÇÃO MUTRÔNICA [MAX]</div>
-        <label for="file-up" class="upload-trigger" id="drop-zone">📸 ANEXAR PRINT (CRIPTOGRAFIA DE PONTA)</label>
+        <div class="radar-box">
+            <div class="radar-label">Nível de Monitoramento do Servidor</div>
+            <div id="risk-level">BAIXO (SEGURO)</div>
+            <div class="scanner-bar"><div id="scanner-fill"></div></div>
+        </div>
+
+        <label for="file-up" class="upload-trigger" id="drop-zone">📎 ANEXAR LOG DE AUDITORIA</label>
         <input type="file" id="file-up" accept="image/*" onchange="readImg(this)">
         <img id="preview-img">
 
         <div id="pct-text">0%</div>
-        <div class="bar-outer"><div id="bar-inner"></div></div>
-
-        <button class="btn-main" onclick="processar()">GERAR COORDENADA FANTASMA</button>
+        <button class="btn-main" onclick="processar()">GERAR COORDENADA SEGURA</button>
         
-        <div class="btn-row">
-            <button class="btn-sub btn-danger" onclick="decoy()">MODO DECOY (ERRO)</button>
-            <button class="btn-sub" onclick="reset()">RESET TRACKER</button>
-        </div>
-
         <table>
-            <thead><tr><th>JANELA</th><th>STAKE SUJA</th><th>AÇÃO</th></tr></thead>
+            <thead><tr><th style="color:#444">HORARIO</th><th style="color:#444">STAKE SUJA</th><th style="color:#444">ACAO</th></tr></thead>
             <tbody id="lista">
-                <tr><td colspan="3" style="text-align:center; color:#333; padding:20px;">Aguardando sinal seguro...</td></tr>
+                <tr><td colspan="3" style="text-align:center; color:#222; padding:20px;">Aguardando leitura de rastro...</td></tr>
             </tbody>
         </table>
 
-        <div id="console">>> IA-SENTINELA: Protocolo Black Shield ativado...</div>
+        <div id="console">>> IA-SENTINELA: Sensor Anti-Mapping ativo.</div>
     </div>
 
     <script>
         setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
-
-        function log(m) {
-            const c = document.getElementById('console');
-            c.innerHTML = `> [${new Date().toLocaleTimeString()}] ${m}<br>` + c.innerHTML;
-        }
 
         function readImg(input) {
             const file = input.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    const img = document.getElementById('preview-img');
-                    img.src = e.target.result;
-                    img.style.display = 'block';
+                    document.getElementById('preview-img').src = e.target.result;
+                    document.getElementById('preview-img').style.display = 'block';
                     document.getElementById('drop-zone').style.display = 'none';
-                    log("PRINT ANALISADO. Fragmentando identidade...");
+                    atualizarSensor();
                 };
                 reader.readAsDataURL(file);
             }
         }
 
+        function atualizarSensor() {
+            // Simula a detecção de monitoramento baseada na análise do print
+            const níveis = ["BAIXO (SEGURO)", "MÉDIO (ATENÇÃO)", "ALTO (RISCO)", "CRÍTICO (SABOTAGEM)"];
+            const cores = ["#00FF41", "#D4AF37", "#FF3E3E", "#FF00FF"];
+            const idx = Math.floor(Math.random() * 2); // Começa sempre baixo/médio se o GPS estiver off
+            
+            document.getElementById('risk-level').innerText = níveis[idx];
+            document.getElementById('risk-level').style.color = cores[idx];
+            document.getElementById('scanner-fill').style.width = ((idx + 1) * 25) + "%";
+            document.getElementById('scanner-fill').style.background = cores[idx];
+        }
+
         function processar() {
-            log("IA-SENTINELA: Injetando ruído de navegação...");
-            let pctFinal = (Math.random() * (99 - 94) + 94).toFixed(0); 
-            document.getElementById('pct-text').innerText = pctFinal + "%";
-            document.getElementById('bar-inner').style.width = pctFinal + "%";
+            const c = document.getElementById('console');
+            c.innerHTML = `> [${new Date().toLocaleTimeString()}] Analisando telemetria inversa...<br>` + c.innerHTML;
+            
+            let pct = (Math.random() * (99 - 96) + 96).toFixed(1);
+            document.getElementById('pct-text').innerText = pct + "%";
             
             const agora = new Date();
-            const m1 = Math.floor(Math.random() * 3) + 1;
-            const s1 = Math.floor(Math.random() * 59).toString().padStart(2, '0');
-            
-            const displayH1 = new Date(agora.getTime() + m1 * 60000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + ":" + s1 + "s";
-
-            // Lógica de Stake Suja (Valores quebrados)
-            const baseStakes = [0.20, 0.50, 1.00];
-            let suja = (baseStakes[Math.floor(Math.random() * baseStakes.length)] + (Math.random() * 0.09)).toFixed(2);
-            
-            // Regra -50% Projeção
-            let proj = (Math.random() * 6 + 2).toFixed(2);
-            let xFinal = (proj * 0.5).toFixed(2);
+            const displayH1 = new Date(agora.getTime() + 3 * 60000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + ":" + Math.floor(Math.random() * 59).toString().padStart(2, '0') + "s";
+            let suja = (0.20 + (Math.random() * 0.10)).toFixed(2);
+            let xFinal = (2.5 * 0.5).toFixed(2); // Regra -50%
 
             document.getElementById('lista').innerHTML = `
                 <tr><td style="color:var(--neon)">${displayH1}</td><td>R$ ${suja}</td><td style="font-weight:bold">ENTRA (x${xFinal})</td></tr>
-                <tr><td style="color:var(--pink)">SCANNER</td><td>--</td><td style="font-weight:bold">PULA (ANTI-MAPPING)</td></tr>
             `;
-            log(`MUTRÔNICA: Coordenada ${displayH1} com stake fragmentada.`);
-        }
-
-        function decoy() {
-            log("MODO DECOY: Gerando entrada de erro proposital para despistar...");
-            document.getElementById('lista').innerHTML = `
-                <tr><td style="color:var(--danger)">IMEDIATO</td><td>R$ 0.12</td><td style="color:var(--danger)">ERRO PROPOSITAL</td></tr>
-            `;
-        }
-
-        function reset() {
-            document.getElementById('pct-text').innerText = "0%";
-            document.getElementById('bar-inner').style.width = "0%";
-            document.getElementById('preview-img').style.display = 'none';
-            document.getElementById('drop-zone').style.display = 'block';
-            document.getElementById('lista').innerHTML = '<tr><td colspan="3" style="text-align:center; color:#333; padding:20px;">Standby...</td></tr>';
-            log("LIMPEZA DE RASTRO COMPLETA.");
         }
     </script>
 </body>
