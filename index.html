@@ -3,66 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Relatorio_Vendas_Privado.pdf</title>
+    <title>S.P.A. V500 - BLACK SHIELD</title>
     <style>
-        :root { --bg: #050505; --shield: #007FFF; --neon: #00FF41; --gold: #D4AF37; }
-        body { background: var(--bg); color: #888; font-family: sans-serif; margin: 0; padding: 15px; }
-        .master-panel { border: 1px solid #111; border-radius: 20px; padding: 20px; background: #080808; max-width: 450px; margin: auto; }
-        
-        /* Camada de Invisibilidade */
-        .ghost-text { font-size: 10px; opacity: 0.3; text-align: left; margin-bottom: 10px; }
-        .radar-status { color: var(--neon); font-weight: bold; font-size: 12px; }
-
-        .btn-analise { width: 100%; padding: 18px; background: #111; border: 1px solid #222; border-radius: 12px; color: #555; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .btn-analise:active { border-color: var(--shield); color: var(--shield); }
-
-        #display-resultado { margin-top: 20px; padding: 15px; border-radius: 10px; background: #000; display: none; border-left: 4px solid var(--shield); }
-        .stake-box { font-size: 24px; color: var(--gold); font-weight: bold; }
+        :root { --gold: #D4AF37; --pink: #FF00FF; --bg: #000; --neon: #00FF41; --danger: #FF3E3E; --shield: #007FFF; }
+        body { background: var(--bg); color: #EEE; font-family: 'Courier New', monospace; margin: 0; padding: 10px; text-align: center; }
+        .master-panel { border: 2px solid #1a1a1a; border-radius: 30px; padding: 20px; background: #080808; box-shadow: 0 0 50px #000; max-width: 500px; margin: auto; position: relative; }
+        .upload-trigger { border: 2px dashed #444; padding: 20px; border-radius: 20px; cursor: pointer; display: block; margin-bottom: 15px; color: var(--gold); font-size: 12px; }
+        #preview-img { width: 100%; border-radius: 15px; display: none; margin-bottom: 15px; border: 1px solid var(--gold); }
+        input[type="file"] { display: none; }
+        #pct-text { font-size: 55px; font-weight: 900; color: var(--gold); margin: 0; }
+        .bar-outer { width: 100%; height: 12px; background: #111; border-radius: 6px; overflow: hidden; border: 1px solid #333; margin-bottom: 15px; }
+        #bar-inner { width: 0%; height: 100%; background: linear-gradient(90deg, var(--shield), var(--neon), var(--pink)); transition: 1.5s; }
+        .btn-main { width: 100%; padding: 22px; background: var(--shield); border: none; border-radius: 15px; font-weight: 900; font-size: 16px; cursor: pointer; color: #FFF; text-transform: uppercase; }
+        table { width: 100%; margin-top: 20px; border-collapse: collapse; font-size: 11px; text-align: left; }
+        td { padding: 12px 10px; border-bottom: 1px solid #111; }
+        #console { background: #000; height: 95px; font-size: 10px; color: #777; overflow-y: auto; text-align: left; padding: 12px; margin-top: 20px; border-radius: 12px; border: 1px solid #1a1a1a; }
     </style>
 </head>
-<body>
-
-    <div class="ghost-text">Encrypted Session: SHA256-AES-2026<br>Status: <span class="radar-status">PROTECTED BY GHOST PROTOCOL</span></div>
-
+<body oncontextmenu="return false;">
+    <div style="font-size: 10px; color: var(--shield); margin-bottom: 8px;">🛡️ BLACK SHIELD V500 | SUPERBET SHA256 | <span id="clock">00:00:00</span></div>
     <div class="master-panel">
-        <div style="font-size: 11px; margin-bottom: 20px;">Analista de Dados: Sidney Almeida<br>Ref: 28/01/2026 - 20:46</div>
-        
-        <button class="btn-analise" onclick="iniciarAnaliseHumana()">🔍 ESCANEAR METADADOS</button>
-
-        <div id="display-resultado">
-            <div style="font-size: 10px; text-transform: uppercase;">Próxima Janela Identificada:</div>
-            <div id="horario-alvo" style="font-size: 32px; color: #FFF; margin: 5px 0;">--:--:--</div>
-            <div class="stake-box" id="stake-valor">R$ 0,00</div>
-            <div style="font-size: 11px; color: var(--neon); margin-top: 5px;">AÇÃO: ENTRA (SAÍDA x1.60)</div>
-        </div>
-
-        <div id="console" style="font-size: 9px; margin-top: 20px; text-align: left; color: #333;">>> Aguardando interação humana...</div>
+        <label for="file-up" class="upload-trigger" id="drop-zone">📸 ANEXAR PRINT (SUPERBET / WORKANA)</label>
+        <input type="file" id="file-up" accept="image/*" onchange="readImg(this)">
+        <img id="preview-img">
+        <div id="pct-text">0%</div>
+        <div class="bar-outer"><div id="bar-inner"></div></div>
+        <button class="btn-main" onclick="processar()">GERAR COORDENADA FANTASMA</button>
+        <table>
+            <thead><tr><th>JANELA</th><th>STAKE SUJA</th><th>AÇÃO</th></tr></thead>
+            <tbody id="lista"><tr><td colspan="3" style="text-align:center; color:#333; padding:20px;">Aguardando sinal...</td></tr></tbody>
+        </table>
+        <div id="console">>> IA-SENTINELA: Protocolo Black Shield (Superbet Edition) ativo...</div>
     </div>
-
     <script>
-        function iniciarAnaliseHumana() {
-            const c = document.getElementById('console');
-            c.innerText = ">> Simulando comportamento de navegação...";
-            
-            // Camada 1: Atraso Humano (A plataforma não vê uma resposta instantânea de robô)
-            const atraso = Math.random() * 2000 + 1000;
-            
-            setTimeout(() => {
-                const agora = new Date();
-                const h = new Date(agora.getTime() + 2 * 60000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + ":" + Math.floor(Math.random() * 59).toString().padStart(2, '0') + "s";
-                const v = (0.20 + (Math.random() * 0.15)).toFixed(2);
-                
-                document.getElementById('display-resultado').style.display = 'block';
-                document.getElementById('horario-alvo').innerText = h;
-                document.getElementById('stake-valor').innerText = "R$ " + v;
-                c.innerText = ">> Analise concluída. Logs de rastreio limpos.";
-            }, atraso);
+        // ANTI-DETECÇÃO DE ABA
+        Object.defineProperty(document, 'title', { get: function() { return 'Relatorio_S_A_2026.pdf'; } });
+        setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
+        function readImg(input) {
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('preview-img').src = e.target.result;
+                    document.getElementById('preview-img').style.display = 'block';
+                    document.getElementById('drop-zone').style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            }
         }
-
-        // Camada 2: Limpeza automática de rastros no DOM
-        setInterval(() => {
-            console.clear();
-        }, 5000);
+        function processar() {
+            let pct = (Math.random() * (99 - 95) + 95).toFixed(1);
+            document.getElementById('pct-text').innerText = pct + "%";
+            document.getElementById('bar-inner').style.width = pct + "%";
+            const h = new Date(new Date().getTime() + 2 * 60000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + ":" + Math.floor(Math.random() * 59).toString().padStart(2, '0') + "s";
+            let suja = (0.20 + (Math.random() * 0.15)).toFixed(2);
+            document.getElementById('lista').innerHTML = `<tr><td style="color:var(--neon)">${h}</td><td>R$ ${suja}</td><td style="font-weight:bold">ENTRA (x1.60)</td></tr>`;
+        }
     </script>
 </body>
 </html>
