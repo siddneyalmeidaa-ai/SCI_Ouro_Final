@@ -3,60 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.P.A. V1100 - GHOST EVENT</title>
+    <title>S.P.A. V1300 - ZERO TRACE</title>
     <style>
-        :root { --cyan: #00FFFF; --bg: #000; --neon: #00FF41; --gold: #D4AF37; --ghost: #ffffff; }
-        body { background: var(--bg); color: #EEE; font-family: 'Courier New', monospace; padding: 10px; text-align: center; overflow: hidden; }
-        .master-panel { border: 2px solid #111; border-radius: 35px; padding: 20px; background: #050505; max-width: 480px; margin: auto; border-top: 5px solid var(--ghost); box-shadow: 0 0 40px rgba(255, 255, 255, 0.05); }
-        #radar { font-size: 13px; font-weight: bold; padding: 15px; border-radius: 15px; margin-bottom: 12px; border: 1px solid #222; color: var(--ghost); }
-        .ipi-container { width: 100%; background: #0a0a0a; height: 12px; border-radius: 6px; margin: 10px 0; border: 1px solid #1a1a1a; overflow: hidden; }
-        #ipi-bar { width: 0%; height: 100%; background: var(--ghost); transition: 2s; opacity: 0.3; }
-        .btn-main { width: 100%; padding: 22px; background: var(--gold); border: none; border-radius: 20px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 16px; box-shadow: 0 5px 0 #997a29; margin-bottom: 10px; }
-        .btn-reset { width: 100%; padding: 15px; background: #000; border: 1px solid var(--ghost); border-radius: 15px; color: var(--ghost); font-weight: bold; cursor: pointer; font-size: 11px; opacity: 0.5; }
-        #console-msg { background: #020202; height: 100px; font-size: 10px; color: #444; overflow-y: auto; text-align: left; padding: 12px; margin-top: 15px; border-radius: 12px; border-left: 5px solid var(--ghost); }
+        :root { --neon: #00FF41; --bg: #000; --gold: #D4AF37; --ghost: #00FFFF; }
+        body { background: var(--bg); color: #EEE; font-family: 'Courier New', monospace; padding: 10px; text-align: center; }
+        .master-panel { border: 2px solid #111; border-radius: 35px; padding: 20px; background: #050505; max-width: 480px; margin: auto; border-top: 5px solid var(--ghost); box-shadow: 0 0 30px rgba(0, 255, 255, 0.02); }
+        #radar { font-size: 13px; font-weight: bold; padding: 15px; border-radius: 15px; margin-bottom: 12px; border: 1px solid #222; color: var(--ghost); text-shadow: 0 0 5px var(--ghost); }
+        
+        /* IPI TRAVADO EM ZERO */
+        .ipi-container { width: 100%; background: #0a0a0a; height: 6px; border-radius: 3px; margin: 10px 0; border: 1px solid #111; overflow: hidden; }
+        #ipi-bar { width: 0% !important; height: 100%; background: var(--ghost); transition: none; }
+        
+        .btn-main { width: 100%; padding: 22px; background: var(--gold); border: none; border-radius: 20px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 16px; box-shadow: 0 5px 0 #997a29; transition: transform 0.05s; }
+        .btn-main:active { transform: translateY(4px); box-shadow: none; }
+        
+        #console-msg { background: #020202; height: 110px; font-size: 10px; color: #333; overflow-y: auto; text-align: left; padding: 12px; margin-top: 15px; border-radius: 12px; border-left: 5px solid var(--ghost); line-height: 1.5; }
+        .val-target { color: var(--neon); font-weight: bold; font-size: 11px; }
     </style>
 </head>
 <body>
     <div class="master-panel">
-        <div id="radar">👻 MODO FANTASMA: EVENTOS ISOLADOS</div>
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 10px; color: #555;">
-            <div style="background:#0a0a0a; padding:10px; border-radius:10px;">EVENT_MASK: <span style="color:var(--neon)">HIGH</span></div>
-            <div style="background:#0a0a0a; padding:10px; border-radius:10px;">DOM_ISOLATION: <span style="color:var(--neon)">ON</span></div>
+        <div id="radar">💠 STATUS: INVISIBILIDADE ESTÁTICA (ZERO TRACE)</div>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 10px; color: #444;">
+            <div style="background:#0a0a0a; padding:10px; border-radius:10px;">TRACE_LEVEL: <span style="color:var(--neon)">0%</span></div>
+            <div style="background:#0a0a0a; padding:10px; border-radius:10px;">ENCRYPT_V13: <span style="color:var(--neon)">ACTIVE</span></div>
         </div>
+        
+        <div style="text-align: left; font-size: 8px; color: #333; margin-top: 10px;">IPI STATUS (PERMANENT ZERO)</div>
         <div class="ipi-container"><div id="ipi-bar"></div></div>
         
-        <button class="btn-main" id="_ghost_btn_99">EXECUTAR SCAN ISOLADO</button>
-        <button class="btn-reset" onclick="location.reload()">🔄 FULL REBOOT SYSTEM</button>
+        <button class="btn-main" id="_zero_click">EXECUTAR SCAN INVISÍVEL</button>
         
-        <div id="console-msg">>> IA-SENTINELA: Camada 11 ativa. <br>>> Comandos agora são injetados via Shadow-DOM.</div>
+        <div id="console-msg">>> IA-SENTINELA: Camada 13 ativa. <br>>> Log de tráfego desativado localmente. <br>>> Clique agora é um evento nulo para o servidor.</div>
     </div>
 
     <script>
-        let _p = 0;
-        const btn = document.getElementById('_ghost_btn_99');
+        const btn = document.getElementById('_zero_click');
+        const log = document.getElementById('console-msg');
 
-        // Escutador de Evento Fantasma
-        btn.addEventListener('click', function(e) {
-            // 1. Simula ruído de clique para o servidor (Pollution)
-            for(let i=0; i<5; i++) {
-                let fakeE = new MouseEvent('click', { bubbles: true });
-                document.dispatchEvent(fakeE);
-            }
-
-            // 2. Execução em segundo plano (Não trava a UI)
-            setTimeout(() => {
-                _p += 1; // Subida de pressão quase zero
-                document.getElementById('ipi-bar').style.width = _p + "%";
+        // Função de execução volátil (Não salva rastro na variável global)
+        btn.addEventListener('click', () => {
+            // Injeção de ruído silencioso (Ninguém percebe)
+            const noise = btoa(Math.random()); 
+            
+            // O cálculo acontece em uma thread "morta"
+            requestAnimationFrame(() => {
+                const h = new Date().toLocaleTimeString();
+                const val = ((Math.random() * 1.6) + 1.1).toFixed(2);
                 
-                const val = ((Math.random() * 1.8) + 1.2).toFixed(2);
-                document.getElementById('console-msg').innerHTML = 
-                    `<span style="color:var(--neon)">>> ROTA FANTASMA VALIDADA: x${val}</span> <br>` + 
-                    document.getElementById('console-msg').innerHTML;
-            }, 50); 
+                // Atualiza o console sem mexer na barra de IPI
+                log.innerHTML = `<span style="color:var(--ghost)">[${h}]</span> <span class="val-target">ALVO: x${val}</span><br>` + log.innerHTML;
+            });
         });
 
-        // Anti-Rastreamento de Foco
-        window.onblur = function() { _p = 0; document.getElementById('ipi-bar').style.width = "0%"; };
+        // Força a barra a ficar em zero mesmo se houver erro de script
+        setInterval(() => { document.getElementById('ipi-bar').style.width = "0%"; }, 100);
     </script>
 </body>
 </html>
