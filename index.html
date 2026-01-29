@@ -3,52 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.P.A. V1600 - WI-FI VIRTUAL RESET</title>
+    <title>S.P.A. SUPREME V18</title>
     <style>
-        :root { --neon: #00FF41; --bg: #000; --gold: #D4AF37; --wifi: #00BFFF; }
-        body { background: var(--bg); color: #EEE; font-family: 'Courier New', monospace; padding: 10px; text-align: center; }
-        .master-panel { border: 2px solid #111; border-radius: 35px; padding: 20px; background: #050505; max-width: 480px; margin: auto; border-top: 5px solid var(--wifi); }
-        #radar { font-size: 13px; font-weight: bold; padding: 15px; border-radius: 15px; margin-bottom: 12px; border: 1px solid #222; color: var(--wifi); }
-        .btn-main { width: 100%; padding: 22px; background: var(--gold); border: none; border-radius: 20px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 16px; box-shadow: 0 5px 0 #997a29; margin-bottom: 12px; }
-        .btn-reset-wifi { width: 100%; padding: 18px; background: #000; border: 2px solid var(--wifi); border-radius: 20px; color: var(--wifi); font-weight: bold; cursor: pointer; text-transform: uppercase; font-size: 11px; }
-        #console-msg { background: #020202; height: 110px; font-size: 10px; color: #444; overflow-y: auto; text-align: left; padding: 12px; margin-top: 15px; border-radius: 12px; border-left: 5px solid var(--wifi); }
+        :root { --neon: #00FF41; --bg: #000; --gold: #D4AF37; --wifi: #00BFFF; --text: #FFF; }
+        body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; padding: 15px; margin: 0; display: flex; justify-content: center; }
+        
+        .master-panel { width: 100%; max-width: 500px; background: #080808; border-radius: 40px; border: 2px solid #1a1a1a; padding: 25px; box-shadow: 0 0 50px rgba(0, 191, 255, 0.1); border-top: 6px solid var(--wifi); }
+        
+        /* HEADER ONLINE & RELÓGIO */
+        .header-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .status-online { display: flex; align-items: center; font-size: 16px; font-weight: bold; color: var(--neon); }
+        .dot { height: 12px; width: 12px; background-color: var(--neon); border-radius: 50%; display: inline-block; margin-right: 8px; box-shadow: 0 0 10px var(--neon); animation: blink 1.5s infinite; }
+        #clock { font-size: 18px; color: #888; font-family: monospace; }
+
+        /* BARRA IPI AMPLIADA */
+        .ipi-box { margin-bottom: 25px; text-align: left; }
+        .ipi-label { font-size: 14px; color: #666; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        .ipi-container { width: 100%; background: #111; height: 18px; border-radius: 9px; border: 1px solid #222; overflow: hidden; }
+        #ipi-bar { width: 0%; height: 100%; background: linear-gradient(90deg, var(--wifi), var(--neon)); transition: 1s; }
+
+        /* BOTÕES GRANDES */
+        .btn-main { width: 100%; padding: 25px; background: var(--gold); border: none; border-radius: 25px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 20px; color: #000; box-shadow: 0 6px 0 #997a29; margin-bottom: 15px; }
+        .btn-main:active { transform: translateY(3px); box-shadow: 0 3px 0 #997a29; }
+        .btn-reset { width: 100%; padding: 15px; background: transparent; border: 2px solid var(--wifi); border-radius: 20px; color: var(--wifi); font-weight: bold; font-size: 14px; cursor: pointer; text-transform: uppercase; }
+
+        /* LOG DE ALVOS (LEITURA CLARA) */
+        #console-msg { background: #020202; height: 150px; font-size: 16px; color: #aaa; overflow-y: auto; text-align: left; padding: 15px; margin-top: 20px; border-radius: 15px; border-left: 5px solid var(--wifi); line-height: 1.6; }
+        .target-high { color: var(--neon); font-weight: bold; }
+        
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
     </style>
 </head>
 <body>
     <div class="master-panel">
-        <div id="radar">🌐 WI-FI PROTECT: VIRTUAL IP SYNC</div>
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 10px; color: #444; margin-bottom: 15px;">
-            <div style="background:#0a0a0a; padding:10px; border-radius:10px;">CACHE: <span style="color:var(--neon)">CLEANED</span></div>
-            <div style="background:#0a0a0a; padding:10px; border-radius:10px;">WI-FI MODE: <span style="color:var(--wifi)">STEALTH</span></div>
+        <div class="header-info">
+            <div class="status-online"><span class="dot"></span> SISTEMA ONLINE</div>
+            <div id="clock">00:00:00</div>
         </div>
 
-        <button class="btn-main" onclick="scanV16()">EXECUTAR SCAN WI-FI</button>
-        <button class="btn-reset-wifi" onclick="virtualReset()">🔄 VIRTUAL RESET (LIMPEZA TOTAL)</button>
+        <div class="ipi-box">
+            <div class="ipi-label">Pressão de Identidade (IPI)</div>
+            <div class="ipi-container"><div id="ipi-bar"></div></div>
+        </div>
 
-        <div id="console-msg">>> IA-SENTINELA: Camada 16 ativa. <br>>> Monitorando rastro no Wi-Fi...</div>
+        <button class="btn-main" onclick="scanV18()">ESCADEAR SEED</button>
+        <button class="btn-reset" onclick="virtualResetV18()">🔄 VIRTUAL RESET WI-FI</button>
+
+        <div id="console-msg">>> IA-SENTINELA: V18 Supreme Iniciada...</div>
     </div>
 
     <script>
-        function scanV16() {
+        // Relógio Online
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById('clock').innerText = now.toLocaleTimeString();
+        }, 1000);
+
+        function scanV18() {
             const h = new Date().toLocaleTimeString();
             const val = ((Math.random() * 1.5) + 1.1).toFixed(2);
-            document.getElementById('console-msg').innerHTML = `<span>[${h}] ALVO WI-FI: x${val}</span><br>` + document.getElementById('console-msg').innerHTML;
+            const log = document.getElementById('console-msg');
+            log.innerHTML = `<div><span style="color:#555">[${h}]</span> ALVO: <span class="target-high">x${val}</span></div>` + log.innerHTML;
         }
 
-        function virtualReset() {
-            // Limpeza profunda de dados de rastreio
-            localStorage.clear();
-            sessionStorage.clear();
-            
-            // Simula a mudança de cabeçalho de requisição
-            document.getElementById('radar').innerText = "♻️ LIMPANDO TOKENS DE WI-FI...";
-            document.getElementById('radar').style.color = "#FFF";
-            
+        function virtualResetV18() {
+            const bar = document.getElementById('ipi-bar');
+            bar.style.width = "100%";
             setTimeout(() => {
-                document.getElementById('radar').innerText = "🌐 NOVA IDENTIDADE VIRTUAL";
-                document.getElementById('radar').style.color = "var(--wifi)";
-                document.getElementById('console-msg').innerHTML = `<span style="color:var(--wifi)">>> RESET COMPLETO. Sessão anterior deletada.</span><br>` + document.getElementById('console-msg').innerHTML;
-            }, 3000);
+                bar.style.width = "0%";
+                localStorage.clear();
+                document.getElementById('console-msg').innerHTML = `<div style="color:var(--wifi)">>> RESET COMPLETO: Sessão Limpa.</div>` + document.getElementById('console-msg').innerHTML;
+            }, 1500);
         }
     </script>
 </body>
