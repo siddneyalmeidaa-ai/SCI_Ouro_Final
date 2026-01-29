@@ -15,13 +15,11 @@
         .dna-box { margin-bottom: 20px; }
         .dna-label { font-size: 11px; color: var(--neon); margin-bottom: 5px; text-transform: uppercase; }
         .dna-container { width: 100%; background: #111; height: 10px; border-radius: 5px; border: 1px solid #222; overflow: hidden; }
-        #dna-bar { width: 55%; height: 100%; background: var(--neon); transition: 2s; box-shadow: 0 0 10px var(--neon); }
-        .btn-main { width: 100%; padding: 20px; background: var(--neon); border: none; border-radius: 15px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 18px; color: #000; margin-bottom: 15px; }
-        .btn-ghost { width: 100%; padding: 12px; background: transparent; border: 1px solid var(--ghost); border-radius: 12px; color: var(--ghost); font-weight: bold; font-size: 12px; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
-        #console-msg { background: #020202; height: 180px; font-size: 14px; color: #00FF41; overflow-y: auto; text-align: left; padding: 15px; margin-top: 15px; border-radius: 10px; border: 1px solid #111; line-height: 1.4; }
-        .log-entry { border-bottom: 1px solid #111; padding: 5px 0; }
-        .target-high { color: var(--gold); font-weight: bold; }
-        .target-pula { color: #ff3333; }
+        #dna-bar { width: 100%; height: 100%; background: var(--neon); box-shadow: 0 0 10px var(--neon); }
+        .btn-main { width: 100%; padding: 20px; background: var(--neon); border: none; border-radius: 15px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 18px; color: #000; margin-bottom: 10px; }
+        .btn-vip { width: 100%; padding: 15px; background: var(--gold); border: none; border-radius: 12px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 14px; color: #000; margin-bottom: 10px; box-shadow: 0 4px 0 #997a29; }
+        .btn-ghost { width: 100%; padding: 12px; background: transparent; border: 1px solid var(--ghost); border-radius: 12px; color: var(--ghost); font-weight: bold; font-size: 12px; cursor: pointer; text-transform: uppercase; }
+        #console-msg { background: #020202; height: 150px; font-size: 13px; color: #00FF41; overflow-y: auto; text-align: left; padding: 15px; margin-top: 15px; border-radius: 10px; border: 1px solid #111; line-height: 1.4; }
         @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
     </style>
 </head>
@@ -32,60 +30,53 @@
             <div id="clock">00:00:00</div>
         </div>
         <div class="dna-box">
-            <div class="dna-label">Implantação Hospedeiro: <span id="dna-pct">55%</span></div>
+            <div class="dna-label">Hospedeiro: 100% [LATÊNCIA ALTA]</div>
             <div class="dna-container"><div id="dna-bar"></div></div>
         </div>
+        
+        <button class="btn-vip" onclick="ativarAudioManual()">🔔 ATIVAR BIP VIP (CLIQUE AQUI)</button>
         <button class="btn-main" onclick="execSovereignScan()">EXECUTAR META X</button>
-        <button class="btn-ghost" onclick="toggleStealth()">👻 MODO FANTASMA: OFF</button>
-        <div id="console-msg">>> IA-SENTINELA: DNA Ghost-in-the-Shell Ativo.</div>
+        <button class="btn-ghost" onclick="toggleStealth()">👻 MODO FANTASMA: ON</button>
+
+        <div id="console-msg">>> IA-SENTINELA: Aguardando ativação de áudio...</div>
     </div>
 
     <script>
         setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
 
-        // Módulo de Áudio para vencer o Retardo
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        let audioCtx;
+        function ativarAudioManual() {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            emitirBip();
+            document.getElementById('console-msg').innerHTML = `<div style="color:var(--gold)">>> BIP VIP ATIVADO: Canal de áudio liberado.</div>` + document.getElementById('console-msg').innerHTML;
+        }
+
         function emitirBip() {
+            if (!audioCtx) return;
             const osc = audioCtx.createOscillator();
             osc.type = 'sine';
             osc.frequency.setValueAtTime(880, audioCtx.currentTime);
             osc.connect(audioCtx.destination);
             osc.start();
-            setTimeout(() => osc.stop(), 150);
+            setTimeout(() => osc.stop(), 200);
         }
 
         function execSovereignScan() {
+            if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
             const h = new Date().toLocaleTimeString();
-            const log = document.getElementById('console-msg');
             const rand = Math.random();
-            let val, acao, cor_classe, stake;
+            let val = (rand > 0.4) ? (Math.random() * 1.5 + 1.2).toFixed(2) : "1.00x";
+            let acao = (val !== "1.00x") ? "ENTRA" : "PULA";
+            
+            if(acao === "ENTRA") setTimeout(() => { emitirBip(); }, 700);
 
-            if (rand > 0.4) {
-                val = (Math.random() * 2 + 1.5).toFixed(2);
-                acao = "ENTRA"; stake = "R$ 1 Real"; cor_classe = "target-high";
-                // Dispara o bip para compensar o avião retardado
-                setTimeout(() => { emitirBip(); }, 800); 
-            } else {
-                val = "1.00x"; acao = "PULA"; stake = "R$ 0.10 Cents"; cor_classe = "target-pula";
-            }
-
-            log.innerHTML = `<div class="log-entry"><span style="color:#555">[${h}]</span> ALVO: <span class="${cor_classe}">x${val}</span> | <b>${acao}</b> | STAKE: ${stake}</div>` + log.innerHTML;
+            document.getElementById('console-msg').innerHTML = `<div><span style="color:#555">[${h}]</span> ALVO: <b>x${val}</b> | ${acao}</div>` + document.getElementById('console-msg').innerHTML;
         }
 
         function toggleStealth() {
-            const btn = document.querySelector('.btn-ghost');
-            const bar = document.getElementById('dna-bar');
-            const pct = document.getElementById('dna-pct');
-            if (btn.innerText.includes("OFF")) {
-                btn.innerText = "👻 MODO FANTASMA: ON";
-                btn.style.background = "var(--ghost)"; btn.style.color = "#000";
-                bar.style.width = "100%"; pct.innerText = "100%";
-                emitirBip(); // Confirmação sonora de ativação
-            } else {
-                btn.innerText = "👻 MODO FANTASMA: OFF";
-                btn.style.background = "transparent"; btn.style.color = "var(--ghost)";
-                bar.style.width = "55%"; pct.innerText = "55%";
-            }
+            emitirBip();
+            document.getElementById('console-msg').innerHTML = `<div style="color:var(--ghost)">>> FANTASMA ON: Limpando rastro de rede.</div>` + document.getElementById('console-msg').innerHTML;
         }
     </script>
 </body>
