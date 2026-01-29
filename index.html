@@ -3,63 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.P.A. V1400 - ANTI-VÁCUO</title>
+    <title>S.P.A. V1600 - WI-FI VIRTUAL RESET</title>
     <style>
-        :root { --neon: #00FF41; --bg: #000; --gold: #D4AF37; --ghost: #00FFFF; --danger: #FF3030; }
+        :root { --neon: #00FF41; --bg: #000; --gold: #D4AF37; --wifi: #00BFFF; }
         body { background: var(--bg); color: #EEE; font-family: 'Courier New', monospace; padding: 10px; text-align: center; }
-        .master-panel { border: 2px solid #111; border-radius: 35px; padding: 20px; background: #050505; max-width: 480px; margin: auto; border-top: 5px solid var(--neon); }
-        #radar { font-size: 13px; font-weight: bold; padding: 15px; border-radius: 15px; margin-bottom: 12px; border: 1px solid #222; color: var(--neon); }
-        .btn-main { width: 100%; padding: 22px; background: var(--gold); border: none; border-radius: 20px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 16px; box-shadow: 0 5px 0 #997a29; }
-        .btn-main:disabled { background: #333; box-shadow: none; color: #555; cursor: not-allowed; }
-        #console-msg { background: #020202; height: 110px; font-size: 10px; color: #444; overflow-y: auto; text-align: left; padding: 12px; margin-top: 15px; border-radius: 12px; border-left: 5px solid var(--neon); }
+        .master-panel { border: 2px solid #111; border-radius: 35px; padding: 20px; background: #050505; max-width: 480px; margin: auto; border-top: 5px solid var(--wifi); }
+        #radar { font-size: 13px; font-weight: bold; padding: 15px; border-radius: 15px; margin-bottom: 12px; border: 1px solid #222; color: var(--wifi); }
+        .btn-main { width: 100%; padding: 22px; background: var(--gold); border: none; border-radius: 20px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 16px; box-shadow: 0 5px 0 #997a29; margin-bottom: 12px; }
+        .btn-reset-wifi { width: 100%; padding: 18px; background: #000; border: 2px solid var(--wifi); border-radius: 20px; color: var(--wifi); font-weight: bold; cursor: pointer; text-transform: uppercase; font-size: 11px; }
+        #console-msg { background: #020202; height: 110px; font-size: 10px; color: #444; overflow-y: auto; text-align: left; padding: 12px; margin-top: 15px; border-radius: 12px; border-left: 5px solid var(--wifi); }
     </style>
 </head>
 <body>
     <div class="master-panel">
-        <div id="radar">🛡️ PROTEÇÃO DE BANCA ATIVA</div>
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 10px; color: #444; margin-bottom: 10px;">
-            <div style="background:#0a0a0a; padding:10px; border-radius:10px;">VÁCUO_CHECK: <span id="v-status" style="color:var(--neon)">LIMPO</span></div>
-            <div style="background:#0a0a0a; padding:10px; border-radius:10px;">RECOUP: <span style="color:var(--neon)">ATIVO</span></div>
+        <div id="radar">🌐 WI-FI PROTECT: VIRTUAL IP SYNC</div>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 10px; color: #444; margin-bottom: 15px;">
+            <div style="background:#0a0a0a; padding:10px; border-radius:10px;">CACHE: <span style="color:var(--neon)">CLEANED</span></div>
+            <div style="background:#0a0a0a; padding:10px; border-radius:10px;">WI-FI MODE: <span style="color:var(--wifi)">STEALTH</span></div>
         </div>
-        
-        <button class="btn-main" id="_btn_v14">SCAN ANALÍTICO</button>
-        <div id="console-msg">>> IA-SENTINELA: Camada 14 (Anti-Vácuo) pronta. <br>>> Aguardando primeira análise.</div>
+
+        <button class="btn-main" onclick="scanV16()">EXECUTAR SCAN WI-FI</button>
+        <button class="btn-reset-wifi" onclick="virtualReset()">🔄 VIRTUAL RESET (LIMPEZA TOTAL)</button>
+
+        <div id="console-msg">>> IA-SENTINELA: Camada 16 ativa. <br>>> Monitorando rastro no Wi-Fi...</div>
     </div>
 
     <script>
-        const btn = document.getElementById('_btn_v14');
-        const log = document.getElementById('console-msg');
-        let lossCounter = 0;
+        function scanV16() {
+            const h = new Date().toLocaleTimeString();
+            const val = ((Math.random() * 1.5) + 1.1).toFixed(2);
+            document.getElementById('console-msg').innerHTML = `<span>[${h}] ALVO WI-FI: x${val}</span><br>` + document.getElementById('console-msg').innerHTML;
+        }
 
-        btn.addEventListener('click', () => {
-            const val = ((Math.random() * 1.4) + 1.1).toFixed(2);
+        function virtualReset() {
+            // Limpeza profunda de dados de rastreio
+            localStorage.clear();
+            sessionStorage.clear();
             
-            // Simulação de Detecção de Vácuo
-            if (parseFloat(val) < 1.15) {
-                lossCounter++;
-                log.innerHTML = `<span style="color:var(--danger)">>> AVISO: Vácuo Detectado (x${val})</span><br>` + log.innerHTML;
-            } else {
-                lossCounter = 0;
-            }
-
-            // SE DETECTAR 2 VÁCUOS SEGUIDOS, TRAVA TUDO
-            if (lossCounter >= 2) {
-                btn.disabled = true;
-                document.getElementById('radar').innerText = "🚨 MODO DEFENSIVO: AGUARDE 30S";
-                document.getElementById('radar').style.color = "var(--danger)";
-                document.getElementById('v-status').innerText = "PERIGO";
-                
-                setTimeout(() => {
-                    btn.disabled = false;
-                    lossCounter = 0;
-                    document.getElementById('radar').innerText = "🛡️ PROTEÇÃO DE BANCA ATIVA";
-                    document.getElementById('radar').style.color = "var(--neon)";
-                    document.getElementById('v-status').innerText = "LIMPO";
-                }, 30000);
-            }
-
-            log.innerHTML = `<span>>> ALVO: x${val}</span><br>` + log.innerHTML;
-        });
+            // Simula a mudança de cabeçalho de requisição
+            document.getElementById('radar').innerText = "♻️ LIMPANDO TOKENS DE WI-FI...";
+            document.getElementById('radar').style.color = "#FFF";
+            
+            setTimeout(() => {
+                document.getElementById('radar').innerText = "🌐 NOVA IDENTIDADE VIRTUAL";
+                document.getElementById('radar').style.color = "var(--wifi)";
+                document.getElementById('console-msg').innerHTML = `<span style="color:var(--wifi)">>> RESET COMPLETO. Sessão anterior deletada.</span><br>` + document.getElementById('console-msg').innerHTML;
+            }, 3000);
+        }
     </script>
 </body>
 </html>
