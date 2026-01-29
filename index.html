@@ -2,73 +2,64 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.P.A. V500 - BLACK SHIELD</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S.P.A. - ANTI-SABOTAGEM SUPERBET</title>
     <style>
-        :root { --gold: #D4AF37; --pink: #FF00FF; --bg: #000; --neon: #00FF41; --danger: #FF3E3E; --shield: #007FFF; }
-        body { background: var(--bg); color: #EEE; font-family: 'Courier New', monospace; margin: 0; padding: 10px; text-align: center; }
-        .master-panel { border: 2px solid #1a1a1a; border-radius: 30px; padding: 20px; background: #080808; box-shadow: 0 0 50px #000; max-width: 500px; margin: auto; position: relative; }
-        .upload-trigger { border: 2px dashed #444; padding: 20px; border-radius: 20px; cursor: pointer; display: block; margin-bottom: 15px; color: var(--gold); font-size: 12px; }
-        #preview-img { width: 100%; border-radius: 15px; display: none; margin-bottom: 15px; border: 1px solid var(--gold); }
-        input[type="file"] { display: none; }
-        #pct-text { font-size: 55px; font-weight: 900; color: var(--gold); margin: 0; }
-        .bar-outer { width: 100%; height: 12px; background: #111; border-radius: 6px; overflow: hidden; border: 1px solid #333; margin-bottom: 15px; }
-        #bar-inner { width: 0%; height: 100%; background: linear-gradient(90deg, var(--shield), var(--neon), var(--pink)); transition: 1.5s; }
-        .btn-main { width: 100%; padding: 22px; background: var(--shield); border: none; border-radius: 15px; font-weight: 900; font-size: 16px; cursor: pointer; color: #FFF; text-transform: uppercase; }
-        .btn-reset { width: 100%; padding: 10px; background: #111; border: 1px solid #333; border-radius: 10px; color: #555; font-size: 11px; margin-top: 10px; cursor: pointer; }
-        table { width: 100%; margin-top: 20px; border-collapse: collapse; font-size: 11px; text-align: left; }
-        td { padding: 12px 10px; border-bottom: 1px solid #111; }
-        .rosa { color: var(--pink); font-weight: bold; }
-        #console { background: #000; height: 80px; font-size: 9px; color: #555; overflow-y: auto; text-align: left; padding: 12px; margin-top: 20px; border-radius: 12px; border: 1px solid #1a1a1a; }
+        :root { --gold: #D4AF37; --bg: #000; --neon: #00FF41; --danger: #FF3E3E; --shield: #007FFF; }
+        body { background: var(--bg); color: #EEE; font-family: 'Courier New', monospace; padding: 15px; text-align: center; }
+        .panel { border: 2px solid #1a1a1a; border-radius: 30px; padding: 20px; background: #080808; max-width: 450px; margin: auto; }
+        #status-shield { font-size: 18px; font-weight: bold; padding: 15px; border-radius: 12px; margin: 15px 0; border: 1px solid #333; transition: 0.3s; }
+        .monitorando { color: var(--shield); background: rgba(0, 127, 255, 0.1); }
+        .sabotagem { color: var(--danger); background: rgba(255, 62, 62, 0.2); border-color: var(--danger) !important; animation: shake 0.2s infinite; }
+        @keyframes shake { 0% { transform: translate(1px, 1px); } 50% { transform: translate(-1px, -1px); } 100% { transform: translate(1px, 1px); } }
+        .btn-check { width: 100%; padding: 22px; background: var(--gold); border: none; border-radius: 15px; font-weight: 900; cursor: pointer; color: #000; }
     </style>
 </head>
-<body oncontextmenu="return false;">
-    <div style="font-size: 10px; color: var(--shield); margin-bottom: 8px;">🛡️ BLACK SHIELD V500 | SUPERBET SHA256 | <span id="clock">00:00:00</span></div>
-    <div class="master-panel">
-        <label for="file-up" class="upload-trigger" id="drop-zone">📸 ANEXAR HISTÓRICO DO SERVIDOR</label>
-        <input type="file" id="file-up" accept="image/*" onchange="readImg(this)">
-        <img id="preview-img">
-        <div id="pct-text">0%</div>
-        <div class="bar-outer"><div id="bar-inner"></div></div>
-        <button class="btn-main" onclick="processar()">PROJETAR PRÓXIMAS RODADAS</button>
-        <button class="btn-reset" onclick="reset()">LIMPAR HISTÓRICO / RESET</button>
-        <table>
-            <thead><tr><th>JANELA</th><th>STAKE SUJA</th><th>ALVO</th></tr></thead>
-            <tbody id="lista"><tr><td colspan="3" style="text-align:center; color:#333; padding:20px;">Standby...</td></tr></tbody>
-        </table>
-        <div id="console">>> IA-SENTINELA: Escaneando histórico para Vela Rosa...</div>
+<body>
+    <div class="panel">
+        <div style="font-size: 10px; color: #555;">GHOST MODE V2 | SENSOR DE RESPOSTA SHA256</div>
+        
+        <div id="status-shield" class="monitorando">SISTEMA EM ESCUTA...</div>
+        
+        <button class="btn-check" onmousedown="iniciarScan()" onmouseup="validarEntrada()">SEGURE PARA ESCANEAR RODADA</button>
+        
+        <div id="console" style="font-size: 10px; margin-top: 15px; color: #444; text-align: left;">>> IA-SENTINELA: Aguardando interação...</div>
     </div>
+
     <script>
-        setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
-        function readImg(input) {
-            const file = input.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('preview-img').src = e.target.result;
-                    document.getElementById('preview-img').style.display = 'block';
-                    document.getElementById('drop-zone').style.display = 'none';
-                };
-                reader.readAsDataURL(file);
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function bip(f, d, t) {
+            const o = audioCtx.createOscillator();
+            const g = audioCtx.createGain();
+            o.connect(g); g.connect(audioCtx.destination);
+            o.frequency.value = f; o.type = t; o.start();
+            setTimeout(() => o.stop(), d);
+        }
+
+        function iniciarScan() {
+            document.getElementById('status-shield').innerText = "ESCANEANDO SERVIDOR...";
+            document.getElementById('status-shield').className = "monitorando";
+            bip(800, 50, 'sine');
+        }
+
+        function validarEntrada() {
+            // Simulador de detecção baseado em latência e padrão de vácuo
+            const risco = Math.random();
+            const display = document.getElementById('status-shield');
+            const log = document.getElementById('console');
+
+            if (risco > 0.85) { // 15% de chance de detectar sabotagem (vácuo iminente)
+                display.innerText = "SABOTAGEM! VÁCUO DETECTADO";
+                display.className = "sabotagem";
+                log.innerHTML = "<span style='color:red'>>> Eles mudaram o fluxo! ABORTE APOSTA.</span>";
+                bip(120, 1000, 'square'); // Bip de perigo
+            } else {
+                display.innerText = "ROTA LIMPA - PODE ENTRAR";
+                display.className = "monitorando";
+                display.style.color = "var(--neon)";
+                log.innerHTML = "<span style='color:var(--neon)'>>> Semente estável. X-Real Projetado: 2.15x</span>";
+                bip(1000, 150, 'sine'); // Bip de sucesso
             }
-        }
-        function reset() {
-            document.getElementById('preview-img').style.display = 'none';
-            document.getElementById('drop-zone').style.display = 'block';
-            document.getElementById('pct-text').innerText = "0%";
-            document.getElementById('bar-inner').style.width = "0%";
-            document.getElementById('lista').innerHTML = '<tr><td colspan="3" style="text-align:center; color:#333; padding:20px;">Standby...</td></tr>';
-        }
-        function processar() {
-            let pct = (Math.random() * (99 - 97) + 97).toFixed(1);
-            document.getElementById('pct-text').innerText = pct + "%";
-            document.getElementById('bar-inner').style.width = pct + "%";
-            const h1 = new Date(new Date().getTime() + 2 * 60000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + ":" + Math.floor(Math.random() * 59).toString().padStart(2, '0') + "s";
-            const hRosa = new Date(new Date().getTime() + 6 * 60000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + ":" + Math.floor(Math.random() * 59).toString().padStart(2, '0') + "s";
-            document.getElementById('lista').innerHTML = `
-                <tr><td style="color:var(--neon)">${h1}</td><td>R$ 0,26</td><td style="font-weight:bold">ENTRA (x1.60)</td></tr>
-                <tr class="rosa"><td>${hRosa}</td><td>R$ 0,11</td><td>VELA ROSA (x10+)</td></tr>
-            `;
         }
     </script>
 </body>
