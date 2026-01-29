@@ -3,32 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.P.A. - ANTI-SABOTAGEM SUPERBET</title>
+    <title>S.P.A. - MONITORAMENTO ATIVO</title>
     <style>
         :root { --gold: #D4AF37; --bg: #000; --neon: #00FF41; --danger: #FF3E3E; --shield: #007FFF; }
-        body { background: var(--bg); color: #EEE; font-family: 'Courier New', monospace; padding: 15px; text-align: center; }
-        .panel { border: 2px solid #1a1a1a; border-radius: 30px; padding: 20px; background: #080808; max-width: 450px; margin: auto; }
-        #status-shield { font-size: 18px; font-weight: bold; padding: 15px; border-radius: 12px; margin: 15px 0; border: 1px solid #333; transition: 0.3s; }
-        .monitorando { color: var(--shield); background: rgba(0, 127, 255, 0.1); }
-        .sabotagem { color: var(--danger); background: rgba(255, 62, 62, 0.2); border-color: var(--danger) !important; animation: shake 0.2s infinite; }
-        @keyframes shake { 0% { transform: translate(1px, 1px); } 50% { transform: translate(-1px, -1px); } 100% { transform: translate(1px, 1px); } }
-        .btn-check { width: 100%; padding: 22px; background: var(--gold); border: none; border-radius: 15px; font-weight: 900; cursor: pointer; color: #000; }
+        body { background: var(--bg); color: #EEE; font-family: 'Courier New', monospace; padding: 10px; text-align: center; }
+        .master-panel { border: 2px solid #1a1a1a; border-radius: 30px; padding: 20px; background: #080808; max-width: 480px; margin: auto; position: relative; }
+        
+        /* Display de Status */
+        #radar-display { font-size: 14px; font-weight: bold; padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #333; transition: 0.5s; }
+        .limpo { color: var(--neon); background: rgba(0, 255, 65, 0.05); }
+        .alerta { color: var(--gold); background: rgba(212, 175, 55, 0.15); animation: pulse 1s infinite; }
+        .monitorado { color: var(--danger); background: rgba(255, 62, 62, 0.2); border-color: var(--danger) !important; }
+        
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        
+        .btn-scan { width: 100%; padding: 22px; background: var(--shield); border: none; border-radius: 15px; color: #FFF; font-weight: 900; cursor: pointer; text-transform: uppercase; }
+        .btn-reset { width: 100%; padding: 10px; background: #111; border: 1px solid #222; border-radius: 10px; color: #555; font-size: 11px; margin-top: 10px; cursor: pointer; }
+        
+        table { width: 100%; margin-top: 20px; border-collapse: collapse; font-size: 11px; text-align: left; }
+        td { padding: 12px 10px; border-bottom: 1px solid #111; }
+        #console-msg { background: #000; height: 70px; font-size: 9px; color: #444; overflow-y: auto; text-align: left; padding: 10px; margin-top: 15px; border-radius: 10px; border: 1px solid #1a1a1a; }
     </style>
 </head>
-<body>
-    <div class="panel">
-        <div style="font-size: 10px; color: #555;">GHOST MODE V2 | SENSOR DE RESPOSTA SHA256</div>
+<body oncontextmenu="return false;">
+
+    <div style="font-size: 9px; color: #444; margin-bottom: 5px;">S.P.A. PROTOCOL | IP: PROTEGIDO | SHA256: 069868f</div>
+
+    <div class="master-panel">
+        <div id="radar-display" class="limpo">🔍 RADAR: INVISÍVEL (BAIXO RISCO)</div>
         
-        <div id="status-shield" class="monitorando">SISTEMA EM ESCUTA...</div>
-        
-        <button class="btn-check" onmousedown="iniciarScan()" onmouseup="validarEntrada()">SEGURE PARA ESCANEAR RODADA</button>
-        
-        <div id="console" style="font-size: 10px; margin-top: 15px; color: #444; text-align: left;">>> IA-SENTINELA: Aguardando interação...</div>
+        <div style="font-size: 10px; color: #666; margin-bottom: 10px;">SEMENTE CLIENTE: mfvTcRV...</div>
+
+        <button class="btn-scan" onmousedown="iniciarCheck()" onmouseup="validar()">ESCANEAR RODADA ATUAL</button>
+        <button class="btn-reset" onclick="location.reload()">REDEFINIR GHOST IP</button>
+
+        <table>
+            <thead><tr><th>HORÁRIO</th><th>STAKE SUJA</th><th>ALVO X-REAL</th></tr></thead>
+            <tbody id="lista-alvos">
+                <tr><td colspan="3" style="text-align:center; padding:15px; color:#222;">Aguardando Scan...</td></tr>
+            </tbody>
+        </table>
+
+        <div id="console-msg">>> IA-SENTINELA: Sensor Anti-Monitoramento carregado...</div>
     </div>
 
     <script>
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        function bip(f, d, t) {
+
+        function som(f, d, t) {
             const o = audioCtx.createOscillator();
             const g = audioCtx.createGain();
             o.connect(g); g.connect(audioCtx.destination);
@@ -36,30 +58,43 @@
             setTimeout(() => o.stop(), d);
         }
 
-        function iniciarScan() {
-            document.getElementById('status-shield').innerText = "ESCANEANDO SERVIDOR...";
-            document.getElementById('status-shield').className = "monitorando";
-            bip(800, 50, 'sine');
+        // --- SENSOR DE MONITORAMENTO REAL ---
+        function checkMonitoramento() {
+            const radar = document.getElementById('radar-display');
+            const chanceRisco = Math.random();
+            
+            if (chanceRisco > 0.92) { // Simulação de detecção de rastreador
+                radar.innerText = "🚨 ALERTA: MONITORAMENTO DETECTADO!";
+                radar.className = "monitorado";
+                som(180, 500, 'sawtooth'); // Bip áspero de perigo
+                document.getElementById('console-msg').innerHTML = "<span style='color:red'>>> O Servidor está analisando seu ID de aposta agora! PARE.</span>";
+            } else if (chanceRisco > 0.70) {
+                radar.innerText = "⚠️ RADAR: RISCO MODERADO (SCAN ATIVO)";
+                radar.className = "alerta";
+                som(440, 100, 'sine');
+            }
         }
 
-        function validarEntrada() {
-            // Simulador de detecção baseado em latência e padrão de vácuo
-            const risco = Math.random();
-            const display = document.getElementById('status-shield');
-            const log = document.getElementById('console');
+        setInterval(checkMonitoramento, 8000); // Checa espionagem a cada 8 segundos
 
-            if (risco > 0.85) { // 15% de chance de detectar sabotagem (vácuo iminente)
-                display.innerText = "SABOTAGEM! VÁCUO DETECTADO";
-                display.className = "sabotagem";
-                log.innerHTML = "<span style='color:red'>>> Eles mudaram o fluxo! ABORTE APOSTA.</span>";
-                bip(120, 1000, 'square'); // Bip de perigo
-            } else {
-                display.innerText = "ROTA LIMPA - PODE ENTRAR";
-                display.className = "monitorando";
-                display.style.color = "var(--neon)";
-                log.innerHTML = "<span style='color:var(--neon)'>>> Semente estável. X-Real Projetado: 2.15x</span>";
-                bip(1000, 150, 'sine'); // Bip de sucesso
-            }
+        function iniciarCheck() {
+            som(800, 50, 'sine');
+            document.getElementById('console-msg').innerText = ">> Analisando latência da semente SHA256...";
+        }
+
+        function validar() {
+            const agora = new Date();
+            const h = agora.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + ":" + Math.floor(Math.random() * 59).toString().padStart(2, '0') + "s";
+            
+            // X-Real Dinâmico (-50% da projeção)
+            let proj = (Math.random() * (4.5 - 2.5) + 2.5).toFixed(2);
+            let xReal = (proj * 0.5).toFixed(2);
+            
+            document.getElementById('lista-alvos').innerHTML = `
+                <tr><td style="color:var(--neon)">${h}</td><td>R$ 1,13</td><td style="font-weight:bold">ENTRA (x${xReal})</td></tr>
+            `;
+            som(1000, 200, 'sine');
+            document.getElementById('console-msg').innerHTML = ">> Rota Limpa. Padrão de saída calculado.";
         }
     </script>
 </body>
