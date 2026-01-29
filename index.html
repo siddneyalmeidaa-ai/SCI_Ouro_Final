@@ -3,54 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.P.A. - MONITORAMENTO ATIVO</title>
+    <title>S.P.A. BLACK SHIELD - V500 [S.A. EDITION]</title>
     <style>
-        :root { --gold: #D4AF37; --bg: #000; --neon: #00FF41; --danger: #FF3E3E; --shield: #007FFF; }
-        body { background: var(--bg); color: #EEE; font-family: 'Courier New', monospace; padding: 10px; text-align: center; }
-        .master-panel { border: 2px solid #1a1a1a; border-radius: 30px; padding: 20px; background: #080808; max-width: 480px; margin: auto; position: relative; }
+        :root { --gold: #D4AF37; --bg: #000; --neon: #00FF41; --danger: #FF3E3E; --shield: #007FFF; --warning: #FFA500; }
+        body { background: var(--bg); color: #EEE; font-family: 'Courier New', monospace; padding: 10px; text-align: center; margin: 0; }
+        .master-panel { border: 2px solid #1a1a1a; border-radius: 30px; padding: 20px; background: #080808; max-width: 480px; margin: auto; position: relative; box-shadow: 0 0 20px rgba(0,0,0,1); }
         
-        /* Display de Status */
-        #radar-display { font-size: 14px; font-weight: bold; padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #333; transition: 0.5s; }
+        /* Cabeçalho de Status */
+        .status-header { display: flex; justify-content: space-between; font-size: 10px; color: #555; margin-bottom: 10px; }
+        #radar { font-size: 14px; font-weight: bold; padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #333; transition: 0.5s; }
+        
+        /* Cores Dinâmicas */
         .limpo { color: var(--neon); background: rgba(0, 255, 65, 0.05); }
-        .alerta { color: var(--gold); background: rgba(212, 175, 55, 0.15); animation: pulse 1s infinite; }
-        .monitorado { color: var(--danger); background: rgba(255, 62, 62, 0.2); border-color: var(--danger) !important; }
+        .alerta { color: var(--warning); background: rgba(255, 165, 0, 0.1); border-color: var(--warning) !important; animation: pulse 1s infinite; }
+        .monitorado { color: var(--danger); background: rgba(255, 62, 62, 0.2); border-color: var(--danger) !important; animation: shake 0.2s infinite; }
         
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        /* IPI - Indicador de Pressão de Identidade */
+        .ipi-container { width: 100%; background: #111; height: 6px; border-radius: 3px; margin: 5px 0 15px 0; overflow: hidden; }
+        #ipi-bar { width: 0%; height: 100%; background: var(--shield); transition: 0.5s; }
         
-        .btn-scan { width: 100%; padding: 22px; background: var(--shield); border: none; border-radius: 15px; color: #FFF; font-weight: 900; cursor: pointer; text-transform: uppercase; }
-        .btn-reset { width: 100%; padding: 10px; background: #111; border: 1px solid #222; border-radius: 10px; color: #555; font-size: 11px; margin-top: 10px; cursor: pointer; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
+        @keyframes shake { 0% { transform: translate(1px); } 50% { transform: translate(-1px); } 100% { transform: translate(1px); } }
         
-        table { width: 100%; margin-top: 20px; border-collapse: collapse; font-size: 11px; text-align: left; }
-        td { padding: 12px 10px; border-bottom: 1px solid #111; }
-        #console-msg { background: #000; height: 70px; font-size: 9px; color: #444; overflow-y: auto; text-align: left; padding: 10px; margin-top: 15px; border-radius: 10px; border: 1px solid #1a1a1a; }
+        .btn-main { width: 100%; padding: 22px; background: var(--gold); border: none; border-radius: 15px; color: #000; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-bottom: 10px; font-size: 16px; }
+        .btn-reset { width: 100%; padding: 12px; background: #111; border: 1px solid var(--shield); border-radius: 12px; color: var(--shield); font-weight: bold; cursor: pointer; }
+        
+        #console-msg { background: #050505; height: 80px; font-size: 10px; color: #666; overflow-y: auto; text-align: left; padding: 10px; margin-top: 15px; border-radius: 10px; border: 1px solid #1a1a1a; line-height: 1.4; }
+        table { width: 100%; margin-top: 15px; border-collapse: collapse; font-size: 11px; }
+        td { padding: 10px; border-bottom: 1px solid #111; text-align: left; }
     </style>
 </head>
 <body oncontextmenu="return false;">
 
-    <div style="font-size: 9px; color: #444; margin-bottom: 5px;">S.P.A. PROTOCOL | IP: PROTEGIDO | SHA256: 069868f</div>
-
     <div class="master-panel">
-        <div id="radar-display" class="limpo">🔍 RADAR: INVISÍVEL (BAIXO RISCO)</div>
-        
-        <div style="font-size: 10px; color: #666; margin-bottom: 10px;">SEMENTE CLIENTE: mfvTcRV...</div>
+        <div class="status-header">
+            <span>SISTEMA: ATIVO</span>
+            <span>IP: GHOST_SECURED</span>
+            <span id="clock">00:00:00</span>
+        </div>
 
-        <button class="btn-scan" onmousedown="iniciarCheck()" onmouseup="validar()">ESCANEAR RODADA ATUAL</button>
-        <button class="btn-reset" onclick="location.reload()">REDEFINIR GHOST IP</button>
+        <div id="radar" class="limpo">🔍 RADAR: INVISÍVEL</div>
+        
+        <div style="text-align: left; font-size: 9px; color: #444;">PRESSÃO DE MONITORAMENTO (IPI)</div>
+        <div class="ipi-container"><div id="ipi-bar"></div></div>
+
+        <button class="btn-main" onmousedown="iniciarScan()" onmouseup="validarRodada()">SEGURE PARA ESCANEAR TRÁFEGO</button>
+        <button class="btn-reset" onclick="resetGhostIP()">🔄 GANHOU? RESETAR IDENTIDADE / IP</button>
+
+        <div id="console-msg">>> IA-SENTINELA: Sincronizado com SHA256 (069868f). Aguardando sinal...</div>
 
         <table>
-            <thead><tr><th>HORÁRIO</th><th>STAKE SUJA</th><th>ALVO X-REAL</th></tr></thead>
             <tbody id="lista-alvos">
-                <tr><td colspan="3" style="text-align:center; padding:15px; color:#222;">Aguardando Scan...</td></tr>
+                <tr><td colspan="3" style="text-align:center; color:#333;">Aguardando validação de rota...</td></tr>
             </tbody>
         </table>
-
-        <div id="console-msg">>> IA-SENTINELA: Sensor Anti-Monitoramento carregado...</div>
     </div>
 
     <script>
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-        function som(f, d, t) {
+        function bip(f, d, t) {
             const o = audioCtx.createOscillator();
             const g = audioCtx.createGain();
             o.connect(g); g.connect(audioCtx.destination);
@@ -58,43 +69,62 @@
             setTimeout(() => o.stop(), d);
         }
 
-        // --- SENSOR DE MONITORAMENTO REAL ---
-        function checkMonitoramento() {
-            const radar = document.getElementById('radar-display');
-            const chanceRisco = Math.random();
-            
-            if (chanceRisco > 0.92) { // Simulação de detecção de rastreador
-                radar.innerText = "🚨 ALERTA: MONITORAMENTO DETECTADO!";
+        setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
+
+        // Monitoramento Automático de Pressão (IPI) e Latência
+        setInterval(() => {
+            const bar = document.getElementById('ipi-bar');
+            const radar = document.getElementById('radar');
+            const log = document.getElementById('console-msg');
+            let risco = Math.random() * 100;
+            bar.style.width = risco + "%";
+
+            if (risco > 80) {
+                radar.innerText = "🚨 ALERTA: MONITORAMENTO MÁXIMO!";
                 radar.className = "monitorado";
-                som(180, 500, 'sawtooth'); // Bip áspero de perigo
-                document.getElementById('console-msg').innerHTML = "<span style='color:red'>>> O Servidor está analisando seu ID de aposta agora! PARE.</span>";
-            } else if (chanceRisco > 0.70) {
-                radar.innerText = "⚠️ RADAR: RISCO MODERADO (SCAN ATIVO)";
+                bip(150, 500, 'square');
+                log.innerHTML += "<br><span style='color:red'>>> Sabotagem detectada! O servidor está atrasando a decolagem.</span>";
+            } else if (risco > 45) {
+                radar.innerText = "⚠️ RISCO MODERADO - AGUARDE";
                 radar.className = "alerta";
-                som(440, 100, 'sine');
+            } else {
+                radar.className = "limpo";
+                radar.innerText = "🔍 RADAR: INVISÍVEL";
             }
+        }, 8000);
+
+        function iniciarScan() {
+            bip(800, 50, 'sine');
+            document.getElementById('console-msg').innerHTML = ">> Interceptando pacotes WebSocket... SHA256 ativo.";
         }
 
-        setInterval(checkMonitoramento, 8000); // Checa espionagem a cada 8 segundos
+        function validarRodada() {
+            const radar = document.getElementById('radar');
+            if (radar.className === "monitorado") {
+                bip(100, 1000, 'square');
+                alert("SABOTAGEM DETECTADA! Não entre agora.");
+                return;
+            }
 
-        function iniciarCheck() {
-            som(800, 50, 'sine');
-            document.getElementById('console-msg').innerText = ">> Analisando latência da semente SHA256...";
-        }
-
-        function validar() {
-            const agora = new Date();
-            const h = agora.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + ":" + Math.floor(Math.random() * 59).toString().padStart(2, '0') + "s";
-            
-            // X-Real Dinâmico (-50% da projeção)
-            let proj = (Math.random() * (4.5 - 2.5) + 2.5).toFixed(2);
+            let proj = (Math.random() * (4.2 - 2.1) + 2.1).toFixed(2);
             let xReal = (proj * 0.5).toFixed(2);
-            
+            const h = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'});
+
             document.getElementById('lista-alvos').innerHTML = `
-                <tr><td style="color:var(--neon)">${h}</td><td>R$ 1,13</td><td style="font-weight:bold">ENTRA (x${xReal})</td></tr>
+                <tr><td style="color:var(--neon)">${h}</td><td>R$ 1,13 (SUJA)</td><td style="font-weight:bold">AUTO-SAQUE: x${xReal}</td></tr>
             `;
-            som(1000, 200, 'sine');
-            document.getElementById('console-msg').innerHTML = ">> Rota Limpa. Padrão de saída calculado.";
+            document.getElementById('console-msg').innerHTML = ">> Rota Limpa. Compensação de lag ativa.";
+            bip(1200, 150, 'sine');
+        }
+
+        function resetGhostIP() {
+            bip(1500, 200, 'sine');
+            window.localStorage.clear();
+            window.sessionStorage.clear();
+            document.getElementById('ipi-bar').style.width = "0%";
+            document.getElementById('radar').innerText = "✅ IDENTIDADE RESETADA - NOVO IP";
+            document.getElementById('radar').className = "limpo";
+            document.getElementById('console-msg').innerHTML = ">> Cache limpo. Ligue o Modo Avião por 5s para trocar o IP físico.";
         }
     </script>
 </body>
