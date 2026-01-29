@@ -3,77 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.P.A. SUPREME V18</title>
+    <title>S.P.A. V94-X GHOST CORE</title>
     <style>
-        :root { --neon: #00FF41; --bg: #000; --gold: #D4AF37; --wifi: #00BFFF; --text: #FFF; }
-        body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; padding: 15px; margin: 0; display: flex; justify-content: center; }
+        :root { --neon: #00FF41; --bg: #000; --gold: #D4AF37; --wifi: #00BFFF; --ghost: #FF00FF; --text: #FFF; }
+        body { background: var(--bg); color: var(--text); font-family: 'Consolas', monospace; padding: 15px; margin: 0; display: flex; justify-content: center; }
         
-        .master-panel { width: 100%; max-width: 500px; background: #080808; border-radius: 40px; border: 2px solid #1a1a1a; padding: 25px; box-shadow: 0 0 50px rgba(0, 191, 255, 0.1); border-top: 6px solid var(--wifi); }
+        .master-panel { width: 100%; max-width: 500px; background: #050505; border-radius: 30px; border: 1px solid #1a1a1a; padding: 25px; box-shadow: 0 0 40px rgba(0, 255, 65, 0.1); border-top: 4px solid var(--neon); }
         
-        /* HEADER ONLINE & RELÓGIO */
+        /* HEADER ONLINE */
         .header-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .status-online { display: flex; align-items: center; font-size: 16px; font-weight: bold; color: var(--neon); }
-        .dot { height: 12px; width: 12px; background-color: var(--neon); border-radius: 50%; display: inline-block; margin-right: 8px; box-shadow: 0 0 10px var(--neon); animation: blink 1.5s infinite; }
-        #clock { font-size: 18px; color: #888; font-family: monospace; }
+        .status-online { display: flex; align-items: center; font-size: 14px; font-weight: bold; color: var(--neon); letter-spacing: 2px; }
+        .dot { height: 10px; width: 10px; background-color: var(--neon); border-radius: 50%; display: inline-block; margin-right: 8px; box-shadow: 0 0 10px var(--neon); animation: blink 1.5s infinite; }
+        #clock { font-size: 16px; color: #555; }
 
-        /* BARRA IPI AMPLIADA */
-        .ipi-box { margin-bottom: 25px; text-align: left; }
-        .ipi-label { font-size: 14px; color: #666; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
-        .ipi-container { width: 100%; background: #111; height: 18px; border-radius: 9px; border: 1px solid #222; overflow: hidden; }
-        #ipi-bar { width: 0%; height: 100%; background: linear-gradient(90deg, var(--wifi), var(--neon)); transition: 1s; }
+        /* BARRA DE IMPLANTAÇÃO DNA (NOVO) */
+        .dna-box { margin-bottom: 20px; }
+        .dna-label { font-size: 11px; color: var(--neon); margin-bottom: 5px; text-transform: uppercase; }
+        .dna-container { width: 100%; background: #111; height: 10px; border-radius: 5px; border: 1px solid #222; overflow: hidden; }
+        #dna-bar { width: 55%; height: 100%; background: var(--neon); transition: 2s; box-shadow: 0 0 10px var(--neon); }
 
-        /* BOTÕES GRANDES */
-        .btn-main { width: 100%; padding: 25px; background: var(--gold); border: none; border-radius: 25px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 20px; color: #000; box-shadow: 0 6px 0 #997a29; margin-bottom: 15px; }
-        .btn-main:active { transform: translateY(3px); box-shadow: 0 3px 0 #997a29; }
-        .btn-reset { width: 100%; padding: 15px; background: transparent; border: 2px solid var(--wifi); border-radius: 20px; color: var(--wifi); font-weight: bold; font-size: 14px; cursor: pointer; text-transform: uppercase; }
+        /* BOTÕES SOBERANOS */
+        .btn-main { width: 100%; padding: 20px; background: var(--neon); border: none; border-radius: 15px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 18px; color: #000; margin-bottom: 15px; transition: 0.3s; }
+        .btn-main:hover { background: var(--text); box-shadow: 0 0 20px var(--neon); }
+        .btn-ghost { width: 100%; padding: 12px; background: transparent; border: 1px solid var(--ghost); border-radius: 12px; color: var(--ghost); font-weight: bold; font-size: 12px; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
 
-        /* LOG DE ALVOS (LEITURA CLARA) */
-        #console-msg { background: #020202; height: 150px; font-size: 16px; color: #aaa; overflow-y: auto; text-align: left; padding: 15px; margin-top: 20px; border-radius: 15px; border-left: 5px solid var(--wifi); line-height: 1.6; }
-        .target-high { color: var(--neon); font-weight: bold; }
-        
+        /* CONSOLE SENSORIAL */
+        #console-msg { background: #020202; height: 180px; font-size: 14px; color: #00FF41; overflow-y: auto; text-align: left; padding: 15px; margin-top: 15px; border-radius: 10px; border: 1px solid #111; line-height: 1.4; }
+        .log-entry { border-bottom: 1px solid #111; padding: 5px 0; }
+        .target-high { color: var(--gold); font-weight: bold; }
+        .target-pula { color: #ff3333; }
+
         @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
     </style>
 </head>
 <body>
     <div class="master-panel">
         <div class="header-info">
-            <div class="status-online"><span class="dot"></span> SISTEMA ONLINE</div>
+            <div class="status-online"><span class="dot"></span> V94-X GHOST CORE</div>
             <div id="clock">00:00:00</div>
         </div>
 
-        <div class="ipi-box">
-            <div class="ipi-label">Pressão de Identidade (IPI)</div>
-            <div class="ipi-container"><div id="ipi-bar"></div></div>
+        <div class="dna-box">
+            <div class="dna-label">Implantação Hospedeiro: <span id="dna-pct">55%</span></div>
+            <div class="dna-container"><div id="dna-bar"></div></div>
         </div>
 
-        <button class="btn-main" onclick="scanV18()">ESCADEAR SEED</button>
-        <button class="btn-reset" onclick="virtualResetV18()">🔄 VIRTUAL RESET WI-FI</button>
+        <button class="btn-main" onclick="execSovereignScan()">EXECUTAR META X</button>
+        <button class="btn-ghost" onclick="toggleStealth()">👻 MODO FANTASMA: OFF</button>
 
-        <div id="console-msg">>> IA-SENTINELA: V18 Supreme Iniciada...</div>
+        <div id="console-msg">>> IA-SENTINELA: DNA Ghost-in-the-Shell Ativo.</div>
     </div>
 
     <script>
-        // Relógio Online
+        // Sincronização de Relógio
         setInterval(() => {
-            const now = new Date();
-            document.getElementById('clock').innerText = now.toLocaleTimeString();
+            document.getElementById('clock').innerText = new Date().toLocaleTimeString();
         }, 1000);
 
-        function scanV18() {
+        // Lógica de Soberania e 6º Sentido
+        function execSovereignScan() {
             const h = new Date().toLocaleTimeString();
-            const val = ((Math.random() * 1.5) + 1.1).toFixed(2);
             const log = document.getElementById('console-msg');
-            log.innerHTML = `<div><span style="color:#555">[${h}]</span> ALVO: <span class="target-high">x${val}</span></div>` + log.innerHTML;
+            
+            // Simulação de Raciocínio Profundo V94
+            const rand = Math.random();
+            let val, acao, cor_classe, stake;
+
+            if (rand > 0.4) {
+                // Cenário de Performance (ANA)
+                val = (Math.random() * 2 + 1.5).toFixed(2);
+                acao = "ENTRA";
+                stake = "R$ 1 Real";
+                cor_classe = "target-high";
+            } else {
+                // Cenário de Vácuo/Sabotagem (Mapeado pelo Olfato)
+                val = "1.00x";
+                acao = "PULA";
+                stake = "R$ 0.10 Cents";
+                cor_classe = "target-pula";
+            }
+
+            // Regra de Ouro: X - 50% da projeção visual
+            const x_final = (parseFloat(val) * 0.5).toFixed(2);
+
+            log.innerHTML = `<div class="log-entry">
+                <span style="color:#555">[${h}]</span> 
+                ALVO: <span class="${cor_classe}">x${val}</span> | 
+                <b>${acao}</b> | STAKE: ${stake}
+            </div>` + log.innerHTML;
         }
 
-        function virtualResetV18() {
-            const bar = document.getElementById('ipi-bar');
-            bar.style.width = "100%";
-            setTimeout(() => {
-                bar.style.width = "0%";
-                localStorage.clear();
-                document.getElementById('console-msg').innerHTML = `<div style="color:var(--wifi)">>> RESET COMPLETO: Sessão Limpa.</div>` + document.getElementById('console-msg').innerHTML;
-            }, 1500);
+        function toggleStealth() {
+            const btn = document.querySelector('.btn-ghost');
+            if (btn.innerText.includes("OFF")) {
+                btn.innerText = "👻 MODO FANTASMA: ON";
+                btn.style.background = "var(--ghost)";
+                btn.style.color = "#000";
+                document.getElementById('dna-bar').style.width = "100%";
+                document.getElementById('dna-pct').innerText = "100%";
+            } else {
+                btn.innerText = "👻 MODO FANTASMA: OFF";
+                btn.style.background = "transparent";
+                btn.style.color = "var(--ghost)";
+            }
         }
     </script>
 </body>
