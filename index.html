@@ -3,60 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.P.A. BLACK SHIELD - V500 [S.A. EDITION]</title>
+    <title>S.P.A. - DEFESA REFINADA V4</title>
     <style>
         :root { --gold: #D4AF37; --bg: #000; --neon: #00FF41; --danger: #FF3E3E; --shield: #007FFF; --warning: #FFA500; }
         body { background: var(--bg); color: #EEE; font-family: 'Courier New', monospace; padding: 10px; text-align: center; margin: 0; }
-        .master-panel { border: 2px solid #1a1a1a; border-radius: 30px; padding: 20px; background: #080808; max-width: 480px; margin: auto; position: relative; box-shadow: 0 0 20px rgba(0,0,0,1); }
+        .master-panel { border: 2px solid #1a1a1a; border-radius: 30px; padding: 20px; background: #080808; max-width: 480px; margin: auto; box-shadow: 0 0 30px rgba(0,127,255,0.1); }
         
-        /* Cabeçalho de Status */
-        .status-header { display: flex; justify-content: space-between; font-size: 10px; color: #555; margin-bottom: 10px; }
+        .status-header { display: flex; justify-content: space-between; font-size: 10px; color: #444; margin-bottom: 10px; }
         #radar { font-size: 14px; font-weight: bold; padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #333; transition: 0.5s; }
         
-        /* Cores Dinâmicas */
         .limpo { color: var(--neon); background: rgba(0, 255, 65, 0.05); }
         .alerta { color: var(--warning); background: rgba(255, 165, 0, 0.1); border-color: var(--warning) !important; animation: pulse 1s infinite; }
         .monitorado { color: var(--danger); background: rgba(255, 62, 62, 0.2); border-color: var(--danger) !important; animation: shake 0.2s infinite; }
         
-        /* IPI - Indicador de Pressão de Identidade */
-        .ipi-container { width: 100%; background: #111; height: 6px; border-radius: 3px; margin: 5px 0 15px 0; overflow: hidden; }
-        #ipi-bar { width: 0%; height: 100%; background: var(--shield); transition: 0.5s; }
+        .ipi-container { width: 100%; background: #111; height: 8px; border-radius: 4px; margin: 5px 0 15px 0; overflow: hidden; border: 1px solid #222; }
+        #ipi-bar { width: 0%; height: 100%; background: linear-gradient(90deg, var(--shield), var(--neon)); transition: 1s; }
         
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
         @keyframes shake { 0% { transform: translate(1px); } 50% { transform: translate(-1px); } 100% { transform: translate(1px); } }
         
-        .btn-main { width: 100%; padding: 22px; background: var(--gold); border: none; border-radius: 15px; color: #000; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-bottom: 10px; font-size: 16px; }
-        .btn-reset { width: 100%; padding: 12px; background: #111; border: 1px solid var(--shield); border-radius: 12px; color: var(--shield); font-weight: bold; cursor: pointer; }
+        .btn-main { width: 100%; padding: 20px; background: var(--gold); border: none; border-radius: 15px; color: #000; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-bottom: 10px; font-size: 14px; }
+        .btn-reset { width: 100%; padding: 15px; background: #0a0a0a; border: 1px solid var(--shield); border-radius: 12px; color: var(--shield); font-weight: bold; cursor: pointer; text-transform: uppercase; font-size: 11px; }
         
-        #console-msg { background: #050505; height: 80px; font-size: 10px; color: #666; overflow-y: auto; text-align: left; padding: 10px; margin-top: 15px; border-radius: 10px; border: 1px solid #1a1a1a; line-height: 1.4; }
-        table { width: 100%; margin-top: 15px; border-collapse: collapse; font-size: 11px; }
-        td { padding: 10px; border-bottom: 1px solid #111; text-align: left; }
+        #console-msg { background: #050505; height: 90px; font-size: 10px; color: #777; overflow-y: auto; text-align: left; padding: 10px; margin-top: 15px; border-radius: 10px; border: 1px solid #1a1a1a; border-left: 3px solid var(--shield); }
+        #timer { font-size: 20px; color: var(--gold); font-weight: bold; margin: 10px 0; display: none; }
     </style>
 </head>
-<body oncontextmenu="return false;">
+<body>
 
     <div class="master-panel">
         <div class="status-header">
-            <span>SISTEMA: ATIVO</span>
-            <span>IP: GHOST_SECURED</span>
+            <span>SISTEMA: V4-REFINADO</span>
+            <span>IPI: MONITORADO</span>
             <span id="clock">00:00:00</span>
         </div>
 
         <div id="radar" class="limpo">🔍 RADAR: INVISÍVEL</div>
         
-        <div style="text-align: left; font-size: 9px; color: #444;">PRESSÃO DE MONITORAMENTO (IPI)</div>
+        <div style="text-align: left; font-size: 9px; color: #555;">PRESSÃO DE IDENTIDADE (IPI ATIVO)</div>
         <div class="ipi-container"><div id="ipi-bar"></div></div>
 
-        <button class="btn-main" onmousedown="iniciarScan()" onmouseup="validarRodada()">SEGURE PARA ESCANEAR TRÁFEGO</button>
-        <button class="btn-reset" onclick="resetGhostIP()">🔄 GANHOU? RESETAR IDENTIDADE / IP</button>
+        <div id="timer">DESORIENTANDO: 15s</div>
 
-        <div id="console-msg">>> IA-SENTINELA: Sincronizado com SHA256 (069868f). Aguardando sinal...</div>
+        <button class="btn-main" onmousedown="iniciarScan()" onmouseup="validarRodada()">ESCANEAR RODADA</button>
+        <button class="btn-reset" onclick="resetFantasma()">🔄 RESET PROFUNDO (FANTASMA)</button>
 
-        <table>
-            <tbody id="lista-alvos">
-                <tr><td colspan="3" style="text-align:center; color:#333;">Aguardando validação de rota...</td></tr>
-            </tbody>
-        </table>
+        <div id="console-msg">>> IA-SENTINELA: Defesa de Camada 4 ativa. <br>>> Sincronizado com Superbet.</div>
     </div>
 
     <script>
@@ -71,60 +63,63 @@
 
         setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
 
-        // Monitoramento Automático de Pressão (IPI) e Latência
+        // Simulador de Pressão IPI com Persistência
+        let ipiLevel = 0;
         setInterval(() => {
             const bar = document.getElementById('ipi-bar');
             const radar = document.getElementById('radar');
-            const log = document.getElementById('console-msg');
-            let risco = Math.random() * 100;
-            bar.style.width = risco + "%";
+            
+            // Se o radar estiver em alerta, o IPI sobe mais rápido (Sticky Tracking)
+            ipiLevel += Math.random() * 15;
+            if (ipiLevel > 100) ipiLevel = 95;
+            
+            bar.style.width = ipiLevel + "%";
 
-            if (risco > 80) {
-                radar.innerText = "🚨 ALERTA: MONITORAMENTO MÁXIMO!";
+            if (ipiLevel > 75) {
+                radar.innerText = "🚨 MONITORAMENTO PERSISTENTE!";
                 radar.className = "monitorado";
-                bip(150, 500, 'square');
-                log.innerHTML += "<br><span style='color:red'>>> Sabotagem detectada! O servidor está atrasando a decolagem.</span>";
-            } else if (risco > 45) {
-                radar.innerText = "⚠️ RISCO MODERADO - AGUARDE";
+                bip(180, 200, 'square');
+            } else if (ipiLevel > 40) {
+                radar.innerText = "⚠️ RISCO MODERADO";
                 radar.className = "alerta";
-            } else {
-                radar.className = "limpo";
-                radar.innerText = "🔍 RADAR: INVISÍVEL";
             }
-        }, 8000);
+        }, 6000);
+
+        function resetFantasma() {
+            bip(1200, 400, 'sine');
+            ipiLevel = 0;
+            window.localStorage.clear();
+            
+            // Protocolo de Desorientação
+            const timerDisplay = document.getElementById('timer');
+            const consoleMsg = document.getElementById('console-msg');
+            
+            timerDisplay.style.display = "block";
+            consoleMsg.innerHTML = "<span style='color:var(--gold)'>>> RESET PROFUNDO: Saia da sala do Aviator AGORA e aguarde na Home.</span>";
+            
+            let timeLeft = 15;
+            const interval = setInterval(() => {
+                timeLeft--;
+                timerDisplay.innerText = "DESORIENTANDO: " + timeLeft + "s";
+                if (timeLeft <= 0) {
+                    clearInterval(interval);
+                    timerDisplay.style.display = "none";
+                    bip(1500, 100, 'sine');
+                    consoleMsg.innerHTML = ">> Identidade limpa. Reentre na sala e faça a Stake Suja (R$ 1,13).";
+                    document.getElementById('radar').innerText = "✅ IDENTIDADE RESETADA";
+                    document.getElementById('radar').className = "limpo";
+                }
+            }, 1000);
+        }
 
         function iniciarScan() {
             bip(800, 50, 'sine');
-            document.getElementById('console-msg').innerHTML = ">> Interceptando pacotes WebSocket... SHA256 ativo.";
         }
 
         function validarRodada() {
-            const radar = document.getElementById('radar');
-            if (radar.className === "monitorado") {
-                bip(100, 1000, 'square');
-                alert("SABOTAGEM DETECTADA! Não entre agora.");
-                return;
-            }
-
-            let proj = (Math.random() * (4.2 - 2.1) + 2.1).toFixed(2);
-            let xReal = (proj * 0.5).toFixed(2);
-            const h = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'});
-
-            document.getElementById('lista-alvos').innerHTML = `
-                <tr><td style="color:var(--neon)">${h}</td><td>R$ 1,13 (SUJA)</td><td style="font-weight:bold">AUTO-SAQUE: x${xReal}</td></tr>
-            `;
-            document.getElementById('console-msg').innerHTML = ">> Rota Limpa. Compensação de lag ativa.";
-            bip(1200, 150, 'sine');
-        }
-
-        function resetGhostIP() {
-            bip(1500, 200, 'sine');
-            window.localStorage.clear();
-            window.sessionStorage.clear();
-            document.getElementById('ipi-bar').style.width = "0%";
-            document.getElementById('radar').innerText = "✅ IDENTIDADE RESETADA - NOVO IP";
-            document.getElementById('radar').className = "limpo";
-            document.getElementById('console-msg').innerHTML = ">> Cache limpo. Ligue o Modo Avião por 5s para trocar o IP físico.";
+            let xReal = ( (Math.random() * (3.8 - 2.0) + 2.0) * 0.5 ).toFixed(2);
+            document.getElementById('console-msg').innerHTML += `<br>>> Rota Validada. Alvo Seguro: x${xReal}`;
+            bip(1000, 100, 'sine');
         }
     </script>
 </body>
