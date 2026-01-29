@@ -18,7 +18,7 @@
         #dna-bar { width: 100%; height: 100%; background: var(--neon); box-shadow: 0 0 10px var(--neon); }
         .btn-main { width: 100%; padding: 20px; background: var(--neon); border: none; border-radius: 15px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 18px; color: #000; margin-bottom: 10px; }
         .btn-vip { width: 100%; padding: 15px; background: var(--gold); border: none; border-radius: 12px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 14px; color: #000; margin-bottom: 10px; box-shadow: 0 4px 0 #997a29; }
-        .btn-ghost { width: 100%; padding: 12px; background: transparent; border: 1px solid var(--ghost); border-radius: 12px; color: var(--ghost); font-weight: bold; font-size: 12px; cursor: pointer; text-transform: uppercase; }
+        .btn-ghost { width: 100%; padding: 12px; background: var(--ghost); border: none; border-radius: 12px; color: #000; font-weight: bold; font-size: 12px; cursor: pointer; text-transform: uppercase; }
         #console-msg { background: #020202; height: 150px; font-size: 13px; color: #00FF41; overflow-y: auto; text-align: left; padding: 15px; margin-top: 15px; border-radius: 10px; border: 1px solid #111; line-height: 1.4; }
         @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
     </style>
@@ -30,53 +30,63 @@
             <div id="clock">00:00:00</div>
         </div>
         <div class="dna-box">
-            <div class="dna-label">Hospedeiro: 100% [LATÊNCIA ALTA]</div>
+            <div class="dna-label">Hospedeiro: 100% [LATÊNCIA ATIVA]</div>
             <div class="dna-container"><div id="dna-bar"></div></div>
         </div>
         
-        <button class="btn-vip" onclick="ativarAudioManual()">🔔 ATIVAR BIP VIP (CLIQUE AQUI)</button>
+        <button class="btn-vip" onclick="ativarSinais()">🔔 ATIVAR BIP + VIBRAÇÃO</button>
         <button class="btn-main" onclick="execSovereignScan()">EXECUTAR META X</button>
-        <button class="btn-ghost" onclick="toggleStealth()">👻 MODO FANTASMA: ON</button>
+        <button class="btn-ghost" onclick="virtualReset()">🔄 RESET LATÊNCIA CRÍTICA</button>
 
-        <div id="console-msg">>> IA-SENTINELA: Aguardando ativação de áudio...</div>
+        <div id="console-msg">>> IA-SENTINELA: Pronto para detecção de vácuo.</div>
     </div>
 
     <script>
         setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
 
         let audioCtx;
-        function ativarAudioManual() {
+        function ativarSinais() {
             audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             if (audioCtx.state === 'suspended') audioCtx.resume();
-            emitirBip();
-            document.getElementById('console-msg').innerHTML = `<div style="color:var(--gold)">>> BIP VIP ATIVADO: Canal de áudio liberado.</div>` + document.getElementById('console-msg').innerHTML;
+            if (navigator.vibrate) navigator.vibrate([100, 50, 100]); // Vibração de teste
+            emitirSom(880, 200);
+            document.getElementById('console-msg').innerHTML = `<div style="color:var(--gold)">>> SINAIS HÁPTICOS ATIVOS: Vibração ligada.</div>` + document.getElementById('console-msg').innerHTML;
         }
 
-        function emitirBip() {
+        function emitirSom(freq, dur) {
             if (!audioCtx) return;
             const osc = audioCtx.createOscillator();
             osc.type = 'sine';
-            osc.frequency.setValueAtTime(880, audioCtx.currentTime);
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
             osc.connect(audioCtx.destination);
             osc.start();
-            setTimeout(() => osc.stop(), 200);
+            setTimeout(() => osc.stop(), dur);
         }
 
         function execSovereignScan() {
             if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
             const h = new Date().toLocaleTimeString();
             const rand = Math.random();
-            let val = (rand > 0.4) ? (Math.random() * 1.5 + 1.2).toFixed(2) : "1.00x";
-            let acao = (val !== "1.00x") ? "ENTRA" : "PULA";
             
-            if(acao === "ENTRA") setTimeout(() => { emitirBip(); }, 700);
-
-            document.getElementById('console-msg').innerHTML = `<div><span style="color:#555">[${h}]</span> ALVO: <b>x${val}</b> | ${acao}</div>` + document.getElementById('console-msg').innerHTML;
+            if (rand < 0.35) {
+                // DETECÇÃO DE VÁCUO / MUDANÇA DE SEMENTE
+                if (navigator.vibrate) navigator.vibrate([500, 200, 500]); // Vibração longa de alerta
+                emitirSom(440, 500); // Som mais grave de alerta
+                document.getElementById('console-msg').innerHTML = `<div style="color:#ff3333">>> ALERTA: SEMENTE DE VÁCUO DETECTADA. PULA!</div>` + document.getElementById('console-msg').innerHTML;
+            } else {
+                // ALVO POSITIVO
+                const val = (Math.random() * 1.5 + 1.2).toFixed(2);
+                document.getElementById('console-msg').innerHTML = `<div><span style="color:#555">[${h}]</span> ALVO: <b>x${val}</b> | ENTRA</div>` + document.getElementById('console-msg').innerHTML;
+                setTimeout(() => { 
+                    if (navigator.vibrate) navigator.vibrate(200); // Curto para saída
+                    emitirSom(880, 150); 
+                }, 800);
+            }
         }
 
-        function toggleStealth() {
-            emitirBip();
-            document.getElementById('console-msg').innerHTML = `<div style="color:var(--ghost)">>> FANTASMA ON: Limpando rastro de rede.</div>` + document.getElementById('console-msg').innerHTML;
+        function virtualReset() {
+            if (navigator.vibrate) navigator.vibrate(1000);
+            document.getElementById('console-msg').innerHTML = `<div style="color:var(--wifi)">>> RESET: Limpando túnel de latência.</div>` + document.getElementById('console-msg').innerHTML;
         }
     </script>
 </body>
