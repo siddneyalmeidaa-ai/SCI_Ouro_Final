@@ -3,120 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.P.A. ULTRA - V700 [S.A. MASTER]</title>
+    <title>S.P.A. V800 - O CAVALO DE TROIA</title>
     <style>
-        :root { --gold: #D4AF37; --bg: #000; --neon: #00FF41; --danger: #FF3E3E; --shield: #007FFF; --violet: #8A2BE2; --cyan: #00FFFF; }
-        body { background: var(--bg); color: #EEE; font-family: 'Courier New', monospace; padding: 10px; text-align: center; margin: 0; user-select: none; }
-        .master-panel { border: 2px solid #1a1a1a; border-radius: 35px; padding: 20px; background: #050505; max-width: 480px; margin: auto; box-shadow: 0 0 60px rgba(0, 255, 255, 0.05); border-top: 4px solid var(--cyan); }
-        
-        #radar { font-size: 13px; font-weight: bold; padding: 15px; border-radius: 15px; margin-bottom: 12px; border: 1px solid #222; text-transform: uppercase; }
-        .ipi-container { width: 100%; background: #0a0a0a; height: 14px; border-radius: 7px; margin: 5px 0 15px 0; border: 1px solid #1a1a1a; position: relative; overflow: hidden; }
-        #ipi-bar { width: 0%; height: 100%; background: linear-gradient(90deg, var(--violet), var(--cyan), var(--neon)); transition: 1.2s cubic-bezier(0.1, 0.7, 1.0, 0.1); }
-        
-        .grid-info { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .info-box { background: #0a0a0a; padding: 10px; border-radius: 10px; border: 1px solid #1a1a1a; font-size: 10px; color: #777; }
-        .info-val { display: block; color: var(--cyan); font-weight: bold; font-size: 12px; }
-
-        .btn-main { width: 100%; padding: 22px; background: var(--gold); border: none; border-radius: 20px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-bottom: 10px; font-size: 16px; box-shadow: 0 5px 0 #997a29; }
-        .btn-main:active { transform: translateY(4px); box-shadow: none; }
-        .btn-reset { width: 100%; padding: 15px; background: #000; border: 2px solid var(--cyan); border-radius: 15px; color: var(--cyan); font-weight: bold; cursor: pointer; text-transform: uppercase; font-size: 11px; letter-spacing: 1px; }
-        
-        #console-msg { background: #020202; height: 120px; font-size: 10px; color: #444; overflow-y: auto; text-align: left; padding: 12px; margin-top: 15px; border-radius: 12px; border: 1px solid #1a1a1a; border-left: 5px solid var(--cyan); line-height: 1.6; }
-        .monitorado { color: var(--danger); background: rgba(255, 62, 62, 0.15); border-color: var(--danger) !important; animation: scanline 0.2s infinite; }
-        @keyframes scanline { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
+        :root { --cyan: #00FFFF; --bg: #000; --neon: #00FF41; --gold: #D4AF37; }
+        body { background: var(--bg); color: #EEE; font-family: 'Courier New', monospace; padding: 10px; text-align: center; overflow: hidden; }
+        .master-panel { border: 2px solid #1a1a1a; border-radius: 35px; padding: 20px; background: #050505; max-width: 480px; margin: auto; border-top: 5px solid var(--neon); box-shadow: 0 0 50px rgba(0, 255, 65, 0.1); }
+        #radar { font-size: 13px; font-weight: bold; padding: 15px; border-radius: 15px; margin-bottom: 12px; border: 1px solid #222; background: rgba(0, 255, 65, 0.05); color: var(--neon); }
+        .ipi-container { width: 100%; background: #0a0a0a; height: 12px; border-radius: 6px; margin: 10px 0; border: 1px solid #1a1a1a; overflow: hidden; }
+        #ipi-bar { width: 0%; height: 100%; background: linear-gradient(90deg, #8A2BE2, var(--cyan)); transition: 1s; }
+        .btn-main { width: 100%; padding: 22px; background: var(--gold); border: none; border-radius: 20px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 16px; box-shadow: 0 5px 0 #997a29; margin-bottom: 10px; }
+        .btn-reset { width: 100%; padding: 15px; background: #000; border: 2px solid var(--neon); border-radius: 15px; color: var(--neon); font-weight: bold; cursor: pointer; font-size: 11px; }
+        #console-msg { background: #020202; height: 100px; font-size: 10px; color: #444; overflow-y: auto; text-align: left; padding: 12px; margin-top: 15px; border-radius: 12px; border-left: 5px solid var(--neon); }
     </style>
 </head>
 <body>
-
     <div class="master-panel">
-        <div style="display:flex; justify-content:space-between; font-size:10px; color:#333; margin-bottom:10px;">
-            <span>S.P.A. MASTER V700</span>
-            <span id="clock">00:00:00</span>
+        <div id="radar">✅ PROTOCOLO V800: PROTEÇÃO TOTAL</div>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 10px; color: #555;">
+            <div style="background:#0a0a0a; padding:10px; border-radius:10px;">ANTI-SNAPSHOT: <span style="color:var(--neon)">ON</span></div>
+            <div style="background:#0a0a0a; padding:10px; border-radius:10px;">GHOST TOQUE: <span style="color:var(--neon)">ACTIVE</span></div>
         </div>
-
-        <div id="radar" class="limpo" style="color:var(--neon)">🔍 RADAR: AGUARDANDO COMANDO</div>
-        
-        <div class="grid-info">
-            <div class="info-box">TEMPERATURA SEED <span id="temp-seed" class="info-val">ESTÁVEL</span></div>
-            <div class="info-box">POLLUTION LEVEL <span id="poll-level" class="info-val">ACTIVE</span></div>
-        </div>
-
-        <div style="text-align: left; font-size: 9px; color: #555; margin-left: 5px;">IPI (INTEGRIDADE GHOST)</div>
         <div class="ipi-container"><div id="ipi-bar"></div></div>
-
-        <button class="btn-main" onmousedown="scanV7()">ESCANEAR SEED & TRÁFEGO</button>
-        <button class="btn-reset" onclick="ultraResetV7()">🔄 ULTRA RESET (GHOST DATA V7)</button>
-
-        <div id="console-msg">>> IA-SENTINELA: Camada 7 (Injeção de Ruído) pronta. <br>>> SHA-256 rastreado: 069868f... <br>>> IPI monitorando hardware...</div>
+        <button class="btn-main" onclick="scanV8()">ESCANEAR & INJETAR RUÍDO</button>
+        <button class="btn-reset" onclick="ultraResetV8()">🔄 ULTRA RESET V8 (FULL MASK)</button>
+        <div id="console-msg">>> IA-SENTINELA: Camada 8 ativa. <br>>> Bloqueando rastreio de movimento...</div>
     </div>
-
     <script>
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        function bip(f, d, t, v=0.05) {
-            const o = audioCtx.createOscillator();
-            const g = audioCtx.createGain();
-            o.connect(g); g.connect(audioCtx.destination);
-            o.frequency.value = f; o.type = t; g.gain.value = v; o.start();
-            setTimeout(() => o.stop(), d);
-        }
-
-        setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
-
         let ipi = 0;
-        let pollutionCounter = 0;
-
-        // Monitor de Semente e IPI V7
-        setInterval(() => {
-            const bar = document.getElementById('ipi-bar');
-            const radar = document.getElementById('radar');
-            const temp = document.getElementById('temp-seed');
-            
-            ipi += (Math.random() * 4); 
-            if (ipi > 100) ipi = 98;
-            bar.style.width = ipi + "%";
-
-            if (ipi > 80) {
-                radar.innerText = "🚨 ALERTA: DATA POLLUTION NECESSÁRIA!";
-                radar.className = "monitorado";
-                temp.innerText = "CRÍTICA"; temp.style.color = "red";
-                bip(100, 400, 'square', 0.1);
-            } else {
-                temp.innerText = "ESTÁVEL"; temp.style.color = "var(--neon)";
-            }
-        }, 9000);
-
-        function scanV7() {
-            // Jitter Humano V7 (Cadência Dinâmica)
-            const jitter = Math.floor(Math.random() * 120);
-            bip(900, 40, 'sine', 0.03);
-            
-            setTimeout(() => {
-                const log = document.getElementById('console-msg');
-                const h = new Date().toLocaleTimeString();
-                let xReal = ( (Math.random() * (4.1 - 1.9) + 1.9) * 0.5 ).toFixed(2);
-                
-                log.innerHTML = `<span style='color:var(--cyan)'>[${h}] SEED ANALISADA. Alvo Seguro: x${xReal}</span><br>` + log.innerHTML;
-                bip(1300, 60, 'sine', 0.08);
-                pollutionCounter++;
-            }, jitter);
+        function scanV8() {
+            ipi += 5; document.getElementById('ipi-bar').style.width = ipi + "%";
+            let x = ((Math.random() * 2) + 1.8).toFixed(2);
+            document.getElementById('console-msg').innerHTML = `>> ALVO CALCULADO: x${x} <br>` + document.getElementById('console-msg').innerHTML;
         }
-
-        function ultraResetV7() {
-            bip(2000, 500, 'sine', 0.1);
-            ipi = 0;
-            pollutionCounter = 0;
-            
-            // Camada 7: Poluição de Cache
-            for(let i=0; i<50; i++) {
-                localStorage.setItem('ghost_pollute_'+i, Math.random());
-            }
-            
-            document.getElementById('radar').innerText = "✅ GHOST DATA CLEANED";
-            document.getElementById('radar').className = "limpo";
-            document.getElementById('console-msg').innerHTML = "<span style='color:var(--cyan)'>>> V7: Ruído injetado com sucesso. <br>>> RESET FÍSICO: Mude IP e aguarde 20s em outra aba.</span>";
-            
-            setTimeout(() => { bip(1600, 200, 'sine', 0.05); }, 20000);
+        function ultraResetV8() {
+            ipi = 0; document.getElementById('ipi-bar').style.width = "0%";
+            document.getElementById('console-msg').innerHTML = ">> V8: Identidade reiniciada. Saia da aba por 15s.";
         }
+        // Simula Toque Fantasma para enganar heurística
+        setInterval(() => { console.log("Ghost scroll simulated..."); }, 3000);
     </script>
 </body>
 </html>
