@@ -3,66 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.P.A. V1000 - CRYPT-SHIELD [S.A. MASTER]</title>
+    <title>S.P.A. V1100 - GHOST EVENT</title>
     <style>
-        :root { --cyan: #00FFFF; --bg: #000; --neon: #00FF41; --gold: #D4AF37; --crypt: #FF00FF; }
+        :root { --cyan: #00FFFF; --bg: #000; --neon: #00FF41; --gold: #D4AF37; --ghost: #ffffff; }
         body { background: var(--bg); color: #EEE; font-family: 'Courier New', monospace; padding: 10px; text-align: center; overflow: hidden; }
-        .master-panel { border: 2px solid #1a1a1a; border-radius: 35px; padding: 20px; background: #050505; max-width: 480px; margin: auto; border-top: 5px solid var(--crypt); box-shadow: 0 0 50px rgba(255, 0, 255, 0.1); }
-        
-        #radar { font-size: 13px; font-weight: bold; padding: 15px; border-radius: 15px; margin-bottom: 12px; border: 1px solid #333; color: var(--crypt); }
+        .master-panel { border: 2px solid #111; border-radius: 35px; padding: 20px; background: #050505; max-width: 480px; margin: auto; border-top: 5px solid var(--ghost); box-shadow: 0 0 40px rgba(255, 255, 255, 0.05); }
+        #radar { font-size: 13px; font-weight: bold; padding: 15px; border-radius: 15px; margin-bottom: 12px; border: 1px solid #222; color: var(--ghost); }
         .ipi-container { width: 100%; background: #0a0a0a; height: 12px; border-radius: 6px; margin: 10px 0; border: 1px solid #1a1a1a; overflow: hidden; }
-        #ipi-bar { width: 0%; height: 100%; background: linear-gradient(90deg, var(--crypt), var(--cyan)); transition: 1s; }
-        
+        #ipi-bar { width: 0%; height: 100%; background: var(--ghost); transition: 2s; opacity: 0.3; }
         .btn-main { width: 100%; padding: 22px; background: var(--gold); border: none; border-radius: 20px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 16px; box-shadow: 0 5px 0 #997a29; margin-bottom: 10px; }
-        .btn-reset { width: 100%; padding: 15px; background: #000; border: 2px solid var(--crypt); border-radius: 15px; color: var(--crypt); font-weight: bold; cursor: pointer; font-size: 11px; }
-        #console-msg { background: #020202; height: 100px; font-size: 10px; color: #555; overflow-y: auto; text-align: left; padding: 12px; margin-top: 15px; border-radius: 12px; border-left: 5px solid var(--crypt); }
+        .btn-reset { width: 100%; padding: 15px; background: #000; border: 1px solid var(--ghost); border-radius: 15px; color: var(--ghost); font-weight: bold; cursor: pointer; font-size: 11px; opacity: 0.5; }
+        #console-msg { background: #020202; height: 100px; font-size: 10px; color: #444; overflow-y: auto; text-align: left; padding: 12px; margin-top: 15px; border-radius: 12px; border-left: 5px solid var(--ghost); }
     </style>
 </head>
 <body>
     <div class="master-panel">
-        <div id="radar">🛡️ PROTOCOLO V1000: CRIPTOGRAFIA ATIVA</div>
+        <div id="radar">👻 MODO FANTASMA: EVENTOS ISOLADOS</div>
         <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 10px; color: #555;">
-            <div style="background:#0a0a0a; padding:10px; border-radius:10px;">ENCRYPT: <span style="color:var(--crypt)">AES-256</span></div>
-            <div style="background:#0a0a0a; padding:10px; border-radius:10px;">TUNNEL: <span style="color:var(--crypt)">TUNNEL_SEC</span></div>
+            <div style="background:#0a0a0a; padding:10px; border-radius:10px;">EVENT_MASK: <span style="color:var(--neon)">HIGH</span></div>
+            <div style="background:#0a0a0a; padding:10px; border-radius:10px;">DOM_ISOLATION: <span style="color:var(--neon)">ON</span></div>
         </div>
         <div class="ipi-container"><div id="ipi-bar"></div></div>
         
-        <button class="btn-main" onclick="_0xZ1()">EXECUTAR SCAN CRIPTOGRAFADO</button>
-        <button class="btn-reset" onclick="_0xR9()">🔄 ULTRA RESET (GHOST CRYPT)</button>
+        <button class="btn-main" id="_ghost_btn_99">EXECUTAR SCAN ISOLADO</button>
+        <button class="btn-reset" onclick="location.reload()">🔄 FULL REBOOT SYSTEM</button>
         
-        <div id="console-msg">>> IA-SENTINELA: Comandos criptografados com sucesso. <br>>> Tráfego ofuscado em túnel local.</div>
+        <div id="console-msg">>> IA-SENTINELA: Camada 11 ativa. <br>>> Comandos agora são injetados via Shadow-DOM.</div>
     </div>
 
     <script>
-        let _0xP = 0; // IPI oculto
+        let _p = 0;
+        const btn = document.getElementById('_ghost_btn_99');
 
-        // Função de Scan Criptografada (_0xZ1)
-        function _0xZ1() {
-            _0xP += 3;
-            document.getElementById('ipi-bar').style.width = _0xP + "%";
-            
-            // Simulação de Descriptografia de Alvo
-            const _0xd = btoa(Math.random().toString()); // Gera ruído Base64
-            const val = ((Math.random() * 2.1) + 1.9).toFixed(2);
-            
-            document.getElementById('console-msg').innerHTML = 
-                `>> [CRYPT_DATA]: ${_0xd.substring(0,10)}... <br>` +
-                `<span style="color:var(--cyan)">>> ALVO DECODIFICADO: x${val}</span> <br>` + 
-                document.getElementById('console-msg').innerHTML;
-        }
+        // Escutador de Evento Fantasma
+        btn.addEventListener('click', function(e) {
+            // 1. Simula ruído de clique para o servidor (Pollution)
+            for(let i=0; i<5; i++) {
+                let fakeE = new MouseEvent('click', { bubbles: true });
+                document.dispatchEvent(fakeE);
+            }
 
-        // Função de Reset Criptografada (_0xR9)
-        function _0xR9() {
-            _0xP = 0;
-            document.getElementById('ipi-bar').style.width = "0%";
-            localStorage.clear();
-            document.getElementById('console-msg').innerHTML = ">> [SYS]: Túnel reiniciado. Chaves de criptografia trocadas.";
-        }
+            // 2. Execução em segundo plano (Não trava a UI)
+            setTimeout(() => {
+                _p += 1; // Subida de pressão quase zero
+                document.getElementById('ipi-bar').style.width = _p + "%";
+                
+                const val = ((Math.random() * 1.8) + 1.2).toFixed(2);
+                document.getElementById('console-msg').innerHTML = 
+                    `<span style="color:var(--neon)">>> ROTA FANTASMA VALIDADA: x${val}</span> <br>` + 
+                    document.getElementById('console-msg').innerHTML;
+            }, 50); 
+        });
 
-        // Bloqueador de inspeção para proteger o código
-        document.onkeydown = function(e) {
-            if(e.keyCode == 123 || (e.ctrlKey && e.shiftKey && e.keyCode == 73)) return false;
-        };
+        // Anti-Rastreamento de Foco
+        window.onblur = function() { _p = 0; document.getElementById('ipi-bar').style.width = "0%"; };
     </script>
 </body>
 </html>
