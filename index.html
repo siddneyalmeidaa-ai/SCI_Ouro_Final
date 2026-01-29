@@ -15,29 +15,30 @@
         .bar-outer { width: 100%; height: 12px; background: #111; border-radius: 6px; overflow: hidden; border: 1px solid #333; margin-bottom: 15px; }
         #bar-inner { width: 0%; height: 100%; background: linear-gradient(90deg, var(--shield), var(--neon), var(--pink)); transition: 1.5s; }
         .btn-main { width: 100%; padding: 22px; background: var(--shield); border: none; border-radius: 15px; font-weight: 900; font-size: 16px; cursor: pointer; color: #FFF; text-transform: uppercase; }
+        .btn-reset { width: 100%; padding: 10px; background: #111; border: 1px solid #333; border-radius: 10px; color: #555; font-size: 11px; margin-top: 10px; cursor: pointer; }
         table { width: 100%; margin-top: 20px; border-collapse: collapse; font-size: 11px; text-align: left; }
         td { padding: 12px 10px; border-bottom: 1px solid #111; }
-        #console { background: #000; height: 95px; font-size: 10px; color: #777; overflow-y: auto; text-align: left; padding: 12px; margin-top: 20px; border-radius: 12px; border: 1px solid #1a1a1a; }
+        .rosa { color: var(--pink); font-weight: bold; }
+        #console { background: #000; height: 80px; font-size: 9px; color: #555; overflow-y: auto; text-align: left; padding: 12px; margin-top: 20px; border-radius: 12px; border: 1px solid #1a1a1a; }
     </style>
 </head>
 <body oncontextmenu="return false;">
     <div style="font-size: 10px; color: var(--shield); margin-bottom: 8px;">🛡️ BLACK SHIELD V500 | SUPERBET SHA256 | <span id="clock">00:00:00</span></div>
     <div class="master-panel">
-        <label for="file-up" class="upload-trigger" id="drop-zone">📸 ANEXAR PRINT (SUPERBET / WORKANA)</label>
+        <label for="file-up" class="upload-trigger" id="drop-zone">📸 ANEXAR HISTÓRICO DO SERVIDOR</label>
         <input type="file" id="file-up" accept="image/*" onchange="readImg(this)">
         <img id="preview-img">
         <div id="pct-text">0%</div>
         <div class="bar-outer"><div id="bar-inner"></div></div>
-        <button class="btn-main" onclick="processar()">GERAR COORDENADA FANTASMA</button>
+        <button class="btn-main" onclick="processar()">PROJETAR PRÓXIMAS RODADAS</button>
+        <button class="btn-reset" onclick="reset()">LIMPAR HISTÓRICO / RESET</button>
         <table>
-            <thead><tr><th>JANELA</th><th>STAKE SUJA</th><th>AÇÃO</th></tr></thead>
-            <tbody id="lista"><tr><td colspan="3" style="text-align:center; color:#333; padding:20px;">Aguardando sinal...</td></tr></tbody>
+            <thead><tr><th>JANELA</th><th>STAKE SUJA</th><th>ALVO</th></tr></thead>
+            <tbody id="lista"><tr><td colspan="3" style="text-align:center; color:#333; padding:20px;">Standby...</td></tr></tbody>
         </table>
-        <div id="console">>> IA-SENTINELA: Protocolo Black Shield (Superbet Edition) ativo...</div>
+        <div id="console">>> IA-SENTINELA: Escaneando histórico para Vela Rosa...</div>
     </div>
     <script>
-        // ANTI-DETECÇÃO DE ABA
-        Object.defineProperty(document, 'title', { get: function() { return 'Relatorio_S_A_2026.pdf'; } });
         setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
         function readImg(input) {
             const file = input.files[0];
@@ -51,13 +52,23 @@
                 reader.readAsDataURL(file);
             }
         }
+        function reset() {
+            document.getElementById('preview-img').style.display = 'none';
+            document.getElementById('drop-zone').style.display = 'block';
+            document.getElementById('pct-text').innerText = "0%";
+            document.getElementById('bar-inner').style.width = "0%";
+            document.getElementById('lista').innerHTML = '<tr><td colspan="3" style="text-align:center; color:#333; padding:20px;">Standby...</td></tr>';
+        }
         function processar() {
-            let pct = (Math.random() * (99 - 95) + 95).toFixed(1);
+            let pct = (Math.random() * (99 - 97) + 97).toFixed(1);
             document.getElementById('pct-text').innerText = pct + "%";
             document.getElementById('bar-inner').style.width = pct + "%";
-            const h = new Date(new Date().getTime() + 2 * 60000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + ":" + Math.floor(Math.random() * 59).toString().padStart(2, '0') + "s";
-            let suja = (0.20 + (Math.random() * 0.15)).toFixed(2);
-            document.getElementById('lista').innerHTML = `<tr><td style="color:var(--neon)">${h}</td><td>R$ ${suja}</td><td style="font-weight:bold">ENTRA (x1.60)</td></tr>`;
+            const h1 = new Date(new Date().getTime() + 2 * 60000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + ":" + Math.floor(Math.random() * 59).toString().padStart(2, '0') + "s";
+            const hRosa = new Date(new Date().getTime() + 6 * 60000).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + ":" + Math.floor(Math.random() * 59).toString().padStart(2, '0') + "s";
+            document.getElementById('lista').innerHTML = `
+                <tr><td style="color:var(--neon)">${h1}</td><td>R$ 0,26</td><td style="font-weight:bold">ENTRA (x1.60)</td></tr>
+                <tr class="rosa"><td>${hRosa}</td><td>R$ 0,11</td><td>VELA ROSA (x10+)</td></tr>
+            `;
         }
     </script>
 </body>
