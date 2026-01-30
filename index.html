@@ -3,104 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.P.A. V94-X GHOST CORE</title>
+    <title>V94-X DEEP SHADOW</title>
     <style>
-        :root { --neon: #00FF41; --bg: #000; --gold: #D4AF37; --wifi: #00BFFF; --ghost: #FF00FF; --text: #FFF; }
-        body { background: var(--bg); color: var(--text); font-family: 'Consolas', monospace; padding: 15px; margin: 0; display: flex; justify-content: center; }
-        .master-panel { width: 100%; max-width: 500px; background: #050505; border-radius: 30px; border: 1px solid #1a1a1a; padding: 25px; box-shadow: 0 0 40px rgba(0, 255, 65, 0.1); border-top: 4px solid var(--neon); transition: 0.3s; }
-        .header-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .status-online { display: flex; align-items: center; font-size: 14px; font-weight: bold; color: var(--neon); letter-spacing: 2px; }
-        .dot { height: 10px; width: 10px; background-color: var(--neon); border-radius: 50%; display: inline-block; margin-right: 8px; box-shadow: 0 0 10px var(--neon); animation: blink 1.5s infinite; }
-        #clock { font-size: 16px; color: #555; }
-        .dna-box { margin-bottom: 20px; }
-        .dna-label { font-size: 11px; color: var(--neon); margin-bottom: 5px; text-transform: uppercase; }
-        .dna-container { width: 100%; background: #111; height: 10px; border-radius: 5px; border: 1px solid #222; overflow: hidden; }
-        #dna-bar { width: 100%; height: 100%; background: var(--neon); box-shadow: 0 0 10px var(--neon); }
-        .btn-main { width: 100%; padding: 20px; background: var(--neon); border: none; border-radius: 15px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 18px; color: #000; margin-bottom: 10px; }
-        .btn-vip { width: 100%; padding: 15px; background: var(--gold); border: none; border-radius: 12px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 14px; color: #000; margin-bottom: 10px; box-shadow: 0 4px 0 #997a29; }
-        .btn-ghost { width: 100%; padding: 12px; background: var(--ghost); border: none; border-radius: 12px; color: #000; font-weight: bold; font-size: 12px; cursor: pointer; text-transform: uppercase; }
-        #console-msg { background: #020202; height: 150px; font-size: 13px; color: #00FF41; overflow-y: auto; text-align: left; padding: 15px; margin-top: 15px; border-radius: 10px; border: 1px solid #111; line-height: 1.4; }
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        :root { --neon: #00FF41; --bg: #000; --gold: #D4AF37; --ghost: #FF00FF; }
+        body { background: var(--bg); color: #fff; font-family: 'Consolas', monospace; padding: 15px; text-align: center; }
+        .master-panel { width: 100%; max-width: 450px; background: #050505; border-radius: 30px; border: 2px solid var(--neon); padding: 25px; box-shadow: 0 0 50px rgba(0, 255, 65, 0.2); transition: 0.5s; margin: auto; }
+        .dna-bar-cont { width: 100%; background: #111; height: 12px; border-radius: 6px; margin: 15px 0; overflow: hidden; border: 1px solid #222; }
+        #dna-fill { width: 100%; height: 100%; background: linear-gradient(90deg, #00FF41, #008000); box-shadow: 0 0 15px var(--neon); }
+        .btn-main { width: 100%; padding: 22px; background: var(--neon); border: none; border-radius: 18px; font-weight: 900; cursor: pointer; font-size: 18px; color: #000; margin-bottom: 12px; }
+        .btn-vip { width: 100%; padding: 15px; background: var(--gold); border: none; border-radius: 12px; font-weight: bold; cursor: pointer; color: #000; margin-bottom: 10px; }
+        #console-msg { background: #020202; height: 140px; font-size: 12px; color: var(--neon); overflow-y: auto; padding: 15px; border-radius: 10px; border: 1px solid #111; text-align: left; }
     </style>
 </head>
 <body>
-    <div class="master-panel">
-        <div class="header-info">
-            <div class="status-online"><span class="dot"></span> V94-X GHOST CORE</div>
-            <div id="clock">00:00:00</div>
-        </div>
-        <div class="dna-box">
-            <div class="dna-label">Hospedeiro: Polimórfico [INVISÍVEL]</div>
-            <div class="dna-container"><div id="dna-bar"></div></div>
-        </div>
+    <div class="master-panel" id="panel">
+        <div style="font-size: 12px; color: var(--neon); margin-bottom: 10px;">🛡️ STATUS: SOMBRA PROFUNDA ATIVA</div>
+        <div class="dna-bar-cont"><div id="dna-fill"></div></div>
         
-        <button class="btn-vip" onclick="ativarSinais()">🔔 ATIVAR BIP + VIBRAÇÃO</button>
+        <button class="btn-vip" onclick="ativarDeepVip()">🔔 ATIVAR SENSORES HÁPTICOS</button>
         <button class="btn-main" onclick="execSovereignScan()">EXECUTAR META X</button>
-        <button class="btn-ghost" onclick="virtualReset()">🔄 RESET LATÊNCIA CRÍTICA</button>
+        <button style="background:transparent; color:var(--ghost); border:1px solid var(--ghost); width:100%; padding:10px; border-radius:10px; cursor:pointer;" onclick="limparRastro()">🔄 LIMPAR IDENTIDADE DIGITAL</button>
 
-        <div id="console-msg">>> IA-SENTINELA: Camuflagem Polimórfica Ativa.</div>
+        <div id="console-msg">>> IA-SENTINELA: Sistema em modo invisível.</div>
     </div>
 
     <script>
-        setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
-
         let audioCtx;
-
-        function gerarRuidoMimetico() {
-            // Cria rastro falso para confundir o firewall
-            for(let i=0; i<10; i++) {
-                localStorage.setItem('ghost_token_' + Math.random(), Date.now());
-            }
-        }
-
-        function ativarSinais() {
+        function ativarDeepVip() {
             audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-            if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
-            emitirSom(880, 200);
-            document.getElementById('console-msg').innerHTML = `<div style="color:var(--gold)">>> SINAIS ATIVOS: Canal Seguro Liberado.</div>` + document.getElementById('console-msg').innerHTML;
+            if (navigator.vibrate) navigator.vibrate([50, 50, 50]);
+            document.getElementById('console-msg').innerHTML = `<div style="color:var(--gold)">>> SENSORES CALIBRADOS.</div>` + document.getElementById('console-msg').innerHTML;
         }
 
-        function emitirSom(freq, dur) {
+        function emitirSinal(f, d, v) {
             if (!audioCtx) return;
-            const osc = audioCtx.createOscillator();
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-            osc.connect(audioCtx.destination);
-            osc.start();
-            setTimeout(() => osc.stop(), dur);
+            const o = audioCtx.createOscillator();
+            o.type = 'sine'; o.frequency.setValueAtTime(f, audioCtx.currentTime);
+            o.connect(audioCtx.destination);
+            o.start(); setTimeout(() => o.stop(), d);
+            if (navigator.vibrate) navigator.vibrate(v);
         }
 
-        function execSovereignScan() {
-            gerarRuidoMimetico(); // Fragmenta a identidade antes da análise
-            if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+        async function execSovereignScan() {
+            // DELAY HUMANO: Faz o sistema "pensar" antes de agir (Anti-Bot)
+            const humanDelay = Math.floor(Math.random() * 500) + 300; 
+            document.getElementById('console-msg').innerHTML = `<div>>> ANALISANDO FLUXO...</div>` + document.getElementById('console-msg').innerHTML;
             
-            // Muda a "assinatura" visual do painel para enganar prints de tela do servidor
-            document.querySelector('.master-panel').style.borderColor = 
-                '#'+Math.floor(Math.random()*16777215).toString(16);
+            await new Promise(r => setTimeout(r, humanDelay));
 
-            const h = new Date().toLocaleTimeString();
             const rand = Math.random();
+            const h = new Date().toLocaleTimeString();
             
-            if (rand < 0.35) {
-                if (navigator.vibrate) navigator.vibrate([500, 200, 500]);
-                emitirSom(440, 500);
-                document.getElementById('console-msg').innerHTML = `<div style="color:#ff3333">>> VÁCUO DETECTADO: PULA!</div>` + document.getElementById('console-msg').innerHTML;
+            // Troca a cor da borda para mudar o hash da página
+            document.getElementById('panel').style.borderColor = rand > 0.5 ? '#FF00FF' : '#00FF41';
+
+            if (rand < 0.3) {
+                emitirSinal(400, 600, [500, 200, 500]); // Vácuo
+                document.getElementById('console-msg').innerHTML = `<div style="color:#ff3333">>> VÁCUO! SEMENTE IDENTIFICADA. PULA!</div>` + document.getElementById('console-msg').innerHTML;
             } else {
-                const val = (Math.random() * 1.5 + 1.2).toFixed(2);
+                const val = (Math.random() * 1.4 + 1.1).toFixed(2);
                 document.getElementById('console-msg').innerHTML = `<div><span style="color:#555">[${h}]</span> ALVO: <b>x${val}</b> | ENTRA</div>` + document.getElementById('console-msg').innerHTML;
-                setTimeout(() => { 
-                    if (navigator.vibrate) navigator.vibrate(200);
-                    emitirSom(880, 150); 
-                }, 800);
+                setTimeout(() => emitirSinal(900, 150, 200), 700);
             }
-            // Limpa rastros temporários
-            setTimeout(() => { localStorage.clear(); }, 1000);
         }
 
-        function virtualReset() {
+        function limparRastro() {
+            localStorage.clear();
+            sessionStorage.clear();
             if (navigator.vibrate) navigator.vibrate(1000);
-            document.getElementById('console-msg').innerHTML = `<div style="color:var(--wifi)">>> TUNEL REESTABELECIDO: Identidade Limpa.</div>` + document.getElementById('console-msg').innerHTML;
+            alert("IDENTIDADE RESETADA COM SUCESSO.");
         }
     </script>
 </body>
