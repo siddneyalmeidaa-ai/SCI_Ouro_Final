@@ -5,114 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>V95-X SHADOW UNIT</title>
     <style>
-        :root { --neon: #00FF41; --bg: #000; --gold: #D4AF37; --danger: #FF3333; --ghost: #FF00FF; }
-        body { background: var(--bg); color: #fff; font-family: 'Consolas', monospace; padding: 10px; margin: 0; display: flex; justify-content: center; }
-        .master-panel { width: 100%; max-width: 420px; background: #050505; border-radius: 30px; border: 2px solid var(--neon); padding: 20px; box-shadow: 0 0 50px rgba(0, 255, 65, 0.2); text-align: center; transition: 0.3s; }
-        
-        /* STATUS DE SAÚDE DO HOSPEDEIRO */
-        .health-cont { display: flex; justify-content: space-between; font-size: 10px; color: #555; margin-bottom: 5px; text-transform: uppercase; }
+        :root { --neon: #00FF41; --bg: #000; --gold: #D4AF37; --danger: #FF3333; }
+        body { background: var(--bg); color: #fff; font-family: 'Consolas', monospace; padding: 10px; margin: 0; }
+        .master-panel { width: 100%; max-width: 420px; background: #050505; border-radius: 30px; border: 2px solid var(--neon); padding: 20px; box-shadow: 0 0 50px rgba(0, 255, 65, 0.2); margin: auto; text-align: center; }
         #radar-cont { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 15px; padding: 10px; background: #0a0a0a; border-radius: 15px; border: 1px solid #1a1a1a; }
         #radar-led { width: 12px; height: 12px; background: var(--neon); border-radius: 50%; box-shadow: 0 0 10px var(--neon); }
-        #radar-status { font-size: 11px; font-weight: bold; letter-spacing: 2px; color: var(--neon); }
-
-        .dna-bar-cont { width: 100%; background: #111; height: 8px; border-radius: 4px; margin-bottom: 20px; overflow: hidden; }
-        #dna-fill { width: 100%; height: 100%; background: linear-gradient(90deg, var(--neon), var(--ghost)); animation: flux 3s infinite; }
-
-        .btn-vip { width: 100%; padding: 15px; background: var(--gold); border: none; border-radius: 12px; font-weight: 900; cursor: pointer; color: #000; margin-bottom: 10px; }
-        .btn-main { width: 100%; padding: 22px; background: var(--neon); border: none; border-radius: 18px; font-weight: 900; cursor: pointer; font-size: 18px; color: #000; margin-bottom: 10px; }
-        .btn-chaos { width: 100%; padding: 12px; background: var(--danger); border: none; border-radius: 12px; font-weight: bold; cursor: pointer; color: #fff; margin-top: 10px; font-size: 11px; }
-
-        #console-msg { background: #020202; height: 140px; font-size: 11px; color: var(--neon); overflow-y: auto; padding: 12px; border-radius: 10px; border: 1px solid #111; text-align: left; line-height: 1.4; }
-        @keyframes flux { 0% { filter: hue-rotate(0deg); } 100% { filter: hue-rotate(360deg); } }
-        @keyframes panic { 0% { border-color: var(--danger); } 50% { border-color: #fff; } 100% { border-color: var(--danger); } }
+        .btn-main { width: 100%; padding: 22px; background: var(--neon); border: none; border-radius: 18px; font-weight: 900; cursor: pointer; font-size: 18px; color: #000; }
+        #console-msg { background: #020202; height: 120px; font-size: 11px; color: var(--neon); overflow-y: auto; padding: 12px; border-radius: 10px; border: 1px solid #111; margin-top: 15px; text-align: left; }
     </style>
 </head>
 <body>
     <div class="master-panel" id="panel">
-        <div class="health-cont"><span>Camuflagem: Ativa</span><span id="jitter-val">Jitter: 0ms</span></div>
+        <div style="font-size: 10px; color: var(--gold); margin-bottom: 5px;">SPOOFING DE HARDWARE: ATIVO</div>
         <div id="radar-cont"><div id="radar-led"></div><span id="radar-status">ROTA LIMPA</span></div>
-        <div class="dna-bar-cont"><div id="dna-fill"></div></div>
-        
-        <button class="btn-vip" onclick="ativarSensores()">🔔 SINCRONIZAR BIP + VIBRAÇÃO</button>
         <button class="btn-main" onclick="execOmegaScan()">EXECUTAR META X</button>
-        <button class="btn-chaos" onclick="protocoloChaos()">⚡ RESET TOTAL + CHAOS OVERLOAD</button>
-
-        <div id="console-msg">>> IA-SENTINELA V95: Fusão de núcleos concluída.</div>
+        <div id="console-msg">>> IA-SENTINELA: Mascarando Android 12...</div>
     </div>
 
     <script>
         let audioCtx;
-        function getJitter() { return Math.floor(Math.random() * 200); }
-
-        setInterval(() => {
-            const r = Math.random();
-            const led = document.getElementById('radar-led');
-            const status = document.getElementById('radar-status');
-            if (r > 0.94) {
-                led.style.background = "var(--danger)"; status.innerText = "MONITORADO!"; status.style.color = "var(--danger)";
-            } else if (r > 0.75) {
-                led.style.background = "var(--gold)"; status.innerText = "VARREDURA ATIVA"; status.style.color = "var(--gold)";
-            } else {
-                led.style.background = "var(--neon)"; status.innerText = "ROTA LIMPA"; status.style.color = "var(--neon)";
-            }
-        }, 3000);
-
-        function ativarSensores() {
-            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
-            emitirSinal(880, 200);
-            document.getElementById('console-msg').innerHTML = `<div style="color:var(--gold)">>> SENSORES V95 SINCRONIZADOS.</div>` + document.getElementById('console-msg').innerHTML;
-        }
-
-        function emitirSinal(f, d, v) {
-            if (!audioCtx) return;
-            const o = audioCtx.createOscillator();
-            o.type = 'sine'; o.frequency.setValueAtTime(f, audioCtx.currentTime);
-            o.connect(audioCtx.destination); o.start();
-            setTimeout(() => o.stop(), d);
-            if (v && navigator.vibrate) navigator.vibrate(v);
+        
+        // BLOQUEIO DE IDENTIFICADORES (PROTEÇÃO CONTRA O QUE ESTÁ NO PRINT)
+        function aplicarMascaras() {
+            const fakeVersion = "S3RLS" + Math.floor(Math.random() * 999999);
+            Object.defineProperty(navigator, 'platform', { get: () => 'Win32' });
+            console.log(">> Assinatura Alterada: " + fakeVersion);
         }
 
         async function execOmegaScan() {
-            if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            aplicarMascaras(); // Muda a identidade a cada clique
+
+            const delay = Math.floor(Math.random() * 400) + 300;
+            document.getElementById('console-msg').innerHTML = `<div>>> INJETANDO RUÍDO NO IP...</div>` + document.getElementById('console-msg').innerHTML;
             
-            // Jitter Dinâmico (Anti-IA de detecção)
-            const jt = getJitter();
-            document.getElementById('jitter-val').innerText = `Jitter: ${jt}ms`;
-            
-            document.getElementById('panel').style.borderColor = "#"+Math.floor(Math.random()*16777215).toString(16);
-            document.getElementById('console-msg').innerHTML = `<div>>> CALCULANDO COM JITTER...</div>` + document.getElementById('console-msg').innerHTML;
-            
-            await new Promise(r => setTimeout(r, 400 + jt));
+            await new Promise(r => setTimeout(r, delay));
             const rand = Math.random();
             const h = new Date().toLocaleTimeString();
 
             if (rand < 0.32) {
-                emitirSinal(400, 600, [500, 200, 500]);
+                if (navigator.vibrate) navigator.vibrate([500, 200, 500]);
                 document.getElementById('console-msg').innerHTML = `<div style="color:var(--danger)">>> VÁCUO! PULA.</div>` + document.getElementById('console-msg').innerHTML;
             } else {
-                const val = (Math.random() * 1.4 + 1.1).toFixed(2);
+                const val = (Math.random() * 1.3 + 1.1).toFixed(2);
                 document.getElementById('console-msg').innerHTML = `<div>[${h}] ALVO: <b>x${val}</b> | ENTRA</div>` + document.getElementById('console-msg').innerHTML;
-                setTimeout(() => emitirSinal(1000, 150, 200), 700 + jt);
+                setTimeout(() => {
+                    const o = audioCtx.createOscillator(); o.connect(audioCtx.destination);
+                    o.start(); setTimeout(() => o.stop(), 150);
+                    if (navigator.vibrate) navigator.vibrate(200);
+                }, 800);
             }
-        }
-
-        async function protocoloChaos() {
-            const panel = document.getElementById('panel');
-            panel.style.animation = "panic 0.1s infinite";
-            if (navigator.vibrate) navigator.vibrate(2000);
-            
-            for(let i=0; i<1000; i++) { localStorage.setItem('chaos_'+i, Math.random()); }
-
-            document.getElementById('console-msg').innerHTML = `
-                <div style="background:red; color:#fff; padding:5px; font-weight:bold;">>> CHAOS ATIVO: TROQUE IP (MODO AVIÃO)!</div>
-            ` + document.getElementById('console-msg').innerHTML;
-
-            setTimeout(() => {
-                panel.style.animation = "none";
-                panel.style.borderColor = "var(--neon)";
-                localStorage.clear();
-            }, 3000);
         }
     </script>
 </body>
