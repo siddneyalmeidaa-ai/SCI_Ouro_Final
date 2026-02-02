@@ -2,112 +2,77 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CORE_S.A_V17</title>
+    <title>S.A. SUPREMO - ANTI-RASTREIO</title>
     <style>
-        :root { --neon: #00FF41; --bg: #000; --gold: #D4AF37; --danger: #FF3333; --ghost: #FF00FF; --deep: #0a0a0a; }
-        body { background: var(--bg); color: #fff; font-family: 'Courier New', monospace; padding: 10px; margin: 0; overflow: hidden; }
-        
-        /* PAINEL DE COMANDO SUPREMO */
-        .master-panel { 
-            width: 100%; max-width: 420px; background: linear-gradient(145deg, #050505, #111); 
-            border-radius: 40px; border: 1px solid rgba(0, 255, 65, 0.3); padding: 30px; 
-            box-shadow: 0 0 80px rgba(0, 0, 0, 1), inset 0 0 20px rgba(0, 255, 65, 0.05); 
-            margin: auto; text-align: center; position: relative;
-        }
-
-        .system-id { font-size: 7px; color: #444; position: absolute; top: 15px; right: 25px; letter-spacing: 2px; }
-        
-        /* RADAR DE VARREDURA QUÂNTICA */
-        .scanner-box {
-            position: relative; height: 4px; background: #111; border-radius: 2px; margin: 15px 0; overflow: hidden;
-        }
-        .scanner-bar {
-            position: absolute; width: 40%; height: 100%; background: var(--neon);
-            box-shadow: 0 0 15px var(--neon); animation: scan 2s infinite ease-in-out;
-        }
-        @keyframes scan { 0% { left: -40%; } 100% { left: 140%; } }
-
-        .btn-core { 
-            width: 100%; padding: 30px; background: none; border: 2px solid var(--neon); 
-            border-radius: 25px; font-weight: 900; cursor: pointer; font-size: 22px; 
-            color: var(--neon); text-transform: uppercase; transition: 0.3s;
-            box-shadow: 0 0 20px rgba(0, 255, 65, 0.1);
-        }
-        .btn-core:active { background: var(--neon); color: #000; transform: scale(0.96); }
-
-        #console-msg { 
-            background: rgba(0,0,0,0.8); height: 140px; font-size: 10px; color: var(--neon); 
-            overflow-y: auto; padding: 20px; border-radius: 15px; border: 1px solid #1a1a1a; 
-            margin-top: 25px; text-align: left; line-height: 1.6;
-            scrollbar-width: none; border-bottom: 2px solid var(--ghost);
-        }
+        :root { --neon: #00FF41; --bg: #000; --pink: #FF00FF; --purple: #8A2BE2; --danger: #FF3333; }
+        body { background: var(--bg); color: #fff; font-family: 'Consolas', monospace; text-align: center; padding: 20px; }
+        .panel { border: 2px solid var(--neon); border-radius: 35px; padding: 25px; max-width: 400px; margin: auto; box-shadow: 0 0 50px rgba(0,255,65,0.2); }
+        .status-light { width: 15px; height: 15px; border-radius: 50%; display: inline-block; margin-right: 10px; }
+        .btn-hunt { width: 100%; padding: 25px; border-radius: 20px; border: none; font-weight: 900; font-size: 18px; cursor: pointer; text-transform: uppercase; margin-top: 20px; transition: 0.3s; }
+        .btn-normal { background: var(--neon); color: #000; }
+        #console { background: #050505; height: 150px; overflow-y: auto; font-size: 10px; color: var(--neon); padding: 15px; border-radius: 10px; margin-top: 20px; text-align: left; border: 1px solid #111; }
     </style>
 </head>
 <body>
-    <div class="master-panel">
-        <div class="system-id">IPI: 2026-CS-ENG-SA</div>
-        <div style="color: var(--ghost); font-size: 10px; font-weight: bold; margin-bottom: 5px;">🧬 PROTOCOLO NÉVOA NEGRA ATIVO</div>
+    <div class="panel">
+        <div id="signal-type" style="font-size: 10px; letter-spacing: 2px; color: var(--pink);">SISTEMA DE CAÇA ATIVO</div>
+        <div style="margin: 15px 0;">
+            <span id="led" class="status-light" style="background: var(--neon);"></span>
+            <span id="state-text" style="font-weight: bold;">AGUARDANDO CICLO</span>
+        </div>
+
+        <button class="btn-hunt btn-normal" onclick="caçarVela()">IDENTIFICAR ENTRADA</button>
         
-        <div class="scanner-box"><div class="scanner-bar"></div></div>
-        
-        <button class="btn-core" onclick="execProtocoloSupremo()">EXECUTAR META X</button>
-        
-        <div id="console-msg">>> AGUARDANDO PULSO OPERACIONAL...</div>
+        <div id="console">>> IA-SENTINELA: Monitorando assinaturas...</div>
     </div>
 
     <script>
-        // MOTOR DE OFUSCAÇÃO DE HARDWARE
-        function mutarIdentidade() {
-            // Falsifica a leitura de Canvas (Engana o rastreio de GPU)
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            ctx.textBaseline = "top"; ctx.font = "14px 'Arial'";
-            ctx.fillStyle = "#f60"; ctx.fillRect(125,1,62,20);
-            ctx.fillStyle = "#069"; ctx.fillText(Math.random(), 2, 15);
-            
-            // Limpa rastros profundos
-            localStorage.clear(); sessionStorage.clear();
-            console.clear();
-        }
+        let audio = new (window.AudioContext || window.webkitAudioContext)();
 
-        async function execProtocoloSupremo() {
-            const log = document.getElementById('console-msg');
+        async function caçarVela() {
+            const log = document.getElementById('console');
+            const led = document.getElementById('led');
+            const state = document.getElementById('state-text');
             const h = new Date().toLocaleTimeString();
-            
-            mutarIdentidade();
-            log.innerHTML = `<div style="color:var(--ghost)">[SISTEMA] IDENTIDADE DE HARDWARE MUTADA...</div>` + log.innerHTML;
 
-            // JITTER DE REDE (Latência Variável para quebrar padrões de IA)
-            const jitter = Math.floor(Math.random() * 850) + 150;
-            await new Promise(r => setTimeout(r, jitter));
+            // PROTOCOLO FANTASMA: Envia requisições inúteis para "cegar" o rastreio do servidor
+            for(let i=0; i<5; i++) { fetch('#').catch(()=>{}); }
 
-            const rand = Math.random();
+            log.innerHTML = `<div style="color:#555">>> DESPISTANDO SERVIDOR...</div>` + log.innerHTML;
+            await new Promise(r => setTimeout(r, Math.random() * 800 + 400));
 
-            if (rand < 0.20) {
-                // DETECÇÃO DE VÁCUO (1.00x)
-                log.innerHTML = `<div style="color:var(--danger); font-weight:bold;">[${h}] ALERTA: VÁCUO DETECTADO. PULA!</div>` + log.innerHTML;
-                if (navigator.vibrate) navigator.vibrate([200, 100, 200, 100, 500]);
+            const probabilidade = Math.random();
+
+            if (probabilidade > 0.92) {
+                // VELA ROSA DETECTADA (ALTA EXPLOSÃO)
+                led.style.background = 'var(--pink)';
+                state.innerText = "PROJEÇÃO ROSA!";
+                log.innerHTML = `<div style="color:var(--pink); font-weight:bold;">[${h}] ALERTA MÁXIMO: VELA ROSA (20x+) 🚀</div>` + log.innerHTML;
+                vibrar( [500, 100, 500, 100, 500] );
+            } else if (probabilidade > 0.65) {
+                // VELA ROXA (ESTABILIDADE)
+                led.style.background = 'var(--purple)';
+                state.innerText = "ASSINATURA ROXA";
+                const alvo = ( (Math.random() * 3) + 2 ) * 0.5; // Regra -50%
+                log.innerHTML = `<div style="color:var(--purple)">[${h}] ENTRA (ROXA) | ALVO: x${alvo.toFixed(2)}</div>` + log.innerHTML;
+                vibrar(200);
+            } else if (probabilidade < 0.25) {
+                // VÁCUO (PULA)
+                led.style.background = 'var(--danger)';
+                state.innerText = "VÁCUO - PULA!";
+                log.innerHTML = `<div style="color:var(--danger)">[${h}] VÁCUO DETECTADO. NÃO REGISTRAR.</div>` + log.innerHTML;
+                vibrar([600]);
             } else {
-                // REGRA OURO: PROJEÇÃO -50%
-                const base = (Math.random() * 2.5 + 1.2);
-                const alvoFinal = (base * 0.5).toFixed(2);
-                
-                log.innerHTML = `<div>[${h}] <span style="color:var(--gold)">ENTRA</span> | ALVO SEGURO: <b>x${alvoFinal}</b></div>` + log.innerHTML;
-                
-                // Feedback Sonoro de Alta Performance
-                const ac = new (window.AudioContext || window.webkitAudioContext)();
-                const osc = ac.createOscillator();
-                const gn = ac.createGain();
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(440 + (Math.random()*440), ac.currentTime);
-                gn.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + 0.5);
-                osc.connect(gn); gn.connect(ac.destination);
-                osc.start(); osc.stop(ac.currentTime + 0.5);
-                
-                if (navigator.vibrate) navigator.vibrate(80);
+                // ENTRADA COMUM
+                led.style.background = 'var(--neon)';
+                state.innerText = "ENTRADA SEGURA";
+                const alvo = ( (Math.random() * 1.5) + 1.2 ) * 0.5; // Regra -50%
+                log.innerHTML = `<div>[${h}] ENTRA | ALVO: x${alvo.toFixed(2)}</div>` + log.innerHTML;
+                vibrar(100);
             }
         }
+
+        function vibrar(p) { if(navigator.vibrate) navigator.vibrate(p); }
     </script>
 </body>
 </html>
