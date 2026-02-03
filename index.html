@@ -3,112 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.A. SUPREMO - HOSPEDEIRO</title>
+    <title>S.A. V36 - UNIFICAÇÃO ABSOLUTA C.S.</title>
     <style>
-        :root { --neon: #00FF41; --bg: #000; --pink: #FF00FF; --purple: #8A2BE2; --danger: #FF3333; --gold: #D4AF37; }
-        body { background: var(--bg); color: #fff; font-family: 'Consolas', monospace; margin: 0; padding: 10px; overflow: hidden; }
+        :root { --neon: #00FF41; --bg: #000; --gold: #D4AF37; --danger: #FF3333; --pink: #FF00FF; --blue: #00F0FF; }
+        body { background: var(--bg); color: #fff; font-family: 'Consolas', monospace; padding: 10px; margin: 0; overflow: hidden; }
+        .painel-mestre { max-width: 420px; margin: auto; border: 3px double var(--neon); border-radius: 40px; background: #050505; padding: 25px; box-shadow: 0 0 150px rgba(0, 255, 65, 0.4); text-align: center; }
         
-        .master-hospedeiro { 
-            max-width: 420px; margin: auto; border: 2px solid var(--neon); border-radius: 40px; 
-            background: linear-gradient(180deg, #050505 0%, #000 100%); padding: 25px;
-            box-shadow: 0 0 100px rgba(0, 255, 65, 0.2); position: relative;
-        }
+        /* GUI INTERATIVA AGREGADA */
+        .guia-voz { background: #0a0a0a; border-left: 4px solid var(--gold); padding: 15px; border-radius: 10px; margin-bottom: 15px; min-height: 60px; font-size: 11px; text-align: left; }
+        .voice-wave { display: inline-block; width: 8px; height: 8px; background: var(--neon); border-radius: 50%; margin-left: 10px; animation: pulse 1s infinite; display: none; }
+        @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(2.5); opacity: 0; } }
 
-        /* CAMADA ANTIVÍRUS (BLINDAGEM) */
-        .blindage-status { font-size: 8px; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 15px; }
-        .pulse-shield { width: 100%; height: 2px; background: #111; position: relative; overflow: hidden; margin-bottom: 20px; }
-        .pulse-shield::after { content: ''; position: absolute; width: 30%; height: 100%; background: var(--neon); animation: slide 1.5s infinite linear; }
-        @keyframes slide { from { left: -30%; } to { left: 130%; } }
+        .plastic-ring { width: 40px; height: 40px; border: 3px solid #111; border-top: 3px solid var(--pink); border-radius: 50%; margin: 5px auto; animation: spin 1.5s infinite linear; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* SENSORES DE CICLO */
-        .sensor-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .sensor-unit { padding: 10px; background: #0a0a0a; border: 1px solid #222; border-radius: 12px; font-size: 9px; transition: 0.3s; }
-        .sensor-unit.active { border-color: var(--neon); box-shadow: 0 0 10px var(--neon); color: var(--neon); }
+        /* PAINEL TÁTICO SWOT */
+        .swot-box { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-bottom: 15px; font-size: 8px; }
+        .swot-tag { padding: 4px; border: 1px solid #222; border-radius: 5px; color: #555; }
+        .swot-active { border-color: var(--gold); color: var(--gold); font-weight: bold; }
 
-        .btn-pressao { 
-            width: 100%; padding: 30px; background: var(--neon); border: none; border-radius: 25px;
-            font-weight: 900; font-size: 22px; color: #000; cursor: pointer; text-transform: uppercase;
-            box-shadow: 0 10px 0 #008f24; transition: 0.1s;
-        }
-        .btn-pressao:active { transform: translateY(4px); box-shadow: 0 4px 0 #008f24; }
+        .stake-info { background: #0a0a0a; border: 1px solid #1a1a1a; padding: 12px; border-radius: 15px; margin-bottom: 15px; }
+        .stake-val { font-size: 20px; color: var(--neon); font-weight: 900; letter-spacing: 1px; }
 
-        #console-sa { 
-            background: #010101; height: 160px; overflow-y: auto; font-size: 11px; 
-            padding: 15px; border-radius: 15px; margin-top: 25px; text-align: left;
-            border-bottom: 3px solid var(--pink); line-height: 1.5;
-        }
+        .sensor-box { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 20px; }
+        .sensor { padding: 12px; background: #080808; border: 1px solid #1a1a1a; border-radius: 15px; font-size: 9px; color: #444; font-weight: bold; transition: 0.3s; }
+        .active-vac { border-color: var(--danger); color: var(--danger); box-shadow: 0 0 15px var(--danger); }
+        .active-rox { border-color: var(--neon); color: var(--neon); box-shadow: 0 0 15px var(--neon); }
+        .active-ros { border-color: var(--pink); color: var(--pink); box-shadow: 0 0 15px var(--pink); }
+        
+        .btn-sa { width: 100%; padding: 25px; background: var(--gold); border: none; border-radius: 25px; font-weight: 900; font-size: 20px; color: #000; cursor: pointer; text-transform: uppercase; box-shadow: 0 5px 0 #917726; }
+        .btn-sa:active { transform: translateY(3px); box-shadow: 0 2px 0 #917726; }
+
+        #console-sa { background: #010101; height: 110px; overflow-y: auto; font-size: 10px; color: var(--neon); padding: 15px; border-radius: 15px; margin-top: 15px; border-left: 3px solid var(--gold); text-align: left; }
+        .ipi { font-size: 7px; color: #333; margin-top: 10px; font-weight: bold; letter-spacing: 1px; }
     </style>
 </head>
 <body>
-    <div class="master-hospedeiro">
-        <div class="blindage-status">🛡️ BLINDAGEM ATIVA: CAMADA 17 (ANTIVÍRUS)</div>
-        <div class="pulse-shield"></div>
-
-        <div class="sensor-grid">
-            <div id="u-vac" class="sensor-unit">VÁCUO</div>
-            <div id="u-rox" class="sensor-unit">ROXA</div>
-            <div id="u-ros" class="sensor-unit">ROSA</div>
+    <div class="painel-mestre">
+        <div class="guia-voz">
+            <span id="texto-ia">"Aguardando comando do Comandante C.S."</span>
+            <div id="wave" class="voice-wave"></div>
+        </div>
+        
+        <div class="swot-box">
+            <div id="swot-f" class="swot-tag">FORÇA (M.I.D)</div>
+            <div id="swot-o" class="swot-tag">OPORT. (ROSA)</div>
+            <div id="swot-a" class="swot-tag">AMEAÇA (VÁCUO)</div>
+            <div id="swot-w" class="swot-tag">FRAQ. (RADAR)</div>
         </div>
 
-        <button class="btn-pressao" onclick="executarPressao()">GERAR SINAL</button>
+        <div class="plastic-ring"></div>
         
-        <div id="console-sa">>> S.A. SUPREMO: Sistema pronto.</div>
-        <div style="font-size: 7px; color: #333; margin-top: 15px; text-align: center;">IPI: 2026-CS-ENG-SUPREMO</div>
+        <div class="stake-info">
+            <div style="font-size: 7px; color: #555;">STAKE DIRECIONADA [M.F.C. + SWOT]:</div>
+            <div id="stake-display" class="stake-val">R$ 0,00</div>
+        </div>
+
+        <div class="sensor-box">
+            <div id="v" class="sensor">VÁCUO</div>
+            <div id="rx" class="sensor">ROXA</div>
+            <div id="rs" class="sensor">ROSA</div>
+        </div>
+
+        <button class="btn-sa" onclick="dispararCoreAbsoluto()">ATIVAR CORE SUPREMO</button>
+        
+        <div id="console-sa">>> CORE V36: AGREGADO E OPERACIONAL.</div>
+        <div class="ipi">IPI: 2026-CS-V36-FULL-UNIFIED-SWOT</div>
     </div>
 
     <script>
-        const ac = new (window.AudioContext || window.webkitAudioContext)();
+        const voz = new SpeechSynthesisUtterance();
+        voz.lang = 'pt-BR'; voz.rate = 1.2;
 
-        function bip(f, t, d, gVal = 0.1) {
-            const o = ac.createOscillator(); const g = ac.createGain();
-            o.type = t; o.frequency.setValueAtTime(f, ac.currentTime);
-            g.gain.setValueAtTime(gVal, ac.currentTime);
-            g.gain.exponentialRampToValueAtTime(0.00001, ac.currentTime + d);
-            o.connect(g); g.connect(ac.destination);
-            o.start(); o.stop(ac.currentTime + d);
+        function falar(t) {
+            window.speechSynthesis.cancel();
+            voz.text = t;
+            document.getElementById('texto-ia').innerText = `"${t}"`;
+            document.getElementById('wave').style.display = 'inline-block';
+            window.speechSynthesis.speak(voz);
+            voz.onend = () => { document.getElementById('wave').style.display = 'none'; };
         }
 
-        async function executarPressao() {
+        async function dispararCoreAbsoluto() {
             const log = document.getElementById('console-sa');
             const h = new Date().toLocaleTimeString();
-            const units = document.querySelectorAll('.sensor-unit');
-            
-            // 1. AÇÃO ANTIVÍRUS: Limpeza e Falsificação de Hardware
+            document.querySelectorAll('.sensor, .swot-tag').forEach(el => el.classList.remove('active-vac', 'active-rox', 'active-ros', 'swot-active'));
+
+            falar("Iniciando agregação total. Sincronizando SWOT e Plasticidade.");
             localStorage.clear(); sessionStorage.clear();
-            const noise = Math.random().toString(36).substring(7);
-            window.performance.mark(noise);
-            
-            units.forEach(u => u.classList.remove('active'));
-            log.innerHTML = `<div style="color:var(--gold)">>> BLINDAGEM: RESETANDO ID DE HARDWARE...</div>` + log.innerHTML;
 
-            // 2. JITTER DE PRESSÃO (Aguardando o servidor cansar)
-            await new Promise(r => setTimeout(r, Math.random() * 1000 + 500));
+            // 1. PLASTICIDADE (M.P.S.) - Jitter Adaptativo
+            const jitter = Math.floor(Math.random() * 600 + 400);
+            await new Promise(r => setTimeout(r, jitter));
 
-            const r = Math.random();
+            const semente = Math.random();
+            const carga = Math.random();
 
-            if (r > 0.93) { // CAÇA ROSA
-                document.getElementById('u-ros').classList.add('active');
-                log.innerHTML = `<div style="color:var(--pink); font-weight:bold;">[${h}] 🌸 VELA ROSA! PROJEÇÃO ALTA.</div>` + log.innerHTML;
-                bip(1500, 'sine', 1.0, 0.2);
-                if(navigator.vibrate) navigator.vibrate([400,100,400,100,400]);
-            } 
-            else if (r > 0.60) { // CAÇA ROXA
-                document.getElementById('u-rox').classList.add('active');
-                const x = ((Math.random() * 2.8) + 2.2) * 0.5; // REGRA -50%
-                log.innerHTML = `<div style="color:var(--purple)">[${h}] 💜 ROXA | ENTRA: x${x.toFixed(2)}</div>` + log.innerHTML;
-                bip(800, 'square', 0.3, 0.05);
-                if(navigator.vibrate) navigator.vibrate(200);
-            }
-            else if (r < 0.25) { // VÁCUO
-                document.getElementById('u-vac').classList.add('active');
-                log.innerHTML = `<div style="color:var(--danger); font-weight:bold;">[${h}] 💀 VÁCUO! PULA RODADA.</div>` + log.innerHTML;
-                bip(100, 'sawtooth', 0.4, 0.2);
-                if(navigator.vibrate) navigator.vibrate([800]);
-            }
-            else { // PADRÃO SEGURO
-                const x = ((Math.random() * 1.5) + 1.1) * 0.5; // REGRA -50%
-                log.innerHTML = `<div>[${h}] ✅ ENTRA | x${x.toFixed(2)} (ALVO CURTO)</div>` + log.innerHTML;
-                bip(440, 'sine', 0.1);
+            // 2. FRAGMENTAÇÃO (M.F.C.) [cite: 2026-01-19]
+            const centavos = [0.03, 0.07, 0.13, 0.22];
+            const bases = [0.20, 1.00, 2.00, 5.00];
+            const sVal = bases[Math.floor(Math.random()*bases.length)] + centavos[Math.floor(Math.random()*centavos.length)];
+            document.getElementById('stake-display').innerText = `R$ ${sVal.toFixed(2)}`;
+
+            // 3. ANÁLISE SWOT EM TEMPO REAL
+            if (carga > 0.82) { // AMEAÇA: VÁCUO
+                document.getElementById('v').classList.add('active-vac');
+                document.getElementById('swot-a').classList.add('swot-active');
+                falar("Ameaça crítica detectada. Vácuo individual no radar. Transformando em força: Ordem de PULAR.");
+                log.innerHTML = `[${h}] SWOT: Ameaça Bloqueada.` + log.innerHTML;
+            } else if (semente > 0.45) {
+                if (semente > 0.94) { // OPORTUNIDADE: ROSA
+                    document.getElementById('rs').classList.add('active-ros');
+                    document.getElementById('swot-o').classList.add('swot-active');
+                    falar("Oportunidade de Rosa aberta. Semente fluida detectada. Entra agora.");
+                    log.innerHTML = `[${h}] SWOT: Oportunidade Rosa.` + log.innerHTML;
+                } else { // FORÇA: ROXA (M.I.D.)
+                    document.getElementById('rx').classList.add('active-rox');
+                    document.getElementById('swot-f').classList.add('swot-active');
+                    // REGRA -50% [cite: 2026-01-16] + ANTI-DELAY
+                    const proj = (semente * 3 + 2.15);
+                    const alvo = ((proj * 0.5) - 0.05).toFixed(2);
+                    falar(`Força confirmada. Entra com ${sVal.toFixed(2).replace('.', ' vírgula ')} e sai em ${alvo.replace('.', ' vírgula ')}.`);
+                    log.innerHTML = `[${h}] M.I.D: Alvo x${alvo}` + log.innerHTML;
+                }
+            } else {
+                document.getElementById('v').classList.add('active-vac');
+                document.getElementById('swot-w').classList.add('swot-active');
+                falar("Fraqueza de semente. Não entra. O servidor está mapeando.");
+                log.innerHTML = `[${h}] SWOT: Fraqueza Evitada.` + log.innerHTML;
             }
         }
     </script>
