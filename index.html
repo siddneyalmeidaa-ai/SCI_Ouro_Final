@@ -3,72 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.A. V36 - UNIFICAÇÃO ABSOLUTA C.S.</title>
+    <title>S.A. V37 - HIPER BET SPECIAL EDITION</title>
     <style>
-        :root { --neon: #00FF41; --bg: #000; --gold: #D4AF37; --danger: #FF3333; --pink: #FF00FF; --blue: #00F0FF; }
+        :root { --neon: #00FF41; --bg: #000; --gold: #D4AF37; --danger: #FF3333; --pink: #FF00FF; --hiper: #8A2BE2; }
         body { background: var(--bg); color: #fff; font-family: 'Consolas', monospace; padding: 10px; margin: 0; overflow: hidden; }
-        .painel-mestre { max-width: 420px; margin: auto; border: 3px double var(--neon); border-radius: 40px; background: #050505; padding: 25px; box-shadow: 0 0 150px rgba(0, 255, 65, 0.4); text-align: center; }
+        .painel-mestre { max-width: 420px; margin: auto; border: 3px double var(--hiper); border-radius: 40px; background: #050505; padding: 25px; box-shadow: 0 0 150px rgba(138, 43, 226, 0.3); text-align: center; }
         
         /* GUI INTERATIVA AGREGADA */
         .guia-voz { background: #0a0a0a; border-left: 4px solid var(--gold); padding: 15px; border-radius: 10px; margin-bottom: 15px; min-height: 60px; font-size: 11px; text-align: left; }
-        .voice-wave { display: inline-block; width: 8px; height: 8px; background: var(--neon); border-radius: 50%; margin-left: 10px; animation: pulse 1s infinite; display: none; }
+        .voice-wave { display: inline-block; width: 8px; height: 8px; background: var(--hiper); border-radius: 50%; margin-left: 10px; animation: pulse 1s infinite; display: none; }
         @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(2.5); opacity: 0; } }
 
-        .plastic-ring { width: 40px; height: 40px; border: 3px solid #111; border-top: 3px solid var(--pink); border-radius: 50%; margin: 5px auto; animation: spin 1.5s infinite linear; }
+        .plastic-ring { width: 40px; height: 40px; border: 3px solid #111; border-top: 3px solid var(--hiper); border-radius: 50%; margin: 5px auto; animation: spin 1.5s infinite linear; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* PAINEL TÁTICO SWOT */
         .swot-box { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-bottom: 15px; font-size: 8px; }
         .swot-tag { padding: 4px; border: 1px solid #222; border-radius: 5px; color: #555; }
         .swot-active { border-color: var(--gold); color: var(--gold); font-weight: bold; }
 
         .stake-info { background: #0a0a0a; border: 1px solid #1a1a1a; padding: 12px; border-radius: 15px; margin-bottom: 15px; }
-        .stake-val { font-size: 20px; color: var(--neon); font-weight: 900; letter-spacing: 1px; }
+        .stake-val { font-size: 20px; color: var(--hiper); font-weight: 900; letter-spacing: 1px; }
 
         .sensor-box { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 20px; }
-        .sensor { padding: 12px; background: #080808; border: 1px solid #1a1a1a; border-radius: 15px; font-size: 9px; color: #444; font-weight: bold; transition: 0.3s; }
+        .sensor { padding: 12px; background: #080808; border: 1px solid #1a1a1a; border-radius: 15px; font-size: 9px; color: #444; font-weight: bold; }
         .active-vac { border-color: var(--danger); color: var(--danger); box-shadow: 0 0 15px var(--danger); }
-        .active-rox { border-color: var(--neon); color: var(--neon); box-shadow: 0 0 15px var(--neon); }
+        .active-rox { border-color: var(--hiper); color: var(--hiper); box-shadow: 0 0 15px var(--hiper); }
         .active-ros { border-color: var(--pink); color: var(--pink); box-shadow: 0 0 15px var(--pink); }
         
-        .btn-sa { width: 100%; padding: 25px; background: var(--gold); border: none; border-radius: 25px; font-weight: 900; font-size: 20px; color: #000; cursor: pointer; text-transform: uppercase; box-shadow: 0 5px 0 #917726; }
-        .btn-sa:active { transform: translateY(3px); box-shadow: 0 2px 0 #917726; }
-
-        #console-sa { background: #010101; height: 110px; overflow-y: auto; font-size: 10px; color: var(--neon); padding: 15px; border-radius: 15px; margin-top: 15px; border-left: 3px solid var(--gold); text-align: left; }
-        .ipi { font-size: 7px; color: #333; margin-top: 10px; font-weight: bold; letter-spacing: 1px; }
+        .btn-sa { width: 100%; padding: 25px; background: var(--hiper); border: none; border-radius: 25px; font-weight: 900; font-size: 20px; color: #fff; cursor: pointer; text-transform: uppercase; box-shadow: 0 5px 0 #4B0082; }
+        #console-sa { background: #010101; height: 110px; overflow-y: auto; font-size: 10px; color: var(--hiper); padding: 15px; border-radius: 15px; margin-top: 15px; border-left: 3px solid var(--gold); text-align: left; }
+        .ipi { font-size: 7px; color: #333; margin-top: 10px; font-weight: bold; }
     </style>
 </head>
 <body>
     <div class="painel-mestre">
         <div class="guia-voz">
-            <span id="texto-ia">"Aguardando comando do Comandante C.S."</span>
+            <span id="texto-ia">"Hiper Bet Sincronizada. Pronto para operar, Comandante."</span>
             <div id="wave" class="voice-wave"></div>
         </div>
         
         <div class="swot-box">
-            <div id="swot-f" class="swot-tag">FORÇA (M.I.D)</div>
-            <div id="swot-o" class="swot-tag">OPORT. (ROSA)</div>
+            <div id="swot-f" class="swot-tag">FORÇA (SHA256)</div>
+            <div id="swot-o" class="swot-tag">OPORT. (HIPER)</div>
             <div id="swot-a" class="swot-tag">AMEAÇA (VÁCUO)</div>
-            <div id="swot-w" class="swot-tag">FRAQ. (RADAR)</div>
+            <div id="swot-w" class="swot-tag">FRAQ. (LIMITER)</div>
         </div>
 
         <div class="plastic-ring"></div>
         
         <div class="stake-info">
-            <div style="font-size: 7px; color: #555;">STAKE DIRECIONADA [M.F.C. + SWOT]:</div>
+            <div style="font-size: 7px; color: #555;">STAKE DIRECIONADA [HIPER BET MODE]:</div>
             <div id="stake-display" class="stake-val">R$ 0,00</div>
         </div>
 
-        <div class="sensor-box">
-            <div id="v" class="sensor">VÁCUO</div>
-            <div id="rx" class="sensor">ROXA</div>
-            <div id="rs" class="sensor">ROSA</div>
-        </div>
+        <div class="sensor-box"><div id="v" class="sensor">VÁCUO</div><div id="rx" class="sensor">ROXA</div><div id="rs" class="sensor">ROSA</div></div>
 
-        <button class="btn-sa" onclick="dispararCoreAbsoluto()">ATIVAR CORE SUPREMO</button>
+        <button class="btn-sa" onclick="operarHiperBet()">ATIVAR CORE HIPER</button>
         
-        <div id="console-sa">>> CORE V36: AGREGADO E OPERACIONAL.</div>
-        <div class="ipi">IPI: 2026-CS-V36-FULL-UNIFIED-SWOT</div>
+        <div id="console-sa">>> CORE V37: AGREGADO PARA HIPER.BET.BR</div>
+        <div class="ipi">IPI: 2026-CS-V37-HIPER-UNIFIED-SWOT</div>
     </div>
 
     <script>
@@ -84,52 +77,48 @@
             voz.onend = () => { document.getElementById('wave').style.display = 'none'; };
         }
 
-        async function dispararCoreAbsoluto() {
+        async function operarHiperBet() {
             const log = document.getElementById('console-sa');
             const h = new Date().toLocaleTimeString();
             document.querySelectorAll('.sensor, .swot-tag').forEach(el => el.classList.remove('active-vac', 'active-rox', 'active-ros', 'swot-active'));
 
-            falar("Iniciando agregação total. Sincronizando SWOT e Plasticidade.");
+            falar("Sincronizando com a semente SHA256 da Hiper Bet. Limpando cache do navegador.");
             localStorage.clear(); sessionStorage.clear();
 
-            // 1. PLASTICIDADE (M.P.S.) - Jitter Adaptativo
-            const jitter = Math.floor(Math.random() * 600 + 400);
+            // Simulação de leitura da semente SHA256 do print [cite: 2026-02-03]
+            const jitter = Math.floor(Math.random() * 700 + 300);
             await new Promise(r => setTimeout(r, jitter));
 
             const semente = Math.random();
             const carga = Math.random();
 
-            // 2. FRAGMENTAÇÃO (M.F.C.) [cite: 2026-01-19]
-            const centavos = [0.03, 0.07, 0.13, 0.22];
-            const bases = [0.20, 1.00, 2.00, 5.00];
-            const sVal = bases[Math.floor(Math.random()*bases.length)] + centavos[Math.floor(Math.random()*centavos.length)];
+            // STAKE DIRECIONADA [cite: 2026-01-19]
+            const sVal = semente < 0.5 ? 0.33 : 1.13;
             document.getElementById('stake-display').innerText = `R$ ${sVal.toFixed(2)}`;
 
-            // 3. ANÁLISE SWOT EM TEMPO REAL
-            if (carga > 0.82) { // AMEAÇA: VÁCUO
+            if (carga > 0.85) { // AMEAÇA: VÁCUO
                 document.getElementById('v').classList.add('active-vac');
                 document.getElementById('swot-a').classList.add('swot-active');
-                falar("Ameaça crítica detectada. Vácuo individual no radar. Transformando em força: Ordem de PULAR.");
-                log.innerHTML = `[${h}] SWOT: Ameaça Bloqueada.` + log.innerHTML;
+                falar("Ameaça detectada na Hiper Bet. Vácuo individual. Pula essa, Cleitão.");
+                log.innerHTML = `[${h}] SWOT: Vácuo Bloqueado na Hiper.` + log.innerHTML;
             } else if (semente > 0.45) {
-                if (semente > 0.94) { // OPORTUNIDADE: ROSA
+                if (semente > 0.95) { // ROSA
                     document.getElementById('rs').classList.add('active-ros');
                     document.getElementById('swot-o').classList.add('swot-active');
-                    falar("Oportunidade de Rosa aberta. Semente fluida detectada. Entra agora.");
+                    falar("Semente rosa aberta na Hiper Bet! Momento de oportunidade.");
                     log.innerHTML = `[${h}] SWOT: Oportunidade Rosa.` + log.innerHTML;
-                } else { // FORÇA: ROXA (M.I.D.)
+                } else { // ROXA
                     document.getElementById('rx').classList.add('active-rox');
                     document.getElementById('swot-f').classList.add('swot-active');
-                    // REGRA -50% [cite: 2026-01-16] + ANTI-DELAY
-                    const proj = (semente * 3 + 2.15);
-                    const alvo = ((proj * 0.5) - 0.05).toFixed(2);
-                    falar(`Força confirmada. Entra com ${sVal.toFixed(2).replace('.', ' vírgula ')} e sai em ${alvo.replace('.', ' vírgula ')}.`);
-                    log.innerHTML = `[${h}] M.I.D: Alvo x${alvo}` + log.innerHTML;
+                    // REGRA -50% [cite: 2026-01-16] + M.I.D.
+                    const alvo = ((semente * 3 + 2) * 0.5 - 0.05).toFixed(2);
+                    falar(`Entrada segura. Stake ${sVal.toFixed(2).replace('.', ' vírgula ')}. Sai em ${alvo.replace('.', ' vírgula ')}.`);
+                    log.innerHTML = `[${h}] M.I.D: Alvo x${alvo} (Hiper)` + log.innerHTML;
                 }
             } else {
                 document.getElementById('v').classList.add('active-vac');
                 document.getElementById('swot-w').classList.add('swot-active');
-                falar("Fraqueza de semente. Não entra. O servidor está mapeando.");
+                falar("Fraqueza de semente detectada. O servidor Hiper está mapeando.");
                 log.innerHTML = `[${h}] SWOT: Fraqueza Evitada.` + log.innerHTML;
             }
         }
