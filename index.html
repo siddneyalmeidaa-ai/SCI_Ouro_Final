@@ -3,93 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TERMINAL S.A. V160 - SNIPER</title>
+    <title>S.A. V163 - MONITOR DE PRESSÃO</title>
     <style>
-        :root { --gold: #D4AF37; --dark: #0a0a0a; --purple: #6200ea; --red: #ff1744; --green: #00e676; }
-        body { background: var(--dark); color: white; font-family: 'Segoe UI', sans-serif; padding: 15px; margin: 0; }
-        .card { background: #151515; border: 1px solid #333; border-radius: 12px; padding: 15px; margin-bottom: 12px; text-align: center; }
+        :root { --gold: #D4AF37; --dark: #0a0a0a; --red: #ff1744; --green: #00e676; --purple: #6200ea; }
+        body { background: var(--dark); color: white; font-family: sans-serif; padding: 15px; margin: 0; text-align: center; }
+        .card { background: #151515; border: 1px solid #333; border-radius: 12px; padding: 15px; margin-bottom: 12px; position: relative; }
         .gold-text { color: var(--gold); font-weight: bold; }
         
-        /* Painel de Vulnerabilidade - O Coração da V160 */
-        #painelVulnerabilidade {
-            font-size: 1.2em;
-            padding: 20px;
-            border-radius: 10px;
-            border: 2px solid #333;
-            transition: 0.3s;
-            margin-bottom: 10px;
-        }
-        .v-alta { background: rgba(0, 230, 118, 0.2); border-color: var(--green) !important; color: var(--green); }
-        .v-baixa { background: rgba(255, 23, 68, 0.2); border-color: var(--red) !important; color: var(--red); }
+        /* Barra de Pressão do Servidor */
+        .container-barra { background: #222; border-radius: 20px; height: 35px; width: 100%; margin: 15px 0; border: 2px solid #444; overflow: hidden; position: relative; }
+        #barraPressao { height: 100%; width: 0%; background: var(--green); transition: width 0.4s ease, background-color 0.3s; }
         
-        .btn-status { font-size: 1.5em; font-weight: bold; text-transform: uppercase; margin: 10px 0; }
-        .lucro-moldado { font-size: 1.8em; cursor: pointer; margin: 10px 0; }
+        .btn-gatilho { 
+            background: var(--purple); color: white; padding: 20px; border-radius: 15px; 
+            font-size: 1.2em; font-weight: bold; cursor: pointer; border: none; width: 100%;
+            box-shadow: 0 5px 15px rgba(98, 0, 234, 0.4); margin-bottom: 10px;
+        }
+
+        #alertaCorte { font-size: 1.5em; font-weight: bold; min-height: 40px; margin: 10px 0; }
+        .lucro-moldado { font-size: 1.8em; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <div style="text-align:center; border-bottom: 2px solid var(--gold); padding-bottom:10px;">
-        <span class="gold-text">S.A. V160 - SNIPER MODE</span><br>
+    <div style="border-bottom: 2px solid var(--gold); padding-bottom:10px; margin-bottom: 15px;">
+        <span class="gold-text">S.A. V163 - PRESSÃO DO X</span><br>
         <small id="relogio">--:--:--</small>
     </div>
 
-    <div class="card" style="margin-top: 15px;">
-        <div class="gold-text" style="font-size: 12px; margin-bottom: 10px;">EXPOSIÇÃO DO SERVIDOR (PAGAMENTO)</div>
-        <div id="painelVulnerabilidade">ANALISANDO BRECHA...</div>
-        <div id="statusTexto" style="margin-top: 10px; font-weight: bold;">--</div>
+    <div class="card">
+        <div class="gold-text" style="font-size: 12px;">BARRA DE PRESSÃO (RISCO DE CORTE NO X)</div>
+        <div class="container-barra">
+            <div id="barraPressao"></div>
+        </div>
+        <div id="alertaCorte">AGUARDANDO GATILHO...</div>
+        
+        <button class="btn-gatilho" onclick="analisarPressao()">
+            SCANNER DE RODADA ⚡
+        </button>
     </div>
 
     <div class="card">
-        <div class="gold-text">AÇÃO IMEDIATA</div>
-        <div id="comandoAcao" class="btn-status">---</div>
-        <div>STAKE RECOMENDADA: <span id="stakeRecomendada" class="gold-text">---</span></div>
+        <div class="gold-text">VEREDITO DO COMANDANTE</div>
+        <div id="comandoFinal" style="font-size: 2.2em; font-weight: bold; margin: 5px 0;">---</div>
+        <div style="font-size: 1.1em;">STAKE TÁTICA: <span id="stakeValue" class="gold-text">---</span></div>
     </div>
 
     <div class="card">
-        <div class="gold-text">LUCRO MOLDADO (-50%)</div>
+        <div class="gold-text">LUCRO MOLDADO (-50% PROJEÇÃO)</div>
         <div class="lucro-moldado" id="displayLucro" onclick="toggleMargem()">R$ 2.740,00</div>
-        <small>IPI: 2026-V160-SNIPER | SEMENTE: <span id="seed">--</span></small>
+        <small>IPI: 2026-V163-PRESSÃO | SEMENTE: <span id="seed">--</span></small>
     </div>
 
     <script>
         let margemAtiva = true;
 
-        function scannerVulnerabilidade() {
-            const painel = document.getElementById('painelVulnerabilidade');
-            const texto = document.getElementById('statusTexto');
-            const comando = document.getElementById('comandoAcao');
-            const stake = document.getElementById('stakeRecomendada');
+        function analisarPressao() {
+            const barra = document.getElementById('barraPressao');
+            const alerta = document.getElementById('alertaCorte');
+            const comando = document.getElementById('comandoFinal');
+            const stake = document.getElementById('stakeValue');
             const seed = document.getElementById('seed');
 
-            // Simulação de leitura de fluxo de saída do servidor
-            let vulnerabilidade = Math.random() * 100;
-            seed.innerText = "SA-" + Math.random().toString(36).toUpperCase().substring(2, 8);
+            alerta.innerText = "LENDO FLUXO DE CAIXA...";
+            alerta.style.color = "white";
+            barra.style.width = "0%";
+            comando.innerText = "---";
 
-            if (vulnerabilidade > 80) {
-                // SERVIDOR PAGANDO
-                painel.innerText = vulnerabilidade.toFixed(2) + "% - VULNERÁVEL";
-                painel.className = "v-alta";
-                texto.innerText = "⚠️ SERVIDOR EXPOSTO: PODE IR AGORA!";
-                comando.innerText = "ENTRA";
-                comando.style.color = "#00e676";
-                stake.innerText = "R$ 1,00"; // Aumenta stake na vulnerabilidade alta
-            } else if (vulnerabilidade < 30) {
-                // SERVIDOR RETENDO
-                painel.innerText = vulnerabilidade.toFixed(2) + "% - BLINDADO";
-                painel.className = "v-baixa";
-                texto.innerText = "⛔ BLOQUEIO: SERVIDOR RETENDO.";
-                comando.innerText = "PULA";
-                comando.style.color = "#ff1744";
-                stake.innerText = "R$ 0,00";
-            } else {
-                // MODO SEGURO
-                painel.innerText = vulnerabilidade.toFixed(2) + "% - ESTÁVEL";
-                painel.className = "";
-                texto.innerText = "BUSCANDO BRECHA DE LIQUIDEZ...";
-                comando.innerText = "AGUARDE";
-                comando.style.color = "#D4AF37";
-                stake.innerText = "0,20 (TESTE)";
-            }
+            setTimeout(() => {
+                // Simula a pressão do servidor para cortar o X
+                let pressao = Math.random() * 100;
+                barra.style.width = pressao + "%";
+                seed.innerText = "SA-" + Math.random().toString(36).toUpperCase().substring(2, 8);
+
+                if (pressao > 75) {
+                    // PRESSÃO ALTA = VAI CORTAR CEDO (VÁCUO)
+                    barra.style.backgroundColor = "#ff1744"; // Vermelho
+                    alerta.innerText = "🚨 RISCO DE CORTE IMEDIATO!";
+                    alerta.style.color = "#ff1744";
+                    comando.innerText = "PULA ❌";
+                    comando.style.color = "#ff1744";
+                    stake.innerText = "R$ 0,00";
+                } else if (pressao < 30) {
+                    // PRESSÃO BAIXA = VAI DEIXAR SUBIR O X
+                    barra.style.backgroundColor = "#00e676"; // Verde
+                    alerta.innerText = "🟢 SERVIDOR LIBERADO (VULNERÁVEL)";
+                    alerta.style.color = "#00e676";
+                    comando.innerText = "ENTRA ✅";
+                    comando.style.color = "#00e676";
+                    stake.innerText = "R$ 1,00";
+                } else {
+                    // PRESSÃO MÉDIA
+                    barra.style.backgroundColor = "#D4AF37"; // Ouro
+                    alerta.innerText = "⚠️ PRESSÃO OSCILANTE";
+                    alerta.style.color = "#D4AF37";
+                    comando.innerText = "ENTRA (STAKE REDUZIDA)";
+                    comando.style.color = "#D4AF37";
+                    stake.innerText = "0,20";
+                }
+            }, 1000);
         }
 
         function toggleMargem() {
@@ -98,8 +110,6 @@
             margemAtiva = !margemAtiva;
         }
 
-        // Execução Ultra-Rápida (500ms)
-        setInterval(scannerVulnerabilidade, 500);
         setInterval(() => { document.getElementById('relogio').innerText = new Date().toLocaleTimeString(); }, 1000);
     </script>
 </body>
