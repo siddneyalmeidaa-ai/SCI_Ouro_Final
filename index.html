@@ -2,113 +2,172 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.A. V38 - QUANTUM SUPREMO</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TERMINAL S.A. V156 - SENTINELA</title>
     <style>
-        :root { --hiper: #8A2BE2; --gold: #D4AF37; --danger: #FF3333; --neon: #00FF41; --bg: #050505; }
-        body { background: #000; color: #fff; font-family: 'Consolas', monospace; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        :root {
+            --gold: #D4AF37;
+            --dark-bg: #0a0a0a;
+            --card-blue: #1a237e;
+            --purple-up: #6200ea;
+        }
+        body {
+            background-color: var(--dark-bg);
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 15px;
+            overflow-x: hidden;
+        }
+        .header { border-bottom: 2px solid var(--gold); padding-bottom: 10px; margin-bottom: 20px; }
+        .gold-text { color: var(--gold); font-weight: bold; }
         
-        .painel-mestre { width: 90%; max-width: 400px; border: 2px solid var(--gold); border-radius: 35px; padding: 25px; background: linear-gradient(145deg, #050505, #111); box-shadow: 0 0 60px rgba(138, 43, 226, 0.25); position: relative; text-align: center; }
-        
-        .guia-voz { background: #0a0a0a; border-left: 5px solid var(--gold); padding: 15px; border-radius: 12px; margin-bottom: 20px; text-align: left; min-height: 50px; }
-        #status-ia { font-size: 13px; color: #ddd; line-height: 1.4; }
+        /* Dashboard */
+        .card {
+            background: #151515;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .lucro-moldado {
+            font-size: 2em;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .lucro-moldado:active { transform: scale(0.95); color: #fff; }
 
-        .display-operacional { background: #000; border: 1px inset #222; border-radius: 20px; padding: 20px; margin-bottom: 20px; box-shadow: inset 0 0 15px rgba(0,255,65,0.05); }
-        .stake-box { font-size: 36px; color: var(--neon); font-weight: 900; letter-spacing: -1px; margin-top: 5px; }
-        
-        .sensores-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 25px; }
-        .sensor { padding: 12px 5px; font-size: 10px; background: #080808; border: 1px solid #1a1a1a; border-radius: 12px; color: #333; font-weight: bold; transition: 0.3s; }
-        .ativo-vac { border-color: var(--danger); color: var(--danger); box-shadow: 0 0 15px var(--danger); }
-        .ativo-rox { border-color: var(--hiper); color: var(--hiper); box-shadow: 0 0 15px var(--hiper); }
-        .ativo-ros { border-color: var(--gold); color: var(--gold); box-shadow: 0 0 15px var(--gold); }
+        /* Botão V38 de Sincronia */
+        .btn-sync {
+            background: var(--purple-up);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 20px 0;
+            box-shadow: 0 0 15px rgba(98, 0, 234, 0.4);
+        }
 
-        .btn-quantum { width: 100%; padding: 22px; border-radius: 20px; border: none; background: var(--hiper); color: #fff; font-size: 20px; font-weight: 900; cursor: pointer; text-transform: uppercase; box-shadow: 0 6px 0 #4B0082; transition: 0.1s; }
-        .btn-quantum:active { transform: translateY(4px); box-shadow: 0 2px 0 #4B0082; }
+        /* Tabela Favelinha */
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #333; padding: 8px; text-align: center; font-size: 12px; }
+        th { background: var(--card-blue); }
 
-        /* AREA DE UPLOAD QUANTUM (BLACK BOX) */
-        #QUANTUM_BLACK_BOX { display: none; }
-        .ipi-tag { font-size: 8px; color: #222; margin-top: 15px; font-weight: bold; letter-spacing: 1px; }
+        /* Modal da Caixa Preta */
+        #caixaPretaModal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 85%;
+            height: 70%;
+            background: #f5f5f5;
+            color: #000;
+            z-index: 9999;
+            padding: 20px;
+            border-radius: 15px;
+            border: 5px solid var(--purple-up);
+            box-shadow: 0 0 50px rgba(0,0,0,0.9);
+        }
+        #caixaPretaModal textarea { width: 100%; height: 60%; font-family: monospace; margin-top: 10px; }
+        .btn-copy { background: #2e7d32; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; margin-top: 10px; }
     </style>
 </head>
 <body>
 
-    <div class="painel-mestre">
-        <div class="guia-voz">
-            <span id="status-ia">Sistema V38 Online. Aguardando sincronia de semente, Comandante.</span>
+    <div class="header">
+        <div><small>IPI: 2026-V38-SUPREMO</small></div>
+        <div style="display: flex; justify-content: space-between;">
+            <span>S.A. OPERATIONAL</span>
+            <span class="gold-text">SINCRO: PENDENTE 0%</span>
         </div>
+    </div>
 
-        <div class="display-operacional">
-            <div style="font-size: 9px; color: #555; text-transform: uppercase;">Aposta de Camuflagem:</div>
-            <div id="stake-display" class="stake-box">R$ 0,00</div>
-        </div>
+    <div class="card">
+        <div class="gold-text" style="font-size: 12px;">LUCRO MOLDADO (-50% MARGEM)</div>
+        <div class="lucro-moldado" id="displayLucro" onclick="toggleAuditoria()">R$ 0,00</div>
+        <div id="statusAuditoria" style="font-size: 10px; text-align: center; color: #666;">AUDITORIA: STANDBY</div>
+    </div>
 
-        <div class="sensores-grid">
-            <div id="v" class="sensor">VÁCUO</div>
-            <div id="rx" class="sensor">ROXA</div>
-            <div id="rs" class="sensor">ROSA</div>
-        </div>
+    <div class="btn-sync" onclick="ativarCapturaCaixaPreta()">
+        SINCRONIZAR UPGRADE / EXTRAIR CAIXA PRETA
+    </div>
 
-        <button class="btn-quantum" onclick="quantumExecute()">Sincronizar Upgrade</button>
+    <div class="card">
+        <div class="gold-text">TABELA DA FAVELINHA & AÇÃO IMEDIATA</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>MES</th>
+                    <th>ENTRA</th>
+                    <th>STAKE</th>
+                    <th>RISCO</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>M1</td><td>ENTRA</td><td>0,20</td><td>BAIXO</td></tr>
+                <tr><td>M2</td><td>PULA</td><td>-</td><td>VÁCUO</td></tr>
+                <tr><td>M3</td><td>ENTRA</td><td>1,00</td><td>MÉDIO</td></tr>
+            </tbody>
+        </table>
+    </div>
 
-        <div class="ipi-tag">IPI: 2026-V38-SUPREMO-UPLOAD-READY</div>
-        
-        <div id="QUANTUM_BLACK_BOX">/* UPLOAD_DATA: [] */</div>
+    <div id="caixaPretaModal">
+        <h3 style="margin-top:0;">🔱 EXTRAÇÃO DE MEMÓRIA (S.A.)</h3>
+        <p style="font-size: 12px;">Logs detectados do servidor e comportamento da plataforma:</p>
+        <textarea id="logArea" readonly></textarea>
+        <button class="btn-copy" onclick="copiarParaComandante()">COPIAR PARA O COMANDANTE</button>
+        <button onclick="document.getElementById('caixaPretaModal').style.display='none'" style="width:100%; margin-top:5px; border:none; background:none; color:red; cursor:pointer;">FECHAR</button>
     </div>
 
     <script>
-        let MEMORIA_HISTORICA = [];
-        const synth = window.speechSynthesis;
+        // Memória Quântica Local
+        let logsCaixaPreta = `[${new Date().toLocaleTimeString()}] SISTEMA V156 INICIALIZADO.\n`;
+        let sementeOriginal = "SA-2026-" + Math.random().toString(36).toUpperCase().substring(2, 10);
+        let auditoriaAtiva = false;
 
-        function falarIA(texto) {
-            synth.cancel();
-            const utterance = new SpeechSynthesisUtterance(texto);
-            utterance.lang = 'pt-BR';
-            utterance.rate = 1.3;
-            document.getElementById('status-ia').innerText = texto;
-            synth.speak(utterance);
+        // Simulação de Captura de Comportamento (IA-SENTINELA)
+        function monitorarServidor() {
+            const eventos = ["Vela Isca Detectada", "Filtro de Latência Ativo", "Tentativa de Vácuo (1.00x)", "Sincronia de IP Refinada"];
+            let evento = eventos[Math.floor(Math.random() * eventos.length)];
+            logsCaixaPreta += `[${new Date().toLocaleTimeString()}] ${evento}\n`;
+        }
+        setInterval(monitorarServidor, 5000);
+
+        // Função de Sincronia e Upgrade
+        function ativarCapturaCaixaPreta() {
+            monitorarServidor();
+            logsCaixaPreta += `--- FIM DO DUMP ---\nSEMENTE: ${sementeOriginal}`;
+            
+            document.getElementById('logArea').value = logsCaixaPreta;
+            document.getElementById('caixaPretaModal').style.display = 'block';
         }
 
-        async function quantumExecute() {
-            // Reset de Sensores
-            document.querySelectorAll('.sensor').forEach(s => s.className = 'sensor');
-            
-            // Jitter de Bio-Ritmo para evitar Anti-Bot
-            const jitter = Math.floor(Math.random() * 700 + 300);
-            await new Promise(r => setTimeout(r, jitter));
+        // Função de Cópia para o Comandante
+        function copiarParaComandante() {
+            const area = document.getElementById('logArea');
+            area.select();
+            area.setSelectionRange(0, 99999);
+            document.execCommand("copy");
+            alert("✅ MEMÓRIA COPIADA! Cole agora no terminal para o Gemini ler.");
+        }
 
-            const semente = Math.random();
-            const carga = Math.random();
-            const agora = new Date().toLocaleTimeString();
-
-            // Lógica de Stake Quebrada [UPGRADED]
-            const base = semente > 0.5 ? 1.00 : 0.90;
-            const quebra = (Math.random() * 0.16).toFixed(2);
-            const stakeFinal = (parseFloat(base) + parseFloat(quebra)).toFixed(2);
-            document.getElementById('stake-display').innerText = `R$ ${stakeFinal}`;
-
-            // Alimentação da Black Box (Upload de tudo que fizemos)
-            MEMORIA_HISTORICA.push({ t: agora, s: semente.toFixed(4), c: carga.toFixed(4), st: stakeFinal });
-            if(MEMORIA_HISTORICA.length > 20) MEMORIA_HISTORICA.shift();
-            document.getElementById('QUANTUM_BLACK_BOX').innerText = `/* UPLOAD_DATA: ${JSON.stringify(MEMORIA_HISTORICA)} */`;
-
-            // Processamento de Alvo Curto e Regra -50%
-            if (carga > 0.84) {
-                document.getElementById('v').classList.add('ativo-vac');
-                falarIA("Risco de sabotagem. Carga de vácuo alta. Pula, Cleitão!");
-            } else if (semente > 0.42) {
-                if (semente > 0.96) {
-                    document.getElementById('rs').classList.add('ativo-ros');
-                    falarIA("Fresta Rosa detectada! Stake de " + stakeFinal.replace('.', ',') + ". Busca o topo.");
-                } else {
-                    document.getElementById('rx').classList.add('ativo-rox');
-                    // Aplicação da Regra -50% Direto no Algoritmo
-                    const projeção = (semente * 3.5 + 1.1).toFixed(2);
-                    const alvoCurto = (projeção * 0.52).toFixed(2); 
-                    falarIA("Sniper ativo. Alvo curto seguro em " + alvoCurto.replace('.', ',') + ".");
-                }
+        // Regra dos -50% na Interface
+        function toggleAuditoria() {
+            let display = document.getElementById('displayLucro');
+            let status = document.getElementById('statusAuditoria');
+            if(!auditoriaAtiva) {
+                display.innerText = "R$ 5.480,00"; // Exemplo bruto
+                status.innerText = "LIBERADO 100% (BRUTO)";
+                auditoriaAtiva = true;
             } else {
-                document.getElementById('v').classList.add('ativo-vac');
-                falarIA("Vela isca detectada. O servidor está filtrando. Aguarde.");
+                display.innerText = "R$ 2.740,00"; // -50% aplicado
+                status.innerText = "MOLDADO 50% (PROTEÇÃO S.A.)";
+                auditoriaAtiva = false;
             }
         }
     </script>
