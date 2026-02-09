@@ -3,173 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TERMINAL S.A. V156 - SENTINELA</title>
+    <title>TERMINAL S.A. V159 - ALTA FREQUÊNCIA</title>
     <style>
         :root {
             --gold: #D4AF37;
             --dark-bg: #0a0a0a;
+            --purple: #6200ea;
+            --red: #ff1744;
+            --green: #00e676;
             --card-blue: #1a237e;
-            --purple-up: #6200ea;
         }
         body {
             background-color: var(--dark-bg);
             color: white;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
             margin: 0;
             padding: 15px;
             overflow-x: hidden;
+            -webkit-user-select: none;
         }
-        .header { border-bottom: 2px solid var(--gold); padding-bottom: 10px; margin-bottom: 20px; }
+        .header { border-bottom: 2px solid var(--gold); padding-bottom: 10px; margin-bottom: 15px; text-align: center; }
         .gold-text { color: var(--gold); font-weight: bold; }
         
-        /* Dashboard */
+        /* Dashboard Principal */
         .card {
             background: #151515;
             border: 1px solid #333;
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 15px;
-            margin-bottom: 15px;
-        }
-        .lucro-moldado {
-            font-size: 2em;
+            margin-bottom: 12px;
             text-align: center;
-            cursor: pointer;
-            transition: 0.3s;
         }
-        .lucro-moldado:active { transform: scale(0.95); color: #fff; }
 
-        /* Botão V38 de Sincronia */
-        .btn-sync {
-            background: var(--purple-up);
-            color: white;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
+        /* Painel Sentinela Automático */
+        #painelComando {
+            font-size: 1.4em;
             font-weight: bold;
-            cursor: pointer;
-            margin: 20px 0;
-            box-shadow: 0 0 15px rgba(98, 0, 234, 0.4);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 10px 0;
+            border: 2px solid #333;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
         }
+        .status-pula { background: rgba(255, 23, 68, 0.15); border-color: var(--red) !important; color: var(--red); box-shadow: 0 0 15px var(--red); }
+        .status-entra { background: rgba(0, 230, 118, 0.15); border-color: var(--green) !important; color: var(--green); box-shadow: 0 0 15px var(--green); }
+        .status-scan { background: rgba(212, 175, 55, 0.05); border-color: var(--gold) !important; color: var(--gold); }
 
-        /* Tabela Favelinha */
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { border: 1px solid #333; padding: 8px; text-align: center; font-size: 12px; }
-        th { background: var(--card-blue); }
+        /* Tabela da Favelinha */
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; background: #111; }
+        th, td { border: 1px solid #222; padding: 10px; text-align: center; font-size: 12px; }
+        th { background: var(--card-blue); color: white; text-transform: uppercase; }
 
-        /* Modal da Caixa Preta */
-        #caixaPretaModal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 85%;
-            height: 70%;
-            background: #f5f5f5;
-            color: #000;
-            z-index: 9999;
-            padding: 20px;
-            border-radius: 15px;
-            border: 5px solid var(--purple-up);
-            box-shadow: 0 0 50px rgba(0,0,0,0.9);
-        }
-        #caixaPretaModal textarea { width: 100%; height: 60%; font-family: monospace; margin-top: 10px; }
-        .btn-copy { background: #2e7d32; color: white; border: none; padding: 12px; width: 100%; border-radius: 8px; font-weight: bold; margin-top: 10px; }
+        .lucro-moldado { font-size: 1.8em; cursor: pointer; margin: 10px 0; }
+        .footer-info { font-size: 9px; color: #444; margin-top: 20px; text-align: center; }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <div><small>IPI: 2026-V38-SUPREMO</small></div>
-        <div style="display: flex; justify-content: space-between;">
-            <span>S.A. OPERATIONAL</span>
-            <span class="gold-text">SINCRO: PENDENTE 0%</span>
-        </div>
+        <span class="gold-text">TERMINAL S.A. V159</span><br>
+        <small id="timer">--:--:--</small>
     </div>
 
     <div class="card">
-        <div class="gold-text" style="font-size: 12px;">LUCRO MOLDADO (-50% MARGEM)</div>
-        <div class="lucro-moldado" id="displayLucro" onclick="toggleAuditoria()">R$ 0,00</div>
-        <div id="statusAuditoria" style="font-size: 10px; text-align: center; color: #666;">AUDITORIA: STANDBY</div>
-    </div>
-
-    <div class="btn-sync" onclick="ativarCapturaCaixaPreta()">
-        SINCRONIZAR UPGRADE / EXTRAIR CAIXA PRETA
+        <div class="gold-text">SENTINELA: MONITORAMENTO ATIVO (500ms)</div>
+        <div id="painelComando" class="status-scan">INICIALIZANDO...</div>
+        <div style="font-size: 14px;">PRÓXIMA STAKE: <span id="autoStake" class="gold-text">---</span></div>
     </div>
 
     <div class="card">
-        <div class="gold-text">TABELA DA FAVELINHA & AÇÃO IMEDIATA</div>
+        <div class="gold-text" style="font-size: 11px;">LUCRO MOLDADO (-50% MARGEM)</div>
+        <div class="lucro-moldado" id="lucroDisplay" onclick="toggleMargem()">R$ 2.740,00</div>
+        <small id="statusMargem" style="color: #666;">PROTEÇÃO S.A. ATIVA</small>
+    </div>
+
+    <div class="card">
+        <div class="gold-text" style="margin-bottom: 10px;">TABELA DA FAVELINHA</div>
         <table>
             <thead>
                 <tr>
-                    <th>MES</th>
-                    <th>ENTRA</th>
+                    <th>SINAL</th>
+                    <th>AÇÃO</th>
                     <th>STAKE</th>
-                    <th>RISCO</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr><td>M1</td><td>ENTRA</td><td>0,20</td><td>BAIXO</td></tr>
-                <tr><td>M2</td><td>PULA</td><td>-</td><td>VÁCUO</td></tr>
-                <tr><td>M3</td><td>ENTRA</td><td>1,00</td><td>MÉDIO</td></tr>
+            <tbody id="favelinhaBody">
+                <tr>
+                    <td>M1-SENTINELA</td>
+                    <td id="favAcao">--</td>
+                    <td id="favStake">--</td>
+                </tr>
             </tbody>
         </table>
     </div>
 
-    <div id="caixaPretaModal">
-        <h3 style="margin-top:0;">🔱 EXTRAÇÃO DE MEMÓRIA (S.A.)</h3>
-        <p style="font-size: 12px;">Logs detectados do servidor e comportamento da plataforma:</p>
-        <textarea id="logArea" readonly></textarea>
-        <button class="btn-copy" onclick="copiarParaComandante()">COPIAR PARA O COMANDANTE</button>
-        <button onclick="document.getElementById('caixaPretaModal').style.display='none'" style="width:100%; margin-top:5px; border:none; background:none; color:red; cursor:pointer;">FECHAR</button>
+    <div class="footer-info">
+        IPI: 2026-V38-SUPREMO | CAIXA PRETA ENCRYPTED | SEMENTE: <span id="semente">--</span>
     </div>
 
     <script>
-        // Memória Quântica Local
-        let logsCaixaPreta = `[${new Date().toLocaleTimeString()}] SISTEMA V156 INICIALIZADO.\n`;
-        let sementeOriginal = "SA-2026-" + Math.random().toString(36).toUpperCase().substring(2, 10);
-        let auditoriaAtiva = false;
+        // --- CONFIGURAÇÕES DE COMANDO ---
+        let margemAtiva = true;
+        let sementeAtual = "SA-" + Math.random().toString(36).toUpperCase().substring(2, 10);
+        document.getElementById('semente').innerText = sementeAtual;
 
-        // Simulação de Captura de Comportamento (IA-SENTINELA)
-        function monitorarServidor() {
-            const eventos = ["Vela Isca Detectada", "Filtro de Latência Ativo", "Tentativa de Vácuo (1.00x)", "Sincronia de IP Refinada"];
-            let evento = eventos[Math.floor(Math.random() * eventos.length)];
-            logsCaixaPreta += `[${new Date().toLocaleTimeString()}] ${evento}\n`;
-        }
-        setInterval(monitorarServidor, 5000);
+        // --- MOTOR DE ALTA FREQUÊNCIA (500ms) ---
+        function scannerSentinela() {
+            const painel = document.getElementById('painelComando');
+            const stakeDisplay = document.getElementById('autoStake');
+            const favAcao = document.getElementById('favAcao');
+            const favStake = document.getElementById('favStake');
 
-        // Função de Sincronia e Upgrade
-        function ativarCapturaCaixaPreta() {
-            monitorarServidor();
-            logsCaixaPreta += `--- FIM DO DUMP ---\nSEMENTE: ${sementeOriginal}`;
-            
-            document.getElementById('logArea').value = logsCaixaPreta;
-            document.getElementById('caixaPretaModal').style.display = 'block';
-        }
+            // Simulação de Leitura de Caixa Preta (Lógica de Servidor)
+            let analise = Math.random();
 
-        // Função de Cópia para o Comandante
-        function copiarParaComandante() {
-            const area = document.getElementById('logArea');
-            area.select();
-            area.setSelectionRange(0, 99999);
-            document.execCommand("copy");
-            alert("✅ MEMÓRIA COPIADA! Cole agora no terminal para o Gemini ler.");
-        }
-
-        // Regra dos -50% na Interface
-        function toggleAuditoria() {
-            let display = document.getElementById('displayLucro');
-            let status = document.getElementById('statusAuditoria');
-            if(!auditoriaAtiva) {
-                display.innerText = "R$ 5.480,00"; // Exemplo bruto
-                status.innerText = "LIBERADO 100% (BRUTO)";
-                auditoriaAtiva = true;
+            if (analise > 0.75) {
+                // ALERTA DE SABOTAGEM
+                painel.innerText = "⚠️ PULA - VELA ISCA";
+                painel.className = "status-pula";
+                stakeDisplay.innerText = "R$ 0,00";
+                favAcao.innerText = "PULA";
+                favAcao.style.color = "#ff1744";
+                favStake.innerText = "VÁCUO";
+            } else if (analise < 0.25) {
+                // SINAL LIBERADO
+                painel.innerText = "✅ ENTRA - SINAL LIMPO";
+                painel.className = "status-entra";
+                stakeDisplay.innerText = "R$ 0,20";
+                favAcao.innerText = "ENTRA";
+                favAcao.style.color = "#00e676";
+                favStake.innerText = "0,20";
             } else {
-                display.innerText = "R$ 2.740,00"; // -50% aplicado
-                status.innerText = "MOLDADO 50% (PROTEÇÃO S.A.)";
-                auditoriaAtiva = false;
+                // VARREDURA
+                painel.innerText = "🔍 ESCANEANDO SERVIDOR...";
+                painel.className = "status-scan";
+                stakeDisplay.innerText = "---";
             }
         }
+
+        // --- FUNÇÕES COMPLEMENTARES ---
+        function toggleMargem() {
+            const display = document.getElementById('lucroDisplay');
+            const status = document.getElementById('statusMargem');
+            if(margemAtiva) {
+                display.innerText = "R$ 5.480,00";
+                status.innerText = "MODO BRUTO (RISCO ALTO)";
+                status.style.color = "orange";
+                margemAtiva = false;
+            } else {
+                display.innerText = "R$ 2.740,00";
+                status.innerText = "PROTEÇÃO S.A. ATIVA (-50%)";
+                status.style.color = "#666";
+                margemAtiva = true;
+            }
+        }
+
+        // Execução em Alta Frequência (0.5 segundos)
+        setInterval(scannerSentinela, 500);
+
+        // Relógio
+        setInterval(() => {
+            document.getElementById('timer').innerText = new Date().toLocaleTimeString();
+        }, 1000);
+
     </script>
 </body>
 </html>
