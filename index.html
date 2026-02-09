@@ -3,111 +3,219 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A. V163 - MONITOR DE PRESSÃO</title>
+    <title>S.A. V164 - TERMINAL SNIPER</title>
     <style>
-        :root { --gold: #D4AF37; --dark: #0a0a0a; --red: #ff1744; --green: #00e676; --purple: #6200ea; }
-        body { background: var(--dark); color: white; font-family: sans-serif; padding: 15px; margin: 0; text-align: center; }
-        .card { background: #151515; border: 1px solid #333; border-radius: 12px; padding: 15px; margin-bottom: 12px; position: relative; }
+        :root {
+            --gold: #D4AF37;
+            --dark: #0a0a0a;
+            --red: #ff1744;
+            --green: #00e676;
+            --purple: #6200ea;
+            --blue: #1a237e;
+        }
+        body {
+            background-color: var(--dark);
+            color: white;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            margin: 0;
+            padding: 15px;
+            text-align: center;
+            overflow-x: hidden;
+        }
+        .header { border-bottom: 2px solid var(--gold); padding-bottom: 10px; margin-bottom: 15px; }
         .gold-text { color: var(--gold); font-weight: bold; }
         
-        /* Barra de Pressão do Servidor */
-        .container-barra { background: #222; border-radius: 20px; height: 35px; width: 100%; margin: 15px 0; border: 2px solid #444; overflow: hidden; position: relative; }
-        #barraPressao { height: 100%; width: 0%; background: var(--green); transition: width 0.4s ease, background-color 0.3s; }
-        
-        .btn-gatilho { 
-            background: var(--purple); color: white; padding: 20px; border-radius: 15px; 
-            font-size: 1.2em; font-weight: bold; cursor: pointer; border: none; width: 100%;
-            box-shadow: 0 5px 15px rgba(98, 0, 234, 0.4); margin-bottom: 10px;
+        .card {
+            background: #151515;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
 
-        #alertaCorte { font-size: 1.5em; font-weight: bold; min-height: 40px; margin: 10px 0; }
-        .lucro-moldado { font-size: 1.8em; cursor: pointer; }
+        /* Monitor de X em Tempo Real */
+        #displayX { font-size: 3.5em; font-weight: bold; color: var(--gold); text-shadow: 0 0 10px rgba(212,175,55,0.3); }
+        
+        /* Barra de Pressão Tática */
+        .container-barra {
+            background: #222;
+            border-radius: 20px;
+            height: 40px;
+            width: 100%;
+            margin: 15px 0;
+            border: 2px solid #444;
+            position: relative;
+            overflow: hidden;
+        }
+        #barraLive {
+            height: 100%;
+            width: 0%;
+            background: var(--green);
+            transition: width 0.1s linear;
+        }
+        #targetX {
+            position: absolute;
+            right: 25%; /* Ponto de Projeção -50% */
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: rgba(255, 255, 255, 0.6);
+            z-index: 5;
+            box-shadow: 0 0 8px white;
+        }
+
+        .btn-decolar {
+            background: var(--purple);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 1.3em;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            width: 100%;
+            box-shadow: 0 5px 15px rgba(98, 0, 234, 0.4);
+            transition: 0.2s;
+        }
+        .btn-decolar:active { transform: scale(0.95); background: #4a00b0; }
+
+        .lucro-moldado { font-size: 2em; cursor: pointer; transition: 0.3s; }
+        .lucro-moldado:active { color: #fff; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; }
+        th, td { border: 1px solid #333; padding: 8px; }
+        th { background: var(--blue); }
     </style>
 </head>
 <body>
 
-    <div style="border-bottom: 2px solid var(--gold); padding-bottom:10px; margin-bottom: 15px;">
-        <span class="gold-text">S.A. V163 - PRESSÃO DO X</span><br>
+    <div class="header">
+        <span class="gold-text">TERMINAL S.A. V164 - SNIPER LIVE</span><br>
         <small id="relogio">--:--:--</small>
     </div>
 
     <div class="card">
-        <div class="gold-text" style="font-size: 12px;">BARRA DE PRESSÃO (RISCO DE CORTE NO X)</div>
-        <div class="container-barra">
-            <div id="barraPressao"></div>
-        </div>
-        <div id="alertaCorte">AGUARDANDO GATILHO...</div>
+        <div class="gold-text" style="font-size: 11px;">PRESSÃO DO SERVIDOR EM TEMPO REAL</div>
+        <div id="displayX">1.00x</div>
         
-        <button class="btn-gatilho" onclick="analisarPressao()">
-            SCANNER DE RODADA ⚡
-        </button>
+        <div class="container-barra">
+            <div id="targetX"></div>
+            <div id="barraLive"></div>
+        </div>
+        
+        <div id="statusVoo" style="font-weight:bold; height: 25px; margin-bottom:10px;">PRONTO PARA SCANNER</div>
+        <button class="btn-decolar" onclick="iniciarScannerVoo()">DECOLAR SCANNER 🚀</button>
     </div>
 
     <div class="card">
-        <div class="gold-text">VEREDITO DO COMANDANTE</div>
-        <div id="comandoFinal" style="font-size: 2.2em; font-weight: bold; margin: 5px 0;">---</div>
-        <div style="font-size: 1.1em;">STAKE TÁTICA: <span id="stakeValue" class="gold-text">---</span></div>
+        <div class="gold-text">AÇÃO IMEDIATA & STAKE</div>
+        <div id="comandoRealTime" style="font-size: 1.8em; font-weight: bold; margin: 5px 0;">AGUARDANDO...</div>
+        <div>STAKE RECOMENDADA: <span class="gold-text" id="stakeRecomendada">R$ 1,00</span></div>
     </div>
 
     <div class="card">
-        <div class="gold-text">LUCRO MOLDADO (-50% PROJEÇÃO)</div>
+        <div class="gold-text" style="font-size: 11px;">LUCRO MOLDADO (-50% DA PROJEÇÃO)</div>
         <div class="lucro-moldado" id="displayLucro" onclick="toggleMargem()">R$ 2.740,00</div>
-        <small>IPI: 2026-V163-PRESSÃO | SEMENTE: <span id="seed">--</span></small>
+        <small id="statusMargem" style="color:#666;">PROTEÇÃO ATIVA (CLIQUE P/ BRUTO)</small>
+    </div>
+
+    <div class="card">
+        <div class="gold-text">TABELA DA FAVELINHA</div>
+        <table>
+            <thead>
+                <tr><th>SINAL</th><th>AÇÃO</th><th>RISCO</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>SCAN-PRESSÃO</td><td id="favAcao">PULA</td><td id="favRisco">VÁCUO</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div style="font-size: 9px; color: #444; margin-top: 10px;">
+        IPI: 2026-V164-SNIPER | SEMENTE: <span id="seed">--</span>
     </div>
 
     <script>
         let margemAtiva = true;
+        let vooAtivo = false;
 
-        function analisarPressao() {
-            const barra = document.getElementById('barraPressao');
-            const alerta = document.getElementById('alertaCorte');
-            const comando = document.getElementById('comandoFinal');
-            const stake = document.getElementById('stakeValue');
+        function iniciarScannerVoo() {
+            if(vooAtivo) return;
+            vooAtivo = true;
+
+            const barra = document.getElementById('barraLive');
+            const displayX = document.getElementById('displayX');
+            const status = document.getElementById('statusVoo');
+            const comando = document.getElementById('comandoRealTime');
             const seed = document.getElementById('seed');
+            const favAcao = document.getElementById('favAcao');
 
-            alerta.innerText = "LENDO FLUXO DE CAIXA...";
-            alerta.style.color = "white";
-            barra.style.width = "0%";
-            comando.innerText = "---";
+            let xAtual = 1.00;
+            let pressaoInterna = 0;
+            // O servidor determina o ponto de crash, nós tentamos prever 50% antes
+            let crashReal = 1.4 + (Math.random() * 6); 
+            
+            seed.innerText = "SA-" + Math.random().toString(36).toUpperCase().substring(2, 8);
+            status.innerText = "MONITORANDO SUBIDA...";
+            comando.innerText = "SEGURA (SINAL LIMPO)";
+            comando.style.color = "#00e676";
+            barra.style.backgroundColor = "#00e676";
+            favAcao.innerText = "ENTRA";
+            favAcao.style.color = "#00e676";
 
-            setTimeout(() => {
-                // Simula a pressão do servidor para cortar o X
-                let pressao = Math.random() * 100;
-                barra.style.width = pressao + "%";
-                seed.innerText = "SA-" + Math.random().toString(36).toUpperCase().substring(2, 8);
+            let motorLoop = setInterval(() => {
+                xAtual += 0.04; 
+                displayX.innerText = xAtual.toFixed(2) + "x";
+                
+                // A barra simula a pressão subindo
+                let porcentagemBarra = (xAtual / crashReal) * 100;
+                barra.style.width = porcentagemBarra + "%";
 
-                if (pressao > 75) {
-                    // PRESSÃO ALTA = VAI CORTAR CEDO (VÁCUO)
-                    barra.style.backgroundColor = "#ff1744"; // Vermelho
-                    alerta.innerText = "🚨 RISCO DE CORTE IMEDIATO!";
-                    alerta.style.color = "#ff1744";
-                    comando.innerText = "PULA ❌";
+                // Lógica de Alerta Antecipado (-50% da projeção de corte)
+                if (porcentagemBarra > 55) { 
+                    barra.style.backgroundColor = "#ff1744"; // Alerta vermelho
+                    status.innerText = "PRESSÃO CRÍTICA!";
+                    comando.innerText = "SAIR AGORA! 🚨";
                     comando.style.color = "#ff1744";
-                    stake.innerText = "R$ 0,00";
-                } else if (pressao < 30) {
-                    // PRESSÃO BAIXA = VAI DEIXAR SUBIR O X
-                    barra.style.backgroundColor = "#00e676"; // Verde
-                    alerta.innerText = "🟢 SERVIDOR LIBERADO (VULNERÁVEL)";
-                    alerta.style.color = "#00e676";
-                    comando.innerText = "ENTRA ✅";
-                    comando.style.color = "#00e676";
-                    stake.innerText = "R$ 1,00";
-                } else {
-                    // PRESSÃO MÉDIA
-                    barra.style.backgroundColor = "#D4AF37"; // Ouro
-                    alerta.innerText = "⚠️ PRESSÃO OSCILANTE";
-                    alerta.style.color = "#D4AF37";
-                    comando.innerText = "ENTRA (STAKE REDUZIDA)";
-                    comando.style.color = "#D4AF37";
-                    stake.innerText = "0,20";
                 }
-            }, 1000);
+
+                // Simulação do Crash do Servidor
+                if (xAtual >= crashReal) {
+                    clearInterval(motorLoop);
+                    displayX.style.color = "red";
+                    status.innerText = "CRASH NO " + xAtual.toFixed(2) + "x";
+                    comando.innerText = "VÁCUO DETECTADO";
+                    favAcao.innerText = "PULA";
+                    favAcao.style.color = "red";
+                    vooAtivo = false;
+                    
+                    setTimeout(() => {
+                        displayX.style.color = "#D4AF37";
+                        displayX.innerText = "1.00x";
+                        barra.style.width = "0%";
+                        status.innerText = "PRONTO PARA SCANNER";
+                        comando.innerText = "AGUARDANDO...";
+                        comando.style.color = "white";
+                    }, 3000);
+                }
+            }, 80; // Velocidade do loop de 80ms para alta precisão
         }
 
         function toggleMargem() {
             const d = document.getElementById('displayLucro');
-            d.innerText = margemAtiva ? "R$ 5.480,00" : "R$ 2.740,00";
-            margemAtiva = !margemAtiva;
+            const s = document.getElementById('statusMargem');
+            if(margemAtiva) {
+                d.innerText = "R$ 5.480,00";
+                s.innerText = "MODO BRUTO (CUIDADO)";
+                s.style.color = "orange";
+                margemAtiva = false;
+            } else {
+                d.innerText = "R$ 2.740,00";
+                s.innerText = "PROTEÇÃO ATIVA (-50%)";
+                s.style.color = "#666";
+                margemAtiva = true;
+            }
         }
 
         setInterval(() => { document.getElementById('relogio').innerText = new Date().toLocaleTimeString(); }, 1000);
