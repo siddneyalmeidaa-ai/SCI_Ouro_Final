@@ -3,113 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A. V800 - PINK MARKET NASA</title>
+    <title>S.A. V1250 - SUPREMACIA NASA</title>
     <style>
-        :root { --dark: #000; --gold: #D4AF37; --pink: #ff00ff; --nasa: #0b3d91; --neon: #00f3ff; }
-        body { background: var(--dark); color: white; font-family: 'Arial Black', sans-serif; margin: 0; padding: 10px; text-align: center; overflow-x: hidden; }
-        .caixa-preta { border: 2px solid var(--nasa); border-radius: 30px; padding: 15px; background: radial-gradient(circle at top, #0b3d9133, #000); box-shadow: 0 0 40px var(--nasa); position: relative; }
+        :root { --dark: #000; --gold: #D4AF37; --pink: #ff00ff; --nasa: #0b3d91; --cyan: #00f3ff; --red: #ff1744; --green: #00e676; --purple: #a020f0; }
+        body { background: var(--dark); color: white; font-family: 'Arial Black', sans-serif; margin: 0; padding: 10px; text-align: center; }
         
-        /* RADAR TELEMETRIA NASA */
-        .radar-nasa { width: 100px; height: 100px; border: 2px solid var(--pink); border-radius: 50%; margin: 10px auto; position: relative; overflow: hidden; }
+        .master-container { border: 2px solid var(--nasa); border-radius: 40px; padding: 20px; background: radial-gradient(circle at top, #0b3d9122, #000); box-shadow: 0 0 40px var(--nasa); max-width: 450px; margin: auto; }
+
+        /* RADAR E TELEMETRIA NASA */
+        .radar-box { width: 100px; height: 100px; border: 3px solid var(--pink); border-radius: 50%; margin: 0 auto 15px; position: relative; overflow: hidden; box-shadow: 0 0 20px var(--pink); }
         .radar-sweep { width: 100%; height: 100%; background: conic-gradient(from 0deg, transparent, var(--pink)); animation: rotate 2s linear infinite; opacity: 0.3; }
         @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* PAINEL PINK MARKET */
-        .pink-market-stats { display: grid; grid-columns: 1fr 1fr; gap: 10px; background: rgba(255, 0, 255, 0.05); border: 1px solid var(--pink); padding: 10px; border-radius: 15px; margin-bottom: 15px; }
-        .stat-label { font-size: 8px; color: var(--pink); text-transform: uppercase; }
-        .stat-val { font-size: 16px; color: #fff; text-shadow: 0 0 5px var(--pink); }
+        /* ESPECTRO DE CORES */
+        .espectro { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 15px; }
+        .box { padding: 10px; border-radius: 12px; font-size: 9px; background: #111; color: #444; border: 1px solid #222; font-weight: 900; }
+        .v-active { background: var(--red) !important; color: #fff !important; box-shadow: 0 0 15px var(--red); }
+        .ro-active { background: var(--purple) !important; color: #fff !important; box-shadow: 0 0 15px var(--purple); }
+        .rs-active { background: var(--pink) !important; color: #fff !important; box-shadow: 0 0 20px var(--pink); animation: blink 0.5s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 
-        .monitor-voo { background: rgba(0, 243, 255, 0.05); padding: 20px; border-radius: 25px; border: 1px solid var(--neon); margin: 15px 0; }
-        #percentual { font-size: 4em; color: var(--neon); display: block; }
-        
-        .btn-nasa { background: var(--pink); color: #fff; padding: 20px; border-radius: 20px; font-size: 1.2em; font-weight: 900; width: 100%; border: none; cursor: pointer; box-shadow: 0 0 20px var(--pink); text-transform: uppercase; }
-        
-        .esquadroes-mini { display: flex; justify-content: center; gap: 3px; margin-top: 10px; }
-        .ponto { width: 6px; height: 6px; background: #333; border-radius: 50%; }
-        .ponto.active { background: var(--neon); box-shadow: 0 0 5px var(--neon); }
+        /* PAINEL DE EXTRAÇÃO */
+        .painel-voo { background: rgba(0, 243, 255, 0.03); border: 1.5px solid var(--cyan); border-radius: 25px; padding: 20px; margin-bottom: 15px; }
+        #percentual { font-size: 4.5em; color: var(--cyan); display: block; line-height: 1; text-shadow: 0 0 15px var(--cyan); }
+        #status-missao { font-size: 11px; color: var(--gold); margin-top: 10px; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* BOTÕES */
+        .btn-ignicao { background: var(--pink); color: #fff; padding: 20px; border-radius: 20px; font-size: 1.3em; font-weight: 900; width: 100%; border: none; cursor: pointer; box-shadow: 0 0 25px var(--pink); text-transform: uppercase; margin-bottom: 10px; }
+        .btn-ignicao:disabled { opacity: 0.5; filter: grayscale(1); }
+
+        /* HISTÓRICO SENTINELA (ESTUDIOSO) */
+        .sentinela-history { background: rgba(0,0,0,0.6); border-radius: 15px; padding: 12px; border: 1px solid #111; text-align: left; max-height: 150px; overflow-y: auto; }
+        .hist-item { font-family: monospace; font-size: 9px; padding: 4px 0; border-bottom: 1px solid #1a1a1a; display: flex; justify-content: space-between; }
+        .tag-auto { color: var(--cyan); font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <div class="caixa-preta">
-        <div style="display:flex; justify-content:space-between; font-size:9px; color:var(--nasa); margin-bottom:5px;">
-            <span>S.A. V800 // PINK_MARKET_NASA</span>
-            <span id="timer">00:00:00</span>
+    <div class="master-container">
+        <div style="display:flex; justify-content:space-between; font-size:9px; color:var(--nasa); margin-bottom:10px;">
+            <span>S.A. V1250 // NASA_SUPREMACY</span>
+            <span id="timer">01:21:00</span>
         </div>
 
-        <div class="radar-nasa"><div class="radar-sweep"></div></div>
+        <div class="radar-box"><div class="radar-sweep"></div></div>
 
-        <div class="pink-market-stats">
-            <div><span class="stat-label">📡 Telemetria Global</span><span class="stat-val">SINCRO_NASA</span></div>
-            <div><span class="stat-label">🚀 Propulsão Extração</span><span class="stat-val">99.8%</span></div>
+        <div class="espectro">
+            <div id="v" class="box">VÁCUO</div>
+            <div id="ro" class="box">ROXO</div>
+            <div id="rs" class="box">ROSA</div>
         </div>
 
-        <div class="monitor-voo">
-            <div style="font-size: 10px; color: var(--neon);">CONTAGEM REGRESSIVA PARA EXTRAÇÃO</div>
-            <div id="percentual">0%</div>
-            <div id="status" style="margin-top:10px; font-size:12px; color:var(--pink); font-weight:bold;">SISTEMA EM ÓRBITA</div>
-            
-            <div class="esquadroes-mini" id="pontosFarol">
-                <script>for(let i=0; i<20; i++) document.write('<div class="ponto"></div>');</script>
-            </div>
+        <div class="painel-voo">
+            <span id="percentual">0%</span>
+            <div id="status-missao">SENTINELA EM OBSERVAÇÃO</div>
         </div>
 
-        <button id="mainBtn" class="btn-nasa" onclick="ignicaoNasa()">IGNIÇÃO PINK MARKET 🔱</button>
+        <button id="btnMain" class="btn-ignicao" onclick="dispararIgnicao()">IGNIÇÃO NASA 🔱</button>
 
-        <div id="log" style="font-size: 9px; color: #666; margin-top: 10px; font-family: monospace; text-align: left; height: 50px; overflow: hidden;">
-            > AGUARDANDO COMANDO DE IGNICAO...
+        <div class="sentinela-history" id="histLog">
+            <div class="hist-item" style="color:#666">> SENTINELA INICIANDO ESTUDO DO ALGORITMO...</div>
         </div>
     </div>
 
     <script>
         let rodando = false;
-        function updateLog(msg) {
-            const log = document.getElementById('log');
-            log.innerHTML = `> ${msg}<br>` + log.innerHTML;
+
+        function addLog(msg, cor, auto = false) {
+            const log = document.getElementById('histLog');
+            const tag = auto ? '<span class="tag-auto">[AUTO]</span> ' : '';
+            log.innerHTML = `<div class="hist-item" style="color:${cor}">${tag}${msg} <span>${new Date().toLocaleTimeString().slice(3,8)}</span></div>` + log.innerHTML;
         }
 
-        async function ignicaoNasa() {
+        // FUNÇÃO DE PURGA AUTOMÁTICA (NASA)
+        async function realizarPurgaAutomatica() {
+            addLog("EXECUTANDO RESET DE IP & CACHE...", "var(--cyan)", true);
+            await new Promise(r => setTimeout(r, 800));
+            addLog("DIAGNÓSTICO: ID INVISÍVEL.", "var(--green)", true);
+            addLog("PROGNÓSTICO: FLUXO LIBERADO.", "var(--gold)", true);
+        }
+
+        async function dispararIgnicao() {
             if(rodando) return; rodando = true;
-            const btn = document.getElementById('mainBtn');
-            const pontos = document.querySelectorAll('.ponto');
+            const btn = document.getElementById('btnMain');
+            const v = document.getElementById('v'), ro = document.getElementById('ro'), rs = document.getElementById('rs');
+            const perc = document.getElementById('percentual');
+            const st = document.getElementById('status-missao');
+
             btn.disabled = true;
+            [v, ro, rs].forEach(el => el.className = 'box');
+            st.innerText = "ESTUDANDO PRÓXIMA RODADA...";
 
-            updateLog("INICIANDO PROTOCOLO NASA...");
-            
-            // Ativação rápida dos 20 faróis
-            for(let p of pontos) {
-                await new Promise(r => setTimeout(r, 30));
-                p.classList.add('active');
-            }
+            setTimeout(async () => {
+                let n = Math.random() * 100;
 
-            updateLog("TELEMETRIA DEEP SPACE ATIVA");
-            
-            let x = 1.00;
-            let loop = () => {
-                x += 0.09;
-                let p = ((x - 1) / (1.25 - 1) * 100);
-                if(p > 100) p = 100;
-                document.getElementById('percentual').innerText = Math.floor(p) + "%";
-                
-                if (p >= 85) { 
-                    document.getElementById('status').innerText = "SAQUE IMEDIATO - NASA CONFIRMED"; 
-                    document.getElementById('percentual').style.color = "var(--pink)";
-                }
-                
-                if (x >= 2.0) { 
+                if(n < 25) {
+                    v.classList.add('v-active');
+                    st.innerText = "ALERTA: VÁCUO DETECTADO!";
+                    addLog("VÁCUO EVITADO PELO SENTINELA", "var(--red)");
+                    await realizarPurgaAutomatica();
                     rodando = false; btn.disabled = false;
-                    updateLog("EXTRAÇÃO CONCLUÍDA - RETORNANDO À ÓRBITA");
-                    setTimeout(reset, 2000);
-                } else { setTimeout(loop, 40); }
-            }; loop();
+                } else {
+                    if(n < 85) { ro.classList.add('ro-active'); addLog("ROXO CONFIRMADO - EXTRAÇÃO", "var(--purple)"); }
+                    else { rs.classList.add('rs-active'); addLog("ROSA DETECTADA - ALTA VELA", "var(--pink)"); }
+                    
+                    st.innerText = "SINCRONIA ESTABILIZADA - ENTRA!";
+                    let x = 1.00;
+                    let loop = () => {
+                        x += 0.04;
+                        let p = ((x - 1) / (1.25 - 1) * 100);
+                        if(p > 100) p = 100;
+                        perc.innerText = Math.floor(p) + "%";
+                        
+                        if(p >= 85) { st.innerText = "SAQUE AGORA! (NASA)"; st.style.color = "var(--green)"; }
+                        
+                        if(x >= 1.35) { 
+                            finalizarRodada();
+                        } else { setTimeout(loop, 75); }
+                    }; loop();
+                }
+            }, 1000);
         }
 
-        function reset() {
-            document.querySelectorAll('.ponto').forEach(p => p.classList.remove('active'));
+        async function finalizarRodada() {
+            addLog("EXTRAÇÃO CONCLUÍDA.", "var(--green)");
+            await realizarPurgaAutomatica();
             document.getElementById('percentual').innerText = "0%";
-            document.getElementById('percentual').style.color = "var(--neon)";
-            document.getElementById('status').innerText = "SISTEMA EM ÓRBITA";
+            document.getElementById('status-missao').innerText = "SENTINELA EM OBSERVAÇÃO";
+            document.getElementById('status-missao').style.color = "var(--gold)";
+            document.getElementById('btnMain').disabled = false;
+            rodando = false;
         }
+
         setInterval(() => { document.getElementById('timer').innerText = new Date().toLocaleTimeString(); }, 1000);
     </script>
 </body>
