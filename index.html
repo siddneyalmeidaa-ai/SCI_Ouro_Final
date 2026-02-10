@@ -3,150 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A. V320 - AUDIO TÁTICO</title>
+    <title>S.A. V340 - SINCRONIA TOTAL</title>
     <style>
         :root { --dark: #000; --gold: #D4AF37; --red: #ff1744; --orange: #ff9100; --blue: #00e5ff; --purple: #9d00ff; --pink: #ff00ff; --green: #00e676; }
-        body { background: var(--dark); color: white; font-family: 'Arial Black', sans-serif; margin: 0; padding: 10px; text-align: center; }
-        .caixa-preta { border: 4px solid var(--gold); border-radius: 25px; padding: 15px; background: radial-gradient(circle, #0a0a0a 0%, #000 100%); box-shadow: 0 0 50px rgba(212, 175, 55, 0.3); }
-        .header { display: flex; justify-content: space-between; font-size: 9px; color: var(--gold); margin-bottom: 12px; }
-        .grid-comandos { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px; }
+        body { background: var(--dark); color: white; font-family: 'Arial Black', sans-serif; margin: 0; padding: 10px; text-align: center; overflow: hidden; }
+        .caixa-preta { border: 4px solid var(--gold); border-radius: 25px; padding: 15px; background: #050505; box-shadow: 0 0 50px rgba(212, 175, 55, 0.4); }
+        
+        /* GRADE DE COMANDOS */
+        .grid-comandos { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
         .full { grid-column: span 2; }
-        .btn-status { padding: 18px 5px; border-radius: 12px; font-size: 0.85em; font-weight: 900; border: 2px solid #1a1a1a; opacity: 0.1; color: #fff; text-transform: uppercase; }
+        .btn-status { padding: 18px 2px; border-radius: 12px; font-size: 0.8em; font-weight: 900; border: 2px solid #1a1a1a; opacity: 0.1; color: #fff; text-transform: uppercase; }
+        
         .ativo-pagando { background: var(--green) !important; opacity: 1 !important; color: #000 !important; }
-        .ativo-dreno { background: #333 !important; opacity: 1 !important; border-color: var(--red) !important; }
         .ativo-vacuo { background: var(--red) !important; opacity: 1 !important; }
-        .ativo-monitor { background: var(--orange) !important; opacity: 1 !important; }
         .ativo-roxa { background: var(--purple) !important; opacity: 1 !important; }
         .ativo-rosa { background: var(--pink) !important; opacity: 1 !important; }
         .ativo-resfriar { background: var(--blue) !important; opacity: 1 !important; color: #000 !important; }
-        .monitor-voo { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 20px; border: 1px solid #222; margin: 15px 0; }
-        #displayX { font-size: 4.5em; margin: 0; font-family: 'Courier New', monospace; }
-        .pma-track { background: #000; height: 45px; border-radius: 22px; position: relative; overflow: hidden; border: 2px solid #333; margin-top: 10px; }
-        #barra { height: 100%; width: 0%; background: var(--gold); transition: width 0.05s linear; }
-        #safeLine { position: absolute; top: 0; height: 100%; width: 8px; background: #fff; box-shadow: 0 0 20px #fff; z-index: 50; }
-        .btn-ataque { background: #fff; color: #000; padding: 22px; border-radius: 18px; font-size: 1.4em; font-weight: 900; width: 100%; border: none; cursor: pointer; }
+
+        /* PAINEL DE SINCRONIA % */
+        .monitor-voo { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 20px; border: 1px solid #333; margin: 10px 0; }
+        #percentual { font-size: 4em; color: var(--gold); display: block; line-height: 1; }
+        .sub-text { font-size: 10px; color: #666; letter-spacing: 2px; }
+        
+        .pma-track { background: #000; height: 35px; border-radius: 20px; position: relative; overflow: hidden; border: 2px solid #333; margin-top: 10px; }
+        #barra { height: 100%; width: 0%; background: linear-gradient(90deg, var(--gold), #fff); transition: width 0.03s linear; }
+        #gatilhoLine { position: absolute; top: 0; height: 100%; width: 10px; background: #fff; box-shadow: 0 0 20px #fff; z-index: 50; }
+
+        .btn-ataque { background: #fff; color: #000; padding: 20px; border-radius: 18px; font-size: 1.4em; font-weight: 900; width: 100%; border: none; cursor: pointer; box-shadow: 0 5px 0 #bbb; }
+        .btn-ataque:active { transform: translateY(4px); box-shadow: 0 1px 0 #bbb; }
     </style>
 </head>
 <body>
 
     <div class="caixa-preta">
-        <div class="header">
-            <span>S.A. V320 // AUDIO_SCAN</span>
-            <span id="clock">00:00:00</span>
+        <div style="display:flex; justify-content:space-between; font-size:9px; color:var(--gold); margin-bottom:10px;">
+            <span>S.A. V340 // SINCRONIA_GATILHO</span>
+            <span id="timer">00:00:00</span>
         </div>
 
         <div class="grid-comandos">
-            <div id="btnPagando" class="btn-status">SERVIDOR PAGANDO ✅</div>
-            <div id="btnDreno" class="btn-status">SERVIDOR EM DRENO ⛔</div>
+            <div id="btnPagando" class="btn-status">PAGANDO ✅</div>
             <div id="btnVacuo" class="btn-status">VÁCUO 💀</div>
-            <div id="btnMonitor" class="btn-status">MONITORANDO ⚠️</div>
             <div id="btnRoxa" class="btn-status">ROXA 🟣</div>
             <div id="btnRosa" class="btn-status">ROSA 🌸</div>
             <div id="btnResfriar" class="btn-status full">RESFRIAMENTO DO ID ❄️</div>
         </div>
 
         <div class="monitor-voo">
-            <div id="displayX">1.00x</div>
+            <span class="sub-text">GATILHO DE SAQUE</span>
+            <div id="percentual">0%</div>
+            <div id="valX" style="font-size: 1.2em; color:#fff;">1.00x</div>
+            
             <div class="pma-track">
-                <div id="safeLine" style="left: 50%;"></div>
+                <div id="gatilhoLine" style="left: 75%;"></div>
                 <div id="barra"></div>
             </div>
-            <div id="msg" style="margin-top: 10px; font-size: 12px; font-weight: bold; color: var(--gold);">SISTEMA PRONTO</div>
+            <div id="status" style="margin-top:10px; font-size:12px; color:var(--gold); font-weight:bold;">SINCRO_ID: OPERACIONAL</div>
         </div>
 
-        <button id="scanBtn" class="btn-ataque" onclick="runV320()">AUDITAR AGORA 🔱</button>
+        <button id="mainBtn" class="btn-ataque" onclick="iniciarSincronia()">AUDITAR E SINCRONIZAR 🔱</button>
     </div>
 
     <script>
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        function playBip(freq, dur) {
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.connect(gain); gain.connect(audioCtx.destination);
-            osc.frequency.value = freq; osc.type = 'square';
-            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-            osc.start(); osc.stop(audioCtx.currentTime + dur);
+        const audio = new (window.AudioContext || window.webkitAudioContext)();
+        function bip(f, d) {
+            const o = audio.createOscillator(); const g = audio.createGain();
+            o.connect(g); g.connect(audio.destination); o.frequency.value = f; o.type = 'sine';
+            g.gain.setValueAtTime(0.1, audio.currentTime); o.start(); o.stop(audio.currentTime + d);
         }
 
-        let isRunning = false;
-        let streak = 0;
+        let rodando = false;
+        function iniciarSincronia() {
+            if(rodando) return; rodando = true;
+            bip(500, 0.1);
 
-        function runV320() {
-            if(isRunning) return;
-            isRunning = true;
-            playBip(440, 0.1); // Bip de início
+            const bP = document.getElementById('btnPagando'), bV = document.getElementById('btnVacuo'),
+                  bRo = document.getElementById('btnRoxa'), bRs = document.getElementById('btnRosa'),
+                  per = document.getElementById('percentual'), vX = document.getElementById('valX'),
+                  bar = document.getElementById('barra'), st = document.getElementById('status');
 
-            const bPag = document.getElementById('btnPagando'), bDre = document.getElementById('btnDreno'),
-                  bVac = document.getElementById('btnVacuo'), bMon = document.getElementById('btnMonitor'),
-                  bRox = document.getElementById('btnRoxa'), bRos = document.getElementById('btnRosa'),
-                  dX = document.getElementById('displayX'), bar = document.getElementById('barra'),
-                  lin = document.getElementById('safeLine'), msg = document.getElementById('msg');
-
-            document.querySelectorAll('.btn-status').forEach(b => b.classList.remove('ativo-pagando','ativo-dreno','ativo-vacuo','ativo-monitor','ativo-roxa','ativo-rosa','ativo-resfriar'));
+            document.querySelectorAll('.btn-status').forEach(b => b.classList.remove('ativo-pagando','ativo-vacuo','ativo-roxa','ativo-rosa'));
 
             let n = Math.random() * 100;
-            let crash, target;
+            let crash, alvo;
 
-            if (n < 35) { 
-                bDre.classList.add('ativo-dreno'); bVac.classList.add('ativo-vacuo');
-                crash = 1.05; target = 1.01; msg.innerText = "DRENO: NÃO ENTRE!";
+            if (n < 30) { // Vácuo preventivo
+                crash = 1.04; alvo = 1.01; bV.classList.add('ativo-vacuo');
+                st.innerText = "RISCO DE CORTE: PULE!"; st.style.color = "var(--red)";
             } else {
-                bPag.classList.add('ativo-pagando');
-                if (n < 85) {
-                    crash = 2.2 + (Math.random() * 5.0); target = crash * 0.48;
-                    bRox.classList.add('ativo-roxa'); msg.innerText = "PAGANDO: ROXA";
-                } else {
-                    crash = 15.0 + (Math.random() * 40.0); target = crash * 0.45;
-                    bRos.classList.add('ativo-rosa'); msg.innerText = "PAGANDO: ROSA!";
+                bP.classList.add('ativo-pagando');
+                if (n < 85) { 
+                    crash = 2.4 + Math.random()*3; alvo = 1.25; // Seu alvo fixo para recuperar
+                    bRo.classList.add('ativo-roxa'); st.innerText = "SINCRONIA ROXA";
+                } else { 
+                    crash = 15 + Math.random()*20; alvo = 2.50; 
+                    bRs.classList.add('ativo-rosa'); st.innerText = "SINCRONIA ROSA";
                 }
             }
 
-            lin.style.left = (target / crash * 100) + "%";
             let x = 1.00;
-            let alerted = false;
-
+            let bipado = false;
             let loop = () => {
-                if(!isRunning) return;
-                x += 0.08;
-                dX.innerText = x.toFixed(2) + "x";
+                if(!rodando) return;
+                x += 0.07;
+                let p = ((x - 1) / (alvo - 1) * 100);
+                if(p > 100) p = 100;
+
+                per.innerText = Math.floor(p) + "%";
+                vX.innerText = x.toFixed(2) + "x";
                 bar.style.width = (x / crash * 100) + "%";
 
-                if (x >= (target - 0.20) && !alerted) {
-                    playBip(880, 0.3); // BIP DE ALERTA DE CORTE (AGUDO)
-                    msg.innerText = "SAIR AGORA! 🎯";
+                // GATILHO DE CLIQUE EM 85% DA SINCRONIA PARA VENCER O DELAY
+                if (p >= 85 && !bipado) {
+                    bip(1000, 0.4);
+                    st.innerText = "CLIQUE AGORA! (SINCRONIA 85%)";
+                    st.style.color = "#fff";
                     bar.style.background = "#fff";
-                    alerted = true;
+                    bipado = true;
                 }
 
                 if (x >= crash) {
-                    isRunning = false;
-                    dX.style.color = "var(--red)";
-                    if(crash > 2.0) streak++; else streak = 0;
-                    if(streak >= 2) coolDown(); else setTimeout(reset, 3000);
-                } else { setTimeout(loop, 40); }
+                    rodando = false;
+                    vX.style.color = "var(--red)";
+                    setTimeout(reset, 3000);
+                } else { setTimeout(loop, 45); }
             };
             loop();
         }
 
-        function coolDown() {
-            const msg = document.getElementById('msg'), btn = document.getElementById('scanBtn'), bRe = document.getElementById('btnResfriar');
-            bRe.classList.add('ativo-resfriar'); btn.disabled = true;
-            let s = 20;
-            let t = setInterval(() => {
-                msg.innerText = `RESFRIANDO ID: ${s}s`;
-                if(s-- < 0) { clearInterval(t); streak = 0; btn.disabled = false; reset(); }
-            }, 1000);
-        }
-
         function reset() {
-            dX = document.getElementById('displayX');
-            dX.innerText = "1.00x"; dX.style.color = "white";
+            document.getElementById('percentual').innerText = "0%";
+            document.getElementById('valX').innerText = "1.00x";
+            document.getElementById('valX').style.color = "white";
             document.getElementById('barra').style.width = "0%";
             document.getElementById('barra').style.background = "var(--gold)";
-            document.getElementById('msg').innerText = "SISTEMA PRONTO";
-            document.querySelectorAll('.btn-status').forEach(b => b.classList.remove('ativo-pagando','ativo-dreno','ativo-vacuo','ativo-monitor','ativo-roxa','ativo-rosa','ativo-resfriar'));
+            document.getElementById('status').innerText = "SINCRO_ID: OPERACIONAL";
+            document.getElementById('status').style.color = "var(--gold)";
+            document.querySelectorAll('.btn-status').forEach(b => b.classList.remove('ativo-pagando','ativo-vacuo','ativo-roxa','ativo-rosa'));
         }
-        setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
+        setInterval(() => { document.getElementById('timer').innerText = new Date().toLocaleTimeString(); }, 1000);
     </script>
 </body>
 </html>
