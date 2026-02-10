@@ -3,119 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A. V174 - PMA ARCHITECTURE</title>
+    <title>S.A. V220 - SINCRO CINÉTICO</title>
     <style>
-        :root { --gold: #D4AF37; --dark: #050505; --red: #ff1744; --green: #00e676; --blue: #0091ea; --glass: rgba(255, 255, 255, 0.05); }
-        body { background: var(--dark); color: white; font-family: 'Montserrat', sans-serif; padding: 15px; margin: 0; text-align: center; overflow: hidden; }
+        :root { --gold: #D4AF37; --dark: #010101; --red: #ff1744; --green: #00e676; --pink: #ff00ff; --cyan: #00e5ff; }
+        body { background: var(--dark); color: white; font-family: 'Courier New', monospace; padding: 10px; margin: 0; text-align: center; }
+        .omni-frame { border: 2px solid var(--gold); border-radius: 20px; padding: 15px; background: #000; box-shadow: 0 0 40px rgba(212, 175, 55, 0.2); }
         
-        /* Layout PMA */
-        .pma-container { border: 2px solid var(--gold); border-radius: 25px; padding: 15px; background: linear-gradient(180deg, #111 0%, #000 100%); box-shadow: 0 0 40px rgba(212, 175, 55, 0.2); }
-        .header-pma { display: flex; justify-content: space-between; font-size: 10px; color: var(--gold); font-weight: bold; margin-bottom: 15px; text-transform: uppercase; }
+        #displayX { font-size: 6em; font-weight: 900; color: white; margin: 5px 0; text-shadow: 0 0 15px rgba(255,255,255,0.2); }
         
-        #displayX { font-size: 5.5em; font-weight: 900; color: white; margin: 10px 0; font-variant-numeric: tabular-nums; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
-        
-        /* Barra de Pressão PMA */
-        .monitor-area { background: var(--glass); border-radius: 15px; padding: 20px; border: 1px solid #222; margin: 15px 0; position: relative; }
-        .progress-box { background: #111; height: 12px; border-radius: 10px; overflow: hidden; border: 1px solid #333; margin: 10px 0; position: relative; }
-        #barraLive { height: 100%; width: 0%; background: var(--gold); transition: width 0.04s linear; }
-        #targetLine { position: absolute; top: 0; height: 100%; width: 4px; background: #fff; box-shadow: 0 0 15px #fff; z-index: 5; }
+        .sync-monitor { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+        .s-card { background: rgba(255, 255, 255, 0.03); border: 1px solid #222; padding: 10px; border-radius: 12px; font-size: 10px; }
+        .s-card b { display: block; font-size: 13px; margin-top: 3px; color: var(--gold); }
 
-        /* Status de Auditoria */
-        .audit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .audit-item { background: var(--glass); padding: 10px; border-radius: 10px; font-size: 11px; border: 1px solid #222; }
-        .val { display: block; font-size: 16px; font-weight: bold; margin-top: 5px; }
-
-        .btn-pma { background: white; color: black; padding: 22px; border-radius: 18px; font-size: 1.4em; font-weight: 900; cursor: pointer; border: none; width: 100%; transition: 0.3s; text-transform: uppercase; letter-spacing: 2px; }
-        .btn-pma:active { transform: scale(0.95); background: var(--gold); }
+        .v-bar { background: #111; height: 18px; border-radius: 10px; overflow: hidden; position: relative; border: 1px solid #333; margin: 15px 0; }
+        #barraLive { height: 100%; width: 0%; background: var(--gold); transition: width 0.02s linear; }
+        #targetLine { position: absolute; top: 0; height: 100%; width: 5px; background: #fff; box-shadow: 0 0 15px #fff; z-index: 10; }
         
-        .alert-pma { color: var(--red); font-weight: bold; animation: pulse 0.5s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        .btn-sync { background: white; color: black; padding: 22px; border-radius: 18px; font-size: 1.5em; font-weight: 900; cursor: pointer; border: none; width: 100%; text-transform: uppercase; }
+        .status-msg { height: 20px; font-size: 12px; font-weight: bold; margin-bottom: 10px; }
+        .active-pulse { animation: sync-pulse 0.5s infinite; }
+        @keyframes sync-pulse { 0% { color: var(--cyan); } 50% { color: white; } 100% { color: var(--cyan); } }
     </style>
 </head>
 <body>
 
-    <div class="pma-container">
-        <div class="header-pma">
-            <span>AUDIT_MODE: PMA_V174</span>
+    <div class="omni-frame">
+        <div style="display: flex; justify-content: space-between; font-size: 9px; color: var(--gold); font-weight: bold; margin-bottom: 8px;">
+            <span>S.A. V220 // SYNC_TIMING</span>
             <span id="relogio">00:00:00</span>
         </div>
 
         <div id="displayX">1.00x</div>
 
-        <div class="audit-grid">
-            <div class="audit-item">PRESSÃO_SÉMENTE<br><span id="valPressao" class="val" style="color:var(--blue)">ESTÁVEL</span></div>
-            <div class="audit-item">ALVO_DINÂMICO<br><span id="valAlvo" class="val" style="color:var(--gold)">---</span></div>
+        <div class="sync-monitor">
+            <div class="s-card">DECOLAGEM<br><b id="stDecolagem">STANDBY</b></div>
+            <div class="s-card">SINCRONIA<br><b id="stSinc" style="color:var(--green)">100% MS</b></div>
+            <div class="s-card">PRESSÃO_AR<br><b id="stPressao">NULA</b></div>
+            <div class="s-card">TIPO_VELA<br><b id="stVela">---</b></div>
         </div>
 
-        <div class="monitor-area">
-            <div class="progress-box">
-                <div id="targetLine" style="left: 50%;"></div>
-                <div id="barraLive"></div>
-            </div>
-            <div id="statusPMA" style="font-size: 12px; letter-spacing: 1px; color: #666;">AGUARDANDO INPUT DE DADOS</div>
+        <div class="status-msg" id="stMsg">AGUARDANDO IGNICÃO...</div>
+
+        <div class="v-bar">
+            <div id="targetLine" style="left: 50%;"></div>
+            <div id="barraLive"></div>
         </div>
 
-        <button class="btn-pma" onclick="executarPMA()">AUDITAR RODADA 🔱</button>
-        
+        <button id="btnMain" class="btn-sync" onclick="iniciarSincro()">ATIVAR SINCRO 🔱</button>
+
         <div style="margin-top: 15px; font-size: 9px; color: #444; font-weight: bold;">
-            STAKE: R$ 1,00 | IPI: 2026-PMA-SA | MEMÓRIA QUÂNTICA ATIVA
+            IPI: 2026-SYNC-TIMING-SA | WI-FI 5G BYPASS | SERVIDOR CERCADO
         </div>
     </div>
 
     <script>
         let ativo = false;
-        function executarPMA() {
+        function iniciarSincro() {
             if(ativo) return;
             ativo = true;
 
             const dX = document.getElementById('displayX'), b = document.getElementById('barraLive'),
-                  st = document.getElementById('statusPMA'), vAlvo = document.getElementById('valAlvo'),
-                  vPre = document.getElementById('valPressao'), tL = document.getElementById('targetLine');
+                  stDec = document.getElementById('stDecolagem'), stPre = document.getElementById('stPressao'),
+                  stVel = document.getElementById('stVela'), stMsg = document.getElementById('stMsg'),
+                  tL = document.getElementById('targetLine');
 
-            let x = 1.00;
-            let crash = 1.5 + (Math.random() * 8.5); 
-            let safetyRatio = 0.4 + (Math.random() * 0.2); // PMA decide a margem de segurança entre 40% e 60%
-            let target = (crash * safetyRatio);
+            let n = Math.random() * 100;
+            let crash, pressao, tipo;
 
-            // Atualiza Interface PMA
-            vAlvo.innerText = target.toFixed(2) + "x";
-            vPre.innerText = (Math.random() > 0.5 ? "ALTA" : "MÉDIA");
-            vPre.style.color = vPre.innerText === "ALTA" ? "var(--red)" : "var(--blue)";
+            // ANALISADOR CINÉTICO DE DECOLAGEM
+            if(n < 25) { // Vácuo
+                crash = 1.0 + (Math.random() * 0.15);
+                pressao = "INSTÁVEL"; tipo = "VÁCUO";
+                stMsg.innerText = "ABORTAR: VÁCUO IDENTIFICADO!"; stMsg.style.color = "var(--red)";
+            } else if(n < 85) { // Roxa
+                crash = 2.0 + (Math.random() * 8.0);
+                pressao = "CONSTANTE"; tipo = "ROXA";
+                stMsg.innerText = "SINCRO ATIVA: BUSCAR ALVO"; stMsg.style.color = "var(--cyan)";
+            } else { // Rosa
+                crash = 10.0 + (Math.random() * 50.0);
+                pressao = "GORDURA"; tipo = "ROSA";
+                stMsg.innerText = "ALVO ROSA: CAMADA RELEVADA"; stMsg.style.color = "var(--pink)";
+                stMsg.classList.add("active-pulse");
+            }
+
+            stDec.innerText = "ATIVA"; stPre.innerText = pressao; stVel.innerText = tipo;
+            let target = (crash * 0.5); // Regra S.A.
+            tL.style.left = (target / crash * 100) + "%";
             
-            let pos = (target / crash) * 100;
-            tL.style.left = pos + "%";
-            st.innerText = "MONITORAMENTO EM TEMPO REAL";
-            st.style.color = "var(--green)";
-
+            let x = 1.00;
             let loop = () => {
                 if(!ativo) return;
-                let jitter = 35 + Math.floor(Math.random() * 20);
-                x += (0.06 + (Math.random() * 0.05));
+                let jitter = 25 + Math.floor(Math.random() * 30); // Latência de milissegundos
+                x += (0.07 + (Math.random() * 0.05));
                 dX.innerText = x.toFixed(2) + "x";
-                
-                let p = (x / crash) * 100;
-                b.style.width = p + "%";
-
-                if (x >= (target - 0.20)) {
-                    st.innerText = "ZONA DE CONFLITO - PREPARAR SAÍDA";
-                    st.classList.add("alert-pma");
-                }
+                b.style.width = (x / crash * 100) + "%";
 
                 if (x >= target) {
                     b.style.background = "var(--red)";
-                    st.innerText = "SAÍDA DITADA PELO SISTEMA!";
+                    stMsg.innerText = "SAIR AGORA - SINCRO OK"; stMsg.style.color = "var(--red)";
                 }
 
                 if (x >= crash) {
                     ativo = false;
                     dX.style.color = "var(--red)";
-                    st.innerText = "VÁCUO MAPEADO COM SUCESSO";
-                    st.classList.remove("alert-pma");
+                    stMsg.classList.remove("active-pulse");
                     setTimeout(() => {
                         dX.style.color = "white"; dX.innerText = "1.00x";
                         b.style.width = "0%"; b.style.background = "var(--gold)";
-                        st.innerText = "AGUARDANDO INPUT DE DADOS"; st.style.color = "#666";
-                        vAlvo.innerText = "---";
+                        stMsg.innerText = "AGUARDANDO IGNICÃO..."; stMsg.style.color = "white";
+                        stDec.innerText = "STANDBY"; stPre.innerText = "NULA"; stVel.innerText = "---";
                     }, 3000);
                 } else {
                     setTimeout(loop, jitter);
