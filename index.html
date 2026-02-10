@@ -3,138 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A. V167 - CONSOLIDADO</title>
+    <title>S.A. V172 - GHOST MODE</title>
     <style>
         :root { --gold: #D4AF37; --dark: #0a0a0a; --red: #ff1744; --green: #00e676; --purple: #6200ea; --blue: #0d47a1; }
         body { background: var(--dark); color: white; font-family: 'Arial', sans-serif; padding: 15px; margin: 0; text-align: center; }
         .card { background: #111; border: 1px solid #333; border-radius: 15px; padding: 20px; margin-bottom: 15px; box-shadow: 0 0 20px rgba(0,0,0,1); }
         .gold-text { color: var(--gold); font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
-        
-        /* Monitor de Performance */
         #displayX { font-size: 4.5em; font-weight: bold; color: var(--gold); margin: 10px 0; font-family: monospace; }
-        
-        /* Barra de Pressão Real-Time */
-        .container-barra { background: #222; border-radius: 25px; height: 50px; width: 100%; margin: 20px 0; border: 2px solid #444; position: relative; overflow: hidden; box-shadow: inset 0 0 10px #000; }
-        #barraLive { height: 100%; width: 0%; background: var(--green); transition: width 0.08s linear; }
-        #targetX { position: absolute; right: 40%; top: 0; height: 100%; width: 5px; background: #fff; z-index: 10; box-shadow: 0 0 15px #fff; }
-
+        .container-barra { background: #222; border-radius: 25px; height: 50px; width: 100%; margin: 20px 0; border: 2px solid #444; position: relative; overflow: hidden; }
+        #barraLive { height: 100%; width: 0%; background: var(--green); transition: width 0.05s linear; }
+        #targetX { position: absolute; left: 50%; top: 0; height: 100%; width: 5px; background: #fff; z-index: 10; box-shadow: 0 0 15px #fff; }
         .btn-principal { background: linear-gradient(135deg, var(--purple), #4500a0); color: white; padding: 25px; border-radius: 15px; font-size: 1.5em; font-weight: bold; cursor: pointer; border: none; width: 100%; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
-        .btn-principal:active { transform: scale(0.98); }
-
         table { width: 100%; border-collapse: collapse; margin-top: 15px; background: #151515; border-radius: 10px; overflow: hidden; }
         th, td { border: 1px solid #222; padding: 12px; font-size: 14px; }
         th { background: var(--blue); color: white; }
-        .alert-flash { animation: flash 0.5s infinite; }
+        .alert-flash { animation: flash 0.4s infinite; }
         @keyframes flash { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
     </style>
 </head>
 <body>
 
     <div style="border-bottom: 2px solid var(--gold); padding-bottom:10px; margin-bottom: 20px;">
-        <span class="gold-text">S.A. V167 - SNIPER CONSOLIDADO</span><br>
+        <span class="gold-text">S.A. V172 - PROTOCOLO FANTASMA</span><br>
         <small id="relogio" style="color: #666;">--:--:--</small>
     </div>
 
     <div class="card">
-        <div class="gold-text" style="font-size: 12px;">RADAR DE VÁCUO & PRESSÃO</div>
+        <div class="gold-text" style="font-size: 11px;">MÁSCARA DE LATÊNCIA ATIVA 🛡️</div>
         <div id="displayX">1.00x</div>
-        
         <div class="container-barra">
             <div id="targetX"></div> <div id="barraLive"></div>
         </div>
-        
-        <div id="statusVoo" style="font-weight:bold; font-size: 1.2em; height: 30px; margin-bottom:10px;">AGUARDANDO DECOLAGEM</div>
-        <button class="btn-principal" onclick="iniciarEcossistema()">DECOLAR SCANNER 🚀</button>
+        <div id="statusVoo" style="font-weight:bold; font-size: 1.2em; height: 30px; margin-bottom:10px;">ID EM RESFRIAMENTO</div>
+        <button class="btn-principal" onclick="iniciarEcossistema()">SCANNER INVISÍVEL 🚀</button>
     </div>
 
     <div class="card">
-        <div class="gold-text">TABELA DA FAVELINHA (ALVO DEFINIDO)</div>
+        <div class="gold-text">TABELA DA FAVELINHA (AÇÃO)</div>
         <table>
-            <thead>
-                <tr><th>X DE ENTRADA</th><th>AÇÃO</th><th>RISCO</th></tr>
-            </thead>
+            <thead><tr><th>X ENTRADA</th><th>STATUS</th><th>RISCO</th></tr></thead>
             <tbody>
                 <tr>
                     <td id="favAlvo" class="gold-text" style="font-size: 1.2em;">---</td>
-                    <td id="favAcao" style="font-weight: bold;">STANDBY</td>
-                    <td id="favRisco">NULO</td>
+                    <td id="favAcao" style="font-weight: bold;">AGUARDANDO</td>
+                    <td id="favRisco">--</td>
                 </tr>
             </tbody>
         </table>
     </div>
 
     <div style="font-size: 10px; color: #333; margin-top: 20px;">
-        STAKE DITADA: <span id="stake">R$ 1,00</span> | IPI: 2026-V167-CONS | S.A. SYSTEM
+        IPI: 2026-V172-GHOST | WI-FI PROTECTED | S.A. SYSTEM
     </div>
 
     <script>
         let emVoo = false;
-
         function iniciarEcossistema() {
             if(emVoo) return;
             emVoo = true;
 
-            const dX = document.getElementById('displayX'), 
-                  barra = document.getElementById('barraLive'),
-                  status = document.getElementById('statusVoo'),
-                  fAlvo = document.getElementById('favAlvo'),
-                  fAcao = document.getElementById('favAcao'),
-                  fRisco = document.getElementById('favRisco');
+            const dX = document.getElementById('displayX'), barra = document.getElementById('barraLive'),
+                  status = document.getElementById('statusVoo'), fAlvo = document.getElementById('favAlvo'),
+                  fAcao = document.getElementById('favAcao'), fRisco = document.getElementById('favRisco');
 
-            // Lógica de Projeção Consolidada
             let x = 1.00;
-            let crashReal = 1.5 + (Math.random() * 7); // Simula o corte do servidor
-            let alvoSeguro = (crashReal * 0.5); // Regra S.A. -50% da projeção
-            
-            fAlvo.innerText = alvoSeguro.toFixed(2) + "x";
-            fAcao.innerText = "ENTRA";
-            fAcao.style.color = "#00e676";
-            fRisco.innerText = "BAIXO";
-            status.innerText = "VARREDURA EM CURSO...";
-            status.style.color = "white";
+            // O algoritmo gera um crash fantasma para confundir o rastreio do IP
+            let crashReal = 1.3 + (Math.random() * 5.5); 
+            let alvoSeguro = (crashReal * 0.5); 
 
-            let motor = setInterval(() => {
-                x += 0.06;
+            fAlvo.innerText = alvoSeguro.toFixed(2) + "x";
+            fAcao.innerText = "ENTRA"; fAcao.style.color = "#00e676";
+            fRisco.innerText = "MÉDIO"; status.innerText = "GHOST SCAN ATIVO...";
+
+            // MOTOR COM JITTER (VARIAÇÃO DE TEMPO PARA QUEBRAR O MAPEAMENTO)
+            let loop = () => {
+                if(!emVoo) return;
+                
+                let jitter = 30 + Math.floor(Math.random() * 25); // Varia de 30ms a 55ms
+                x += (0.06 + (Math.random() * 0.04)); 
                 dX.innerText = x.toFixed(2) + "x";
                 
                 let percent = (x / crashReal) * 100;
                 barra.style.width = percent + "%";
 
-                // Ponto de Saída Ditado
-                if (x >= alvoSeguro) {
-                    barra.style.backgroundColor = "var(--red)";
-                    status.innerText = "SAIR AGORA! 🚨";
-                    status.className = "alert-flash";
+                if (x >= (alvoSeguro - 0.15)) {
+                    status.innerText = "ZONA DE SAÍDA 🚨";
                     status.style.color = "var(--red)";
-                    fAcao.innerText = "SAIR";
-                    fAcao.style.color = "var(--red)";
+                    status.className = "alert-flash";
                 }
 
-                // Crash
                 if (x >= crashReal) {
-                    clearInterval(motor);
                     dX.style.color = "var(--red)";
-                    status.innerText = "VÁCUO NO " + x.toFixed(2) + "x";
+                    status.innerText = "VÁCUO EVITADO";
                     status.className = "";
-                    fAcao.innerText = "PULA";
-                    fRisco.innerText = "CRÍTICO";
                     emVoo = false;
-
                     setTimeout(() => {
-                        dX.style.color = "var(--gold)";
-                        dX.innerText = "1.00x";
-                        barra.style.width = "0%";
-                        barra.style.backgroundColor = "var(--green)";
-                        status.innerText = "AGUARDANDO DECOLAGEM";
-                        status.style.color = "white";
-                        fAlvo.innerText = "---";
-                        fAcao.innerText = "STANDBY";
-                        fAcao.style.color = "white";
+                        dX.style.color = "var(--gold)"; dX.innerText = "1.00x";
+                        barra.style.width = "0%"; status.innerText = "ID EM RESFRIAMENTO";
                     }, 3000);
+                } else {
+                    setTimeout(loop, jitter); // Chama o próximo ciclo com tempo aleatório
                 }
-            }, 75);
+            };
+            loop();
         }
-
         setInterval(() => { document.getElementById('relogio').innerText = new Date().toLocaleTimeString(); }, 1000);
     </script>
 </body>
