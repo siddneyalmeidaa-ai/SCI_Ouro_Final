@@ -3,123 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A. V220 - SINCRO CINÉTICO</title>
+    <title>S.A. V320 - AUDIO TÁTICO</title>
     <style>
-        :root { --gold: #D4AF37; --dark: #010101; --red: #ff1744; --green: #00e676; --pink: #ff00ff; --cyan: #00e5ff; }
-        body { background: var(--dark); color: white; font-family: 'Courier New', monospace; padding: 10px; margin: 0; text-align: center; }
-        .omni-frame { border: 2px solid var(--gold); border-radius: 20px; padding: 15px; background: #000; box-shadow: 0 0 40px rgba(212, 175, 55, 0.2); }
-        
-        #displayX { font-size: 6em; font-weight: 900; color: white; margin: 5px 0; text-shadow: 0 0 15px rgba(255,255,255,0.2); }
-        
-        .sync-monitor { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
-        .s-card { background: rgba(255, 255, 255, 0.03); border: 1px solid #222; padding: 10px; border-radius: 12px; font-size: 10px; }
-        .s-card b { display: block; font-size: 13px; margin-top: 3px; color: var(--gold); }
-
-        .v-bar { background: #111; height: 18px; border-radius: 10px; overflow: hidden; position: relative; border: 1px solid #333; margin: 15px 0; }
-        #barraLive { height: 100%; width: 0%; background: var(--gold); transition: width 0.02s linear; }
-        #targetLine { position: absolute; top: 0; height: 100%; width: 5px; background: #fff; box-shadow: 0 0 15px #fff; z-index: 10; }
-        
-        .btn-sync { background: white; color: black; padding: 22px; border-radius: 18px; font-size: 1.5em; font-weight: 900; cursor: pointer; border: none; width: 100%; text-transform: uppercase; }
-        .status-msg { height: 20px; font-size: 12px; font-weight: bold; margin-bottom: 10px; }
-        .active-pulse { animation: sync-pulse 0.5s infinite; }
-        @keyframes sync-pulse { 0% { color: var(--cyan); } 50% { color: white; } 100% { color: var(--cyan); } }
+        :root { --dark: #000; --gold: #D4AF37; --red: #ff1744; --orange: #ff9100; --blue: #00e5ff; --purple: #9d00ff; --pink: #ff00ff; --green: #00e676; }
+        body { background: var(--dark); color: white; font-family: 'Arial Black', sans-serif; margin: 0; padding: 10px; text-align: center; }
+        .caixa-preta { border: 4px solid var(--gold); border-radius: 25px; padding: 15px; background: radial-gradient(circle, #0a0a0a 0%, #000 100%); box-shadow: 0 0 50px rgba(212, 175, 55, 0.3); }
+        .header { display: flex; justify-content: space-between; font-size: 9px; color: var(--gold); margin-bottom: 12px; }
+        .grid-comandos { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px; }
+        .full { grid-column: span 2; }
+        .btn-status { padding: 18px 5px; border-radius: 12px; font-size: 0.85em; font-weight: 900; border: 2px solid #1a1a1a; opacity: 0.1; color: #fff; text-transform: uppercase; }
+        .ativo-pagando { background: var(--green) !important; opacity: 1 !important; color: #000 !important; }
+        .ativo-dreno { background: #333 !important; opacity: 1 !important; border-color: var(--red) !important; }
+        .ativo-vacuo { background: var(--red) !important; opacity: 1 !important; }
+        .ativo-monitor { background: var(--orange) !important; opacity: 1 !important; }
+        .ativo-roxa { background: var(--purple) !important; opacity: 1 !important; }
+        .ativo-rosa { background: var(--pink) !important; opacity: 1 !important; }
+        .ativo-resfriar { background: var(--blue) !important; opacity: 1 !important; color: #000 !important; }
+        .monitor-voo { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 20px; border: 1px solid #222; margin: 15px 0; }
+        #displayX { font-size: 4.5em; margin: 0; font-family: 'Courier New', monospace; }
+        .pma-track { background: #000; height: 45px; border-radius: 22px; position: relative; overflow: hidden; border: 2px solid #333; margin-top: 10px; }
+        #barra { height: 100%; width: 0%; background: var(--gold); transition: width 0.05s linear; }
+        #safeLine { position: absolute; top: 0; height: 100%; width: 8px; background: #fff; box-shadow: 0 0 20px #fff; z-index: 50; }
+        .btn-ataque { background: #fff; color: #000; padding: 22px; border-radius: 18px; font-size: 1.4em; font-weight: 900; width: 100%; border: none; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <div class="omni-frame">
-        <div style="display: flex; justify-content: space-between; font-size: 9px; color: var(--gold); font-weight: bold; margin-bottom: 8px;">
-            <span>S.A. V220 // SYNC_TIMING</span>
-            <span id="relogio">00:00:00</span>
+    <div class="caixa-preta">
+        <div class="header">
+            <span>S.A. V320 // AUDIO_SCAN</span>
+            <span id="clock">00:00:00</span>
         </div>
 
-        <div id="displayX">1.00x</div>
-
-        <div class="sync-monitor">
-            <div class="s-card">DECOLAGEM<br><b id="stDecolagem">STANDBY</b></div>
-            <div class="s-card">SINCRONIA<br><b id="stSinc" style="color:var(--green)">100% MS</b></div>
-            <div class="s-card">PRESSÃO_AR<br><b id="stPressao">NULA</b></div>
-            <div class="s-card">TIPO_VELA<br><b id="stVela">---</b></div>
+        <div class="grid-comandos">
+            <div id="btnPagando" class="btn-status">SERVIDOR PAGANDO ✅</div>
+            <div id="btnDreno" class="btn-status">SERVIDOR EM DRENO ⛔</div>
+            <div id="btnVacuo" class="btn-status">VÁCUO 💀</div>
+            <div id="btnMonitor" class="btn-status">MONITORANDO ⚠️</div>
+            <div id="btnRoxa" class="btn-status">ROXA 🟣</div>
+            <div id="btnRosa" class="btn-status">ROSA 🌸</div>
+            <div id="btnResfriar" class="btn-status full">RESFRIAMENTO DO ID ❄️</div>
         </div>
 
-        <div class="status-msg" id="stMsg">AGUARDANDO IGNICÃO...</div>
-
-        <div class="v-bar">
-            <div id="targetLine" style="left: 50%;"></div>
-            <div id="barraLive"></div>
+        <div class="monitor-voo">
+            <div id="displayX">1.00x</div>
+            <div class="pma-track">
+                <div id="safeLine" style="left: 50%;"></div>
+                <div id="barra"></div>
+            </div>
+            <div id="msg" style="margin-top: 10px; font-size: 12px; font-weight: bold; color: var(--gold);">SISTEMA PRONTO</div>
         </div>
 
-        <button id="btnMain" class="btn-sync" onclick="iniciarSincro()">ATIVAR SINCRO 🔱</button>
-
-        <div style="margin-top: 15px; font-size: 9px; color: #444; font-weight: bold;">
-            IPI: 2026-SYNC-TIMING-SA | WI-FI 5G BYPASS | SERVIDOR CERCADO
-        </div>
+        <button id="scanBtn" class="btn-ataque" onclick="runV320()">AUDITAR AGORA 🔱</button>
     </div>
 
     <script>
-        let ativo = false;
-        function iniciarSincro() {
-            if(ativo) return;
-            ativo = true;
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playBip(freq, dur) {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.frequency.value = freq; osc.type = 'square';
+            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            osc.start(); osc.stop(audioCtx.currentTime + dur);
+        }
 
-            const dX = document.getElementById('displayX'), b = document.getElementById('barraLive'),
-                  stDec = document.getElementById('stDecolagem'), stPre = document.getElementById('stPressao'),
-                  stVel = document.getElementById('stVela'), stMsg = document.getElementById('stMsg'),
-                  tL = document.getElementById('targetLine');
+        let isRunning = false;
+        let streak = 0;
+
+        function runV320() {
+            if(isRunning) return;
+            isRunning = true;
+            playBip(440, 0.1); // Bip de início
+
+            const bPag = document.getElementById('btnPagando'), bDre = document.getElementById('btnDreno'),
+                  bVac = document.getElementById('btnVacuo'), bMon = document.getElementById('btnMonitor'),
+                  bRox = document.getElementById('btnRoxa'), bRos = document.getElementById('btnRosa'),
+                  dX = document.getElementById('displayX'), bar = document.getElementById('barra'),
+                  lin = document.getElementById('safeLine'), msg = document.getElementById('msg');
+
+            document.querySelectorAll('.btn-status').forEach(b => b.classList.remove('ativo-pagando','ativo-dreno','ativo-vacuo','ativo-monitor','ativo-roxa','ativo-rosa','ativo-resfriar'));
 
             let n = Math.random() * 100;
-            let crash, pressao, tipo;
+            let crash, target;
 
-            // ANALISADOR CINÉTICO DE DECOLAGEM
-            if(n < 25) { // Vácuo
-                crash = 1.0 + (Math.random() * 0.15);
-                pressao = "INSTÁVEL"; tipo = "VÁCUO";
-                stMsg.innerText = "ABORTAR: VÁCUO IDENTIFICADO!"; stMsg.style.color = "var(--red)";
-            } else if(n < 85) { // Roxa
-                crash = 2.0 + (Math.random() * 8.0);
-                pressao = "CONSTANTE"; tipo = "ROXA";
-                stMsg.innerText = "SINCRO ATIVA: BUSCAR ALVO"; stMsg.style.color = "var(--cyan)";
-            } else { // Rosa
-                crash = 10.0 + (Math.random() * 50.0);
-                pressao = "GORDURA"; tipo = "ROSA";
-                stMsg.innerText = "ALVO ROSA: CAMADA RELEVADA"; stMsg.style.color = "var(--pink)";
-                stMsg.classList.add("active-pulse");
+            if (n < 35) { 
+                bDre.classList.add('ativo-dreno'); bVac.classList.add('ativo-vacuo');
+                crash = 1.05; target = 1.01; msg.innerText = "DRENO: NÃO ENTRE!";
+            } else {
+                bPag.classList.add('ativo-pagando');
+                if (n < 85) {
+                    crash = 2.2 + (Math.random() * 5.0); target = crash * 0.48;
+                    bRox.classList.add('ativo-roxa'); msg.innerText = "PAGANDO: ROXA";
+                } else {
+                    crash = 15.0 + (Math.random() * 40.0); target = crash * 0.45;
+                    bRos.classList.add('ativo-rosa'); msg.innerText = "PAGANDO: ROSA!";
+                }
             }
 
-            stDec.innerText = "ATIVA"; stPre.innerText = pressao; stVel.innerText = tipo;
-            let target = (crash * 0.5); // Regra S.A.
-            tL.style.left = (target / crash * 100) + "%";
-            
+            lin.style.left = (target / crash * 100) + "%";
             let x = 1.00;
-            let loop = () => {
-                if(!ativo) return;
-                let jitter = 25 + Math.floor(Math.random() * 30); // Latência de milissegundos
-                x += (0.07 + (Math.random() * 0.05));
-                dX.innerText = x.toFixed(2) + "x";
-                b.style.width = (x / crash * 100) + "%";
+            let alerted = false;
 
-                if (x >= target) {
-                    b.style.background = "var(--red)";
-                    stMsg.innerText = "SAIR AGORA - SINCRO OK"; stMsg.style.color = "var(--red)";
+            let loop = () => {
+                if(!isRunning) return;
+                x += 0.08;
+                dX.innerText = x.toFixed(2) + "x";
+                bar.style.width = (x / crash * 100) + "%";
+
+                if (x >= (target - 0.20) && !alerted) {
+                    playBip(880, 0.3); // BIP DE ALERTA DE CORTE (AGUDO)
+                    msg.innerText = "SAIR AGORA! 🎯";
+                    bar.style.background = "#fff";
+                    alerted = true;
                 }
 
                 if (x >= crash) {
-                    ativo = false;
+                    isRunning = false;
                     dX.style.color = "var(--red)";
-                    stMsg.classList.remove("active-pulse");
-                    setTimeout(() => {
-                        dX.style.color = "white"; dX.innerText = "1.00x";
-                        b.style.width = "0%"; b.style.background = "var(--gold)";
-                        stMsg.innerText = "AGUARDANDO IGNICÃO..."; stMsg.style.color = "white";
-                        stDec.innerText = "STANDBY"; stPre.innerText = "NULA"; stVel.innerText = "---";
-                    }, 3000);
-                } else {
-                    setTimeout(loop, jitter);
-                }
+                    if(crash > 2.0) streak++; else streak = 0;
+                    if(streak >= 2) coolDown(); else setTimeout(reset, 3000);
+                } else { setTimeout(loop, 40); }
             };
             loop();
         }
-        setInterval(() => { document.getElementById('relogio').innerText = new Date().toLocaleTimeString(); }, 1000);
+
+        function coolDown() {
+            const msg = document.getElementById('msg'), btn = document.getElementById('scanBtn'), bRe = document.getElementById('btnResfriar');
+            bRe.classList.add('ativo-resfriar'); btn.disabled = true;
+            let s = 20;
+            let t = setInterval(() => {
+                msg.innerText = `RESFRIANDO ID: ${s}s`;
+                if(s-- < 0) { clearInterval(t); streak = 0; btn.disabled = false; reset(); }
+            }, 1000);
+        }
+
+        function reset() {
+            dX = document.getElementById('displayX');
+            dX.innerText = "1.00x"; dX.style.color = "white";
+            document.getElementById('barra').style.width = "0%";
+            document.getElementById('barra').style.background = "var(--gold)";
+            document.getElementById('msg').innerText = "SISTEMA PRONTO";
+            document.querySelectorAll('.btn-status').forEach(b => b.classList.remove('ativo-pagando','ativo-dreno','ativo-vacuo','ativo-monitor','ativo-roxa','ativo-rosa','ativo-resfriar'));
+        }
+        setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
     </script>
 </body>
 </html>
