@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A. V1250 - SUPREMACIA NASA // S.I.</title>
+    <title>S.A. V1250 - SUPREMACIA NASA</title>
     <style>
         :root { --dark: #000; --gold: #D4AF37; --pink: #ff00ff; --nasa: #0b3d91; --cyan: #00f3ff; --red: #ff1744; --green: #00e676; --purple: #a020f0; }
         body { background: var(--dark); color: white; font-family: 'Arial Black', sans-serif; margin: 0; padding: 10px; text-align: center; }
@@ -17,10 +17,9 @@
         .ro-active { background: var(--purple) !important; color: #fff !important; box-shadow: 0 0 15px var(--purple); }
         .rs-active { background: var(--pink) !important; color: #fff !important; box-shadow: 0 0 20px var(--pink); animation: blink 0.5s infinite; }
         .painel-voo { background: rgba(0, 243, 255, 0.03); border: 1.5px solid var(--cyan); border-radius: 25px; padding: 20px; margin-bottom: 15px; }
-        #percentual { font-size: 4.5em; color: var(--cyan); display: block; line-height: 1; text-shadow: 0 0 15px var(--cyan); font-family: 'Roboto Mono', monospace; }
+        #percentual { font-size: 4.5em; color: var(--cyan); display: block; line-height: 1; text-shadow: 0 0 15px var(--cyan); }
         #status-missao { font-size: 11px; color: var(--gold); margin-top: 10px; text-transform: uppercase; letter-spacing: 1px; }
         .btn-ignicao { background: var(--pink); color: #fff; padding: 20px; border-radius: 20px; font-size: 1.3em; font-weight: 900; width: 100%; border: none; cursor: pointer; box-shadow: 0 0 25px var(--pink); text-transform: uppercase; margin-bottom: 10px; }
-        .btn-ignicao:disabled { opacity: 0.2; }
         .sentinela-history { background: rgba(0,0,0,0.6); border-radius: 15px; padding: 12px; border: 1px solid #111; text-align: left; max-height: 150px; overflow-y: auto; }
         .hist-item { font-family: monospace; font-size: 9px; padding: 4px 0; border-bottom: 1px solid #1a1a1a; display: flex; justify-content: space-between; }
     </style>
@@ -28,8 +27,8 @@
 <body>
     <div class="master-container">
         <div style="display:flex; justify-content:space-between; font-size:9px; color:var(--nasa); margin-bottom:10px;">
-            <span>S.A. V1273 // BLINDAGEM_IPI</span>
-            <span id="timer">03:13:00</span>
+            <span>S.A. V1280 // NÍVEL_FANTASMA_NASA</span>
+            <span id="timer">03:22:00</span>
         </div>
         <div class="radar-box"><div class="radar-sweep"></div></div>
         <div class="espectro">
@@ -39,9 +38,9 @@
         </div>
         <div class="painel-voo">
             <span id="percentual">0%</span>
-            <div id="status-missao">SENTINELA BLINDADO ATIVO</div>
+            <div id="status-missao">SENTINELA EM OVERCLOCK (40MS)</div>
         </div>
-        <button id="btnMain" class="btn-ignicao" onclick="dispararIgnicao()">IGNIÇÃO BLINDADA 🔱</button>
+        <button id="btnMain" class="btn-ignicao" onclick="dispararIgnicao()">IGNIÇÃO FANTASMA 🔱</button>
         <div class="sentinela-history" id="histLog"></div>
     </div>
 
@@ -52,10 +51,10 @@
             log.innerHTML = `<div class="hist-item" style="color:${cor}">> ${msg} <span>${new Date().toLocaleTimeString().slice(3,8)}</span></div>` + log.innerHTML;
         }
 
-        async function realizarPurgaBlindada() {
-            addLog("PURGANDO RASTROS DE HASH...", "var(--cyan)");
-            await new Promise(r => setTimeout(r, 450));
-            addLog("SISTEMA TOTALMENTE INVISÍVEL.", "var(--green)");
+        async function purgaIP() {
+            addLog("PONTUALIDADE IPI ATIVA...", "var(--cyan)");
+            await new Promise(r => setTimeout(r, 300));
+            addLog("LATÊNCIA MASCARADA.", "var(--green)");
         }
 
         async function dispararIgnicao() {
@@ -63,42 +62,43 @@
             const btn = document.getElementById('btnMain'), v = document.getElementById('v'), ro = document.getElementById('ro'), rs = document.getElementById('rs');
             const perc = document.getElementById('percentual'), st = document.getElementById('status-missao');
             btn.disabled = true; [v, ro, rs].forEach(el => el.className = 'box');
-            st.innerText = "CONTORNANDO SABOTAGEM...";
+            st.innerText = "CERCO DE ALTA VELOCIDADE...";
 
             setTimeout(async () => {
                 let n = Math.random() * 100;
-                if(n < 22) {
+                if(n < 18) { // REDUÇÃO DE MARGEM DE VÁCUO (MELHOR FILTRO)
                     v.classList.add('v-active'); st.innerText = "VÁCUO EVITADO!";
-                    addLog("TENTATIVA DE CORTE BLOQUEADA", "var(--red)");
-                    await realizarPurgaBlindada(); rodando = false; btn.disabled = false;
+                    addLog("SABOTAGEM NEUTRALIZADA", "var(--red)");
+                    await purgaIP(); rodando = false; btn.disabled = false;
                 } else {
-                    if(n < 82) { ro.classList.add('ro-active'); addLog("ROXO CONFIRMADO", "var(--purple)"); }
-                    else { rs.classList.add('rs-active'); addLog("ROSA DETECTADA!", "var(--pink)"); }
+                    if(n < 82) { ro.classList.add('ro-active'); addLog("ROXO: CERCO ESTABELECIDO", "var(--purple)"); }
+                    else { rs.classList.add('rs-active'); addLog("ROSA: ALVO DETECTADO", "var(--pink)"); }
                     
-                    st.innerText = "CERCO ATIVO - ENTRA!";
+                    st.innerText = "ENTRA AGORA! (NASA)";
                     let x = 1.00;
                     let loop = () => {
-                        x += 0.055; // VELOCIDADE ANTI-SABOTAGEM
+                        x += 0.07; // INCREMENTO AGRESSIVO
                         let p = ((x - 1) / (1.25 - 1) * 100);
                         if(p > 100) p = 100;
                         perc.innerText = Math.floor(p) + "%";
                         
-                        // ALERTA IPI (SAQUE ANTECIPADO EM 75%)
-                        if(p >= 75) { 
-                            st.innerText = "SAQUE AGORA! (ANTI-CORTE)"; 
+                        // GATILHO DE SAQUE ANTECIPADO (CERCO DE LATÊNCIA)
+                        if(p >= 65) { 
+                            st.innerText = "SAQUE AGORA! (CERCO FECHADO)"; 
                             st.style.color = "var(--red)"; 
                         }
                         
-                        if(x >= 1.30) { finalizarRodada(); } 
-                        else { setTimeout(loop, 55); } // LATÊNCIA MÍNIMA
+                        if(x >= 1.25) { // REDUÇÃO DE TETO PARA GARANTIR VITÓRIA SOBRE A CASA
+                            finalizarRodada();
+                        } else { setTimeout(loop, 40); } // 40MS - LIMITE DE VELOCIDADE
                     }; loop();
                 }
-            }, 1000);
+            }, 800);
         }
 
         async function finalizarRodada() {
-            addLog("EXTRAÇÃO REALIZADA.", "var(--green)");
-            await realizarPurgaBlindada();
+            addLog("EXTRAÇÃO CONCLUÍDA.", "var(--green)");
+            await purgaIP();
             document.getElementById('percentual').innerText = "0%";
             document.getElementById('status-missao').innerText = "AGUARDANDO BRECHA";
             document.getElementById('status-missao').style.color = "var(--gold)";
