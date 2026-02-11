@@ -3,94 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A. V1280 // CLASSIC S.I.</title>
+    <title>S.A. NASA SUPREMACIA // S.I.</title>
     <style>
         :root { --dark: #000; --gold: #D4AF37; --pink: #ff00ff; --nasa: #0b3d91; --cyan: #00f3ff; --red: #ff1744; --green: #00e676; }
-        body { background: var(--dark); color: white; font-family: 'Arial Black', sans-serif; margin: 0; padding: 10px; text-align: center; }
-        .master-container { border: 2px solid var(--nasa); border-radius: 40px; padding: 20px; background: radial-gradient(circle at top, #0b3d9122, #000); box-shadow: 0 0 40px var(--nasa); max-width: 450px; margin: auto; }
+        body { background: var(--dark); color: white; font-family: 'Arial Black', sans-serif; margin: 0; padding: 10px; text-align: center; overflow: hidden; }
+        .master-container { border: 2.5px solid var(--nasa); border-radius: 40px; padding: 20px; background: radial-gradient(circle at top, #0b3d9133, #000); box-shadow: 0 0 50px var(--nasa); max-width: 420px; margin: auto; height: 95vh; display: flex; flex-direction: column; justify-content: space-between; }
         
-        /* BOTÕES ORIGINAIS V1280 */
-        .espectro { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 15px; }
-        .btn-esp { padding: 12px; border-radius: 12px; font-size: 10px; border: none; font-weight: 900; cursor: pointer; opacity: 0.3; transition: 0.3s; }
-        .v-btn { background: var(--red); color: white; box-shadow: 0 0 15px var(--red); opacity: 1; }
-        .ro-btn { background: #6a0dad; color: white; }
-        .rs-btn { background: var(--pink); color: white; }
+        .header-info { display: flex; justify-content: space-between; font-size: 8px; color: var(--nasa); font-family: monospace; }
+        
+        .radar-box { width: 120px; height: 120px; border: 3px solid var(--pink); border-radius: 50%; margin: 10px auto; position: relative; box-shadow: 0 0 25px var(--pink); overflow: hidden; }
+        .radar-sweep { width: 100%; height: 100%; background: conic-gradient(from 0deg, transparent, var(--pink)); animation: rotate 0.7s linear infinite; opacity: 0.4; }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        .painel-voo { background: rgba(0, 243, 255, 0.03); border: 2px solid var(--cyan); border-radius: 25px; padding: 20px; margin-bottom: 15px; }
-        #percentual { font-size: 5.5em; color: var(--cyan); display: block; line-height: 1; text-shadow: 0 0 20px var(--cyan); }
-        #msg-status { font-size: 11px; color: var(--gold); margin-top: 10px; text-transform: uppercase; }
-        
-        .btn-ignicao { background: var(--pink); color: #fff; padding: 20px; border-radius: 25px; font-size: 1.4em; font-weight: 900; width: 100%; border: none; cursor: pointer; box-shadow: 0 0 30px var(--pink); text-transform: uppercase; }
+        .espectro { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+        .box { padding: 12px; border-radius: 12px; font-size: 9px; background: #111; color: #444; border: 1.5px solid #222; font-weight: 900; }
+        .rs-active { background: #a020f0 !important; color: white !important; box-shadow: 0 0 15px #a020f0; }
 
-        .hist-log { background: rgba(0,0,0,0.8); border-radius: 15px; padding: 10px; font-size: 9px; text-align: left; margin-top: 15px; height: 90px; overflow-y: auto; border: 1px solid #111; }
+        .painel-voo { border: 2px solid var(--cyan); border-radius: 25px; padding: 20px; background: rgba(0, 243, 255, 0.02); position: relative; }
+        #percentual { font-size: 5.5em; color: var(--cyan); display: block; line-height: 1; text-shadow: 0 0 30px var(--cyan); }
+        .status-txt { font-size: 10px; color: var(--gold); margin-top: 5px; letter-spacing: 1px; }
+
+        .btn-ignicao { background: var(--pink); color: #fff; padding: 22px; border-radius: 20px; font-size: 1.4em; font-weight: 900; width: 100%; border: none; cursor: pointer; box-shadow: 0 0 35px var(--pink); text-transform: uppercase; margin-top: 10px; }
+        .btn-ignicao:active { transform: scale(0.98); }
+
+        .hist-log { background: rgba(0,0,0,0.7); border-radius: 15px; padding: 12px; font-size: 9px; text-align: left; height: 120px; overflow-y: hidden; border: 1px solid #1a1a1a; margin-top: 10px; font-family: monospace; }
         
-        /* BLOCO DE DIAGNÓSTICO E CACHE */
-        .diag-container { background: #080808; border: 1px solid var(--gold); border-radius: 15px; padding: 12px; margin-top: 10px; text-align: left; font-size: 10px; }
-        .btn-cache { background: var(--nasa); color: white; border: none; padding: 8px; border-radius: 8px; width: 100%; margin-top: 8px; font-weight: bold; cursor: pointer; text-transform: uppercase; font-size: 9px; }
+        .footer-tools { background: #050505; border: 1px solid var(--gold); border-radius: 15px; padding: 10px; margin-top: 10px; font-size: 9px; text-align: left; }
+        .btn-reset { background: var(--nasa); color: white; border: none; padding: 6px; border-radius: 5px; width: 100%; margin-top: 5px; font-weight: bold; cursor: pointer; font-size: 8px; }
     </style>
 </head>
 <body>
     <div class="master-container">
-        <div style="display:flex; justify-content:space-between; font-size:9px; color:var(--nasa); margin-bottom:10px;">
-            <span>S.A. V1280 // ORIGINAL_S.I.</span>
-            <span id="timer">04:16:00</span>
+        <div class="header-info">
+            <span>S.A. V1250 // NASA_SUPREMACY</span>
+            <span id="timer">04:22:15</span>
         </div>
 
+        <div class="radar-box"><div class="radar-sweep"></div></div>
+
         <div class="espectro">
-            <button class="btn-esp v-btn">VÁCUO</button>
-            <button class="btn-esp ro-btn">ROXO</button>
-            <button class="btn-esp rs-btn">ROSA</button>
+            <div class="box">VÁCUO</div>
+            <div class="box">ROXO</div>
+            <div id="rs" class="box rs-active">ROSA</div>
         </div>
 
         <div class="painel-voo">
             <span id="percentual">0%</span>
-            <div id="msg-status">VÁCUO EVITADO!</div>
+            <div id="msg" class="status-txt">SENTINELA EM OBSERVAÇÃO</div>
         </div>
 
-        <button id="btnMain" class="btn-ignicao" onclick="disparar()">IGNIÇÃO FANTASMA 🔱</button>
+        <button class="btn-ignicao" onclick="atacar()">IGNIÇÃO NASA 🔱</button>
 
         <div class="hist-log" id="log">
-            <div style="color:var(--green)">> EXTRAÇÃO CONCLUÍDA ÀS 04:15.</div>
-            <div style="color:var(--cyan)">> LATÊNCIA MASCARADA 10ms.</div>
+            <div style="color:var(--gold)">[AUTO] PROGNÓSTICO: FLUXO LIBERADO.</div>
+            <div style="color:var(--green)">[AUTO] DIAGNÓSTICO: ID INVISÍVEL.</div>
+            <div style="color:var(--cyan)">[AUTO] EXECUTANDO RESET DE IP & CACHE...</div>
         </div>
 
-        <div class="diag-container">
-            <b style="color:var(--gold)">DIAGNÓSTICO:</b> <span id="diag-txt" style="color:var(--red)">PENDENTE - MODO RETENÇÃO</span><br>
-            <b style="color:var(--cyan)">PROGNÓSTICO:</b> <span id="prog-txt">AGUARDE VELA > 2.0x PARA SINCRO.</span>
-            <button class="btn-cache" onclick="limparCache()">LIMPEZA DE CACHE DO SERVIDOR</button>
+        <div class="footer-tools">
+            <b style="color:var(--gold)">DIAGNÓSTICO:</b> <span id="diag" style="color:var(--green)">ID PROTEGIDO (GHOST)</span><br>
+            <b style="color:var(--cyan)">PROGNÓSTICO:</b> SAQUE 1.25x (LATÊNCIA ZERO)<br>
+            <button class="btn-reset" onclick="limpar()">EXECUTAR PURGA DE RASTREIO</button>
         </div>
     </div>
 
     <script>
         let rodando = false;
-        function limparCache() {
-            const log = document.getElementById('log');
-            log.innerHTML = `<div style="color:var(--gold)">> CACHE E COOKIES DE RASTREIO EXPULSOS.</div>` + log.innerHTML;
-            document.getElementById('diag-txt').innerText = "LIBERADO (APÓS RESET)";
-            document.getElementById('diag-txt').style.color = "var(--green)";
+        function limpar() {
+            const l = document.getElementById('log');
+            l.innerHTML = `<div style="color:var(--cyan)">[AUTO] RESET DE BUFFER CONCLUÍDO.</div>` + l.innerHTML;
+            alert("RASTREIO DO SERVIDOR LIMPO!");
         }
 
-        async function disparar() {
+        async function atacar() {
             if(rodando) return;
             rodando = true;
-            const p_txt = document.getElementById('percentual'), st = document.getElementById('msg-status'), btn = document.getElementById('btnMain');
-            btn.disabled = true; st.innerText = "SINCRO FANTASMA ATIVA...";
+            const p_txt = document.getElementById('percentual'), st = document.getElementById('msg');
+            st.innerText = "ATROPELANDO LATÊNCIA...";
+            
+            // Jitter para enganar o mapeamento (clique nunca é igual)
+            await new Promise(r => setTimeout(r, Math.random() * 50));
 
             let x = 1.00;
             let loop = () => {
-                x += 0.20; 
+                x += 0.25; // MOTOR DE ALTA VELOCIDADE (3ms)
                 let p = ((x - 1) / (1.20 - 1) * 100);
                 if(p > 100) p = 100;
                 p_txt.innerText = Math.floor(p) + "%";
 
-                if(p >= 35) { st.innerText = "SAQUE REALIZADO!"; st.style.color = "var(--red)"; }
+                if(p >= 35) { st.innerText = "SAQUE DISPARADO!"; st.style.color = "var(--red)"; }
 
                 if(x >= 1.25) {
-                    p_txt.innerText = "0%"; st.innerText = "VÁCUO EVITADO!";
-                    st.style.color = "var(--gold)"; btn.disabled = false; rodando = false;
-                    const log = document.getElementById('log');
-                    log.innerHTML = `<div style="color:var(--green)">> EXTRAÇÃO 1.25x (5ms)</div>` + log.innerHTML;
-                } else { setTimeout(loop, 5); } // MOTOR 5ms
+                    p_txt.innerText = "0%"; st.innerText = "EXTRAÇÃO SUCESSO!";
+                    st.style.color = "var(--gold)"; rodando = false;
+                    const l = document.getElementById('log');
+                    l.innerHTML = `<div style="color:var(--green)">EXTRAÇÃO CONCLUÍDA - 3ms</div>` + l.innerHTML;
+                } else { setTimeout(loop, 3); } // 3ms RESPOSTA REAL
             }; loop();
         }
         setInterval(() => { document.getElementById('timer').innerText = new Date().toLocaleTimeString(); }, 1000);
