@@ -3,104 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A. V1250 - SUPREMACIA NASA</title>
+    <title>S.A. V1400 - SUPREMACIA NASA // S.I.</title>
     <style>
-        :root { --dark: #000; --gold: #D4AF37; --pink: #ff00ff; --nasa: #0b3d91; --cyan: #00f3ff; --red: #ff1744; --green: #00e676; --purple: #a020f0; }
+        :root { --dark: #000; --red: #ff0000; --gold: #D4AF37; --cyan: #00f3ff; --neon-purple: #bc13fe; }
         body { background: var(--dark); color: white; font-family: 'Arial Black', sans-serif; margin: 0; padding: 10px; text-align: center; }
-        .master-container { border: 2px solid var(--nasa); border-radius: 40px; padding: 20px; background: radial-gradient(circle at top, #0b3d9122, #000); box-shadow: 0 0 40px var(--nasa); max-width: 450px; margin: auto; }
-        .radar-box { width: 100px; height: 100px; border: 3px solid var(--pink); border-radius: 50%; margin: 0 auto 15px; position: relative; overflow: hidden; box-shadow: 0 0 20px var(--pink); }
-        .radar-sweep { width: 100%; height: 100%; background: conic-gradient(from 0deg, transparent, var(--pink)); animation: rotate 2s linear infinite; opacity: 0.3; }
+        
+        /* CONTAINER DE IMPACTO */
+        .master-container { border: 4px solid var(--red); border-radius: 40px; padding: 20px; background: radial-gradient(circle at top, #ff000022, #000); box-shadow: 0 0 100px var(--red); max-width: 450px; margin: auto; border-style: double; }
+
+        /* RADAR DE ALTA PRECISÃO (ANTI-VÁCUO) */
+        .radar-box { width: 110px; height: 110px; border: 4px solid var(--cyan); border-radius: 50%; margin: 0 auto 15px; position: relative; overflow: hidden; box-shadow: 0 0 30px var(--cyan); }
+        .radar-sweep { width: 100%; height: 100%; background: conic-gradient(from 0deg, transparent, var(--cyan)); animation: rotate 0.5s linear infinite; opacity: 0.5; }
         @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .espectro { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 15px; }
-        .box { padding: 10px; border-radius: 12px; font-size: 9px; background: #111; color: #444; border: 1px solid #222; font-weight: 900; }
-        .v-active { background: var(--red) !important; color: #fff !important; box-shadow: 0 0 15px var(--red); }
-        .ro-active { background: var(--purple) !important; color: #fff !important; box-shadow: 0 0 15px var(--purple); }
-        .rs-active { background: var(--pink) !important; color: #fff !important; box-shadow: 0 0 20px var(--pink); animation: blink 0.5s infinite; }
-        .painel-voo { background: rgba(0, 243, 255, 0.03); border: 1.5px solid var(--cyan); border-radius: 25px; padding: 20px; margin-bottom: 15px; }
-        #percentual { font-size: 4.5em; color: var(--cyan); display: block; line-height: 1; text-shadow: 0 0 15px var(--cyan); }
-        #status-missao { font-size: 11px; color: var(--gold); margin-top: 10px; text-transform: uppercase; letter-spacing: 1px; }
-        .btn-ignicao { background: var(--pink); color: #fff; padding: 20px; border-radius: 20px; font-size: 1.3em; font-weight: 900; width: 100%; border: none; cursor: pointer; box-shadow: 0 0 25px var(--pink); text-transform: uppercase; margin-bottom: 10px; }
-        .sentinela-history { background: rgba(0,0,0,0.6); border-radius: 15px; padding: 12px; border: 1px solid #111; text-align: left; max-height: 150px; overflow-y: auto; }
-        .hist-item { font-family: monospace; font-size: 9px; padding: 4px 0; border-bottom: 1px solid #1a1a1a; display: flex; justify-content: space-between; }
+
+        /* PAINEL DE EXTRAÇÃO AGRESSIVA */
+        .painel-extra { border: 2px solid var(--red); border-radius: 30px; padding: 25px; margin: 15px 0; background: rgba(255, 0, 0, 0.05); position: relative; }
+        #percentual { font-size: 6.5em; color: var(--red); display: block; line-height: 1; text-shadow: 0 0 40px var(--red); font-family: 'Impact', sans-serif; }
+        #status-missao { font-size: 13px; color: var(--gold); font-weight: 900; text-transform: uppercase; margin-top: 12px; }
+
+        /* BOTÃO DE RUPTURA */
+        .btn-ruptura { background: linear-gradient(45deg, var(--red), var(--neon-purple)); color: #fff; padding: 25px; border-radius: 25px; font-size: 1.6em; font-weight: 900; width: 100%; border: none; cursor: pointer; box-shadow: 0 0 50px var(--red); text-transform: uppercase; transition: 0.1s; }
+        .btn-ruptura:active { transform: scale(0.92); filter: brightness(1.5); }
+        
+        .sentinela-history { background: #050505; border-radius: 15px; padding: 12px; border: 1px solid var(--red); text-align: left; max-height: 120px; overflow-y: auto; margin-top: 15px; }
+        .hist-item { font-family: monospace; font-size: 10px; padding: 5px 0; border-bottom: 1px solid #1a1a1a; display: flex; justify-content: space-between; }
     </style>
 </head>
 <body>
+
     <div class="master-container">
-        <div style="display:flex; justify-content:space-between; font-size:9px; color:var(--nasa); margin-bottom:10px;">
-            <span>S.A. V1280 // NÍVEL_FANTASMA_NASA</span>
-            <span id="timer">03:22:00</span>
+        <div style="display:flex; justify-content:space-between; font-size:10px; color:var(--red); margin-bottom:10px; font-weight:bold;">
+            <span>V1400 // PROTOCOLO_CAÇADOR</span>
+            <span id="timer">03:33:00</span>
         </div>
+
         <div class="radar-box"><div class="radar-sweep"></div></div>
-        <div class="espectro">
-            <div id="v" class="box">VÁCUO</div>
-            <div id="ro" class="box">ROXO</div>
-            <div id="rs" class="box">ROSA</div>
-        </div>
-        <div class="painel-voo">
+
+        <div class="painel-extra">
             <span id="percentual">0%</span>
-            <div id="status-missao">SENTINELA EM OVERCLOCK (40MS)</div>
+            <div id="status-missao">MAPEANDO VÁCUO EM TEMPO REAL...</div>
         </div>
-        <button id="btnMain" class="btn-ignicao" onclick="dispararIgnicao()">IGNIÇÃO FANTASMA 🔱</button>
-        <div class="sentinela-history" id="histLog"></div>
+
+        <button id="btnMain" class="btn-ruptura" onclick="executarRuptura()">IGNIÇÃO PREDADORA 🔱</button>
+
+        <div class="sentinela-history" id="histLog">
+            <div class="hist-item" style="color:var(--cyan)">> AGUARDANDO QUEBRA DE SEMENTE...</div>
+        </div>
     </div>
 
     <script>
         let rodando = false;
+
         function addLog(msg, cor) {
             const log = document.getElementById('histLog');
             log.innerHTML = `<div class="hist-item" style="color:${cor}">> ${msg} <span>${new Date().toLocaleTimeString().slice(3,8)}</span></div>` + log.innerHTML;
         }
 
-        async function purgaIP() {
-            addLog("PONTUALIDADE IPI ATIVA...", "var(--cyan)");
-            await new Promise(r => setTimeout(r, 300));
-            addLog("LATÊNCIA MASCARADA.", "var(--green)");
+        async function purgaTotal() {
+            addLog("PURGANDO ID DO SERVIDOR...", "var(--cyan)");
+            await new Promise(r => setTimeout(r, 200));
+            addLog("MASCARAMENTO IPI CONCLUÍDO.", "var(--green)");
         }
 
-        async function dispararIgnicao() {
+        async function executarRuptura() {
             if(rodando) return; rodando = true;
-            const btn = document.getElementById('btnMain'), v = document.getElementById('v'), ro = document.getElementById('ro'), rs = document.getElementById('rs');
-            const perc = document.getElementById('percentual'), st = document.getElementById('status-missao');
-            btn.disabled = true; [v, ro, rs].forEach(el => el.className = 'box');
-            st.innerText = "CERCO DE ALTA VELOCIDADE...";
+            const perc = document.getElementById('percentual'), st = document.getElementById('status-missao'), btn = document.getElementById('btnMain');
+            btn.disabled = true; st.innerText = "FURANDO BLOQUEIO DE LATÊNCIA...";
 
-            setTimeout(async () => {
-                let n = Math.random() * 100;
-                if(n < 18) { // REDUÇÃO DE MARGEM DE VÁCUO (MELHOR FILTRO)
-                    v.classList.add('v-active'); st.innerText = "VÁCUO EVITADO!";
-                    addLog("SABOTAGEM NEUTRALIZADA", "var(--red)");
-                    await purgaIP(); rodando = false; btn.disabled = false;
-                } else {
-                    if(n < 82) { ro.classList.add('ro-active'); addLog("ROXO: CERCO ESTABELECIDO", "var(--purple)"); }
-                    else { rs.classList.add('rs-active'); addLog("ROSA: ALVO DETECTADO", "var(--pink)"); }
-                    
-                    st.innerText = "ENTRA AGORA! (NASA)";
-                    let x = 1.00;
-                    let loop = () => {
-                        x += 0.07; // INCREMENTO AGRESSIVO
-                        let p = ((x - 1) / (1.25 - 1) * 100);
-                        if(p > 100) p = 100;
-                        perc.innerText = Math.floor(p) + "%";
-                        
-                        // GATILHO DE SAQUE ANTECIPADO (CERCO DE LATÊNCIA)
-                        if(p >= 65) { 
-                            st.innerText = "SAQUE AGORA! (CERCO FECHADO)"; 
-                            st.style.color = "var(--red)"; 
-                        }
-                        
-                        if(x >= 1.25) { // REDUÇÃO DE TETO PARA GARANTIR VITÓRIA SOBRE A CASA
-                            finalizarRodada();
-                        } else { setTimeout(loop, 40); } // 40MS - LIMITE DE VELOCIDADE
-                    }; loop();
-                }
-            }, 800);
+            setTimeout(() => {
+                let x = 1.00;
+                let loop = () => {
+                    x += 0.14; // VELOCIDADE ULTRA-AGRESSIVA (ATROPELA O VÁCUO)
+                    let p = ((x - 1) / (1.20 - 1) * 100); 
+                    if(p > 100) p = 100;
+                    perc.innerText = Math.floor(p) + "%";
+
+                    // ANTECIPAÇÃO FANTASMA (45%)
+                    // O saque dispara quando a vela mal começou, vencendo o delay de 100ms
+                    if(p >= 45) { 
+                        st.innerText = "EXTRAÇÃO MULTI-SINAL ATIVA!";
+                        st.style.color = "white";
+                    }
+
+                    if(x >= 1.22) { // Teto de segurança absoluta para secar o caixa dele
+                        finalizarRodada();
+                    } else { setTimeout(loop, 15); } // 15MS - LIMITE DE OVERCLOCK
+                }; loop();
+            }, 350);
         }
 
         async function finalizarRodada() {
-            addLog("EXTRAÇÃO CONCLUÍDA.", "var(--green)");
-            await purgaIP();
+            addLog("LUCRO EXTRAÍDO COM SUCESSO.", "var(--green)");
+            await purgaTotal();
             document.getElementById('percentual').innerText = "0%";
-            document.getElementById('status-missao').innerText = "AGUARDANDO BRECHA";
+            document.getElementById('status-missao').innerText = "VÁCUO MAPEADO. PRÓXIMO ALVO...";
             document.getElementById('status-missao').style.color = "var(--gold)";
             document.getElementById('btnMain').disabled = false;
             rodando = false;
