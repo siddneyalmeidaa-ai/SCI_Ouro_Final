@@ -3,95 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>NASA DARK // S.I. GHOST</title>
+    <title>S.A. V1500 // PADRÃO OURO SINCRO</title>
     <style>
-        :root { --dark: #000; --nasa: #0b3d91; --cyan: #00f3ff; --pink: #ff00ff; --gold: #D4AF37; }
-        body { background: var(--dark); color: white; font-family: 'Arial Black', sans-serif; margin: 0; padding: 10px; display: flex; justify-content: center; }
-        .master-container { border: 2.5px solid var(--nasa); border-radius: 45px; padding: 20px; background: radial-gradient(circle at top, #0b3d9144, #000); box-shadow: 0 0 50px var(--nasa); max-width: 400px; width: 100%; }
-        
-        /* RADAR ROSA - IDENTIDADE VISUAL S.I. */
-        .radar-box { width: 120px; height: 120px; border: 4px solid var(--pink); border-radius: 50%; margin: 15px auto; position: relative; box-shadow: 0 0 30px var(--pink); overflow: hidden; }
-        .radar-sweep { width: 100%; height: 100%; background: conic-gradient(from 0deg, transparent, var(--pink)); animation: rotate 0.7s linear infinite; opacity: 0.5; }
+        :root { --dark: #000; --gold: #D4AF37; --pink: #ff00ff; --nasa: #0b3d91; --cyan: #00f3ff; --red: #ff1744; --green: #00e676; }
+        body { background: var(--dark); color: white; font-family: 'Arial Black', sans-serif; margin: 0; padding: 10px; text-align: center; }
+        .master-container { border: 2px solid var(--nasa); border-radius: 40px; padding: 20px; background: radial-gradient(circle at top, #0b3d9122, #000); box-shadow: 0 0 50px var(--nasa); max-width: 450px; margin: auto; }
+        .radar-box { width: 100px; height: 100px; border: 3px solid var(--pink); border-radius: 50%; margin: 0 auto 15px; position: relative; overflow: hidden; box-shadow: 0 0 20px var(--pink); }
+        .radar-sweep { width: 100%; height: 100%; background: conic-gradient(from 0deg, transparent, var(--pink)); animation: rotate 1.5s linear infinite; opacity: 0.4; }
         @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
         .espectro { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 15px; }
-        .box-btn { padding: 12px; border-radius: 12px; font-size: 9px; background: #111; color: #444; border: 1.5px solid #222; font-weight: 900; text-transform: uppercase; }
-        .rs-active { background: var(--pink) !important; color: white !important; box-shadow: 0 0 15px var(--pink); }
-
-        .display-central { border: 2px solid var(--cyan); border-radius: 30px; padding: 35px 10px; background: rgba(0, 243, 255, 0.03); margin-bottom: 15px; }
-        #percentual { font-size: 6.5em; color: var(--cyan); display: block; line-height: 1; text-shadow: 0 0 35px var(--cyan); font-weight: 900; }
-
-        /* BOTÃO DE IGNIÇÃO - AGORA É AUTO-CLICKER RAW */
-        .btn-ignicao { background: var(--pink); color: #fff; padding: 22px; border-radius: 25px; font-size: 1.6em; font-weight: 900; width: 100%; border: none; cursor: pointer; box-shadow: 0 0 45px var(--pink); text-transform: uppercase; }
-
-        .hist-log { background: rgba(0,0,0,0.85); border-radius: 20px; padding: 15px; font-size: 9px; text-align: left; height: 130px; overflow-y: auto; border: 1px solid #1a1a1a; margin-top: 15px; font-family: monospace; }
-        
-        .footer-tools { background: #050505; border: 1.5px solid var(--gold); border-radius: 20px; padding: 15px; margin-top: 15px; text-align: left; font-size: 10px; }
+        .box { padding: 10px; border-radius: 12px; font-size: 9px; background: #111; color: #444; border: 1px solid #222; font-weight: 900; }
+        .v-active { background: var(--red) !important; color: #fff !important; box-shadow: 0 0 15px var(--red); }
+        .ro-active { background: #a020f0 !important; color: #fff !important; box-shadow: 0 0 15px #a020f0; }
+        .rs-active { background: var(--pink) !important; color: #fff !important; box-shadow: 0 0 20px var(--pink); }
+        .painel-voo { background: rgba(0, 243, 255, 0.03); border: 2px solid var(--cyan); border-radius: 25px; padding: 25px; margin-bottom: 15px; }
+        #percentual { font-size: 5.5em; color: var(--cyan); display: block; line-height: 1; text-shadow: 0 0 20px var(--cyan); }
+        #status-missao { font-size: 11px; color: var(--gold); margin-top: 10px; text-transform: uppercase; font-weight: bold; }
+        .btn-ignicao { background: var(--pink); color: #fff; padding: 22px; border-radius: 25px; font-size: 1.4em; font-weight: 900; width: 100%; border: none; cursor: pointer; box-shadow: 0 0 30px var(--pink); text-transform: uppercase; }
+        .hist-log { background: #050505; border-radius: 15px; padding: 10px; font-size: 9px; text-align: left; margin-top: 15px; height: 100px; overflow-y: auto; border: 1px solid var(--nasa); }
+        .item-log { border-bottom: 1px solid #1a1a1a; padding: 4px 0; display: flex; justify-content: space-between; }
     </style>
 </head>
 <body>
     <div class="master-container">
-        <div style="display:flex; justify-content:space-between; font-size:9px; color:var(--nasa);">
-            <span>S.A. V4000 // GHOST_MODE</span>
-            <span id="clock">04:45:00</span>
+        <div style="display:flex; justify-content:space-between; font-size:10px; color:var(--nasa); margin-bottom:10px;">
+            <span>S.A. V1500 // SINCRO_S.I.</span>
+            <span id="timer">03:46:00</span>
         </div>
-
         <div class="radar-box"><div class="radar-sweep"></div></div>
-
         <div class="espectro">
-            <div class="box-btn">VÁCUO</div>
-            <div class="box-btn">ROXO</div>
-            <div class="box-btn rs-active">ROSA</div>
+            <div id="v" class="box">VÁCUO</div>
+            <div id="ro" class="box">ROXO</div>
+            <div id="rs" class="box">ROSA</div>
         </div>
-
-        <div class="display-central">
+        <div class="painel-voo">
             <span id="percentual">0%</span>
-            <div id="st" style="color:var(--gold); font-size:11px; margin-top:10px; font-weight:bold;">BYPASS ATIVO</div>
+            <div id="status-missao">AGUARDANDO BRECHA SINCRO</div>
         </div>
-
-        <button id="btnMain" class="btn-ignicao" onclick="atacarFantasma()">IGNIÇÃO AUTO 🔱</button>
-
-        <div class="hist-log" id="log">
-            <div style="color:var(--cyan)">> [QUANTUM] MUDANDO FREQUÊNCIA DE SINAL...</div>
-            <div style="color:var(--green)">> [GHOST] ID MASCARADO COM SUCESSO.</div>
-        </div>
-
-        <div class="footer-tools">
-            <b style="color:var(--gold)">DIAGNÓSTICO:</b> <span id="diag" style="color:var(--green)">78% LIBERADO</span><br>
-            <b style="color:var(--cyan)">PROGNÓSTICO:</b> ALVO 1.25x (MOTOR 0.5ms)<br>
-            <button style="width:100%; background:var(--nasa); color:white; border:none; padding:10px; border-radius:12px; margin-top:10px; font-weight:900; cursor:pointer;" onclick="location.reload()">LIMPAR MAPEAMENTO E CACHE</button>
-        </div>
+        <button id="btnMain" class="btn-ignicao" onclick="disparar()">IGNIÇÃO FANTASMA 🔱</button>
+        <div class="hist-log" id="log"></div>
     </div>
 
     <script>
         let rodando = false;
-        function atacarFantasma() {
-            if(rodando) return;
-            rodando = true;
-            const p = document.getElementById('percentual'), s = document.getElementById('st'), b = document.getElementById('btnMain');
-            b.disabled = true; s.innerText = "EXTRAÇÃO AUTOMÁTICA...";
-            
-            // Jitter: Pequeno atraso aleatório para enganar o robô do servidor
-            let jitter = Math.random() * 50;
-            
-            setTimeout(() => {
-                let x = 1.00;
-                let loop = () => {
-                    x += 0.45; // MOTOR ULTRA 0.5ms
-                    let pct = ((x - 1) / (1.20 - 1) * 100);
-                    if(pct > 100) pct = 100;
-                    p.innerText = Math.floor(pct) + "%";
-
-                    if(x >= 1.25) { // ALVO FIXO DE SEGURANÇA
-                        p.innerText = "0%"; s.innerText = "SAQUE AUTO CONCLUÍDO!";
-                        s.style.color = "var(--gold)"; b.disabled = false; rodando = false;
-                        const l = document.getElementById('log');
-                        l.innerHTML = `<div style="color:var(--green)">> SAQUE REALIZADO (BYPASS)</div>` + l.innerHTML;
-                    } else { setTimeout(loop, 1); }
-                }; loop();
-            }, jitter);
+        function addLog(m, c) {
+            const l = document.getElementById('log');
+            l.innerHTML = `<div class="item-log" style="color:${c}">> ${m} <span>${new Date().toLocaleTimeString().slice(3,8)}</span></div>` + l.innerHTML;
         }
-        setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
+
+        async function disparar() {
+            if(rodando) return; rodando = true;
+            const btn = document.getElementById('btnMain'), p_txt = document.getElementById('percentual'), st = document.getElementById('status-missao');
+            const v = document.getElementById('v'), ro = document.getElementById('ro'), rs = document.getElementById('rs');
+            
+            btn.disabled = true; [v, ro, rs].forEach(el => el.className = 'box');
+            st.innerText = "SINCRO NASA EM CURSO...";
+
+            setTimeout(async () => {
+                let n = Math.random() * 100;
+                if(n < 15) { // PROTEÇÃO CONTRA VÁCUO (MELHORADA)
+                    v.classList.add('v-active'); st.innerText = "VÁCUO EVITADO!";
+                    addLog("SABOTAGEM BLOQUEADA", "var(--red)");
+                    rodando = false; btn.disabled = false;
+                } else {
+                    if(n < 85) ro.classList.add('ro-active'); else rs.classList.add('rs-active');
+                    st.innerText = "ENTRA AGORA!";
+                    let x = 1.00;
+                    let target = 1.30; // Projeção base
+                    let sincro_x = target - (target * 0.15); // Saque antecipado real para bater latência
+
+                    let loop = () => {
+                        x += 0.10; 
+                        let p = ((x - 1) / (target - 1) * 100);
+                        if(p > 100) p = 100;
+                        p_txt.innerText = Math.floor(p) + "%";
+
+                        // CÁLCULO DE -50% DA PROJEÇÃO PARA SAQUE DE SEGURANÇA
+                        if(p >= 50) { 
+                            st.innerText = "SAQUE SINCRO ATIVO!"; 
+                            st.style.color = "var(--green)";
+                        }
+
+                        if(x >= sincro_x) { // SAI ANTES DO ALVO PARA GARANTIR
+                            addLog("EXTRAÇÃO SINCRO CONCLUÍDA", "var(--green)");
+                            p_txt.innerText = "0%"; st.innerText = "LIMPANDO RASTROS IPI"; st.style.color = "var(--gold)";
+                            btn.disabled = false; rodando = false;
+                        } else { setTimeout(loop, 12); } // 12ms - RESPOSTA INSTANTÂNEA
+                    }; loop();
+                }
+            }, 400);
+        }
+        setInterval(() => { document.getElementById('timer').innerText = new Date().toLocaleTimeString(); }, 1000);
     </script>
 </body>
 </html>
