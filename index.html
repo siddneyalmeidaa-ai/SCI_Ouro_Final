@@ -3,76 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>NASA SUPREMACY // FINAL RECOVERY</title>
+    <title>NASA SUPREMACY // S.I. ELITE</title>
     <style>
-        :root { --dark: #000; --gold: #D4AF37; --pink: #ff00ff; --nasa: #0b3d91; --cyan: #00f3ff; --red: #ff1744; --green: #00e676; }
-        body { background: var(--dark); color: white; font-family: 'Arial Black', sans-serif; margin: 0; padding: 10px; text-align: center; }
-        .master-container { border: 3px solid var(--nasa); border-radius: 40px; padding: 20px; background: radial-gradient(circle at top, #0b3d9144, #000); box-shadow: 0 0 60px var(--nasa); max-width: 420px; margin: auto; }
+        :root { --dark: #000; --nasa: #0b3d91; --cyan: #00f3ff; --pink: #ff00ff; --gold: #D4AF37; --red: #ff1744; --green: #00e676; }
+        body { background: var(--dark); color: white; font-family: 'Arial Black', sans-serif; margin: 0; padding: 10px; display: flex; justify-content: center; }
+        .master-container { border: 2.5px solid var(--nasa); border-radius: 45px; padding: 20px; background: radial-gradient(circle at top, #0b3d9144, #000); box-shadow: 0 0 50px var(--nasa); max-width: 400px; width: 100%; position: relative; }
         
-        .espectro { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 15px 0; }
-        .box { padding: 12px; border-radius: 12px; font-size: 9px; background: #111; color: #666; border: 1.5px solid #222; font-weight: 900; cursor: pointer; }
-        .v-active { background: var(--red) !important; color: white !important; box-shadow: 0 0 15px var(--red); }
-        .ro-active { background: #6a0dad !important; color: white !important; box-shadow: 0 0 15px #6a0dad; }
-        .rs-active { background: var(--pink) !important; color: white !important; box-shadow: 0 0 15px var(--pink); }
-
-        .painel-voo { border: 2px solid var(--cyan); border-radius: 25px; padding: 25px; background: rgba(0, 243, 255, 0.05); }
-        #percentual { font-size: 6em; color: var(--cyan); display: block; line-height: 1; text-shadow: 0 0 30px var(--cyan); }
+        .header-top { display: flex; justify-content: space-between; font-size: 8px; color: var(--nasa); margin-bottom: 10px; font-family: monospace; }
         
-        .btn-ignicao { background: var(--pink); color: #fff; padding: 20px; border-radius: 25px; font-size: 1.5em; font-weight: 900; width: 100%; border: none; cursor: pointer; box-shadow: 0 0 40px var(--pink); margin-top: 15px; }
+        /* RADAR CIRCULAR NASA */
+        .radar-box { width: 120px; height: 120px; border: 4px solid var(--pink); border-radius: 50%; margin: 15px auto; position: relative; box-shadow: 0 0 30px var(--pink); overflow: hidden; }
+        .radar-sweep { width: 100%; height: 100%; background: conic-gradient(from 0deg, transparent, var(--pink)); animation: rotate 0.8s linear infinite; opacity: 0.5; }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        .diag-box { background: #050505; border: 1.5px solid var(--gold); border-radius: 20px; padding: 15px; margin-top: 15px; text-align: left; font-size: 10px; }
-        .btn-emergency { background: var(--red); color: white; border: none; padding: 10px; border-radius: 10px; width: 100%; margin-top: 10px; font-weight: 900; cursor: pointer; text-transform: uppercase; }
+        /* BOTÕES DE ESPECTRO S.I. */
+        .espectro { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 15px; }
+        .box-btn { padding: 12px; border-radius: 12px; font-size: 9px; background: #111; color: #444; border: 1.5px solid #222; font-weight: 900; cursor: pointer; text-transform: uppercase; }
+        .v-active { background: #1a1a1a !important; color: #555 !important; border-color: #333; }
+        .ro-active { background: #6a0dad !important; color: white !important; box-shadow: 0 0 15px #6a0dad; border-color: #a020f0; }
+        .rs-active { background: var(--pink) !important; color: white !important; box-shadow: 0 0 15px var(--pink); border-color: #ff69b4; }
+
+        .display-central { border: 2px solid var(--cyan); border-radius: 30px; padding: 30px 10px; background: rgba(0, 243, 255, 0.03); margin-bottom: 15px; box-shadow: inset 0 0 20px rgba(0,243,255,0.1); }
+        #percentual { font-size: 6.5em; color: var(--cyan); display: block; line-height: 1; text-shadow: 0 0 30px var(--cyan); font-weight: 900; }
+        .status-msg { font-size: 11px; color: var(--gold); margin-top: 10px; letter-spacing: 2px; font-weight: bold; }
+
+        .btn-ignicao { background: var(--pink); color: #fff; padding: 22px; border-radius: 25px; font-size: 1.6em; font-weight: 900; width: 100%; border: none; cursor: pointer; box-shadow: 0 0 40px var(--pink); text-transform: uppercase; margin-top: 5px; }
+
+        /* HISTÓRICO NASA ORIGINAL */
+        .hist-log { background: rgba(0,0,0,0.85); border-radius: 20px; padding: 15px; font-size: 9px; text-align: left; height: 130px; overflow-y: auto; border: 1px solid #1a1a1a; margin-top: 15px; font-family: monospace; }
+        .log-entry { display: flex; justify-content: space-between; margin-bottom: 4px; border-bottom: 1px solid #111; padding-bottom: 2px; }
+
+        .footer-tools { background: #050505; border: 1.5px solid var(--gold); border-radius: 20px; padding: 15px; margin-top: 15px; text-align: left; font-size: 10px; }
+        .btn-purga { background: var(--nasa); color: white; border: none; padding: 10px; border-radius: 12px; width: 100%; margin-top: 10px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 9px; letter-spacing: 1px; }
     </style>
 </head>
 <body>
     <div class="master-container">
-        <div style="font-size:10px; color:var(--nasa); margin-bottom:10px;">NASA SUPREMACY // V1800_RAW</div>
-
-        <div class="espectro">
-            <div id="v" class="box" onclick="setMode('v')">VÁCUO</div>
-            <div id="ro" class="box" onclick="setMode('ro')">ROXO</div>
-            <div id="rs" class="box rs-active" onclick="setMode('rs')">ROSA</div>
+        <div class="header-top">
+            <span>S.A. V1250 // NASA_SUPREMACY</span>
+            <span id="clock">04:30:00</span>
         </div>
 
-        <div class="painel-voo">
+        <div class="radar-box"><div class="radar-sweep"></div></div>
+
+        <div class="espectro">
+            <div id="v" class="box-btn" onclick="setM('v')">VÁCUO</div>
+            <div id="ro" class="box-btn ro-active" onclick="setM('ro')">ROXO</div>
+            <div id="rs" class="box-btn" onclick="setM('rs')">ROSA</div>
+        </div>
+
+        <div class="display-central">
             <span id="percentual">0%</span>
-            <div id="st" style="color:var(--gold); font-size:10px;">SISTEMA ONLINE</div>
+            <div id="st" class="status-msg">SENTINELA EM OBSERVAÇÃO</div>
         </div>
 
         <button class="btn-ignicao" onclick="atacar()">IGNIÇÃO NASA 🔱</button>
 
-        <div class="diag-box">
-            <b style="color:var(--gold)">DIAGNÓSTICO:</b> <span id="diag" style="color:var(--green)">100% LIBERADO</span><br>
-            <b style="color:var(--cyan)">PROGNÓSTICO:</b> SAQUE 1.25x (MOTOR 2ms)<br>
-            <button class="btn-emergency" onclick="resetForced()">RESET FORÇADO DE SESSÃO</button>
+        <div class="hist-log" id="log">
+            <div class="log-entry" style="color:var(--cyan)"><span>> [SISTEMA] MOTOR 2ms RAW INJETADO</span><span>OK</span></div>
+            <div class="log-entry" style="color:var(--green)"><span>> [SISTEMA] MÁSCARA FANTASMA ATIVA</span><span>ONLINE</span></div>
+            <div class="log-entry" style="color:var(--gold)"><span>> DIAGNÓSTICO: ID PROTEGIDO</span><span>100%</span></div>
+        </div>
+
+        <div class="footer-tools">
+            <b style="color:var(--gold)">DIAGNÓSTICO:</b> <span id="diag" style="color:var(--green)">LIBERADO</span> [cite: 2026-01-12]<br>
+            <b style="color:var(--cyan)">PROGNÓSTICO:</b> SAQUE 1.25x (LATÊNCIA ZERO)<br>
+            <button class="btn-purga" onclick="purga()">EXECUTAR PURGA DE RASTREIO</button>
         </div>
     </div>
 
     <script>
-        let r = false;
-        function setMode(m){
-            document.querySelectorAll('.box').forEach(b => b.className = 'box');
-            document.getElementById(m).className = 'box ' + m + '-active';
+        let act = false;
+        function setM(m){
+            document.querySelectorAll('.box-btn').forEach(b => b.className = 'box-btn');
+            document.getElementById(m).className = 'box-btn ' + m + '-active';
         }
-        function resetForced() {
-            window.location.reload(); // Única forma de quebrar o congelamento de buffer do servidor
+
+        function purga() {
+            const l = document.getElementById('log');
+            const h = new Date().toLocaleTimeString().slice(3, 8);
+            l.innerHTML = `<div class="log-entry" style="color:var(--gold)"><span>> [AUTO] CACHE & ID PURGADOS</span><span>${h}</span></div>` + l.innerHTML;
         }
+
         async function atacar() {
-            if(r) return; r = true;
-            const p = document.getElementById('percentual'), s = document.getElementById('st');
-            s.innerText = "ESTRAÇALHANDO LATÊNCIA...";
+            if(act) return; act = true;
+            const p = document.getElementById('percentual'), s = document.getElementById('st'), btn = document.querySelector('.btn-ignicao');
+            btn.disabled = true; s.innerText = "ROMPENDO LATÊNCIA...";
+            
             let x = 1.00;
             let loop = () => {
-                x += 0.28; // MOTOR MÁXIMO (2ms)
+                x += 0.28; // MOTOR 2ms (VELOCIDADE MÁXIMA)
                 let pct = ((x - 1) / (1.20 - 1) * 100);
                 if(pct > 100) pct = 100;
                 p.innerText = Math.floor(pct) + "%";
+
+                if(pct >= 30) { s.innerText = "SAQUE FANTASMA!"; s.style.color = "var(--red)"; }
+
                 if(x >= 1.25) {
                     p.innerText = "0%"; s.innerText = "EXTRAÇÃO SUCESSO!";
-                    r = false;
+                    s.style.color = "var(--gold)"; btn.disabled = false; act = false;
+                    const l = document.getElementById('log');
+                    const h = new Date().toLocaleTimeString().slice(3, 8);
+                    l.innerHTML = `<div class="log-entry" style="color:var(--green)"><span>EXTRAÇÃO CONCLUÍDA (2ms)</span><span>${h}</span></div>` + l.innerHTML;
                 } else { setTimeout(loop, 2); }
             }; loop();
         }
+        setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
     </script>
 </body>
 </html>
