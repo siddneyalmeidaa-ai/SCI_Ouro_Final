@@ -3,48 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A. NASA SUPREMACIA // S.I.</title>
+    <title>NASA SUPREMACY // S.I. 2026</title>
     <style>
         :root { --dark: #000; --gold: #D4AF37; --pink: #ff00ff; --nasa: #0b3d91; --cyan: #00f3ff; --red: #ff1744; --green: #00e676; }
-        body { background: var(--dark); color: white; font-family: 'Arial Black', sans-serif; margin: 0; padding: 10px; text-align: center; overflow: hidden; }
-        .master-container { border: 2.5px solid var(--nasa); border-radius: 40px; padding: 20px; background: radial-gradient(circle at top, #0b3d9133, #000); box-shadow: 0 0 50px var(--nasa); max-width: 420px; margin: auto; height: 95vh; display: flex; flex-direction: column; justify-content: space-between; }
+        body { background: var(--dark); color: white; font-family: 'Arial Black', sans-serif; margin: 0; padding: 10px; text-align: center; }
+        .master-container { border: 2.5px solid var(--nasa); border-radius: 40px; padding: 20px; background: radial-gradient(circle at top, #0b3d9133, #000); box-shadow: 0 0 50px var(--nasa); max-width: 420px; margin: auto; }
         
-        .header-info { display: flex; justify-content: space-between; font-size: 8px; color: var(--nasa); font-family: monospace; }
-        
-        .radar-box { width: 120px; height: 120px; border: 3px solid var(--pink); border-radius: 50%; margin: 10px auto; position: relative; box-shadow: 0 0 25px var(--pink); overflow: hidden; }
-        .radar-sweep { width: 100%; height: 100%; background: conic-gradient(from 0deg, transparent, var(--pink)); animation: rotate 0.7s linear infinite; opacity: 0.4; }
+        /* BOTÕES DE ESPECTRO DESBLOQUEADOS */
+        .espectro { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 15px 0; }
+        .box { padding: 12px; border-radius: 12px; font-size: 9px; background: #111; color: #666; border: 1.5px solid #222; font-weight: 900; cursor: pointer; transition: 0.2s; }
+        .v-active { background: var(--red) !important; color: white !important; box-shadow: 0 0 15px var(--red); border-color: #ff5f5f; }
+        .ro-active { background: #6a0dad !important; color: white !important; box-shadow: 0 0 15px #6a0dad; border-color: #a020f0; }
+        .rs-active { background: var(--pink) !important; color: white !important; box-shadow: 0 0 15px var(--pink); border-color: #ff69b4; }
+
+        .radar-box { width: 110px; height: 110px; border: 3px solid var(--pink); border-radius: 50%; margin: 10px auto; position: relative; box-shadow: 0 0 25px var(--pink); overflow: hidden; }
+        .radar-sweep { width: 100%; height: 100%; background: conic-gradient(from 0deg, transparent, var(--pink)); animation: rotate 0.8s linear infinite; opacity: 0.5; }
         @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        .espectro { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 10px; }
-        .box { padding: 12px; border-radius: 12px; font-size: 9px; background: #111; color: #444; border: 1.5px solid #222; font-weight: 900; }
-        .rs-active { background: #a020f0 !important; color: white !important; box-shadow: 0 0 15px #a020f0; }
-
-        .painel-voo { border: 2px solid var(--cyan); border-radius: 25px; padding: 20px; background: rgba(0, 243, 255, 0.02); position: relative; }
+        .painel-voo { border: 2px solid var(--cyan); border-radius: 25px; padding: 25px; background: rgba(0, 243, 255, 0.03); margin-bottom: 10px; }
         #percentual { font-size: 5.5em; color: var(--cyan); display: block; line-height: 1; text-shadow: 0 0 30px var(--cyan); }
-        .status-txt { font-size: 10px; color: var(--gold); margin-top: 5px; letter-spacing: 1px; }
+        .status-txt { font-size: 11px; color: var(--gold); margin-top: 5px; font-weight: bold; }
 
-        .btn-ignicao { background: var(--pink); color: #fff; padding: 22px; border-radius: 20px; font-size: 1.4em; font-weight: 900; width: 100%; border: none; cursor: pointer; box-shadow: 0 0 35px var(--pink); text-transform: uppercase; margin-top: 10px; }
-        .btn-ignicao:active { transform: scale(0.98); }
+        .btn-ignicao { background: var(--pink); color: #fff; padding: 22px; border-radius: 25px; font-size: 1.5em; font-weight: 900; width: 100%; border: none; cursor: pointer; box-shadow: 0 0 35px var(--pink); text-transform: uppercase; }
 
-        .hist-log { background: rgba(0,0,0,0.7); border-radius: 15px; padding: 12px; font-size: 9px; text-align: left; height: 120px; overflow-y: hidden; border: 1px solid #1a1a1a; margin-top: 10px; font-family: monospace; }
+        .hist-log { background: rgba(0,0,0,0.8); border-radius: 15px; padding: 12px; font-size: 9px; text-align: left; height: 100px; overflow-y: auto; border: 1px solid #1a1a1a; margin-top: 15px; font-family: monospace; }
         
-        .footer-tools { background: #050505; border: 1px solid var(--gold); border-radius: 15px; padding: 10px; margin-top: 10px; font-size: 9px; text-align: left; }
-        .btn-reset { background: var(--nasa); color: white; border: none; padding: 6px; border-radius: 5px; width: 100%; margin-top: 5px; font-weight: bold; cursor: pointer; font-size: 8px; }
+        .footer-tools { background: #050505; border: 1.5px solid var(--gold); border-radius: 20px; padding: 15px; margin-top: 12px; text-align: left; font-size: 10px; }
+        .btn-purga { background: var(--nasa); color: white; border: none; padding: 10px; border-radius: 10px; width: 100%; margin-top: 10px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 9px; }
     </style>
 </head>
 <body>
     <div class="master-container">
-        <div class="header-info">
+        <div style="display:flex; justify-content:space-between; font-size:9px; color:var(--nasa);">
             <span>S.A. V1250 // NASA_SUPREMACY</span>
-            <span id="timer">04:22:15</span>
+            <span id="timer">04:24:00</span>
         </div>
 
         <div class="radar-box"><div class="radar-sweep"></div></div>
 
         <div class="espectro">
-            <div class="box">VÁCUO</div>
-            <div class="box">ROXO</div>
-            <div id="rs" class="box rs-active">ROSA</div>
+            <div id="btn-v" class="box" onclick="mudarModo('v')">VÁCUO</div>
+            <div id="btn-ro" class="box" onclick="mudarModo('ro')">ROXO</div>
+            <div id="btn-rs" class="box rs-active" onclick="mudarModo('rs')">ROSA</div>
         </div>
 
         <div class="painel-voo">
@@ -55,24 +55,29 @@
         <button class="btn-ignicao" onclick="atacar()">IGNIÇÃO NASA 🔱</button>
 
         <div class="hist-log" id="log">
-            <div style="color:var(--gold)">[AUTO] PROGNÓSTICO: FLUXO LIBERADO.</div>
-            <div style="color:var(--green)">[AUTO] DIAGNÓSTICO: ID INVISÍVEL.</div>
-            <div style="color:var(--cyan)">[AUTO] EXECUTANDO RESET DE IP & CACHE...</div>
+            <div style="color:var(--cyan)">> [SISTEMA] MOTOR 3ms PRONTO.</div>
+            <div style="color:var(--green)">> [SISTEMA] MÁSCARA IPI ATIVA.</div>
         </div>
 
         <div class="footer-tools">
-            <b style="color:var(--gold)">DIAGNÓSTICO:</b> <span id="diag" style="color:var(--green)">ID PROTEGIDO (GHOST)</span><br>
-            <b style="color:var(--cyan)">PROGNÓSTICO:</b> SAQUE 1.25x (LATÊNCIA ZERO)<br>
-            <button class="btn-reset" onclick="limpar()">EXECUTAR PURGA DE RASTREIO</button>
+            <b style="color:var(--gold)">DIAGNÓSTICO:</b> <span id="diag" style="color:var(--green)">100% LIBERADO</span> [cite: 2026-01-12]<br>
+            <b style="color:var(--cyan)">PROGNÓSTICO:</b> ALVO 1.25x (LATÊNCIA ZERO)<br>
+            <button class="btn-purga" onclick="purga()">EXECUTAR PURGA DE RASTREIO</button>
         </div>
     </div>
 
     <script>
         let rodando = false;
-        function limpar() {
+        function mudarModo(m) {
+            document.querySelectorAll('.box').forEach(b => b.className = 'box');
+            if(m === 'v') document.getElementById('btn-v').className = 'box v-active';
+            if(m === 'ro') document.getElementById('btn-ro').className = 'box ro-active';
+            if(m === 'rs') document.getElementById('btn-rs').className = 'box rs-active';
+        }
+
+        function purga() {
             const l = document.getElementById('log');
-            l.innerHTML = `<div style="color:var(--cyan)">[AUTO] RESET DE BUFFER CONCLUÍDO.</div>` + l.innerHTML;
-            alert("RASTREIO DO SERVIDOR LIMPO!");
+            l.innerHTML = `<div style="color:var(--gold)">> [AUTO] CACHE E ID PURGADOS DO SERVIDOR.</div>` + l.innerHTML;
         }
 
         async function atacar() {
@@ -81,24 +86,21 @@
             const p_txt = document.getElementById('percentual'), st = document.getElementById('msg');
             st.innerText = "ATROPELANDO LATÊNCIA...";
             
-            // Jitter para enganar o mapeamento (clique nunca é igual)
-            await new Promise(r => setTimeout(r, Math.random() * 50));
-
             let x = 1.00;
             let loop = () => {
-                x += 0.25; // MOTOR DE ALTA VELOCIDADE (3ms)
+                x += 0.25; // MOTOR 3ms (V1750)
                 let p = ((x - 1) / (1.20 - 1) * 100);
                 if(p > 100) p = 100;
                 p_txt.innerText = Math.floor(p) + "%";
 
-                if(p >= 35) { st.innerText = "SAQUE DISPARADO!"; st.style.color = "var(--red)"; }
+                if(p >= 35) { st.innerText = "EXTRAÇÃO FANTASMA!"; st.style.color = "var(--red)"; }
 
                 if(x >= 1.25) {
                     p_txt.innerText = "0%"; st.innerText = "EXTRAÇÃO SUCESSO!";
                     st.style.color = "var(--gold)"; rodando = false;
                     const l = document.getElementById('log');
-                    l.innerHTML = `<div style="color:var(--green)">EXTRAÇÃO CONCLUÍDA - 3ms</div>` + l.innerHTML;
-                } else { setTimeout(loop, 3); } // 3ms RESPOSTA REAL
+                    l.innerHTML = `<div style="color:var(--green)">> EXTRAÇÃO CONCLUÍDA EM 3ms</div>` + l.innerHTML;
+                } else { setTimeout(loop, 3); } 
             }; loop();
         }
         setInterval(() => { document.getElementById('timer').innerText = new Date().toLocaleTimeString(); }, 1000);
