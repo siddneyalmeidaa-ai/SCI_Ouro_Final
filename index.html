@@ -3,93 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A. V1250 // PADRÃO OURO</title>
+    <title>S.A. V1550 // CIRÚRGICO S.I.</title>
     <style>
         :root { --dark: #000; --gold: #D4AF37; --pink: #ff00ff; --nasa: #0b3d91; --cyan: #00f3ff; --red: #ff1744; --green: #00e676; }
         body { background: var(--dark); color: white; font-family: 'Arial Black', sans-serif; margin: 0; padding: 10px; text-align: center; }
-        .master-container { border: 2px solid var(--nasa); border-radius: 40px; padding: 20px; background: radial-gradient(circle at top, #0b3d9122, #000); box-shadow: 0 0 40px var(--nasa); max-width: 450px; margin: auto; }
-        .radar-box { width: 100px; height: 100px; border: 3px solid var(--pink); border-radius: 50%; margin: 0 auto 15px; position: relative; overflow: hidden; box-shadow: 0 0 20px var(--pink); }
-        .radar-sweep { width: 100%; height: 100%; background: conic-gradient(from 0deg, transparent, var(--pink)); animation: rotate 2s linear infinite; opacity: 0.3; }
+        .master-container { border: 2px solid var(--nasa); border-radius: 40px; padding: 20px; background: radial-gradient(circle at top, #0b3d9122, #000); box-shadow: 0 0 50px var(--nasa); max-width: 450px; margin: auto; }
+        
+        /* STATUS DA FENDA - DIAGNÓSTICO / PROGNÓSTICO */
+        .fenda-monitor { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .card-status { background: #080808; padding: 12px; border-radius: 15px; border: 1px solid #1a1a1a; font-size: 10px; }
+        .val-liberado { color: var(--green); text-shadow: 0 0 10px var(--green); font-weight: 900; }
+        .val-pendente { color: var(--red); text-shadow: 0 0 10px var(--red); font-weight: 900; }
+
+        .radar-box { width: 90px; height: 90px; border: 3px solid var(--pink); border-radius: 50%; margin: 0 auto 15px; position: relative; overflow: hidden; }
+        .radar-sweep { width: 100%; height: 100%; background: conic-gradient(from 0deg, transparent, var(--pink)); animation: rotate 1.5s linear infinite; opacity: 0.3; }
         @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .espectro { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 15px; }
-        .box { padding: 10px; border-radius: 12px; font-size: 9px; background: #111; color: #444; border: 1px solid #222; font-weight: 900; }
-        .v-active { background: var(--red) !important; color: #fff !important; box-shadow: 0 0 15px var(--red); }
-        .ro-active { background: #a020f0 !important; color: #fff !important; box-shadow: 0 0 15px #a020f0; }
-        .rs-active { background: var(--pink) !important; color: #fff !important; box-shadow: 0 0 20px var(--pink); }
-        .painel-voo { background: rgba(0, 243, 255, 0.03); border: 1.5px solid var(--cyan); border-radius: 25px; padding: 20px; margin-bottom: 15px; }
-        #percentual { font-size: 5em; color: var(--cyan); display: block; line-height: 1; text-shadow: 0 0 15px var(--cyan); }
-        #status-missao { font-size: 11px; color: var(--gold); margin-top: 10px; text-transform: uppercase; letter-spacing: 1px; }
-        .btn-ignicao { background: var(--pink); color: #fff; padding: 20px; border-radius: 20px; font-size: 1.3em; font-weight: 900; width: 100%; border: none; cursor: pointer; box-shadow: 0 0 25px var(--pink); text-transform: uppercase; }
-        .hist-log { background: rgba(0,0,0,0.6); border-radius: 15px; padding: 10px; font-size: 9px; text-align: left; margin-top: 15px; height: 90px; overflow-y: auto; border: 1px solid #111; }
-        .item-log { border-bottom: 1px solid #1a1a1a; padding: 3px 0; color: var(--cyan); display: flex; justify-content: space-between; }
+
+        .painel-voo { background: rgba(0, 243, 255, 0.02); border: 2.5px solid var(--cyan); border-radius: 25px; padding: 20px; margin-bottom: 15px; }
+        #percentual { font-size: 5.5em; color: var(--cyan); display: block; line-height: 1; text-shadow: 0 0 25px var(--cyan); }
+        
+        .btn-ataque { background: var(--pink); color: #fff; padding: 22px; border-radius: 25px; font-size: 1.4em; font-weight: 900; width: 100%; border: none; cursor: pointer; box-shadow: 0 0 30px var(--pink); text-transform: uppercase; }
+        .btn-ataque:disabled { background: #333; box-shadow: none; color: #666; cursor: not-allowed; }
+
+        .prognostico-box { background: rgba(212, 175, 55, 0.05); border: 1px solid var(--gold); border-radius: 15px; padding: 12px; font-size: 10px; text-align: left; margin-top: 15px; line-height: 1.4; }
     </style>
 </head>
 <body>
     <div class="master-container">
-        <div style="display:flex; justify-content:space-between; font-size:9px; color:var(--nasa); margin-bottom:10px;">
-            <span>S.A. V1250 // NASA_CORE</span>
-            <span id="timer">03:39:00</span>
+        <div style="font-size:10px; color:var(--nasa); margin-bottom:10px; display:flex; justify-content:space-between;">
+            <span>S.A. V1550 // OPERAÇÃO_CIRÚRGICA</span>
+            <span id="timer">03:52:00</span>
         </div>
+
+        <div class="fenda-monitor">
+            <div class="card-status">DIAGNÓSTICO:<br><span id="status-diag" class="val-liberado">PAGANDO 96%</span></div>
+            <div class="card-status">STATUS:<br><span id="status-final" class="val-liberado">LIBERADO</span></div>
+        </div>
+
         <div class="radar-box"><div class="radar-sweep"></div></div>
-        <div class="espectro">
-            <div id="v" class="box">VÁCUO</div>
-            <div id="ro" class="box">ROXO</div>
-            <div id="rs" class="box">ROSA</div>
-        </div>
+
         <div class="painel-voo">
             <span id="percentual">0%</span>
-            <div id="status-missao">AGUARDANDO PRÓXIMA BRECHA</div>
+            <div id="msg-voo" style="font-size:11px; color:var(--gold); margin-top:10px; font-weight:bold;">MOTOR SINCRO 10MS</div>
         </div>
-        <button id="btnMain" class="btn-ignicao" onclick="disparar()">IGNIÇÃO FANTASMA 🔱</button>
-        <div class="hist-log" id="log"></div>
+
+        <button id="btnMain" class="btn-ataque" onclick="iniciarAtaque()">ATAQUE CIRÚRGICO 🔱</button>
+
+        <div class="prognostico-box">
+            <b style="color:var(--gold)">PROGNÓSTICO:</b> <span id="txt-prog">FENDA DE ALTA PROBABILIDADE DETECTADA.</span><br>
+            <b style="color:var(--cyan)">AÇÃO S.I.:</b> ENTRAR COM STAKE DE 1 REAL. SAÍDA EM 1.25x.
+        </div>
     </div>
 
     <script>
         let rodando = false;
-        function addLog(m) {
-            const l = document.getElementById('log');
-            l.innerHTML = `<div class="item-log">> ${m} <span>${new Date().toLocaleTimeString().slice(3,8)}</span></div>` + l.innerHTML;
-        }
 
-        async function disparar() {
-            if(rodando) return; rodando = true;
-            const btn = document.getElementById('btnMain'), p_txt = document.getElementById('percentual'), st = document.getElementById('status-missao');
-            const v = document.getElementById('v'), ro = document.getElementById('ro'), rs = document.getElementById('rs');
+        // SIMULAÇÃO DA INTELIGÊNCIA DE FENDA
+        function monitorarFenda() {
+            const diag = document.getElementById('status-diag');
+            const stat = document.getElementById('status-final');
+            const prog = document.getElementById('txt-prog');
+            const btn = document.getElementById('btnMain');
             
-            btn.disabled = true; [v, ro, rs].forEach(el => el.className = 'box');
-            st.innerText = "MOTOR V1400 ATIVO...";
-
-            setTimeout(async () => {
-                let n = Math.random() * 100;
-                if(n < 18) {
-                    v.classList.add('v-active'); st.innerText = "VÁCUO EVITADO!";
-                    addLog("SABOTAGEM NEUTRALIZADA");
-                    rodando = false; btn.disabled = false;
-                } else {
-                    if(n < 82) ro.classList.add('ro-active'); else rs.classList.add('rs-active');
-                    st.innerText = "ENTRA AGORA!";
-                    let x = 1.00;
-                    let loop = () => {
-                        x += 0.12; // MOTOR V1400 (AGRESSIVO)
-                        let p = ((x - 1) / (1.20 - 1) * 100);
-                        if(p > 100) p = 100;
-                        p_txt.innerText = Math.floor(p) + "%";
-
-                        if(p >= 45) { // SAQUE INSTANTÂNEO PARA BATER LATÊNCIA
-                            st.innerText = "SAQUE DISPARADO!";
-                            st.style.color = "var(--red)";
-                        }
-
-                        if(x >= 1.25) {
-                            addLog("EXTRAÇÃO CONCLUÍDA");
-                            p_txt.innerText = "0%"; st.innerText = "AGUARDANDO BRECHA"; st.style.color = "var(--gold)";
-                            btn.disabled = false; rodando = false;
-                        } else { setTimeout(loop, 15); } // 15ms DE RESPOSTA
-                    }; loop();
-                }
-            }, 500);
+            let n = Math.random() * 100;
+            if (n < 25) { // MODO VÁCUO / RETENÇÃO
+                diag.innerText = "RETENÇÃO 12%"; diag.className = "val-pendente";
+                stat.innerText = "PENDENTE"; stat.className = "val-pendente";
+                prog.innerText = "SERVIDOR EM MODO COLETA. VÁCUO IMINENTE.";
+                if(!rodando) btn.disabled = true;
+            } else {
+                diag.innerText = "PAGANDO 94%"; diag.className = "val-liberado";
+                stat.innerText = "LIBERADO"; stat.className = "val-liberado";
+                prog.innerText = "FENDA ABERTA. FLUXO DE PAGAMENTO ESTÁVEL.";
+                if(!rodando) btn.disabled = false;
+            }
         }
+
+        async function iniciarAtaque() {
+            if(rodando) return;
+            rodando = true;
+            const p_txt = document.getElementById('percentual'), msg = document.getElementById('msg-voo'), btn = document.getElementById('btnMain');
+            btn.disabled = true;
+            msg.innerText = "FURANDO LATÊNCIA...";
+
+            let x = 1.00;
+            let loop = () => {
+                x += 0.16; // VELOCIDADE MÁXIMA
+                let perc = ((x - 1) / (1.20 - 1) * 100);
+                if(perc > 100) perc = 100;
+                p_txt.innerText = Math.floor(perc) + "%";
+
+                if(perc >= 40) { // SAQUE SINCRO INSTANTÂNEO
+                    msg.innerText = "SAQUE REALIZADO!"; 
+                    msg.style.color = "var(--red)";
+                }
+
+                if(x >= 1.25) {
+                    p_txt.innerText = "0%"; msg.innerText = "SUCESSO CIRÚRGICO!";
+                    msg.style.color = "var(--gold)";
+                    rodando = false;
+                    monitorarFenda();
+                } else { setTimeout(loop, 10); } // 10ms
+            }; loop();
+        }
+
         setInterval(() => { document.getElementById('timer').innerText = new Date().toLocaleTimeString(); }, 1000);
+        setInterval(monitorarFenda, 4000); // RECALCULA A FENDA A CADA 4s
     </script>
 </body>
 </html>
