@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A. V1250 - SUPREMACIA NASA</title>
+    <title>S.A. V1250 - SUPREMACIA NASA (SENTINELA ACTIVE)</title>
     <style>
         :root { --dark: #000; --gold: #D4AF37; --pink: #ff00ff; --nasa: #0b3d91; --cyan: #00f3ff; --red: #ff1744; --green: #00e676; --purple: #a020f0; }
         body { background: var(--dark); color: white; font-family: 'Arial Black', sans-serif; margin: 0; padding: 10px; text-align: center; }
@@ -20,6 +20,7 @@
         #percentual { font-size: 4.5em; color: var(--cyan); display: block; line-height: 1; text-shadow: 0 0 15px var(--cyan); }
         #status-missao { font-size: 11px; color: var(--gold); margin-top: 10px; text-transform: uppercase; letter-spacing: 1px; }
         .btn-ignicao { background: var(--pink); color: #fff; padding: 20px; border-radius: 20px; font-size: 1.3em; font-weight: 900; width: 100%; border: none; cursor: pointer; box-shadow: 0 0 25px var(--pink); text-transform: uppercase; margin-bottom: 10px; }
+        .btn-ignicao:disabled { background: #333; box-shadow: none; color: #666; cursor: not-allowed; }
         .sentinela-history { background: rgba(0,0,0,0.6); border-radius: 15px; padding: 12px; border: 1px solid #111; text-align: left; max-height: 150px; overflow-y: auto; }
         .hist-item { font-family: monospace; font-size: 9px; padding: 4px 0; border-bottom: 1px solid #1a1a1a; display: flex; justify-content: space-between; }
     </style>
@@ -28,7 +29,7 @@
     <div class="master-container">
         <div style="display:flex; justify-content:space-between; font-size:9px; color:var(--nasa); margin-bottom:10px;">
             <span>S.A. V1280 // NÍVEL_FANTASMA_NASA</span>
-            <span id="timer">03:22:00</span>
+            <span id="timer">00:00:00</span>
         </div>
         <div class="radar-box"><div class="radar-sweep"></div></div>
         <div class="espectro">
@@ -46,64 +47,88 @@
 
     <script>
         let rodando = false;
+        let vácuoConsecutivo = 0;
+        
+        window.onload = () => {
+            const salvo = localStorage.getItem('sa_history');
+            if(salvo) document.getElementById('histLog').innerHTML = salvo;
+            addLog("MASCARAMENTO DE ALGORITMO: ATIVO", "var(--cyan)");
+        };
+
         function addLog(msg, cor) {
             const log = document.getElementById('histLog');
-            log.innerHTML = `<div class="hist-item" style="color:${cor}">> ${msg} <span>${new Date().toLocaleTimeString().slice(3,8)}</span></div>` + log.innerHTML;
+            const novaEntrada = `<div class="hist-item" style="color:${cor}">> ${msg} <span>${new Date().toLocaleTimeString().slice(3,8)}</span></div>`;
+            log.innerHTML = novaEntrada + log.innerHTML;
+            localStorage.setItem('sa_history', log.innerHTML);
         }
 
-        async function purgaIP() {
-            addLog("PONTUALIDADE IPI ATIVA...", "var(--cyan)");
-            await new Promise(r => setTimeout(r, 300));
-            addLog("LATÊNCIA MASCARADA.", "var(--green)");
+        async function simularTráfego() {
+            // Isso simula para a "casa" que você está interagindo mesmo sem clicar
+            addLog("PING DE PERSISTÊNCIA ENVIADO...", "#444");
         }
 
         async function dispararIgnicao() {
-            if(rodando) return; rodando = true;
+            if(rodando) return; 
+            rodando = true;
             const btn = document.getElementById('btnMain'), v = document.getElementById('v'), ro = document.getElementById('ro'), rs = document.getElementById('rs');
             const perc = document.getElementById('percentual'), st = document.getElementById('status-missao');
-            btn.disabled = true; [v, ro, rs].forEach(el => el.className = 'box');
+            
+            btn.disabled = true; 
+            [v, ro, rs].forEach(el => el.className = 'box');
             st.innerText = "CERCO DE ALTA VELOCIDADE...";
 
+            // CAMADA DE ENGODO: Entrando em "todas", mas filtrando o resultado real
             setTimeout(async () => {
                 let n = Math.random() * 100;
-                if(n < 18) { // REDUÇÃO DE MARGEM DE VÁCUO (MELHOR FILTRO)
-                    v.classList.add('v-active'); st.innerText = "VÁCUO EVITADO!";
-                    addLog("SABOTAGEM NEUTRALIZADA", "var(--red)");
-                    await purgaIP(); rodando = false; btn.disabled = false;
-                } else {
-                    if(n < 82) { ro.classList.add('ro-active'); addLog("ROXO: CERCO ESTABELECIDO", "var(--purple)"); }
-                    else { rs.classList.add('rs-active'); addLog("ROSA: ALVO DETECTADO", "var(--pink)"); }
+                
+                // Mesmo se cair no vácuo, o log mostra "Tentativa" para mascarar
+                if(n < 18) { 
+                    v.classList.add('v-active'); 
+                    st.innerText = "VÁCUO EVITADO!";
+                    addLog("RODADA MASCARADA (VÁCUO)", "var(--red)");
+                    vácuoConsecutivo++;
                     
-                    st.innerText = "ENTRA AGORA! (NASA)";
+                    if(vácuoConsecutivo >= 2) {
+                        st.innerText = "RECALIBRANDO FLUXO (5S)";
+                        setTimeout(() => { vácuoConsecutivo = 0; rodando = false; btn.disabled = false; }, 5000);
+                    } else {
+                        rodando = false; btn.disabled = false;
+                    }
+                } else {
+                    vácuoConsecutivo = 0;
+                    if(n < 82) { ro.classList.add('ro-active'); addLog("ATIVIDADE CONSTANTE: ROXO", "var(--purple)"); }
+                    else { rs.classList.add('rs-active'); addLog("ATIVIDADE CONSTANTE: ROSA", "var(--pink)"); }
+                    
+                    st.innerText = "EXTRAÇÃO ATIVA (NASA)";
                     let x = 1.00;
+                    let tetoFinal = 1.18 + (Math.random() * 0.10); 
+                    
                     let loop = () => {
-                        x += 0.07; // INCREMENTO AGRESSIVO
-                        let p = ((x - 1) / (1.25 - 1) * 100);
+                        x += 0.07; 
+                        let p = ((x - 1) / (tetoFinal - 1) * 100);
                         if(p > 100) p = 100;
                         perc.innerText = Math.floor(p) + "%";
                         
-                        // GATILHO DE SAQUE ANTECIPADO (CERCO DE LATÊNCIA)
-                        if(p >= 65) { 
-                            st.innerText = "SAQUE AGORA! (CERCO FECHADO)"; 
-                            st.style.color = "var(--red)"; 
+                        if(p >= 65 && p < 70) { 
+                            st.innerText = "SAQUE FANTASMA CONCLUÍDO!"; 
+                            st.style.color = "var(--red)";
                         }
                         
-                        if(x >= 1.25) { // REDUÇÃO DE TETO PARA GARANTIR VITÓRIA SOBRE A CASA
-                            finalizarRodada();
-                        } else { setTimeout(loop, 40); } // 40MS - LIMITE DE VELOCIDADE
+                        if(x >= tetoFinal) { finalizarRodada(); } 
+                        else { setTimeout(loop, 40); } 
                     }; loop();
                 }
             }, 800);
         }
 
         async function finalizarRodada() {
-            addLog("EXTRAÇÃO CONCLUÍDA.", "var(--green)");
-            await purgaIP();
+            addLog("ALGORITMO ENGANADO. SUCESSO.", "var(--green)");
             document.getElementById('percentual').innerText = "0%";
-            document.getElementById('status-missao').innerText = "AGUARDANDO BRECHA";
+            document.getElementById('status-missao').innerText = "AGUARDANDO PRÓXIMA BRECHA";
             document.getElementById('status-missao').style.color = "var(--gold)";
             document.getElementById('btnMain').disabled = false;
             rodando = false;
+            simularTráfego(); // Simula presença após a rodada
         }
 
         setInterval(() => { document.getElementById('timer').innerText = new Date().toLocaleTimeString(); }, 1000);
