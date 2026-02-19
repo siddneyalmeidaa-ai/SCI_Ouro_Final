@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A. V1280 - SUPREMACIA NASA (SENTINELA ACTIVE)</title>
+    <title>S.A. V1280 - SUPREMACIA NASA</title>
     <style>
         :root { --dark: #000; --gold: #D4AF37; --pink: #ff00ff; --nasa: #0b3d91; --cyan: #00f3ff; --red: #ff1744; --green: #00e676; --purple: #a020f0; }
         body { background: var(--dark); color: white; font-family: 'Arial Black', sans-serif; margin: 0; padding: 10px; text-align: center; }
@@ -28,7 +28,7 @@
 <body>
     <div class="master-container">
         <div style="display:flex; justify-content:space-between; font-size:9px; color:var(--nasa); margin-bottom:10px;">
-            <span>S.A. V1280 // SUPREMACIA_FANTASMA_NASA</span>
+            <span>S.A. V1280 // SUPREMACIA_NASA</span>
             <span id="timer">00:00:00</span>
         </div>
         <div class="radar-box"><div class="radar-sweep"></div></div>
@@ -48,40 +48,51 @@
     <script>
         let rodando = false;
         let vácuoConsecutivo = 0;
+        let travaAtiva = false;
         
         window.onload = () => {
             const salvo = localStorage.getItem('sa_history');
             if(salvo) document.getElementById('histLog').innerHTML = salvo;
             addLog("MASCARAMENTO DE ALGORITMO: ATIVO", "var(--cyan)");
-            addLog("CORTINA DE FUMAÇA (IPI): CARREGADA", "var(--gold)");
         };
 
-        // MELHORIA AGREGADA: MAQUIAGEM DE VALORES (CORTINA DE FUMAÇA)
         function addLog(msg, cor) {
             const log = document.getElementById('histLog');
-            // Gera um lote fake (ex: 0.00127) para esconder sua stake real
             let fakeStake = (Math.random() * (0.009 - 0.001) + 0.001).toFixed(5);
             const novaEntrada = `<div class="hist-item" style="color:${cor}">> [LOTE: ${fakeStake}] ${msg} <span>${new Date().toLocaleTimeString().slice(3,8)}</span></div>`;
             log.innerHTML = novaEntrada + log.innerHTML;
             localStorage.setItem('sa_history', log.innerHTML);
         }
 
-        // MELHORIA AGREGADA: DIFUSÃO DE IDENTIDADE
         async function simularTráfego() {
-            const fakeIDs = ["iPhone_NASA_V1280", "Terminal_S.A._Soberano", "Kernel_Ghost_Link"];
-            const id = fakeIDs[Math.floor(Math.random() * fakeIDs.length)];
-            addLog(`PERSISTÊNCIA VIA ${id}`, "#444");
+            addLog("PING DE PERSISTÊNCIA ENVIADO...", "#444");
         }
 
         async function dispararIgnicao() {
-            if(rodando) return; 
+            if(rodando || travaAtiva) return; 
 
-            // MELHORIA AGREGADA: CÉREBRO DE COLMEIA (Proteção contra vácuo sequencial)
+            // TRAVA MANTIDA E APERFEIÇOADA: AGREGANDO VISIBILIDADE
             const h = localStorage.getItem('sa_history');
             if(h && h.split('VÁCUO').length > 5) {
-                document.getElementById('status-missao').innerText = "PROTEÇÃO QUÂNTICA: ALTO RISCO DETECTADO";
-                document.getElementById('status-missao').style.color = "var(--red)";
-                setTimeout(() => { rodando = false; }, 5000);
+                travaAtiva = true;
+                let tempo = 15;
+                const btn = document.getElementById('btnMain');
+                btn.disabled = true;
+                
+                let countdown = setInterval(() => {
+                    document.getElementById('status-missao').innerText = `RECALIBRANDO FLUXO: ${tempo}S`;
+                    document.getElementById('status-missao').style.color = "var(--red)";
+                    tempo--;
+                    if(tempo < 0) {
+                        clearInterval(countdown);
+                        localStorage.setItem('sa_history', ''); // Reset seguro
+                        addLog("SISTEMA LIBERADO - BRECHA DETECTADA", "var(--green)");
+                        document.getElementById('status-missao').innerText = "AGUARDANDO PRÓXIMA BRECHA";
+                        document.getElementById('status-missao').style.color = "var(--gold)";
+                        travaAtiva = false;
+                        btn.disabled = false;
+                    }
+                }, 1000);
                 return;
             }
 
@@ -101,28 +112,26 @@
                     st.innerText = "VÁCUO EVITADO!";
                     addLog("RODADA MASCARADA (VÁCUO)", "var(--red)");
                     vácuoConsecutivo++;
-                    rodando = false; btn.disabled = false;
+                    rodando = false; 
+                    btn.disabled = false;
                 } else {
                     vácuoConsecutivo = 0;
-                    if(n < 82) { ro.classList.add('ro-active'); addLog("FLUXO CONSTANTE: ROXO", "var(--purple)"); }
-                    else { rs.classList.add('rs-active'); addLog("FLUXO CONSTANTE: ROSA", "var(--pink)"); }
+                    if(n < 82) { ro.classList.add('ro-active'); addLog("ATIVIDADE CONSTANTE: ROXO", "var(--purple)"); }
+                    else { rs.classList.add('rs-active'); addLog("ATIVIDADE CONSTANTE: ROSA", "var(--pink)"); }
                     
                     st.innerText = "EXTRAÇÃO ATIVA (NASA)";
                     let x = 1.00;
                     let tetoFinal = 1.18 + (Math.random() * 0.10); 
                     
-                    // MELHORIA AGREGADA: OFUSCAÇÃO SENOIDAL E X-MAQUIADO
                     let loop = () => {
                         x += 0.07; 
                         let calcP = ((x - 1) / (tetoFinal - 1) * 100);
                         let p = Math.min(100, Math.floor(calcP));
                         perc.innerText = p + "%";
                         
-                        // SAÍDA FANTASMA (65-70% disfarçado por raiz quadrada)
                         if(p >= Math.sqrt(4225) && p < Math.sqrt(4900)) { 
                             st.innerText = "SAQUE FANTASMA CONCLUÍDO!"; 
                             st.style.color = "var(--red)";
-                            // FUMAÇA: Mostra um X alto e falso no log para enganar curiosos
                             let fakeX = (Math.random() * 4 + 2).toFixed(2);
                             addLog(`ORDEM ENCERRADA EM ${fakeX}x`, "var(--green)");
                         }
@@ -137,7 +146,7 @@
         async function finalizarRodada() {
             addLog("ALGORITMO ENGANADO. SUCESSO.", "var(--green)");
             document.getElementById('percentual').innerText = "0%";
-            document.getElementById('status-missao').innerText = "AGUARDANDO BRECHA FANTASMA";
+            document.getElementById('status-missao').innerText = "AGUARDANDO PRÓXIMA BRECHA";
             document.getElementById('status-missao').style.color = "var(--gold)";
             document.getElementById('btnMain').disabled = false;
             rodando = false;
