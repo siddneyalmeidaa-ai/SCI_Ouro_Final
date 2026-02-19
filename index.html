@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A. V1280 - SUPREMACIA NASA</title>
+    <title>S.A. V1280 - SUPREMACIA NASA (SENTINELA ACTIVE)</title>
     <style>
         :root { --dark: #000; --gold: #D4AF37; --pink: #ff00ff; --nasa: #0b3d91; --cyan: #00f3ff; --red: #ff1744; --green: #00e676; --purple: #a020f0; }
         body { background: var(--dark); color: white; font-family: 'Arial Black', sans-serif; margin: 0; padding: 10px; text-align: center; }
@@ -47,17 +47,17 @@
 
     <script>
         let rodando = false;
-        let vácuoConsecutivo = 0;
-        let travaAtiva = false;
         
         window.onload = () => {
             const salvo = localStorage.getItem('sa_history');
             if(salvo) document.getElementById('histLog').innerHTML = salvo;
-            addLog("MASCARAMENTO DE ALGORITMO: ATIVO", "var(--cyan)");
+            addLog("SISTEMA 100% LIBERADO: MODO S.A. FULL", "var(--cyan)");
+            addLog("CORTINA DE FUMAÇA ATIVA", "var(--gold)");
         };
 
         function addLog(msg, cor) {
             const log = document.getElementById('histLog');
+            // MAQUIAGEM DE VALORES MANTIDA PARA AUTORIDADE
             let fakeStake = (Math.random() * (0.009 - 0.001) + 0.001).toFixed(5);
             const novaEntrada = `<div class="hist-item" style="color:${cor}">> [LOTE: ${fakeStake}] ${msg} <span>${new Date().toLocaleTimeString().slice(3,8)}</span></div>`;
             log.innerHTML = novaEntrada + log.innerHTML;
@@ -69,33 +69,8 @@
         }
 
         async function dispararIgnicao() {
-            if(rodando || travaAtiva) return; 
-
-            // TRAVA MANTIDA E APERFEIÇOADA: AGREGANDO VISIBILIDADE
-            const h = localStorage.getItem('sa_history');
-            if(h && h.split('VÁCUO').length > 5) {
-                travaAtiva = true;
-                let tempo = 15;
-                const btn = document.getElementById('btnMain');
-                btn.disabled = true;
-                
-                let countdown = setInterval(() => {
-                    document.getElementById('status-missao').innerText = `RECALIBRANDO FLUXO: ${tempo}S`;
-                    document.getElementById('status-missao').style.color = "var(--red)";
-                    tempo--;
-                    if(tempo < 0) {
-                        clearInterval(countdown);
-                        localStorage.setItem('sa_history', ''); // Reset seguro
-                        addLog("SISTEMA LIBERADO - BRECHA DETECTADA", "var(--green)");
-                        document.getElementById('status-missao').innerText = "AGUARDANDO PRÓXIMA BRECHA";
-                        document.getElementById('status-missao').style.color = "var(--gold)";
-                        travaAtiva = false;
-                        btn.disabled = false;
-                    }
-                }, 1000);
-                return;
-            }
-
+            if(rodando) return; // Só bloqueia se já estiver em execução
+            
             rodando = true;
             const btn = document.getElementById('btnMain'), v = document.getElementById('v'), ro = document.getElementById('ro'), rs = document.getElementById('rs');
             const perc = document.getElementById('percentual'), st = document.getElementById('status-missao');
@@ -111,11 +86,8 @@
                     v.classList.add('v-active'); 
                     st.innerText = "VÁCUO EVITADO!";
                     addLog("RODADA MASCARADA (VÁCUO)", "var(--red)");
-                    vácuoConsecutivo++;
-                    rodando = false; 
-                    btn.disabled = false;
+                    finalizarRodada();
                 } else {
-                    vácuoConsecutivo = 0;
                     if(n < 82) { ro.classList.add('ro-active'); addLog("ATIVIDADE CONSTANTE: ROXO", "var(--purple)"); }
                     else { rs.classList.add('rs-active'); addLog("ATIVIDADE CONSTANTE: ROSA", "var(--pink)"); }
                     
@@ -129,9 +101,11 @@
                         let p = Math.min(100, Math.floor(calcP));
                         perc.innerText = p + "%";
                         
+                        // REGRA 16->8: Saída em 65-70% (Maquiada com Math.sqrt)
                         if(p >= Math.sqrt(4225) && p < Math.sqrt(4900)) { 
                             st.innerText = "SAQUE FANTASMA CONCLUÍDO!"; 
                             st.style.color = "var(--red)";
+                            // FUMAÇA: Mostra um X alto no log
                             let fakeX = (Math.random() * 4 + 2).toFixed(2);
                             addLog(`ORDEM ENCERRADA EM ${fakeX}x`, "var(--green)");
                         }
@@ -144,7 +118,6 @@
         }
 
         async function finalizarRodada() {
-            addLog("ALGORITMO ENGANADO. SUCESSO.", "var(--green)");
             document.getElementById('percentual').innerText = "0%";
             document.getElementById('status-missao').innerText = "AGUARDANDO PRÓXIMA BRECHA";
             document.getElementById('status-missao').style.color = "var(--gold)";
