@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A. V1280 - SUPREMACIA NASA (SENTINELA ACTIVE)</title>
+    <title>S.A. V1280 - SUPREMACIA NASA</title>
     <style>
         :root { --dark: #000; --gold: #D4AF37; --pink: #ff00ff; --nasa: #0b3d91; --cyan: #00f3ff; --red: #ff1744; --green: #00e676; --purple: #a020f0; }
         body { background: var(--dark); color: white; font-family: 'Arial Black', sans-serif; margin: 0; padding: 10px; text-align: center; }
@@ -51,25 +51,19 @@
         window.onload = () => {
             const salvo = localStorage.getItem('sa_history');
             if(salvo) document.getElementById('histLog').innerHTML = salvo;
-            addLog("SISTEMA 100% LIBERADO: MODO S.A. FULL", "var(--cyan)");
-            addLog("CORTINA DE FUMAÇA ATIVA", "var(--gold)");
+            addLog("SISTEMA LIBERADO: MODO S.A. FULL SPEED", "var(--cyan)");
         };
 
         function addLog(msg, cor) {
             const log = document.getElementById('histLog');
-            // MAQUIAGEM DE VALORES MANTIDA PARA AUTORIDADE
             let fakeStake = (Math.random() * (0.009 - 0.001) + 0.001).toFixed(5);
             const novaEntrada = `<div class="hist-item" style="color:${cor}">> [LOTE: ${fakeStake}] ${msg} <span>${new Date().toLocaleTimeString().slice(3,8)}</span></div>`;
             log.innerHTML = novaEntrada + log.innerHTML;
             localStorage.setItem('sa_history', log.innerHTML);
         }
 
-        async function simularTráfego() {
-            addLog("PING DE PERSISTÊNCIA ENVIADO...", "#444");
-        }
-
         async function dispararIgnicao() {
-            if(rodando) return; // Só bloqueia se já estiver em execução
+            if(rodando) return; 
             
             rodando = true;
             const btn = document.getElementById('btnMain'), v = document.getElementById('v'), ro = document.getElementById('ro'), rs = document.getElementById('rs');
@@ -97,15 +91,13 @@
                     
                     let loop = () => {
                         x += 0.07; 
-                        let calcP = ((x - 1) / (tetoFinal - 1) * 100);
-                        let p = Math.min(100, Math.floor(calcP));
+                        let p = Math.min(100, Math.floor(((x - 1) / (tetoFinal - 1) * 100)));
                         perc.innerText = p + "%";
                         
-                        // REGRA 16->8: Saída em 65-70% (Maquiada com Math.sqrt)
-                        if(p >= Math.sqrt(4225) && p < Math.sqrt(4900)) { 
+                        // REGRA 16->8: Saída real maquiada visualmente
+                        if(p >= 65 && p < 70) { 
                             st.innerText = "SAQUE FANTASMA CONCLUÍDO!"; 
                             st.style.color = "var(--red)";
-                            // FUMAÇA: Mostra um X alto no log
                             let fakeX = (Math.random() * 4 + 2).toFixed(2);
                             addLog(`ORDEM ENCERRADA EM ${fakeX}x`, "var(--green)");
                         }
@@ -114,7 +106,7 @@
                         else { setTimeout(loop, 40); } 
                     }; loop();
                 }
-            }, 800);
+            }, 500); // Reduzi o delay inicial para 500ms para ser mais rápido
         }
 
         async function finalizarRodada() {
@@ -123,7 +115,6 @@
             document.getElementById('status-missao').style.color = "var(--gold)";
             document.getElementById('btnMain').disabled = false;
             rodando = false;
-            simularTráfego();
         }
 
         setInterval(() => { document.getElementById('timer').innerText = new Date().toLocaleTimeString(); }, 1000);
