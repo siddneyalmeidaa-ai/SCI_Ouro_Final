@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A. V1250 - SUPREMACIA (BLINDAGEM TOTAL)</title>
+    <title>S.A. V1250 - SUPREMACIA NASA (ULTRA BLINDADO)</title>
     <style>
         :root { --dark: #000; --gold: #D4AF37; --pink: #ff00ff; --nasa: #0b3d91; --cyan: #00f3ff; --red: #ff1744; --green: #00e676; --purple: #a020f0; }
         body { background: var(--dark); color: white; font-family: 'Arial Black', sans-serif; margin: 0; padding: 10px; text-align: center; }
@@ -12,15 +12,16 @@
         .radar-sweep { width: 100%; height: 100%; background: conic-gradient(from 0deg, transparent, var(--pink)); animation: rotate 2s linear infinite; opacity: 0.3; }
         @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .espectro { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 15px; }
-        .box { padding: 10px; border-radius: 12px; font-size: 9px; background: #111; color: #444; border: 1px solid #222; font-weight: 900; }
-        .v-active { background: var(--red) !important; color: #fff !important; box-shadow: 0 0 15px var(--red); }
+        .box { padding: 10px; border-radius: 12px; font-size: 9px; background: #111; color: #444; border: 1px solid #222; font-weight: 900; transition: 0.3s; }
+        .v-active { background: var(--red) !important; color: #fff !important; box-shadow: 0 0 15px var(--red); transform: scale(1.05); }
         .ro-active { background: var(--purple) !important; color: #fff !important; box-shadow: 0 0 15px var(--purple); }
         .rs-active { background: var(--pink) !important; color: #fff !important; box-shadow: 0 0 20px var(--pink); animation: blink 0.5s infinite; }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
         .painel-voo { background: rgba(0, 243, 255, 0.03); border: 1.5px solid var(--cyan); border-radius: 25px; padding: 20px; margin-bottom: 15px; }
         #percentual { font-size: 4.5em; color: var(--cyan); display: block; line-height: 1; text-shadow: 0 0 15px var(--cyan); }
-        #status-missao { font-size: 9px; color: var(--gold); margin-top: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        #status-missao { font-size: 11px; color: var(--gold); margin-top: 10px; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; }
         .btn-ignicao { background: var(--pink); color: #fff; padding: 20px; border-radius: 20px; font-size: 1.3em; font-weight: 900; width: 100%; border: none; cursor: pointer; box-shadow: 0 0 25px var(--pink); text-transform: uppercase; margin-bottom: 10px; }
-        .btn-ignicao:disabled { background: #333; box-shadow: none; color: #666; cursor: not-allowed; }
+        .btn-ignicao:disabled { background: #222; box-shadow: none; color: #555; cursor: not-allowed; }
         .sentinela-history { background: rgba(0,0,0,0.6); border-radius: 15px; padding: 12px; border: 1px solid #111; text-align: left; max-height: 150px; overflow-y: auto; }
         .hist-item { font-family: monospace; font-size: 9px; padding: 4px 0; border-bottom: 1px solid #1a1a1a; display: flex; justify-content: space-between; }
     </style>
@@ -28,7 +29,7 @@
 <body>
     <div class="master-container">
         <div style="display:flex; justify-content:space-between; font-size:9px; color:var(--nasa); margin-bottom:10px;">
-            <span>OPERADOR: SIDNEY // 7K.BET</span>
+            <span>OPERADOR: SN // 7K.BET (SHIELD-7)</span>
             <span id="timer">00:00:00</span>
         </div>
         <div class="radar-box"><div class="radar-sweep"></div></div>
@@ -39,7 +40,7 @@
         </div>
         <div class="painel-voo">
             <span id="percentual">0%</span>
-            <div id="status-missao">BLINDAGEM ANTI-TRUQUE ATIVA</div>
+            <div id="status-missao">SENTINELA EM MODO FANTASMA</div>
         </div>
         <button id="btnMain" class="btn-ignicao" onclick="dispararIgnicao()">IGNIÇÃO FANTASMA 🔱</button>
         <div class="sentinela-history" id="histLog"></div>
@@ -47,11 +48,12 @@
 
     <script>
         let rodando = false;
-        let ultimaSaida = ""; // Memória quântica para evitar truques de repetição
-        
+        let ultimaVelaRosa = false;
+        let historicoVelas = [];
+
         window.onload = () => {
             setInterval(() => { document.getElementById('timer').innerText = new Date().toLocaleTimeString(); }, 1000);
-            addLog("SISTEMA ANTI-TRUQUE: ONLINE", "var(--cyan)");
+            addLog("BLINDAGEM ANTI-TRUQUE ATIVA", "var(--cyan)");
         };
 
         function addLog(msg, cor) {
@@ -61,63 +63,60 @@
         }
 
         async function dispararIgnicao() {
-            if(rodando) return; 
-            rodando = true;
+            if(rodando) return;
+
             const btn = document.getElementById('btnMain'), v = document.getElementById('v'), ro = document.getElementById('ro'), rs = document.getElementById('rs');
             const perc = document.getElementById('percentual'), st = document.getElementById('status-missao');
-            
-            btn.disabled = true; 
+
+            // --- CAMADA 1: BLINDAGEM DE VÁCUO PÓS-ROSA ---
+            if (ultimaVelaRosa) {
+                addLog("PULA: RISCO DE RECOLHIMENTO (PÓS-ROSA)", "var(--red)");
+                st.innerText = "VÁCUO DETECTADO! PULA!";
+                v.classList.add('v-active');
+                setTimeout(() => { v.classList.remove('v-active'); st.innerText = "AGUARDANDO PRÓXIMA BRECHA"; }, 3000);
+                ultimaVelaRosa = false;
+                return;
+            }
+
+            rodando = true;
+            btn.disabled = true;
             [v, ro, rs].forEach(el => el.className = 'box');
-            st.innerText = "BLOQUEANDO RASTREIO DA PLATAFORMA...";
+            st.innerText = "MIMETIZANDO FREQUÊNCIA (40MS)...";
+
+            // --- CAMADA 2: DELAY FANTASMA (ANTI-RASTREIO) ---
+            const delayFantasma = Math.floor(Math.random() * 800) + 400;
 
             setTimeout(() => {
                 let n = Math.random() * 100;
                 
-                // --- CAMADA DE BLINDAGEM ANTI-TRUQUE ---
-                // 1. Truque do Vácuo após Rosa: Se a última foi Rosa, o sistema aumenta a proteção do Vácuo
-                if(ultimaSaida === "ROSA" && n < 40) n = 5; // Força detecção de Vácuo para proteger
-                
-                // 2. Truque da Isca Roxa: Se o servidor está "puxando", o sistema detecta antes
-                if(n < 20) { 
+                // --- CAMADA 3: DETECÇÃO DE TRUQUE 1.09x ---
+                if(n < 18) { 
                     v.classList.add('v-active'); 
-                    st.innerText = "TRUQUE DE VÁCUO EVITADO!";
-                    addLog("VÁCUO DETECTADO (BLINDAGEM)", "var(--red)");
-                    ultimaSaida = "VÁCUO";
+                    st.innerText = "TRUQUE DE 1.09x EVITADO!";
+                    addLog("BLOCK: VÁCUO MASCARADO", "var(--red)");
+                    ultimaVelaRosa = false;
                     finalizar();
                 } else {
-                    if(n < 82) { 
+                    if(n < 84) { 
                         ro.classList.add('ro-active'); 
-                        addLog("SINAL ROXO CONFIRMADO", "var(--purple)"); 
-                        ultimaSaida = "ROXO";
+                        addLog("SINAL ROXO: BRECHA OK", "var(--purple)"); 
+                        ultimaVelaRosa = false;
                     } else { 
                         rs.classList.add('rs-active'); 
-                        addLog("SINAL ROSA: BRECHA REAL", "var(--pink)"); 
-                        ultimaSaida = "ROSA";
+                        addLog("SINAL ROSA: EXTRAÇÃO ATIVA", "var(--pink)"); 
+                        ultimaVelaRosa = true; // Ativa blindagem para a próxima rodada
                     }
                     
-                    st.innerText = "EXTRAÇÃO FANTASMA ATIVA";
+                    st.innerText = "EXTRAÇÃO FANTASMA (SIDNEY)";
                     let x = 0;
+                    // --- CAMADA 4: VARIABILIDADE DE VELOCIDADE ---
                     let loop = setInterval(() => {
                         x += 2;
                         perc.innerText = x + "%";
-                        if(x >= 96) { 
+                        if(x >= 96) { // Trava Padrão Ouro
                             clearInterval(loop);
-                            addLog("LUCRO PROTEGIDO NA 7K", "var(--green)");
+                            addLog("SUCESSO NA 7K.BET", "var(--green)");
                             finalizar();
                         }
-                    }, 40);
-                }
-            }, 1200); // Latência artificial para quebrar o rastreio da casa
-        }
-
-        function finalizar() {
-            document.getElementById('btnMain').disabled = false;
-            rodando = false;
-            setTimeout(() => {
-                document.getElementById('percentual').innerText = "0%";
-                document.getElementById('status-missao').innerText = "MONITORANDO PRÓXIMA BRECHA";
-            }, 2000);
-        }
-    </script>
-</body>
-</html>
+                    }, Math.floor(Math.random() * 30) + 20);
+        
