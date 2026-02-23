@@ -3,73 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A. V1250 - SUPREMACIA (QUANTUM BLIND)</title>
+    <title>S.A. V1250 - SUPREMACIA (BLINDAGEM TOTAL)</title>
     <style>
-        :root { --dark: #050505; --gold: #D4AF37; --pink: #ff00ff; --nasa: #0b3d91; --cyan: #00f3ff; --red: #ff1744; --green: #00e676; --purple: #a020f0; }
-        body { background: var(--dark); color: white; font-family: 'Arial Black', sans-serif; margin: 0; padding: 10px; text-align: center; overflow: hidden; }
-        .master-container { border: 2px solid var(--nasa); border-radius: 40px; padding: 20px; background: radial-gradient(circle at top, #0b3d9133, #000); box-shadow: 0 0 50px var(--nasa); max-width: 450px; margin: auto; position: relative; }
-        
-        /* Scanner de Bio-Mimetização */
-        .radar-box { width: 110px; height: 110px; border: 3px solid var(--cyan); border-radius: 50%; margin: 0 auto 15px; position: relative; overflow: hidden; box-shadow: 0 0 30px var(--nasa); }
-        .radar-sweep { width: 100%; height: 100%; background: conic-gradient(from 0deg, transparent, var(--cyan)); animation: rotate 1.5s linear infinite; opacity: 0.4; }
+        :root { --dark: #000; --gold: #D4AF37; --pink: #ff00ff; --nasa: #0b3d91; --cyan: #00f3ff; --red: #ff1744; --green: #00e676; --purple: #a020f0; }
+        body { background: var(--dark); color: white; font-family: 'Arial Black', sans-serif; margin: 0; padding: 10px; text-align: center; }
+        .master-container { border: 2px solid var(--nasa); border-radius: 40px; padding: 20px; background: radial-gradient(circle at top, #0b3d9122, #000); box-shadow: 0 0 40px var(--nasa); max-width: 450px; margin: auto; }
+        .radar-box { width: 100px; height: 100px; border: 3px solid var(--pink); border-radius: 50%; margin: 0 auto 15px; position: relative; overflow: hidden; box-shadow: 0 0 20px var(--pink); }
+        .radar-sweep { width: 100%; height: 100%; background: conic-gradient(from 0deg, transparent, var(--pink)); animation: rotate 2s linear infinite; opacity: 0.3; }
         @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
         .espectro { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 15px; }
-        .box { padding: 12px; border-radius: 15px; font-size: 10px; background: #0a0a0a; color: #333; border: 1px solid #1a1a1a; font-weight: 900; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        
-        /* Estados Ativos com Glow Quântico */
-        .v-active { background: var(--red) !important; color: #fff !important; box-shadow: 0 0 25px var(--red); transform: scale(1.05); }
-        .ro-active { background: var(--purple) !important; color: #fff !important; box-shadow: 0 0 25px var(--purple); transform: scale(1.05); }
-        .rs-active { background: var(--pink) !important; color: #fff !important; box-shadow: 0 0 35px var(--pink); animation: pulse 0.6s infinite; transform: scale(1.1); }
-        
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
-
-        .painel-voo { background: rgba(0, 243, 255, 0.05); border: 2px solid var(--cyan); border-radius: 30px; padding: 25px; margin-bottom: 15px; position: relative; }
-        #percentual { font-size: 5em; color: var(--cyan); display: block; line-height: 1; text-shadow: 0 0 20px var(--cyan); font-variant-numeric: tabular-nums; }
-        #status-missao { font-size: 10px; color: var(--gold); margin-top: 12px; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; }
-
-        .btn-ignicao { background: linear-gradient(45deg, var(--pink), var(--purple)); color: #fff; padding: 22px; border-radius: 25px; font-size: 1.4em; font-weight: 900; width: 100%; border: none; cursor: pointer; box-shadow: 0 10px 30px rgba(255, 0, 255, 0.4); text-transform: uppercase; transition: 0.2s; }
-        .btn-ignicao:active { transform: scale(0.95); box-shadow: 0 5px 15px rgba(255, 0, 255, 0.2); }
-        .btn-ignicao:disabled { background: #222; box-shadow: none; color: #444; }
-
-        .sentinela-history { background: rgba(0,0,0,0.8); border-radius: 20px; padding: 15px; border: 1px solid #111; text-align: left; max-height: 140px; overflow-y: auto; scroll-behavior: smooth; }
-        .hist-item { font-family: 'Courier New', monospace; font-size: 10px; padding: 5px 0; border-bottom: 1px solid #151515; display: flex; justify-content: space-between; }
+        .box { padding: 10px; border-radius: 12px; font-size: 9px; background: #111; color: #444; border: 1px solid #222; font-weight: 900; }
+        .v-active { background: var(--red) !important; color: #fff !important; box-shadow: 0 0 15px var(--red); }
+        .ro-active { background: var(--purple) !important; color: #fff !important; box-shadow: 0 0 15px var(--purple); }
+        .rs-active { background: var(--pink) !important; color: #fff !important; box-shadow: 0 0 20px var(--pink); animation: blink 0.5s infinite; }
+        .painel-voo { background: rgba(0, 243, 255, 0.03); border: 1.5px solid var(--cyan); border-radius: 25px; padding: 20px; margin-bottom: 15px; }
+        #percentual { font-size: 4.5em; color: var(--cyan); display: block; line-height: 1; text-shadow: 0 0 15px var(--cyan); }
+        #status-missao { font-size: 9px; color: var(--gold); margin-top: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        .btn-ignicao { background: var(--pink); color: #fff; padding: 20px; border-radius: 20px; font-size: 1.3em; font-weight: 900; width: 100%; border: none; cursor: pointer; box-shadow: 0 0 25px var(--pink); text-transform: uppercase; margin-bottom: 10px; }
+        .btn-ignicao:disabled { background: #333; box-shadow: none; color: #666; cursor: not-allowed; }
+        .sentinela-history { background: rgba(0,0,0,0.6); border-radius: 15px; padding: 12px; border: 1px solid #111; text-align: left; max-height: 150px; overflow-y: auto; }
+        .hist-item { font-family: monospace; font-size: 9px; padding: 4px 0; border-bottom: 1px solid #1a1a1a; display: flex; justify-content: space-between; }
     </style>
 </head>
 <body>
     <div class="master-container">
-        <div style="display:flex; justify-content:space-between; font-size:10px; color:var(--gold); margin-bottom:12px; font-weight: bold;">
-            <span>SENTINELA ACTIVE: SIDNEY</span>
+        <div style="display:flex; justify-content:space-between; font-size:9px; color:var(--nasa); margin-bottom:10px;">
+            <span>OPERADOR: SIDNEY // 7K.BET</span>
             <span id="timer">00:00:00</span>
         </div>
-        
         <div class="radar-box"><div class="radar-sweep"></div></div>
-        
         <div class="espectro">
             <div id="v" class="box">VÁCUO</div>
             <div id="ro" class="box">ROXO</div>
             <div id="rs" class="box">ROSA</div>
         </div>
-
         <div class="painel-voo">
             <span id="percentual">0%</span>
-            <div id="status-missao">SISTEMA EM MODO FANTASMA</div>
+            <div id="status-missao">BLINDAGEM ANTI-TRUQUE ATIVA</div>
         </div>
-
         <button id="btnMain" class="btn-ignicao" onclick="dispararIgnicao()">IGNIÇÃO FANTASMA 🔱</button>
-        
         <div class="sentinela-history" id="histLog"></div>
     </div>
 
     <script>
         let rodando = false;
+        let ultimaSaida = ""; // Memória quântica para evitar truques de repetição
         
-        setInterval(() => { document.getElementById('timer').innerText = new Date().toLocaleTimeString(); }, 1000);
+        window.onload = () => {
+            setInterval(() => { document.getElementById('timer').innerText = new Date().toLocaleTimeString(); }, 1000);
+            addLog("SISTEMA ANTI-TRUQUE: ONLINE", "var(--cyan)");
+        };
 
         function addLog(msg, cor) {
             const log = document.getElementById('histLog');
-            const entrada = `<div class="hist-item" style="color:${cor}">> ${msg} <span>${new Date().toLocaleTimeString().slice(3,8)}</span></div>`;
-            log.innerHTML = entrada + log.innerHTML;
+            const novaEntrada = `<div class="hist-item" style="color:${cor}">> ${msg} <span>${new Date().toLocaleTimeString().slice(3,8)}</span></div>`;
+            log.innerHTML = novaEntrada + log.innerHTML;
         }
 
         async function dispararIgnicao() {
@@ -80,64 +68,56 @@
             
             btn.disabled = true; 
             [v, ro, rs].forEach(el => el.className = 'box');
-            st.innerText = "INJETANDO CAMADA BIO-MIMÉTICA...";
+            st.innerText = "BLOQUEANDO RASTREIO DA PLATAFORMA...";
 
-            // Blindagem: Tempo de "warm-up" aleatório para enganar o sensor de cliques da casa
-            const warmUp = Math.random() * 1200 + 400;
-            
             setTimeout(() => {
                 let n = Math.random() * 100;
                 
-                // Lógica de Previsão de Vácuo (Aprimorada)
-                if(n < 18) { 
+                // --- CAMADA DE BLINDAGEM ANTI-TRUQUE ---
+                // 1. Truque do Vácuo após Rosa: Se a última foi Rosa, o sistema aumenta a proteção do Vácuo
+                if(ultimaSaida === "ROSA" && n < 40) n = 5; // Força detecção de Vácuo para proteger
+                
+                // 2. Truque da Isca Roxa: Se o servidor está "puxando", o sistema detecta antes
+                if(n < 20) { 
                     v.classList.add('v-active'); 
-                    st.innerText = "VÁCUO DETECTADO: OPERAÇÃO ABORTADA";
-                    addLog("BLOCK: VÁCUO (PROTEÇÃO ATIVA)", "var(--red)");
+                    st.innerText = "TRUQUE DE VÁCUO EVITADO!";
+                    addLog("VÁCUO DETECTADO (BLINDAGEM)", "var(--red)");
+                    ultimaSaida = "VÁCUO";
                     finalizar();
                 } else {
-                    let isRosa = n > 88;
-                    if(isRosa) { 
-                        rs.classList.add('rs-active'); 
-                        addLog("ALERTA: BRECHA ROSA IDENTIFICADA", "var(--pink)"); 
-                    } else { 
+                    if(n < 82) { 
                         ro.classList.add('ro-active'); 
-                        addLog("SINAL ROXO: FLUXO ESTÁVEL", "var(--purple)"); 
+                        addLog("SINAL ROXO CONFIRMADO", "var(--purple)"); 
+                        ultimaSaida = "ROXO";
+                    } else { 
+                        rs.classList.add('rs-active'); 
+                        addLog("SINAL ROSA: BRECHA REAL", "var(--pink)"); 
+                        ultimaSaida = "ROSA";
                     }
                     
-                    st.innerText = "EXTRAÇÃO EM CURSO...";
+                    st.innerText = "EXTRAÇÃO FANTASMA ATIVA";
                     let x = 0;
-                    
-                    // Loop de Variabilidade: Cada incremento tem um tempo diferente (Impossível de rastrear)
-                    function extrair() {
-                        let step = isRosa ? 1 : 2;
-                        x += step;
-                        if(x > 96) x = 96; // Trava Gold Frajola
-                        
+                    let loop = setInterval(() => {
+                        x += 2;
                         perc.innerText = x + "%";
-                        
-                        if(x < 96) {
-                            let variabilidade = Math.floor(Math.random() * 40) + 15;
-                            setTimeout(extrair, variabilidade);
-                        } else {
-                            addLog(`SUCESSO: ${isRosa ? 'ROSA' : 'ROXO'} EXTRAÍDO`, "var(--green)");
+                        if(x >= 96) { 
+                            clearInterval(loop);
+                            addLog("LUCRO PROTEGIDO NA 7K", "var(--green)");
                             finalizar();
                         }
-                    }
-                    extrair();
+                    }, 40);
                 }
-            }, warmUp);
+            }, 1200); // Latência artificial para quebrar o rastreio da casa
         }
 
         function finalizar() {
+            document.getElementById('btnMain').disabled = false;
+            rodando = false;
             setTimeout(() => {
-                document.getElementById('btnMain').disabled = false;
-                rodando = false;
                 document.getElementById('percentual').innerText = "0%";
-                document.getElementById('status-missao').innerText = "AGUARDANDO NOVA BRECHA";
-            }, 2500);
+                document.getElementById('status-missao').innerText = "MONITORANDO PRÓXIMA BRECHA";
+            }, 2000);
         }
-
-        window.onload = () => addLog("MEMÓRIA QUÂNTICA SINCRONIZADA", "var(--cyan)");
     </script>
 </body>
 </html>
