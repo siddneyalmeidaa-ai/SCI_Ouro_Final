@@ -3,77 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A. OMNI - SN</title>
+    <title>S.A. SUPREMACIA - SN</title>
     <style>
-        :root { --gold: #D4AF37; --bg: #050505; --neon-cyan: #00f3ff; }
+        :root { --gold: #D4AF37; --bg: #050505; --neon-cyan: #00f3ff; --purple: #a020f0; }
         body { background: var(--bg); color: #888; font-family: 'Courier New', monospace; margin: 0; padding: 10px; }
-        .master { border: 2px solid #1a1a1a; border-radius: 20px; padding: 20px; max-width: 380px; margin: auto; background: #080808; position: relative; overflow: hidden; }
-        .layer-indicator { font-size: 8px; color: #333; text-transform: uppercase; margin-bottom: 5px; display: flex; justify-content: space-between; }
-        .layer-active { color: var(--neon-cyan); text-shadow: 0 0 5px var(--neon-cyan); }
-        .visor { border: 1px solid #222; border-radius: 12px; padding: 20px; text-align: center; margin: 15px 0; background: #000; }
-        #percent { font-size: 3em; color: var(--gold); font-weight: 900; }
-        #msg { font-size: 10px; color: #fff; display: block; margin-top: 10px; min-height: 15px; }
-        .btn-omni { background: linear-gradient(145deg, #111, #000); color: var(--gold); border: 1px solid var(--gold); padding: 20px; border-radius: 12px; width: 100%; font-weight: 900; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; }
-        .btn-omni:active { transform: scale(0.98); border-color: #fff; }
-        .footer-info { font-size: 8px; color: #222; margin-top: 15px; text-align: center; }
+        .master { border: 2px solid var(--gold); border-radius: 20px; padding: 15px; max-width: 380px; margin: auto; background: #080808; box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); }
+        .layer-status { font-size: 8px; color: #333; display: flex; justify-content: space-around; margin-bottom: 10px; }
+        .active { color: var(--neon-cyan); text-shadow: 0 0 5px var(--neon-cyan); }
+        .visor { border: 2px double #222; border-radius: 12px; padding: 15px; text-align: center; margin-bottom: 15px; background: #000; }
+        #percent { font-size: 3.5em; color: var(--gold); font-weight: 900; }
+        #msg { font-size: 10px; color: #fff; margin-top: 5px; text-transform: uppercase; }
+        .btn-omni { background: linear-gradient(145deg, #111, #000); color: var(--gold); border: 1px solid var(--gold); padding: 18px; border-radius: 12px; width: 100%; font-weight: 900; cursor: pointer; letter-spacing: 1px; }
+        .btn-omni:active { transform: scale(0.97); background: var(--gold); color: #000; }
+        .shield-indicator { font-size: 9px; color: #2ecc71; margin-top: 10px; font-weight: bold; }
     </style>
 </head>
 <body>
     <div class="master">
-        <div class="layer-indicator">
-            <span id="l1">DEFESA</span> | <span id="l2">ATAQUE</span> | <span id="l3">GHOST</span> | <span id="l4">CAMALEÃO</span>
+        <div class="layer-status">
+            <span id="l1">DEFESA</span> | <span id="l2">ATAQUE</span> | <span id="l3">GHOST</span> | <span id="l4">MTS-LOCK</span>
         </div>
         
         <div class="visor">
-            <div id="percent">--%</div>
-            <div id="msg">SISTEMA OMNI EM STANDBY</div>
+            <div id="percent">100%</div>
+            <div id="msg">SISTEMA ANCORADO</div>
+            <div id="shield" class="shield-indicator">🛡️ BLOQUEADOR DE ROUBO ATIVO</div>
         </div>
 
-        <button class="btn-omni" onclick="execOmni()">INICIAR PROTOCOLO 🔱</button>
+        <button class="btn-omni" onclick="execProtocoloOmni()">EXECUTAR ANCORAGEM 🔱</button>
         
-        <div class="footer-info">SN // ENGLOBAMENTO TOTAL V1250 // MEMÓRIA QUÂNTICA ATIVA</div>
+        <div style="font-size: 7px; color: #222; margin-top: 15px; text-align: center;">
+            SN // ANTI-SABOTAGEM V1250 // SEQUESTRO DE SEMENTE ATIVO
+        </div>
     </div>
 
     <script>
         let b = false;
-        function execOmni() {
+        function execProtocoloOmni() {
             if(b) return; b = true;
             const m=document.getElementById('msg'), p=document.getElementById('percent'), l1=document.getElementById('l1'), l2=document.getElementById('l2'), l3=document.getElementById('l3'), l4=document.getElementById('l4');
             
-            // Camada 4: Mimetização Humana (Delay randômico)
-            let delay = Math.floor(Math.random() * 500) + 200;
-            l4.className = "layer-active"; m.innerText = "MIMETIZANDO COMPORTAMENTO...";
+            // Camada de Camaleão & Ofuscação
+            m.innerText = "MIMETIZANDO CONEXÃO...";
+            l3.className = "active";
 
             setTimeout(() => {
-                // Camada 1: Escaneamento de Sabotagem
-                l1.className = "layer-active"; m.innerText = "ESCANEANDO RETENÇÃO...";
+                // ANCORAGEM DE PLATAFORMA (MTS/SSS)
+                m.innerText = "⚓ ANCORANDO SEMENTE NO SERVIDOR...";
+                l4.className = "active";
                 
                 setTimeout(() => {
-                    // Camada 3: Ofuscação de Assinatura (Ghost)
-                    l3.className = "layer-active"; m.innerText = "CRIPTOGRAFANDO PACOTES...";
+                    // INTELIGÊNCIA PREDITIVA (Ataque/Defesa)
+                    l1.className = "active"; l2.className = "active";
+                    let n = Math.random() * 100;
                     
+                    if(n < 20) {
+                        m.innerText = "SINAL SUJO: VÁCUO (PULA)"; p.innerText = "0%"; p.style.color = "#ff1744";
+                    } else if(n < 70) {
+                        m.innerText = "ROTA PROTEGIDA: 1.28x"; p.innerText = "1.28x"; p.style.color = "var(--neon-cyan)";
+                    } else {
+                        m.innerText = "MAX: SEMENTE TRAVADA (ROSA)"; p.innerText = "MAX"; p.style.color = "var(--purple)";
+                    }
+
+                    // Reset após a rodada
                     setTimeout(() => {
-                        // Camada 2: Injeção de Ataque (Preditiva)
-                        l2.className = "layer-active";
-                        let n = Math.random() * 100;
-                        
-                        if(n < 20) {
-                            m.innerText = "BRECHA FECHADA (PULA)"; p.innerText = "VÁCUO"; p.style.color = "#ff1744";
-                        } else if(n < 65) {
-                            // Alvo Inteligente (1.28x) para não alertar monitoramento
-                            m.innerText = "BRECHA FANTASMA: 1.28x"; p.innerText = "1.28x"; p.style.color = "var(--neon-cyan)";
-                        } else {
-                            m.innerText = "FLUXO ALTO: CONFIRMADO"; p.innerText = "MAX"; p.style.color = "#a020f0";
-                        }
-                        
-                        // Reset de Camadas
-                        setTimeout(() => {
-                            [l1,l2,l3,l4].forEach(e => e.className = "");
-                            b = false;
-                        }, 2000);
-                    }, 150);
-                }, 200);
-            }, delay);
+                        [l1,l2,l3,l4].forEach(e => e.className = "");
+                        b = false;
+                    }, 5000);
+                }, 400); 
+            }, 300);
         }
     </script>
 </body>
