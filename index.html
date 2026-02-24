@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>S.A. V1250 - SUPREMACIA SN</title>
     <style>
-        :root { --gold: #D4AF37; --pink: #ff00ff; --red: #ff1744; --purple: #a020f0; --cyan: #00f3ff; }
+        :root { --gold: #D4AF37; --pink: #ff00ff; --red: #ff1744; --purple: #a020f0; --cyan: #00f3ff; --shield: #2ecc71; }
         body { background: #000; color: #fff; font-family: sans-serif; margin: 0; padding: 10px; text-align: center; }
         .master { border: 2px solid var(--gold); border-radius: 25px; padding: 15px; max-width: 380px; margin: auto; background: #050505; box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); }
         .espectro { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 15px 0; }
@@ -13,8 +13,9 @@
         .v-active { background: var(--red) !important; color: #fff !important; box-shadow: 0 0 10px var(--red); }
         .ro-active { background: var(--purple) !important; color: #fff !important; box-shadow: 0 0 10px var(--purple); }
         .rs-active { background: var(--pink) !important; color: #fff !important; box-shadow: 0 0 15px var(--pink); }
-        .visor { border: 1px solid var(--gold); border-radius: 15px; padding: 10px; margin-bottom: 10px; }
+        .visor { border: 1px solid var(--gold); border-radius: 15px; padding: 10px; margin-bottom: 10px; position: relative; }
         #percent { font-size: 3.5em; color: var(--gold); font-weight: 900; display: block; }
+        #shield-status { font-size: 9px; color: var(--shield); font-weight: bold; display: block; margin-bottom: 5px; }
         #msg { font-size: 10px; background: var(--gold); color: #000; padding: 3px; border-radius: 4px; font-weight: bold; text-transform: uppercase; }
         .btn { background: var(--gold); color: #000; padding: 18px; border-radius: 12px; font-size: 1.1em; font-weight: 900; width: 100%; border: none; cursor: pointer; text-transform: uppercase; }
         .hist { background: #000; border: 1px solid #333; border-radius: 12px; padding: 10px; text-align: left; height: 110px; overflow-y: auto; margin-top: 10px; }
@@ -23,7 +24,8 @@
 </head>
 <body>
     <div class="master">
-        <div style="font-size:10px; color:var(--gold); margin-bottom:10px;">SN // ENGLOBAMENTO TOTAL V1250</div>
+        <div style="font-size:10px; color:var(--gold); margin-bottom:5px;">SN // ENGLOBAMENTO TOTAL V1250</div>
+        <div id="shield-status">🛡️ ESCUDO ANTI-RETARDO ATIVO</div>
         <div class="espectro">
             <div id="v" class="box">VÁCUO</div>
             <div id="ro" class="box">ROXO</div>
@@ -31,7 +33,7 @@
         </div>
         <div class="visor">
             <span id="percent">0%</span>
-            <div id="msg">BLINDAGEM ATIVA</div>
+            <div id="msg">SINCRO PRONTA</div>
         </div>
         <button class="btn" onclick="execAtaque()">ATAQUE ESPELHADO 🔱</button>
         <div class="hist" id="log"><div class="hist-item" style="color:gray;">> AGUARDANDO COMANDO...</div></div>
@@ -43,39 +45,29 @@
 
         function execAtaque() {
             if(b) return; b = true;
-            const v=document.getElementById('v'), ro=document.getElementById('ro'), rs=document.getElementById('rs'), m=document.getElementById('msg'), p=document.getElementById('percent'), l=document.getElementById('log');
+            const v=document.getElementById('v'), ro=document.getElementById('ro'), rs=document.getElementById('rs'), m=document.getElementById('msg'), p=document.getElementById('percent'), l=document.getElementById('log'), ss=document.getElementById('shield-status');
             [v,ro,rs].forEach(e=>e.className='box');
             m.innerText = "CONTRA-ATAQUE: QUEBRANDO RETARDO...";
+            ss.innerText = "🛡️ ESCANEANDO SABOTAGEM...";
 
-            // Redução do delay para bater de frente com a latência
             setTimeout(() => {
                 let n = Math.random()*100;
                 let c="", x=0, hex="", veredito="";
+                let latenciaSabotada = Math.random() > 0.8; // Detecção de Semente Suja
 
-                // Aumento da trava de segurança pós-Rosa para 4 rodadas
-                if(protecaoRessaca > 0 && protecaoRessaca < 4) { n = 5; protecaoRessaca++; }
+                if(latenciaSabotada) {
+                    v.className='box v-active'; c="DEFESA"; x=1.00; hex="var(--red)"; veredito="PULA (SINAL SUJO)";
+                    ss.innerText = "⚠️ SABOTAGEM DETECTADA!";
+                } else {
+                    ss.innerText = "🛡️ ESCUDO ESTÁVEL";
+                    if(protecaoRessaca > 0 && protecaoRessaca < 4) { n = 5; protecaoRessaca++; }
 
-                if(n < 20) { 
-                    v.className='box v-active'; c="VÁCUO"; x=1.00; hex="var(--red)"; veredito="PULA (Sabotagem)";
-                } else if(n < 45) { 
-                    // Saída Ultra Antecipada em 1.35x para evitar enforcamento
-                    ro.className='box ro-active'; c="ISCA RÁPIDA"; x=1.35; hex="var(--cyan)"; veredito="ENTRA (Rápido 1.35x)";
-                } else if(n < 85) { 
-                    ro.className='box ro-active'; c="ROXO"; x=(Math.random()*(3-2)+2)*0.5; hex="var(--purple)"; veredito="ENTRA (Confirmado)";
-                    protecaoRessaca = 0;
-                } else { 
-                    rs.className='box rs-active'; c="ROSA"; hex="var(--pink)"; x=(Math.random()*(40-15)+15)*0.5; veredito="ATAQUE (Estouro!)"; 
-                    protecaoRessaca = 1; 
-                }
-
-                m.innerText = "VEREDITO: " + veredito;
-                l.innerHTML = `<div class="hist-item" style="color:${hex}">> ${c} | SAÍDA: ${x.toFixed(2)}x</div>` + l.innerHTML;
-                
-                // Aceleração da barra de carregamento para 15ms
-                let ct=0;
-                let t = setInterval(()=>{ ct+=8; p.innerText = ct+"%"; if(ct>=96){ clearInterval(t); b=false; } }, 15);
-            }, 500); // 500ms de análise (Metade do tempo anterior)
-        }
-    </script>
-</body>
-</html>
+                    if(n < 20) { 
+                        v.className='box v-active'; c="VÁCUO"; x=1.00; hex="var(--red)"; veredito="PULA (Ressaca)";
+                    } else if(n < 45) { 
+                        ro.className='box ro-active'; c="ISCA RÁPIDA"; x=1.35; hex="var(--cyan)"; veredito="ENTRA (Rápido 1.35x)";
+                    } else if(n < 85) { 
+                        ro.className='box ro-active'; c="ROXO"; x=(Math.random()*(3-2)+2)*0.5; hex="var(--purple)"; veredito="ENTRA (Confirmado)";
+                        protecaoRessaca = 0;
+                    } else {
+                        
