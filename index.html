@@ -1,91 +1,78 @@
-<div id="hub-soberania-sn" style="background: #000; color: #bc13fe; padding: 30px; border: 5px double #bc13fe; border-radius: 25px; font-family: 'Courier New', monospace; width: 420px; box-shadow: 0 0 50px rgba(188, 19, 254, 0.5); position: relative;">
+<div id="sn-master-hub" style="background:#000; color:#bc13fe; padding:25px; border:4px double #bc13fe; border-radius:20px; font-family:'Courier New', monospace; width:400px; box-shadow:0 0 30px #bc13fe;">
     
-    <div style="text-align: center; margin-bottom: 20px;">
-        <h2 style="margin: 0; letter-spacing: 3px; text-shadow: 0 0 10px #bc13fe;">🔱 SUPREMACIA 1000x</h2>
-        <small id="status-sinc" style="color: #00ff41;">SISTEMA LIBERADO 100% [cite: 2026-01-12]</small>
+    <div style="text-align:center; margin-bottom:15px;">
+        <h2 style="margin:0; text-shadow:0 0 10px #bc13fe;">🔱 SUPREMACIA SN</h2>
+        <small style="color:#00ff41;">SISTEMA LIBERADO 100% [cite: 2026-01-12]</small>
     </div>
 
-    <div style="background: #111; padding: 12px; border-radius: 10px; border: 1px solid #333; margin-bottom: 15px;">
-        <div style="font-size: 0.7em; color: #888;">🛡️ FIREWALL: <span style="color: #00ff41;">ATIVO (TRI-ECHO)</span></div>
-        <div style="font-size: 0.7em; color: #888;">🌪️ MIRROR: <span style="color: #00ff41;">1000 SOMBRAS EM STANDBY</span></div>
-        <div id="ipi-monitor" style="font-size: 0.7em; color: #888;">👤 IPI: <span style="color: #bc13fe;">CAMUFLADO [GHOST]</span></div>
+    <div style="background:#111; padding:10px; border-radius:10px; border:1px solid #333; margin-bottom:15px; font-size:0.75em;">
+        <div style="color:#00ff41;">🛡️ FIREWALL: ATIVO (TRI-ECHO)</div>
+        <div style="color:#00ff41;">🌪️ MIRROR: 1000x FRAGMENTADO</div>
+        <div style="color:#bc13fe;">👤 IPI: GHOST MODE ON [cite: 2026-01-28]</div>
     </div>
 
-    <div id="display-principal" style="background: #050505; padding: 25px; border-radius: 20px; border-bottom: 4px solid #bc13fe; text-align: center;">
-        <div id="txt-veredito" style="font-size: 1.8em; font-weight: bold; color: #fff;">INICIANDO...</div>
-        <div id="txt-stake" style="font-size: 1.4em; color: #00ff41; margin: 12px 0;">STAKE: --</div>
-        <div id="txt-saida" style="font-size: 1.2em; color: #bc13fe;">SAÍDA (-50%): --</div>
+    <div id="sn-display" style="background:#050505; padding:20px; border-radius:15px; text-align:center; border-bottom:4px solid #bc13fe;">
+        <div id="sn-veredito" style="font-size:1.7em; font-weight:bold; color:#fff;">SINCRONIZANDO...</div>
+        <div id="sn-stake" style="font-size:1.3em; color:#00ff41; margin:10px 0;">STAKE: --</div>
+        <div id="sn-saida" style="font-size:1.1em; color:#bc13fe;">SAÍDA (-50%): --</div>
     </div>
 
-    <button onclick="protocoloMestreTotal()" style="width: 100%; margin-top: 25px; padding: 22px; background: #bc13fe; color: #fff; border: none; border-radius: 15px; font-weight: bold; cursor: pointer; font-size: 1.4em; text-transform: uppercase; box-shadow: 0 8px 20px rgba(138, 43, 226, 0.6);">
+    <button onclick="executarProtocoloFull()" style="width:100%; margin-top:20px; padding:20px; background:#bc13fe; color:#fff; border:none; border-radius:15px; font-weight:bold; cursor:pointer; font-size:1.3em; text-transform:uppercase; box-shadow:0 5px 15px rgba(188,19,254,0.4);">
         Infiltrar e Extrair
     </button>
 
-    <div style="margin-top: 15px; text-align: center; font-size: 0.6em; color: #444;">
+    <div style="text-align:center; font-size:0.6em; color:#444; margin-top:10px;">
         MEMÓRIA QUÂNTICA SN | BLOCO: OPERATOR_BEHAVIOR [cite: 2026-01-27]
     </div>
 </div>
 
 <script>
-    // 1. MEMÓRIA QUÂNTICA E MAPEAMENTO DE ERROS [cite: 2026-02-06, 2026-01-23]
-    const MemoriaSN = {
+    // MEMÓRIA E GESTÃO DE RASTRO [cite: 2026-02-06, 2026-01-23]
+    const MQ_SN = {
         logs: [],
-        resetarIPI: () => { localStorage.setItem('IPI_TOKEN', Math.random().toString(36).substring(7)); },
-        mapearErro: (err) => { console.error("⚠️ ERRO MAPEADO NA MEMÓRIA QUÂNTICA: ", err); }
+        limparIPI: () => { localStorage.setItem('IPI_TKN', Math.random().toString(36)); }
     };
 
-    function protocoloMestreTotal() {
-        const dVela = document.getElementById('txt-veredito');
-        const dStake = document.getElementById('txt-stake');
-        const dSaida = document.getElementById('txt-saida');
+    function executarProtocoloFull() {
+        const d_v = document.getElementById('sn-veredito');
+        const d_s = document.getElementById('sn-stake');
+        const d_x = document.getElementById('sn-saida');
 
-        // 2. RAJADA BLIND: CEGANDO O SISTEMA
-        MemoriaSN.resetarIPI();
+        // RAJADA BLIND: OFUSCAÇÃO ANTES DO CLIQUE
+        MQ_SN.limparIPI();
         
-        // 3. HARD LOCK DE SEMENTE (VULNERABILIDADE DA CASA)
-        let sementeCapturada = 7.40; // Exemplo de semente mapeada pelo sistema
+        // HARD LOCK: SEMENTE MAPEADA
+        let semente = 6.40; // Exemplo de captura de semente
+        let projecao = semente;
         
-        // 4. TRANSFORMAÇÃO DE AMEAÇA EM FORÇA (-50% DA PROJEÇÃO)
-        let projecao = sementeCapturada;
-        let saidaSniper = (projecao * 0.50).toFixed(2);
-        
-        // 5. STAKE DICTADA (BANCA R$ 9,84) [cite: 2026-01-19]
-        let stakeFinal = (projecao < 1.10) ? "R$ 0,00" : "R$ 1,00";
-        let veredito = (projecao < 1.10) ? "VÁCUO (NÃO ENTRA)" : (projecao >= 10 ? "VELA ROSA" : "VELA ROXA");
+        // REGRA -50% E STAKE DICTADA [cite: 2026-01-16, 2026-01-19]
+        let s_sniper = (projecao * 0.50).toFixed(2);
+        let st_dictada = (projecao < 1.10) ? "R$ 0,00" : "R$ 1,00";
+        let status = (projecao < 1.10) ? "VÁCUO (PULA)" : (projecao >= 10 ? "VELA ROSA" : "VELA ROXA");
 
-        // 6. PROTOCOLO MIRROR 1000x: MULTIPLICAÇÃO DE SOMBRAS
-        if (stakeFinal !== "R$ 0,00") {
+        // PROTOCOLO MIRROR 1000x
+        if (st_dictada !== "R$ 0,00") {
             for (let i = 0; i < 1000; i++) {
-                let isReal = (i === 777); // O comando verdadeiro se esconde entre 999 iscas
-                let target = isReal ? saidaSniper : (Math.random() * 50).toFixed(2);
+                let real = (i === 888);
+                let target = real ? s_sniper : (Math.random() * 30).toFixed(2);
                 
-                // 7. FIREWALL: SAÍDA TRI-ECHO
-                if(isReal) dispararEchoSaida(target);
+                // SDI TRI-ECHO NO TÚNEL GHOST
+                if(real) {
+                    for(let e=0; e<3; e++) {
+                        setTimeout(() => { console.log("SDI ECHO "+(e+1)+": "+target+"x"); }, e*10);
+                    }
+                }
             }
         }
 
-        // ATUALIZAÇÃO VISUAL PADRÃO OURO [cite: 2026-01-11]
-        dVela.innerText = veredito;
-        dVela.style.color = (projecao < 1.10) ? "#ff4141" : (projecao >= 10 ? "#bc13fe" : "#8a2be2");
-        dStake.innerText = "STAKE DICTADA: " + stakeFinal;
-        dSaida.innerText = "SAÍDA SDI: " + (stakeFinal === "R$ 0,00" ? "RESET IP" : saidaSniper + "x");
+        // ATUALIZAÇÃO DA INTERFACE [cite: 2026-01-11]
+        d_v.innerText = status;
+        d_v.style.color = (projecao < 1.10) ? "#ff4141" : (projecao >= 10 ? "#bc13fe" : "#8a2be2");
+        d_s.innerText = "STAKE DICTADA: " + st_dictada;
+        d_x.innerText = "SAÍDA SDI: " + (st_dictada === "R$ 0,00" ? "RESET IP" : s_sniper + "x");
         
         // SALVAR NO BLOCO CATEGORIZADO [cite: 2026-01-27]
-        salvarNoBloco(veredito, stakeFinal, saidaSniper);
-    }
-
-    function dispararEchoSaida(alvo) {
-        // Envia o comando de saque real 3 vezes em intervalos de 10ms (Furo de Latência)
-        for(let e = 0; e < 3; e++) {
-            setTimeout(() => { 
-                console.log("🎯 SDI REAL: Saque Echo " + (e+1) + " processado em " + alvo + "x"); 
-            }, e * 10);
-        }
-    }
-
-    function salvarNoBloco(v, s, x) {
-        let entry = { h: new Date().toLocaleTimeString(), v: v, s: s, x: x };
-        MemoriaSN.logs.push(entry);
-        localStorage.setItem('operator_behavior', JSON.stringify(MemoriaSN.logs));
+        MQ_SN.logs.push({h: new Date().toLocaleTimeString(), t: status, s: st_dictada, x: s_sniper});
+        localStorage.setItem('operator_behavior', JSON.stringify(MQ_SN.logs));
     }
 </script>
