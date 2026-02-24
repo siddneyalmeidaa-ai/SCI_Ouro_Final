@@ -3,101 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A. V1250 - SUPREMACIA ABSOLUTA (ESPELHADO)</title>
+    <title>S.A. V1250 - SUPREMACIA TOTAL (FIXED)</title>
     <style>
         :root { --dark: #000; --gold: #D4AF37; --pink: #ff00ff; --nasa: #0b3d91; --cyan: #00f3ff; --red: #ff1744; --green: #00e676; --purple: #a020f0; }
         body { background: var(--dark); color: white; font-family: 'Arial Black', sans-serif; margin: 0; padding: 10px; text-align: center; }
-        .master-container { border: 2px solid var(--gold); border-radius: 40px; padding: 20px; background: radial-gradient(circle at top, #1a1500, #000); box-shadow: 0 0 60px var(--gold); max-width: 450px; margin: auto; }
+        .master-container { border: 2px solid var(--gold); border-radius: 40px; padding: 20px; background: radial-gradient(circle at top, #1a1500, #000); box-shadow: 0 0 50px var(--gold); max-width: 450px; margin: auto; }
         
-        /* Radar de Sincronização e Contra-Ataque */
-        .radar-box { width: 100px; height: 100px; border: 3px solid var(--gold); border-radius: 50%; margin: 0 auto 15px; position: relative; overflow: hidden; box-shadow: 0 0 25px var(--gold); }
-        .radar-sweep { width: 100%; height: 100%; background: conic-gradient(from 0deg, transparent, var(--gold)); animation: rotate 1s linear infinite; opacity: 0.6; }
+        /* Radar de Sincronização */
+        .radar-box { width: 90px; height: 90px; border: 3px solid var(--gold); border-radius: 50%; margin: 0 auto 15px; position: relative; overflow: hidden; }
+        .radar-sweep { width: 100%; height: 100%; background: conic-gradient(from 0deg, transparent, var(--gold)); animation: rotate 1.5s linear infinite; opacity: 0.6; }
         @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
+        /* BARRINHAS DE SINALIZAÇÃO - REATIVADAS */
         .espectro { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 15px; }
-        .box { padding: 12px; border-radius: 15px; font-size: 10px; background: #0a0a0a; color: #333; border: 1px solid #222; font-weight: 900; transition: 0.3s; }
-        
-        /* Sinalização de Cores Ativas (Ataque) */
-        .v-active { background: var(--red) !important; color: #fff !important; box-shadow: 0 0 20px var(--red); }
-        .ro-active { background: var(--purple) !important; color: #fff !important; box-shadow: 0 0 20px var(--purple); }
-        .rs-active { background: var(--pink) !important; color: #fff !important; box-shadow: 0 0 30px var(--pink); animation: pulse 0.5s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+        .box { padding: 12px; border-radius: 15px; font-size: 10px; background: #0a0a0a; color: #444; border: 1px solid #222; font-weight: 900; transition: 0.4s; }
+        .v-active { background: var(--red) !important; color: #fff !important; box-shadow: 0 0 15px var(--red); }
+        .ro-active { background: var(--purple) !important; color: #fff !important; box-shadow: 0 0 15px var(--purple); }
+        .rs-active { background: var(--pink) !important; color: #fff !important; box-shadow: 0 0 25px var(--pink); animation: blink 0.5s infinite; }
+        @keyframes blink { 50% { opacity: 0.6; } }
 
-        .painel-voo { background: rgba(212, 175, 55, 0.05); border: 2px solid var(--gold); border-radius: 25px; padding: 20px; margin-bottom: 15px; }
-        #percentual { font-size: 5em; color: var(--gold); display: block; line-height: 1; text-shadow: 0 0 20px var(--gold); }
-        #status-missao { font-size: 11px; color: #000; margin-top: 10px; text-transform: uppercase; font-weight: bold; background: var(--gold); padding: 6px; border-radius: 8px; }
+        .painel-voo { background: rgba(212, 175, 55, 0.05); border: 2px solid var(--gold); border-radius: 25px; padding: 15px; margin-bottom: 15px; }
+        #percentual { font-size: 4em; color: var(--gold); display: block; line-height: 1; text-shadow: 0 0 15px var(--gold); }
+        #status-missao { font-size: 10px; color: #000; margin-top: 10px; text-transform: uppercase; font-weight: bold; background: var(--gold); padding: 5px; border-radius: 5px; }
 
-        .btn-master { background: linear-gradient(45deg, #D4AF37, #8a6d3b); color: #000; padding: 22px; border-radius: 25px; font-size: 1.2em; font-weight: 900; width: 100%; border: none; cursor: pointer; box-shadow: 0 0 30px var(--gold); text-transform: uppercase; margin-bottom: 10px; }
-        .btn-monitor { background: #111 !important; color: var(--cyan) !important; border: 1px solid var(--cyan) !important; box-shadow: 0 0 15px var(--cyan) !important; }
+        /* BOTÃO DE ATAQUE - CORRIGIDO */
+        .btn-master { background: linear-gradient(45deg, #D4AF37, #8a6d3b); color: #000; padding: 20px; border-radius: 20px; font-size: 1.1em; font-weight: 900; width: 100%; border: none; cursor: pointer; box-shadow: 0 0 25px var(--gold); text-transform: uppercase; margin-bottom: 10px; }
+        .btn-master:active { transform: scale(0.95); }
 
-        .sentinela-history { background: rgba(0,0,0,0.9); border-radius: 18px; padding: 12px; border: 1px solid var(--gold); text-align: left; max-height: 140px; overflow-y: auto; }
-        .hist-item { font-family: monospace; font-size: 11px; padding: 6px 0; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center; }
-        .label-x { color: var(--cyan); font-weight: bold; font-size: 12px; }
+        /* HISTÓRICO - REATIVADO */
+        .sentinela-history { background: rgba(0,0,0,0.9); border-radius: 18px; padding: 12px; border: 1px solid var(--gold); text-align: left; max-height: 120px; overflow-y: auto; margin-top: 10px; }
+        .hist-item { font-family: monospace; font-size: 10px; padding: 5px 0; border-bottom: 1px solid #222; display: flex; justify-content: space-between; }
+        .label-x { color: var(--cyan); font-weight: bold; }
     </style>
-</head>
-<body>
-    <div class="master-container">
-        <div style="display:flex; justify-content:space-between; font-size:9px; color:var(--gold); margin-bottom:12px; font-weight:bold;">
-            <span>OPERADOR: SN // ESPELHAMENTO ATIVO</span>
-            <span id="timer">00:00:00</span>
-        </div>
-
-        <div class="radar-box"><div class="radar-sweep"></div></div>
-
-        <div class="espectro">
-            <div id="v" class="box">VÁCUO</div>
-            <div id="ro" class="box">ROXO</div>
-            <div id="rs" class="box">ROSA</div>
-        </div>
-
-        <div class="painel-voo">
-            <span id="percentual">0%</span>
-            <div id="status-missao">SISTEMA SINCRONIZADO</div>
-        </div>
-
-        <button id="btnMain" class="btn-master" onclick="executarSupremacia()">ATAQUE ESPELHADO 🔱</button>
-        
-        <div class="sentinela-history" id="histLog"></div>
-    </div>
-
-    <script>
-        let rodando = false;
-        setInterval(() => { document.getElementById('timer').innerText = new Date().toLocaleTimeString(); }, 1000);
-
-        function addLog(corPrev, valorX, hex) {
-            const log = document.getElementById('histLog');
-            const entrada = `<div class="hist-item" style="color:${hex}">> ESPELHO: ${corPrev} <span class="label-x">SAÍDA: ${valorX}x</span></div>`;
-            log.innerHTML = entrada + log.innerHTML;
-        }
-
-        async function executarSupremacia() {
-            if(rodando) return;
-            rodando = true;
-
-            const btn = document.getElementById('btnMain'), v = document.getElementById('v'), ro = document.getElementById('ro'), rs = document.getElementById('rs');
-            const st = document.getElementById('status-missao'), perc = document.getElementById('percentual');
-
-            // 1. CAMADA DE CONTRA-ATAQUE: Saturação de Iscas
-            st.innerText = "CONTRA-ATAQUE: SATURANDO IP...";
-            for(let i=0; i<8; i++) { setTimeout(() => { console.log("ISCA ENVIADA"); }, i*100); }
-
-            // 2. CAMADA DE AUTOCORREÇÃO: Monitoramento de Risco
-            let riscoPlataforma = Math.random() * 100;
-            if(riscoPlataforma < 15) {
-                btn.classList.add('btn-monitor');
-                btn.innerText = "PLATAFORMA EM TESTE 🔍";
-            }
-
-            [v, ro, rs].forEach(el => el.className = 'box');
-
-            // 3. CAMADA DE ESPELHAMENTO ALGORÍTMICO: Leitura do Ciclo
-            setTimeout(() => {
-                let n = Math.random() * 100;
-                let c = ""; let x = 0; let hex = "";
-
-                if(n < 15) {
-                    v.classList.add('v-active'); c = "VÁCUO"; x = 1.00; hex = "var(--red)";
-                    st.innerText = "CICLO DE COLETA: PULA!";
-                } else if(n < 85) {
-                    ro.classList.add('ro-active'); c = "ROXO"; hex = "var
-        
+</
+    
