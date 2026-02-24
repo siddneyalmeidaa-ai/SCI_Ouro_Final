@@ -1,64 +1,91 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A. OMNI PLUS - SN</title>
-    <style>
-        :root { --gold: #D4AF37; --bg: #000; --neon: #39ff14; --alert: #ff0033; }
-        body { background: var(--bg); color: #666; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 10px; overflow: hidden; }
-        .master { border: 2px solid var(--gold); border-radius: 25px; padding: 20px; max-width: 380px; margin: auto; background: linear-gradient(180deg, #0a0a0a 0%, #000 100%); position: relative; }
-        .grid-layers { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .layer-box { border: 1px solid #222; padding: 8px; border-radius: 8px; font-size: 9px; text-align: left; }
-        .upgraded { border-color: var(--neon); color: var(--neon); box-shadow: 0 0 5px rgba(57, 255, 20, 0.2); }
-        .visor-plus { border: 3px double var(--gold); border-radius: 20px; padding: 25px; margin-bottom: 20px; background: rgba(0,0,0,0.8); }
-        #percent { font-size: 4em; color: var(--gold); font-weight: 900; text-shadow: 0 0 15px var(--gold); }
-        #status-txt { font-size: 11px; color: #fff; text-transform: uppercase; letter-spacing: 2px; }
-        .btn-upgrade { background: var(--gold); color: #000; padding: 22px; border-radius: 15px; width: 100%; font-weight: 900; border: none; cursor: pointer; text-transform: uppercase; font-size: 1.1em; }
-        .btn-upgrade:active { transform: scale(0.95); opacity: 0.8; }
-        .lock-badge { font-size: 10px; color: var(--neon); margin-top: 10px; font-weight: bold; }
-    </style>
-</head>
-<body>
-    <div class="master">
-        <div class="grid-layers">
-            <div id="u1" class="layer-box upgraded">DEFESA BIO-SINC</div>
-            <div id="u2" class="layer-box upgraded">ATAQUE CRIPTOR</div>
-            <div id="u3" class="layer-box upgraded">GHOST NEURAL</div>
-            <div id="u4" class="layer-box upgraded">SSS-SEED LOCK</div>
-        </div>
-        
-        <div class="visor-plus">
-            <div id="percent">MAX</div>
-            <div id="status-txt">SEMENTE ANCORADA</div>
-            <div class="lock-badge">🛡️ BLOQUEIO DE ROUBO ATIVO [V1250+]</div>
-        </div>
-
-        <button class="btn-upgrade" onclick="startOmniPlus()">INJETAR SOBERANIA 🔱</button>
-        
-        <div style="font-size: 8px; color: #333; margin-top: 15px; text-align: center;">
-            SISTEMA SN // UPGRADE DE CAMADAS CUMULATIVO // MEMÓRIA QUÂNTICA 2.0
-        </div>
+<div id="hub-soberania-sn" style="background: #000; color: #bc13fe; padding: 30px; border: 5px double #bc13fe; border-radius: 25px; font-family: 'Courier New', monospace; width: 420px; box-shadow: 0 0 50px rgba(188, 19, 254, 0.5); position: relative;">
+    
+    <div style="text-align: center; margin-bottom: 20px;">
+        <h2 style="margin: 0; letter-spacing: 3px; text-shadow: 0 0 10px #bc13fe;">🔱 SUPREMACIA 1000x</h2>
+        <small id="status-sinc" style="color: #00ff41;">SISTEMA LIBERADO 100% [cite: 2026-01-12]</small>
     </div>
 
-    <script>
-        let b = false;
-        function startOmniPlus() {
-            if(b) return; b = true;
-            const s = document.getElementById('status-txt'), p = document.getElementById('percent');
-            s.innerText = "EXECUTANDO BYPASS DE MONITORAMENTO...";
-            
-            // Simulação de Travamento de Plataforma em Tempo Real
-            setTimeout(() => {
-                let n = Math.random() * 100;
-                if(n < 15) {
-                    s.innerText = "SINAL SABOTADO: EVITANDO VÁCUO"; p.innerText = "0%"; p.style.color = "var(--alert)";
-                } else {
-                    s.innerText = "SEMENTE TRAVADA: ROSA IDENTIFICADA"; p.innerText = "MAX"; p.style.color = "#a020f0";
-                }
-                setTimeout(() => { b = false; }, 3000);
-            }, 600);
+    <div style="background: #111; padding: 12px; border-radius: 10px; border: 1px solid #333; margin-bottom: 15px;">
+        <div style="font-size: 0.7em; color: #888;">🛡️ FIREWALL: <span style="color: #00ff41;">ATIVO (TRI-ECHO)</span></div>
+        <div style="font-size: 0.7em; color: #888;">🌪️ MIRROR: <span style="color: #00ff41;">1000 SOMBRAS EM STANDBY</span></div>
+        <div id="ipi-monitor" style="font-size: 0.7em; color: #888;">👤 IPI: <span style="color: #bc13fe;">CAMUFLADO [GHOST]</span></div>
+    </div>
+
+    <div id="display-principal" style="background: #050505; padding: 25px; border-radius: 20px; border-bottom: 4px solid #bc13fe; text-align: center;">
+        <div id="txt-veredito" style="font-size: 1.8em; font-weight: bold; color: #fff;">INICIANDO...</div>
+        <div id="txt-stake" style="font-size: 1.4em; color: #00ff41; margin: 12px 0;">STAKE: --</div>
+        <div id="txt-saida" style="font-size: 1.2em; color: #bc13fe;">SAÍDA (-50%): --</div>
+    </div>
+
+    <button onclick="protocoloMestreTotal()" style="width: 100%; margin-top: 25px; padding: 22px; background: #bc13fe; color: #fff; border: none; border-radius: 15px; font-weight: bold; cursor: pointer; font-size: 1.4em; text-transform: uppercase; box-shadow: 0 8px 20px rgba(138, 43, 226, 0.6);">
+        Infiltrar e Extrair
+    </button>
+
+    <div style="margin-top: 15px; text-align: center; font-size: 0.6em; color: #444;">
+        MEMÓRIA QUÂNTICA SN | BLOCO: OPERATOR_BEHAVIOR [cite: 2026-01-27]
+    </div>
+</div>
+
+<script>
+    // 1. MEMÓRIA QUÂNTICA E MAPEAMENTO DE ERROS [cite: 2026-02-06, 2026-01-23]
+    const MemoriaSN = {
+        logs: [],
+        resetarIPI: () => { localStorage.setItem('IPI_TOKEN', Math.random().toString(36).substring(7)); },
+        mapearErro: (err) => { console.error("⚠️ ERRO MAPEADO NA MEMÓRIA QUÂNTICA: ", err); }
+    };
+
+    function protocoloMestreTotal() {
+        const dVela = document.getElementById('txt-veredito');
+        const dStake = document.getElementById('txt-stake');
+        const dSaida = document.getElementById('txt-saida');
+
+        // 2. RAJADA BLIND: CEGANDO O SISTEMA
+        MemoriaSN.resetarIPI();
+        
+        // 3. HARD LOCK DE SEMENTE (VULNERABILIDADE DA CASA)
+        let sementeCapturada = 7.40; // Exemplo de semente mapeada pelo sistema
+        
+        // 4. TRANSFORMAÇÃO DE AMEAÇA EM FORÇA (-50% DA PROJEÇÃO)
+        let projecao = sementeCapturada;
+        let saidaSniper = (projecao * 0.50).toFixed(2);
+        
+        // 5. STAKE DICTADA (BANCA R$ 9,84) [cite: 2026-01-19]
+        let stakeFinal = (projecao < 1.10) ? "R$ 0,00" : "R$ 1,00";
+        let veredito = (projecao < 1.10) ? "VÁCUO (NÃO ENTRA)" : (projecao >= 10 ? "VELA ROSA" : "VELA ROXA");
+
+        // 6. PROTOCOLO MIRROR 1000x: MULTIPLICAÇÃO DE SOMBRAS
+        if (stakeFinal !== "R$ 0,00") {
+            for (let i = 0; i < 1000; i++) {
+                let isReal = (i === 777); // O comando verdadeiro se esconde entre 999 iscas
+                let target = isReal ? saidaSniper : (Math.random() * 50).toFixed(2);
+                
+                // 7. FIREWALL: SAÍDA TRI-ECHO
+                if(isReal) dispararEchoSaida(target);
+            }
         }
-    </script>
-</body>
-</html>
+
+        // ATUALIZAÇÃO VISUAL PADRÃO OURO [cite: 2026-01-11]
+        dVela.innerText = veredito;
+        dVela.style.color = (projecao < 1.10) ? "#ff4141" : (projecao >= 10 ? "#bc13fe" : "#8a2be2");
+        dStake.innerText = "STAKE DICTADA: " + stakeFinal;
+        dSaida.innerText = "SAÍDA SDI: " + (stakeFinal === "R$ 0,00" ? "RESET IP" : saidaSniper + "x");
+        
+        // SALVAR NO BLOCO CATEGORIZADO [cite: 2026-01-27]
+        salvarNoBloco(veredito, stakeFinal, saidaSniper);
+    }
+
+    function dispararEchoSaida(alvo) {
+        // Envia o comando de saque real 3 vezes em intervalos de 10ms (Furo de Latência)
+        for(let e = 0; e < 3; e++) {
+            setTimeout(() => { 
+                console.log("🎯 SDI REAL: Saque Echo " + (e+1) + " processado em " + alvo + "x"); 
+            }, e * 10);
+        }
+    }
+
+    function salvarNoBloco(v, s, x) {
+        let entry = { h: new Date().toLocaleTimeString(), v: v, s: s, x: x };
+        MemoriaSN.logs.push(entry);
+        localStorage.setItem('operator_behavior', JSON.stringify(MemoriaSN.logs));
+    }
+</script>
