@@ -3,75 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A. SUPREMACIA - SN</title>
+    <title>S.A. OMNI PLUS - SN</title>
     <style>
-        :root { --gold: #D4AF37; --bg: #050505; --neon-cyan: #00f3ff; --purple: #a020f0; }
-        body { background: var(--bg); color: #888; font-family: 'Courier New', monospace; margin: 0; padding: 10px; }
-        .master { border: 2px solid var(--gold); border-radius: 20px; padding: 15px; max-width: 380px; margin: auto; background: #080808; box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); }
-        .layer-status { font-size: 8px; color: #333; display: flex; justify-content: space-around; margin-bottom: 10px; }
-        .active { color: var(--neon-cyan); text-shadow: 0 0 5px var(--neon-cyan); }
-        .visor { border: 2px double #222; border-radius: 12px; padding: 15px; text-align: center; margin-bottom: 15px; background: #000; }
-        #percent { font-size: 3.5em; color: var(--gold); font-weight: 900; }
-        #msg { font-size: 10px; color: #fff; margin-top: 5px; text-transform: uppercase; }
-        .btn-omni { background: linear-gradient(145deg, #111, #000); color: var(--gold); border: 1px solid var(--gold); padding: 18px; border-radius: 12px; width: 100%; font-weight: 900; cursor: pointer; letter-spacing: 1px; }
-        .btn-omni:active { transform: scale(0.97); background: var(--gold); color: #000; }
-        .shield-indicator { font-size: 9px; color: #2ecc71; margin-top: 10px; font-weight: bold; }
+        :root { --gold: #D4AF37; --bg: #000; --neon: #39ff14; --alert: #ff0033; }
+        body { background: var(--bg); color: #666; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 10px; overflow: hidden; }
+        .master { border: 2px solid var(--gold); border-radius: 25px; padding: 20px; max-width: 380px; margin: auto; background: linear-gradient(180deg, #0a0a0a 0%, #000 100%); position: relative; }
+        .grid-layers { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .layer-box { border: 1px solid #222; padding: 8px; border-radius: 8px; font-size: 9px; text-align: left; }
+        .upgraded { border-color: var(--neon); color: var(--neon); box-shadow: 0 0 5px rgba(57, 255, 20, 0.2); }
+        .visor-plus { border: 3px double var(--gold); border-radius: 20px; padding: 25px; margin-bottom: 20px; background: rgba(0,0,0,0.8); }
+        #percent { font-size: 4em; color: var(--gold); font-weight: 900; text-shadow: 0 0 15px var(--gold); }
+        #status-txt { font-size: 11px; color: #fff; text-transform: uppercase; letter-spacing: 2px; }
+        .btn-upgrade { background: var(--gold); color: #000; padding: 22px; border-radius: 15px; width: 100%; font-weight: 900; border: none; cursor: pointer; text-transform: uppercase; font-size: 1.1em; }
+        .btn-upgrade:active { transform: scale(0.95); opacity: 0.8; }
+        .lock-badge { font-size: 10px; color: var(--neon); margin-top: 10px; font-weight: bold; }
     </style>
 </head>
 <body>
     <div class="master">
-        <div class="layer-status">
-            <span id="l1">DEFESA</span> | <span id="l2">ATAQUE</span> | <span id="l3">GHOST</span> | <span id="l4">MTS-LOCK</span>
+        <div class="grid-layers">
+            <div id="u1" class="layer-box upgraded">DEFESA BIO-SINC</div>
+            <div id="u2" class="layer-box upgraded">ATAQUE CRIPTOR</div>
+            <div id="u3" class="layer-box upgraded">GHOST NEURAL</div>
+            <div id="u4" class="layer-box upgraded">SSS-SEED LOCK</div>
         </div>
         
-        <div class="visor">
-            <div id="percent">100%</div>
-            <div id="msg">SISTEMA ANCORADO</div>
-            <div id="shield" class="shield-indicator">🛡️ BLOQUEADOR DE ROUBO ATIVO</div>
+        <div class="visor-plus">
+            <div id="percent">MAX</div>
+            <div id="status-txt">SEMENTE ANCORADA</div>
+            <div class="lock-badge">🛡️ BLOQUEIO DE ROUBO ATIVO [V1250+]</div>
         </div>
 
-        <button class="btn-omni" onclick="execProtocoloOmni()">EXECUTAR ANCORAGEM 🔱</button>
+        <button class="btn-upgrade" onclick="startOmniPlus()">INJETAR SOBERANIA 🔱</button>
         
-        <div style="font-size: 7px; color: #222; margin-top: 15px; text-align: center;">
-            SN // ANTI-SABOTAGEM V1250 // SEQUESTRO DE SEMENTE ATIVO
+        <div style="font-size: 8px; color: #333; margin-top: 15px; text-align: center;">
+            SISTEMA SN // UPGRADE DE CAMADAS CUMULATIVO // MEMÓRIA QUÂNTICA 2.0
         </div>
     </div>
 
     <script>
         let b = false;
-        function execProtocoloOmni() {
+        function startOmniPlus() {
             if(b) return; b = true;
-            const m=document.getElementById('msg'), p=document.getElementById('percent'), l1=document.getElementById('l1'), l2=document.getElementById('l2'), l3=document.getElementById('l3'), l4=document.getElementById('l4');
+            const s = document.getElementById('status-txt'), p = document.getElementById('percent');
+            s.innerText = "EXECUTANDO BYPASS DE MONITORAMENTO...";
             
-            // Camada de Camaleão & Ofuscação
-            m.innerText = "MIMETIZANDO CONEXÃO...";
-            l3.className = "active";
-
+            // Simulação de Travamento de Plataforma em Tempo Real
             setTimeout(() => {
-                // ANCORAGEM DE PLATAFORMA (MTS/SSS)
-                m.innerText = "⚓ ANCORANDO SEMENTE NO SERVIDOR...";
-                l4.className = "active";
-                
-                setTimeout(() => {
-                    // INTELIGÊNCIA PREDITIVA (Ataque/Defesa)
-                    l1.className = "active"; l2.className = "active";
-                    let n = Math.random() * 100;
-                    
-                    if(n < 20) {
-                        m.innerText = "SINAL SUJO: VÁCUO (PULA)"; p.innerText = "0%"; p.style.color = "#ff1744";
-                    } else if(n < 70) {
-                        m.innerText = "ROTA PROTEGIDA: 1.28x"; p.innerText = "1.28x"; p.style.color = "var(--neon-cyan)";
-                    } else {
-                        m.innerText = "MAX: SEMENTE TRAVADA (ROSA)"; p.innerText = "MAX"; p.style.color = "var(--purple)";
-                    }
-
-                    // Reset após a rodada
-                    setTimeout(() => {
-                        [l1,l2,l3,l4].forEach(e => e.className = "");
-                        b = false;
-                    }, 5000);
-                }, 400); 
-            }, 300);
+                let n = Math.random() * 100;
+                if(n < 15) {
+                    s.innerText = "SINAL SABOTADO: EVITANDO VÁCUO"; p.innerText = "0%"; p.style.color = "var(--alert)";
+                } else {
+                    s.innerText = "SEMENTE TRAVADA: ROSA IDENTIFICADA"; p.innerText = "MAX"; p.style.color = "#a020f0";
+                }
+                setTimeout(() => { b = false; }, 3000);
+            }, 600);
         }
     </script>
 </body>
