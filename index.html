@@ -3,33 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A. V1250 - SUPREMACIA NASA (ULTRA BLINDADO)</title>
+    <title>S.A. V1250 - MODO ATAQUE</title>
     <style>
         :root { --dark: #000; --gold: #D4AF37; --pink: #ff00ff; --nasa: #0b3d91; --cyan: #00f3ff; --red: #ff1744; --green: #00e676; --purple: #a020f0; }
         body { background: var(--dark); color: white; font-family: 'Arial Black', sans-serif; margin: 0; padding: 10px; text-align: center; }
-        .master-container { border: 2px solid var(--nasa); border-radius: 40px; padding: 20px; background: radial-gradient(circle at top, #0b3d9122, #000); box-shadow: 0 0 40px var(--nasa); max-width: 450px; margin: auto; }
-        .radar-box { width: 100px; height: 100px; border: 3px solid var(--pink); border-radius: 50%; margin: 0 auto 15px; position: relative; overflow: hidden; box-shadow: 0 0 20px var(--pink); }
-        .radar-sweep { width: 100%; height: 100%; background: conic-gradient(from 0deg, transparent, var(--pink)); animation: rotate 2s linear infinite; opacity: 0.3; }
+        .master-container { border: 2px solid var(--nasa); border-radius: 40px; padding: 20px; background: radial-gradient(circle at top, #0b3d9144, #000); box-shadow: 0 0 60px var(--red); max-width: 450px; margin: auto; }
+        .radar-box { width: 100px; height: 100px; border: 3px solid var(--red); border-radius: 50%; margin: 0 auto 15px; position: relative; overflow: hidden; box-shadow: 0 0 20px var(--red); }
+        .radar-sweep { width: 100%; height: 100%; background: conic-gradient(from 0deg, transparent, var(--red)); animation: rotate 1s linear infinite; opacity: 0.5; }
         @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .espectro { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 15px; }
-        .box { padding: 10px; border-radius: 12px; font-size: 9px; background: #111; color: #444; border: 1px solid #222; font-weight: 900; transition: 0.3s; }
-        .v-active { background: var(--red) !important; color: #fff !important; box-shadow: 0 0 15px var(--red); transform: scale(1.05); }
+        .box { padding: 10px; border-radius: 12px; font-size: 9px; background: #111; color: #444; border: 1px solid #222; font-weight: 900; }
+        .v-active { background: var(--red) !important; color: #fff !important; box-shadow: 0 0 15px var(--red); }
         .ro-active { background: var(--purple) !important; color: #fff !important; box-shadow: 0 0 15px var(--purple); }
         .rs-active { background: var(--pink) !important; color: #fff !important; box-shadow: 0 0 20px var(--pink); animation: blink 0.5s infinite; }
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
-        .painel-voo { background: rgba(0, 243, 255, 0.03); border: 1.5px solid var(--cyan); border-radius: 25px; padding: 20px; margin-bottom: 15px; }
-        #percentual { font-size: 4.5em; color: var(--cyan); display: block; line-height: 1; text-shadow: 0 0 15px var(--cyan); }
-        #status-missao { font-size: 11px; color: var(--gold); margin-top: 10px; text-transform: uppercase; letter-spacing: 1px; font-weight: bold; }
-        .btn-ignicao { background: var(--pink); color: #fff; padding: 20px; border-radius: 20px; font-size: 1.3em; font-weight: 900; width: 100%; border: none; cursor: pointer; box-shadow: 0 0 25px var(--pink); text-transform: uppercase; margin-bottom: 10px; }
-        .btn-ignicao:disabled { background: #222; box-shadow: none; color: #555; cursor: not-allowed; }
-        .sentinela-history { background: rgba(0,0,0,0.6); border-radius: 15px; padding: 12px; border: 1px solid #111; text-align: left; max-height: 150px; overflow-y: auto; }
-        .hist-item { font-family: monospace; font-size: 9px; padding: 4px 0; border-bottom: 1px solid #1a1a1a; display: flex; justify-content: space-between; }
+        .painel-voo { background: rgba(255, 23, 68, 0.05); border: 2px solid var(--red); border-radius: 25px; padding: 20px; margin-bottom: 15px; }
+        #percentual { font-size: 4.5em; color: var(--red); display: block; line-height: 1; text-shadow: 0 0 15px var(--red); }
+        #status-missao { font-size: 11px; color: #fff; margin-top: 10px; text-transform: uppercase; letter-spacing: 1px; background: var(--red); padding: 5px; border-radius: 5px; }
+        .btn-ataque { background: linear-gradient(45deg, var(--red), var(--nasa)); color: #fff; padding: 20px; border-radius: 20px; font-size: 1.2em; font-weight: 900; width: 100%; border: none; cursor: pointer; box-shadow: 0 0 25px var(--red); text-transform: uppercase; margin-bottom: 10px; }
+        .sentinela-history { background: rgba(0,0,0,0.8); border-radius: 15px; padding: 12px; border: 1px solid var(--red); text-align: left; max-height: 150px; overflow-y: auto; }
+        .hist-item { font-family: monospace; font-size: 9px; padding: 4px 0; border-bottom: 1px solid #330000; display: flex; justify-content: space-between; }
     </style>
 </head>
 <body>
     <div class="master-container">
-        <div style="display:flex; justify-content:space-between; font-size:9px; color:var(--nasa); margin-bottom:10px;">
-            <span>OPERADOR: SN // 7K.BET (SHIELD-7)</span>
+        <div style="display:flex; justify-content:space-between; font-size:9px; color:var(--red); margin-bottom:10px; font-weight:bold;">
+            <span>MODO CONTRA-ATAQUE: SN</span>
             <span id="timer">00:00:00</span>
         </div>
         <div class="radar-box"><div class="radar-sweep"></div></div>
@@ -40,83 +38,62 @@
         </div>
         <div class="painel-voo">
             <span id="percentual">0%</span>
-            <div id="status-missao">SENTINELA EM MODO FANTASMA</div>
+            <div id="status-missao">CONTRA-ATAQUE: SATURANDO SERVIDOR</div>
         </div>
-        <button id="btnMain" class="btn-ignicao" onclick="dispararIgnicao()">IGNIÇÃO FANTASMA 🔱</button>
+        <button id="btnMain" class="btn-ataque" onclick="iniciarAtaque()">DISPARAR ATAQUE FANTASMA 🔱</button>
         <div class="sentinela-history" id="histLog"></div>
     </div>
 
     <script>
         let rodando = false;
-        let ultimaVelaRosa = false;
-        let historicoVelas = [];
-
-        window.onload = () => {
-            setInterval(() => { document.getElementById('timer').innerText = new Date().toLocaleTimeString(); }, 1000);
-            addLog("BLINDAGEM ANTI-TRUQUE ATIVA", "var(--cyan)");
-        };
+        setInterval(() => { document.getElementById('timer').innerText = new Date().toLocaleTimeString(); }, 1000);
 
         function addLog(msg, cor) {
             const log = document.getElementById('histLog');
-            const novaEntrada = `<div class="hist-item" style="color:${cor}">> ${msg} <span>${new Date().toLocaleTimeString().slice(3,8)}</span></div>`;
-            log.innerHTML = novaEntrada + log.innerHTML;
+            const entrada = `<div class="hist-item" style="color:${cor}">> ${msg} <span>${new Date().toLocaleTimeString().slice(3,8)}</span></div>`;
+            log.innerHTML = entrada + log.innerHTML;
         }
 
-        async function dispararIgnicao() {
+        async function iniciarAtaque() {
             if(rodando) return;
+            rodando = true;
+            const st = document.getElementById('status-missao');
+            const perc = document.getElementById('percentual');
 
-            const btn = document.getElementById('btnMain'), v = document.getElementById('v'), ro = document.getElementById('ro'), rs = document.getElementById('rs');
-            const perc = document.getElementById('percentual'), st = document.getElementById('status-missao');
+            addLog("INICIALIZANDO SATURAÇÃO DE DADOS...", "var(--red)");
+            st.innerText = "CONTRA-ATAQUE ATIVO: ENVIANDO ISCAS";
 
-            // --- CAMADA 1: BLINDAGEM DE VÁCUO PÓS-ROSA ---
-            if (ultimaVelaRosa) {
-                addLog("PULA: RISCO DE RECOLHIMENTO (PÓS-ROSA)", "var(--red)");
-                st.innerText = "VÁCUO DETECTADO! PULA!";
-                v.classList.add('v-active');
-                setTimeout(() => { v.classList.remove('v-active'); st.innerText = "AGUARDANDO PRÓXIMA BRECHA"; }, 3000);
-                ultimaVelaRosa = false;
-                return;
+            // Simulação de comandos falsos para saturar o monitoramento da plataforma
+            for(let i=0; i<5; i++) {
+                setTimeout(() => {
+                    addLog(`ISCA ${i+1} ENVIADA: IP CAMUFLADO`, "var(--cyan)");
+                }, i * 300);
             }
 
-            rodando = true;
-            btn.disabled = true;
-            [v, ro, rs].forEach(el => el.className = 'box');
-            st.innerText = "MIMETIZANDO FREQUÊNCIA (40MS)...";
-
-            // --- CAMADA 2: DELAY FANTASMA (ANTI-RASTREIO) ---
-            const delayFantasma = Math.floor(Math.random() * 800) + 400;
-
             setTimeout(() => {
-                let n = Math.random() * 100;
-                
-                // --- CAMADA 3: DETECÇÃO DE TRUQUE 1.09x ---
-                if(n < 18) { 
-                    v.classList.add('v-active'); 
-                    st.innerText = "TRUQUE DE 1.09x EVITADO!";
-                    addLog("BLOCK: VÁCUO MASCARADO", "var(--red)");
-                    ultimaVelaRosa = false;
-                    finalizar();
-                } else {
-                    if(n < 84) { 
-                        ro.classList.add('ro-active'); 
-                        addLog("SINAL ROXO: BRECHA OK", "var(--purple)"); 
-                        ultimaVelaRosa = false;
-                    } else { 
-                        rs.classList.add('rs-active'); 
-                        addLog("SINAL ROSA: EXTRAÇÃO ATIVA", "var(--pink)"); 
-                        ultimaVelaRosa = true; // Ativa blindagem para a próxima rodada
+                st.innerText = "BRECHA IDENTIFICADA NO CAOS";
+                let x = 0;
+                let loop = setInterval(() => {
+                    x += 4;
+                    perc.innerText = x + "%";
+                    if(x >= 96) {
+                        clearInterval(loop);
+                        addLog("EXTRAÇÃO CONCLUÍDA SOB COBERTURA", "var(--green)");
+                        finalizar();
                     }
-                    
-                    st.innerText = "EXTRAÇÃO FANTASMA (SIDNEY)";
-                    let x = 0;
-                    // --- CAMADA 4: VARIABILIDADE DE VELOCIDADE ---
-                    let loop = setInterval(() => {
-                        x += 2;
-                        perc.innerText = x + "%";
-                        if(x >= 96) { // Trava Padrão Ouro
-                            clearInterval(loop);
-                            addLog("SUCESSO NA 7K.BET", "var(--green)");
-                            finalizar();
-                        }
-                    }, Math.floor(Math.random() * 30) + 20);
-        
+                }, 40);
+            }, 1500);
+        }
+
+        function finalizar() {
+            setTimeout(() => {
+                rodando = false;
+                document.getElementById('percentual').innerText = "0%";
+                document.getElementById('status-missao').innerText = "SCANNER DE CONTRA-ATAQUE PRONTO";
+            }, 2000);
+        }
+
+        window.onload = () => addLog("SISTEMA DE ATAQUE SINCRONIZADO", "var(--red)");
+    </script>
+</body>
+</html>
