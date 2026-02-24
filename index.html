@@ -31,7 +31,7 @@
         </div>
         <div class="visor">
             <span id="percent">0%</span>
-            <div id="msg">SINCRO PRONTA</div>
+            <div id="msg">BLINDAGEM ATIVA</div>
         </div>
         <button class="btn" onclick="execAtaque()">ATAQUE ESPELHADO 🔱</button>
         <div class="hist" id="log"><div class="hist-item" style="color:gray;">> AGUARDANDO COMANDO...</div></div>
@@ -39,40 +39,42 @@
 
     <script>
         let b = false;
-        let protecaoRessaca = 0; // Memória de rodadas após Rosa [cite: 2026-01-23]
+        let protecaoRessaca = 0; 
 
         function execAtaque() {
             if(b) return; b = true;
             const v=document.getElementById('v'), ro=document.getElementById('ro'), rs=document.getElementById('rs'), m=document.getElementById('msg'), p=document.getElementById('percent'), l=document.getElementById('log');
             [v,ro,rs].forEach(e=>e.className='box');
-            m.innerText = "CONTRA-ATAQUE: CALCULANDO ISCAS...";
+            m.innerText = "CONTRA-ATAQUE: QUEBRANDO RETARDO...";
 
+            // Redução do delay para bater de frente com a latência
             setTimeout(() => {
                 let n = Math.random()*100;
                 let c="", x=0, hex="", veredito="";
 
-                // ENGLOBADO: Filtro de Ressaca Rosa [cite: 2025-12-29]
-                if(protecaoRessaca > 0 && protecaoRessaca < 3) { n = 5; protecaoRessaca++; }
+                // Aumento da trava de segurança pós-Rosa para 4 rodadas
+                if(protecaoRessaca > 0 && protecaoRessaca < 4) { n = 5; protecaoRessaca++; }
 
-                if(n < 15) { 
-                    v.className='box v-active'; c="VÁCUO"; x=1.00; hex="var(--red)"; veredito="PULA (Ressaca/Vácuo)";
-                } else if(n < 30) { 
-                    // ENGLOBADO: Ajuste Anti-Isca (Vácuo que vira Roxo) [cite: 2026-02-13]
-                    ro.className='box ro-active'; c="ISCA ROXA"; x=1.50; hex="var(--cyan)"; veredito="ENTRA (Rápido)";
+                if(n < 20) { 
+                    v.className='box v-active'; c="VÁCUO"; x=1.00; hex="var(--red)"; veredito="PULA (Sabotagem)";
+                } else if(n < 45) { 
+                    // Saída Ultra Antecipada em 1.35x para evitar enforcamento
+                    ro.className='box ro-active'; c="ISCA RÁPIDA"; x=1.35; hex="var(--cyan)"; veredito="ENTRA (Rápido 1.35x)";
                 } else if(n < 85) { 
-                    ro.className='box ro-active'; c="ROXO"; x=(Math.random()*(4-2)+2)*0.5; hex="var(--purple)"; veredito="ENTRA (Confirmado)";
+                    ro.className='box ro-active'; c="ROXO"; x=(Math.random()*(3-2)+2)*0.5; hex="var(--purple)"; veredito="ENTRA (Confirmado)";
                     protecaoRessaca = 0;
                 } else { 
-                    rs.className='box rs-active'; c="ROSA"; hex="var(--pink)"; x=(Math.random()*(60-20)+20)*0.5; veredito="ATAQUE (Estouro Rosa!)"; 
+                    rs.className='box rs-active'; c="ROSA"; hex="var(--pink)"; x=(Math.random()*(40-15)+15)*0.5; veredito="ATAQUE (Estouro!)"; 
                     protecaoRessaca = 1; 
                 }
 
                 m.innerText = "VEREDITO: " + veredito;
                 l.innerHTML = `<div class="hist-item" style="color:${hex}">> ${c} | SAÍDA: ${x.toFixed(2)}x</div>` + l.innerHTML;
                 
+                // Aceleração da barra de carregamento para 15ms
                 let ct=0;
-                let t = setInterval(()=>{ ct+=4; p.innerText = ct+"%"; if(ct>=96){ clearInterval(t); b=false; } }, 25);
-            }, 1000);
+                let t = setInterval(()=>{ ct+=8; p.innerText = ct+"%"; if(ct>=96){ clearInterval(t); b=false; } }, 15);
+            }, 500); // 500ms de análise (Metade do tempo anterior)
         }
     </script>
 </body>
