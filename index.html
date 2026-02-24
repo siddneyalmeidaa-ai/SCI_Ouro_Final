@@ -1,37 +1,78 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A. V1250 - SUPREMACIA ESTÁVEL</title>
+    <title>S.A. V1250 - ESTÁVEL</title>
     <style>
-        :root { --dark: #000; --gold: #D4AF37; --pink: #ff00ff; --nasa: #0b3d91; --cyan: #00f3ff; --red: #ff1744; --green: #00e676; --purple: #a020f0; }
-        body { background: var(--dark); color: white; font-family: sans-serif; margin: 0; padding: 10px; text-align: center; }
-        .master-container { border: 2px solid var(--gold); border-radius: 30px; padding: 15px; background: #050505; box-shadow: 0 0 30px #D4AF3766; max-width: 400px; margin: auto; }
+        :root { --gold: #D4AF37; --pink: #ff00ff; --red: #ff1744; --purple: #a020f0; --cyan: #00f3ff; }
+        body { background: #000; color: #fff; font-family: sans-serif; margin: 0; padding: 10px; text-align: center; }
+        .master { border: 2px solid var(--gold); border-radius: 25px; padding: 15px; max-width: 380px; margin: auto; background: #050505; }
         
-        .radar-box { width: 80px; height: 80px; border: 2px solid var(--gold); border-radius: 50%; margin: 0 auto 10px; position: relative; overflow: hidden; }
-        .radar-sweep { width: 100%; height: 100%; background: conic-gradient(from 0deg, transparent, var(--gold)); animation: rotate 2s linear infinite; opacity: 0.5; }
-        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-        .espectro { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; margin-bottom: 10px; }
-        .box { padding: 10px; border-radius: 10px; font-size: 9px; background: #111; color: #333; border: 1px solid #222; font-weight: bold; }
+        /* Indicadores de Cor - SEMPRE VISÍVEIS */
+        .espectro { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 15px 0; }
+        .box { padding: 10px; border-radius: 8px; font-size: 10px; background: #111; color: #444; border: 1px solid #222; font-weight: bold; }
         .v-active { background: var(--red) !important; color: #fff !important; box-shadow: 0 0 10px var(--red); }
         .ro-active { background: var(--purple) !important; color: #fff !important; box-shadow: 0 0 10px var(--purple); }
         .rs-active { background: var(--pink) !important; color: #fff !important; box-shadow: 0 0 15px var(--pink); }
 
-        .painel { border: 1px solid var(--gold); border-radius: 20px; padding: 10px; margin-bottom: 10px; background: #0a0a0a; }
-        #percentual { font-size: 3.5em; color: var(--gold); display: block; font-weight: 900; }
-        #status { font-size: 10px; color: #000; background: var(--gold); padding: 4px; border-radius: 4px; font-weight: bold; text-transform: uppercase; }
+        .visor { border: 1px solid var(--gold); border-radius: 15px; padding: 10px; margin-bottom: 10px; }
+        #percent { font-size: 3.5em; color: var(--gold); font-weight: 900; display: block; }
+        #msg { font-size: 10px; background: var(--gold); color: #000; padding: 3px; border-radius: 4px; font-weight: bold; }
 
-        .btn-ataque { background: var(--gold); color: #000; padding: 18px; border-radius: 15px; font-size: 1.1em; font-weight: 900; width: 100%; border: none; cursor: pointer; text-transform: uppercase; }
+        .btn { background: var(--gold); color: #000; padding: 18px; border-radius: 12px; font-size: 1.1em; font-weight: 900; width: 100%; border: none; cursor: pointer; text-transform: uppercase; }
         
-        .hist-container { background: #000; border: 1px solid #333; border-radius: 15px; padding: 10px; text-align: left; max-height: 100px; overflow-y: auto; margin-top: 10px; }
-        .hist-item { font-family: monospace; font-size: 10px; border-bottom: 1px solid #222; padding: 4px 0; display: flex; justify-content: space-between; }
+        /* HISTÓRICO - FIXADO E OTIMIZADO */
+        .hist { background: #000; border: 1px solid #333; border-radius: 12px; padding: 10px; text-align: left; height: 110px; overflow-y: auto; margin-top: 10px; }
+        .hist-item { font-family: monospace; font-size: 10px; border-bottom: 1px solid #1a1a1a; padding: 5px 0; display: flex; justify-content: space-between; }
     </style>
 </head>
 <body>
-    <div class="master-container">
-        <div style="font-size:9px; color:var(--gold); margin-bottom:8px;">SN // ESPELHAMENTO ABSOLUTO</div>
-        <div class="radar-box"><div class="radar-sweep"></div></div>
+    <div class="master">
+        <div style="font-size:10px; color:var(--gold); margin-bottom:10px;">SN // ESPELHAMENTO ABSOLUTO</div>
+        
         <div class="espectro">
-            
+            <div id="v" class="box">VÁCUO</div>
+            <div id="ro" class="box">ROXO</div>
+            <div id="rs" class="box">ROSA</div>
+        </div>
+
+        <div class="visor">
+            <span id="percent">0%</span>
+            <div id="msg">SINCRO PRONTA</div>
+        </div>
+
+        <button class="btn" onclick="execAtaque()">ATAQUE ESPELHADO 🔱</button>
+        
+        <div class="hist" id="log"><div class="hist-item" style="color:gray;">> AGUARDANDO COMANDO...</div></div>
+    </div>
+
+    <script>
+        let b = false;
+        function execAtaque() {
+            if(b) return; b = true;
+            const v=document.getElementById('v'), ro=document.getElementById('ro'), rs=document.getElementById('rs'), m=document.getElementById('msg'), p=document.getElementById('percent'), l=document.getElementById('log');
+            [v,ro,rs].forEach(e=>e.className='box');
+            m.innerText = "CONTRA-ATAQUE ATIVO...";
+
+            setTimeout(() => {
+                let n = Math.random()*100;
+                let c="", x=0, hex="";
+                // Lógica cumulativa de Espelhamento e Regra -50% [cite: 2026-01-16, 2025-12-29]
+                if(n<15){ v.className='box v-active'; c="VÁCUO"; x=1.00; hex="var(--red)"; m.innerText="VEREDITO: PULA"; }
+                else if(n<85){ ro.className='box ro-active'; c="ROXO"; x=(Math.random()*(4-2)+2)*0.5; hex="var(--purple)"; m.innerText="VEREDITO: ROXO"; }
+                else { rs.className='box rs-active'; c="ROSA"; hex="var(--pink)"; x=(Math.random()*(60-20)+20)*0.5; m.innerText="VEREDITO: ROSA"; }
+
+                l.innerHTML = `<div class="hist-item" style="color:${hex}">> ${c} | SAÍDA: ${x.toFixed(2)}x</div>` + l.innerHTML;
+                
+                let ct=0;
+                let t = setInterval(()=>{
+                    ct+=4; p.innerText = ct+"%";
+                    if(ct>=96){ clearInterval(t); b=false; }
+                }, 25);
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
