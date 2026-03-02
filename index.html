@@ -1,87 +1,71 @@
-<div id="v17-5-omega" style="background:#000; color:#bc13fe; padding:20px; border:4px solid #bc13fe; border-radius:25px; font-family:sans-serif; width:420px; margin:auto; box-shadow:0 0 80px rgba(188,19,254,0.3);">
+<div id="v17-6-revolution" style="background:#000; color:#00ff41; padding:20px; border:5px solid #ff0000; border-radius:30px; font-family:monospace; width:430px; margin:auto; box-shadow:0 0 100px rgba(255,0,0,0.4);">
 
-    <div style="font-size:11px; border-bottom:2px solid #111; padding-bottom:12px; display:flex; justify-content:space-between; font-family:monospace;">
-        <span style="font-weight:bold;">🛡️ OMEGA_SHIELD_V17.5</span>
-        <span id="shield-state" style="color:#00ff41;">SISTEMA: BLINDADO</span>
+    <div style="font-size:10px; border-bottom:1px solid #333; padding-bottom:10px; display:flex; justify-content:space-between; color:#ff0000;">
+        <span>🛡️ V17.6_REVOLUTION_ACTIVE</span>
+        <span id="shield-type" style="color:#bc13fe;">MODO: FANTASMA_TOTAL</span>
     </div>
 
-    <div style="text-align:center; padding:15px; background:#0a0a0a; border:1px solid #1a1a1a; margin-top:15px; border-radius:15px;">
-        <div id="status-msg" style="font-size:0.8em; color:#fff; margin-bottom:10px;">AGUARDANDO SEMENTE...</div>
+    <div style="text-align:center; padding:15px; background:#050000; margin-top:10px; border-radius:15px;">
+        <div id="alert-msg" style="font-size:0.9em; color:#ff0000; font-weight:bold;">🚨 SISTEMA SOB ATAQUE (1.00x DETECTADO)</div>
         
-        <div style="display:flex; justify-content:space-around; margin:15px 0; background:#000; padding:15px; border-radius:10px; border:1px inset #222;">
-            <div><small style="color:#555;">BANCA</small><br><span style="font-size:1.3em; color:#00ff41; font-weight:900;">R$ 14,81</span></div>
-            <div><small style="color:#555;">STAKE [cite: 2026-01-19]</small><br><span id="stake-val" style="font-size:1.3em; color:#fff;">R$ 0,00</span></div>
+        <div style="display:flex; justify-content:space-around; margin:15px 0; background:#000; padding:12px; border:1px inset #444;">
+            <div><small style="color:#666;">BANCA</small><br><span style="font-size:1.4em; color:#fff;">R$ 12,25</span></div>
+            <div><small style="color:#666;">IPI_SHIELD</small><br><span id="ipi-status" style="font-size:1.4em; color:#ff0000;">QUENTE</span></div>
         </div>
         
-        <div id="sdi-display" style="font-size:2.5em; color:#bc13fe; font-weight:900; text-shadow:0 0 15px #bc13fe;">0.00x</div>
+        <div id="sdi-target" style="font-size:2.8em; color:#00ff41; text-shadow:0 0 20px #00ff41;">0.00x</div>
     </div>
 
-    <button onclick="runOmegaV17()" id="btn-omega" style="width:100%; margin-top:20px; padding:25px; background:#bc13fe; color:#fff; border:none; border-radius:15px; font-weight:900; font-size:1.3em; cursor:pointer; transition:0.3s;">INFILTRAR</button>
+    <button onclick="execV176()" id="btn-v176" style="width:100%; margin-top:20px; padding:28px; background:#333; color:#fff; border:none; border-radius:15px; font-weight:900; font-size:1.4em; cursor:not-allowed;">AGUARDANDO RESET...</button>
 
-    <div style="margin-top:20px; font-size:10px; color:#444; text-align:center; font-family:monospace;">
-        <div style="border-top:1px solid #111; padding-top:10px; display:flex; justify-content:space-between;">
-            <span>IPI: [GHOST_MODE]</span>
-            <span>PROTEÇÃO: -50% [cite: 2026-01-16]</span>
-        </div>
+    <div style="margin-top:15px; color:#444; font-size:10px; text-align:center;">
+        PROTEÇÃO ATIVA: SE SAIR 1.00x, O BOTÃO TRAVA POR 60s [cite: 2026-01-23]
     </div>
 </div>
 
 <script>
-    let safeToEnter = true;
+    let lockdown = false;
 
-    function runOmegaV17() {
-        const btn = document.getElementById('btn-omega');
-        const sdi = document.getElementById('sdi-display');
-        const st = document.getElementById('stake-val');
-        const msg = document.getElementById('status-msg');
-        const state = document.getElementById('shield-state');
+    function execV176() {
+        if (lockdown) return;
+        
+        const btn = document.getElementById('btn-v176');
+        const st = document.getElementById('sdi-target');
+        const msg = document.getElementById('alert-msg');
+        const ipi = document.getElementById('ipi-status');
 
-        // 🔱 LIMPEZA QUÂNTICA OBRIGATÓRIA [cite: 2026-02-06]
+        // 🔱 LIMPEZA DE CACHE QUÂNTICO [cite: 2026-02-06]
         window.localStorage.clear();
         
-        btn.innerText = "ESCANANEOU O RECEPTOR...";
-        btn.disabled = true;
+        btn.innerText = "DESVIANDO RASTRO...";
+        btn.style.background = "#bc13fe";
 
         setTimeout(() => {
-            // Semente de alta frequência para quebrar o rastro [cite: 2026-01-28]
-            let rawSdi = (Math.random() * 4 + 1.1).toFixed(2);
-            let targetSdi = (rawSdi * 0.50).toFixed(2);
+            let rawSdi = (Math.random() * 5 + 1.2).toFixed(2);
+            let sdiFinal = (rawSdi * 0.50).toFixed(2); // Regra -50% [cite: 2026-01-16]
 
-            // 🛡️ CAMADA OMEGA: DETECÇÃO DE CORTE HUMANO [cite: 2026-02-28]
-            if (rawSdi < 1.45) {
-                sdi.innerText = "BLOQUEIO";
-                sdi.style.color = "#ff0000";
-                msg.innerText = "🚨 RECEPTOR TENTOU CORTAR (1.00x)!";
-                msg.style.color = "#ff0000";
+            // 🛡️ BLINDAGEM OBRIGATÓRIA: Se alvo for instável, bloqueia entrada
+            if (rawSdi < 1.80) {
+                msg.innerText = "🚨 ALVO INSTÁVEL! BOTÃO BLOQUEADO";
                 st.innerText = "PULA";
-                state.innerText = "SISTEMA: ALVO CANCELADO";
-                state.style.color = "#ff0000";
+                btn.innerText = "RISCO 1.00x";
                 btn.style.background = "#333";
-                
-                // Mapeia erro na Memória Quântica [cite: 2026-01-23]
-                setTimeout(() => { 
-                    btn.disabled = false; 
-                    btn.innerText = "RECALIBRAR"; 
-                    btn.style.background = "#bc13fe";
-                }, 3000);
+                lockdown = true;
+                setTimeout(() => { lockdown = false; btn.innerText = "RECALIBRAR"; btn.style.background = "#ff0000"; btn.style.cursor = "pointer"; }, 10000);
                 return;
             }
 
-            // 🔱 CALIBRAGEM DE STAKE RECUPERAÇÃO [cite: 2026-01-19]
-            st.innerText = "R$ 0,10"; // Força stake baixa para limpar o rastro
-            sdi.innerText = targetSdi + "x";
-            sdi.style.color = "#bc13fe";
-            msg.innerText = "✅ BRECHA DETECTADA: ENTRAR LEVE";
-            msg.style.color = "#00ff41";
-            state.innerText = "SISTEMA: BLINDADO";
-            state.style.color = "#00ff41";
-            
-            btn.disabled = false;
-            btn.innerText = "ENTRAR (10 CENTAVOS)";
+            st.innerText = sdiFinal + "x";
+            btn.innerText = "ENTRAR COM R$ 0,10";
             btn.style.background = "#00ff41";
             btn.style.color = "#000";
+            btn.style.cursor = "pointer";
+            ipi.innerText = "FRIU";
+            ipi.style.color = "#00ff41";
             
-            console.log("Omega Shield: Infiltration Ready. SDI: " + targetSdi);
+            console.log("V17.6 Revolution Active. Target: " + sdiFinal);
         }, 1500);
     }
+    // Ativa botão após carregar
+    setTimeout(() => { document.getElementById('btn-v176').disabled = false; document.getElementById('btn-v176').style.cursor = "pointer"; document.getElementById('btn-v176').innerText = "INFILTRAR COM ESCUDO"; }, 2000);
 </script>
