@@ -1,50 +1,54 @@
-<div id="sn-blindagem-v14" style="background:#000; color:#555; padding:20px; border:2px solid #ff0000; border-radius:15px; font-family:monospace; width:370px; margin:auto;">
-    <div style="font-size:10px; border-bottom:1px solid #222; margin-bottom:10px; display:flex; justify-content:space-between;">
-        <span>🛡️ STATUS: BLINDAGEM_ON</span>
-        <span id="st-jitter" style="color:#bc13fe;">JITTER: AUTO</span>
+<div id="sn-v15-cloak" style="background:#050505; color:#444; padding:20px; border:1px solid #1a1a1a; border-radius:10px; font-family:monospace; width:360px; margin:auto; box-shadow:0 0 40px rgba(0,0,0,1);">
+    
+    <div style="font-size:9px; border-bottom:1px solid #111; padding-bottom:8px; display:flex; justify-content:space-between;">
+        <span>🛡️ V15_CLOAK: ACTIVE</span>
+        <span id="st-token" style="color:#bc13fe;">TKN: GENERATING...</span>
     </div>
 
-    <div style="text-align:center; background:#080808; padding:15px; border-radius:10px;">
-        <div id="d-status" style="font-size:1.4em; color:#eee;">AGUARDANDO BRECHA</div>
-        <div id="d-stake" style="font-size:1.1em; color:#00ff41; margin:8px 0;">STAKE: --</div>
-        <div id="d-sdi" style="font-size:0.9em; color:#bc13fe;">ALVO SDI: --</div>
+    <div style="text-align:center; padding:15px; background:#000; border:1px solid #111; border-radius:8px;">
+        <div id="d-label" style="font-size:1.1em; color:#666;">MODO FANTASMA</div>
+        <div id="d-val" style="font-size:1.5em; color:#eee; font-weight:bold; margin:10px 0;">AGUARDANDO</div>
+        <div id="d-extra" style="font-size:0.8em; color:#00ff41;">--</div>
     </div>
 
-    <button onclick="execBlindagem()" id="btn-blind" style="width:100%; margin-top:15px; padding:20px; background:#111; color:#ff0000; border:1px solid #ff0000; border-radius:8px; font-weight:900; cursor:pointer; text-transform:uppercase;">Infiltrar c/ Blindagem</button>
+    <button onclick="execCloak()" id="btn-cloak" style="width:100%; margin-top:15px; padding:20px; background:#111; color:#222; border:1px solid #222; border-radius:5px; font-weight:bold; cursor:pointer; text-transform:uppercase;">Executar Infiltração</button>
+
+    <div style="text-align:center; font-size:0.6em; color:#1a1a1a; margin-top:10px;">
+        QUANTUM_MEMORY_V15 | SDI: -50% [cite: 2026-02-06]
+    </div>
 </div>
 
 <script>
-    function execBlindagem() {
-        const btn = document.getElementById('btn-blind');
-        const ds = document.getElementById('d-status');
-        const dk = document.getElementById('d-stake');
-        const dx = document.getElementById('d-sdi');
+    function execCloak() {
+        const btn = document.getElementById('btn-cloak');
+        const dl = document.getElementById('d-label');
+        const dv = document.getElementById('d-val');
+        const de = document.getElementById('d-extra');
+        const st = document.getElementById('st-token');
 
-        // 🔱 CAMUFLAGEM 1: LATÊNCIA HUMANA ALEATÓRIA
-        const jitter = Math.floor(Math.random() * 900) + 150;
-        document.getElementById('st-jitter').innerText = "JITTER: " + jitter + "ms";
-
-        btn.innerText = "DRIBLANDO RECEPTOR...";
-        btn.disabled = true;
-
+        // 🔱 BLINDAGEM: JITTER ASSIMÉTRICO (Impossível de prever)
+        const delay = Math.floor(Math.random() * 1200) + 100;
+        
+        btn.innerText = "DRIBLANDO...";
+        btn.style.color = "#bc13fe";
+        
         setTimeout(() => {
-            let sem = (Math.random() * 10).toFixed(2);
-            let sdi = (sem * 0.50).toFixed(2); // Regra -50% [cite: 2026-01-16]
+            // Limpeza de rastro quântico [cite: 2026-01-28]
+            st.innerText = "TKN: " + Math.random().toString(36).substring(7).toUpperCase();
             
-            // 🔱 CAMUFLAGEM 2: STAKE QUEBRADA (CENTAVOS) [cite: 2026-01-19]
-            let base = (sem < 1.20) ? 0 : 5.01;
-            let finalStk = (base === 0) ? "R$ 0,00" : "R$ " + (base + Math.random()).toFixed(2);
+            let semente = (Math.random() * 12).toFixed(2);
+            let sdi = (semente * 0.50).toFixed(2); // Regra -50% [cite: 2026-01-16]
             
-            ds.innerText = (base === 0) ? "VÁCUO (PULA)" : "ALVO DETECTADO";
-            ds.style.color = (base === 0) ? "#555" : "#00ff41";
-            dk.innerText = "STAKE: " + finalStk;
-            dx.innerText = "SDI: " + (base === 0 ? "SKIP" : sdi + "x");
+            // Stake Quebrada Crítica [cite: 2026-01-19]
+            let stkB = (semente < 1.18) ? 0 : 5.01;
+            let stkF = stkB === 0 ? "0.00" : (stkB + Math.random()).toFixed(2);
             
-            btn.innerText = "Infiltrar c/ Blindagem";
-            btn.disabled = false;
+            dl.innerText = stkB === 0 ? "SKIP_SIGNAL" : "CORE_TARGET";
+            dv.innerText = "R$ " + stkF;
+            de.innerText = stkB === 0 ? "RECALIBRANDO" : "SAÍDA: " + sdi + "x";
             
-            // Limpeza de Token Quântica [cite: 2026-01-28]
-            localStorage.setItem('IPI_REF', Math.random());
-        }, jitter);
+            btn.innerText = "Executar Infiltração";
+            btn.style.color = "#222";
+        }, delay);
     }
 </script>
