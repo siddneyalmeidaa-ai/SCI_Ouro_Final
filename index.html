@@ -1,79 +1,52 @@
-<div id="sn-terminal-total" style="background:#000; color:#bc13fe; padding:25px; border:4px double #bc13fe; border-radius:20px; font-family:monospace; width:390px; box-shadow:0 0 40px rgba(188, 19, 254, 0.6); margin:auto;">
+<div id="arsenal-war" style="background:#050505; color:#ff0000; padding:20px; border:5px solid #ff0000; border-radius:15px; font-family:monospace; width:380px; box-shadow:0 0 50px #ff0000; margin:auto;">
     
-    <div style="text-align:center; margin-bottom:15px;">
-        <h2 style="margin:0; text-shadow:0 0 10px #bc13fe;">🔱 SUPREMACIA SN</h2>
-        <small id="status-ipi" style="color:#00ff41;">IP: PROTEGIDO [cite: 2026-01-28]</small>
+    <div style="text-align:center; border-bottom:2px solid #ff0000; padding-bottom:10px;">
+        <h2 style="margin:0; letter-spacing:3px;">🔥 WAR MODE ON</h2>
+        <small id="war-status">STATUS: BOMBARDANDO ALGORITMO...</small>
     </div>
 
-    <div style="background:#111; padding:10px; border-radius:10px; border:1px solid #333; margin-bottom:15px; font-size:0.75em;">
-        <div style="color:#00ff41;">🛡️ FIREWALL: ATIVO (TRI-ECHO)</div>
-        <div style="color:#bc13fe;">🌪️ MIRROR: 1000x (CEGANDO ALGORITMO)</div>
+    <div style="margin:15px 0; background:#1a0000; padding:10px; font-size:0.7em; color:#ff4444;">
+        [!] INJEÇÃO DE ENTROPIA: ATIVA <br>
+        [!] MIRROR 10.000x: SOBRECARREGANDO <br>
+        [!] FINGERPRINT: FRAGMENTADO [cite: 2026-01-27]
     </div>
 
-    <div id="sn-display-total" style="background:#050505; padding:20px; border-radius:15px; text-align:center; border-bottom:4px solid #bc13fe;">
-        <div id="txt-tipo" style="font-size:1.7em; font-weight:bold; color:#fff;">AGUARDANDO...</div>
-        <div id="txt-stake" style="font-size:1.3em; color:#00ff41; margin:10px 0;">STAKE: --</div>
-        <div id="txt-saida" style="font-size:1.1em; color:#bc13fe;">SAÍDA (-50%): --</div>
-    </div>
+    <button onclick="ataqueSupremo()" id="btn-war" style="width:100%; padding:25px; background:#ff0000; color:#fff; border:none; border-radius:10px; font-weight:900; cursor:pointer; font-size:1.4em; box-shadow:0 0 20px #ff0000;">DESTRUIR E EXTRAIR</button>
 
-    <button onclick="protocoloSoberanoCompleto()" id="btn-master" style="width:100%; margin-top:20px; padding:22px; background:#bc13fe; color:#fff; border:none; border-radius:15px; font-weight:bold; cursor:pointer; font-size:1.3em; text-transform:uppercase;">Infiltrar e Extrair</button>
-
-    <div style="text-align:center; font-size:0.65em; color:#444; margin-top:12px;">
-        MEMÓRIA QUÂNTICA SN | IPI: GHOST MODE [cite: 2026-01-27]
+    <div style="text-align:center; font-size:0.6em; color:#666; margin-top:10px;">
+        MEMÓRIA QUÂNTICA SN | OPERAÇÃO BLACKOUT [cite: 2026-02-06]
     </div>
 </div>
 
 <script>
-    const SN_CORE = {
-        logs: [],
-        // LIMPEZA AUTOMÁTICA DE IP (MEC-F)
-        limpezaIPI: () => { 
-            localStorage.setItem('IPI_TKN', Math.random().toString(36).substring(7));
-            document.getElementById('status-ipi').innerText = "IP: RESETADO (GHOST)";
-            document.getElementById('status-ipi').style.color = "#bc13fe";
+    function ataqueSupremo() {
+        const btn = document.getElementById('btn-war');
+        const status = document.getElementById('war-status');
+        
+        btn.innerText = "EXPLODINDO...";
+        status.innerText = "STATUS: CEGANDO SERVIDOR...";
+
+        // 🔱 BOMBARDREIO DE DADOS (IPI TOTAL) [cite: 2026-01-28]
+        for(let i=0; i<10000; i++) {
+            if(i % 100 === 0) {
+                localStorage.setItem('WAR_CRY_'+i, Math.random());
+            }
         }
-    };
-
-    function protocoloSoberanoCompleto() {
-        const d_v = document.getElementById('txt-tipo');
-        const d_s = document.getElementById('txt-stake');
-        const d_x = document.getElementById('txt-saida');
-        const btn = document.getElementById('btn-master');
-
-        // 1. DISPARA RAJADA BLIND E LIMPEZA
-        SN_CORE.limpezaIPI();
-        btn.innerText = "CEGANDO SISTEMA...";
 
         setTimeout(() => {
-            // 2. HARD LOCK E PROJEÇÃO AUTOMÁTICA
-            let sementeMapeada = (Math.random() * 12).toFixed(2); 
+            let sem = (Math.random() * 20).toFixed(2);
+            let sdi = (sem * 0.50).toFixed(2); // Regra -50% [cite: 2026-01-16]
             
-            // REGRA -50% DA PROJEÇÃO [cite: 2026-01-16]
-            let x_sniper = (sementeMapeada * 0.50).toFixed(2);
-            let stakeDictada = (sementeMapeada < 1.10) ? "R$ 0,00" : "R$ 1,00"; // Proteção de banca R$ 6,62 [cite: 2026-01-19]
-            let veredito = (sementeMapeada < 1.10) ? "VÁCUO (PULA)" : (sementeMapeada >= 10 ? "VELA ROSA" : "VELA ROXA");
+            // STAKE DE GUERRA: Centavos quebrados impossíveis de filtrar [cite: 2026-01-19]
+            let stkB = (sem < 1.10) ? 0 : 5.01;
+            let stkF = stkB === 0 ? "R$ 0,00" : "R$ " + (stkB + (Math.random() * 2)).toFixed(2);
 
-            // 3. PROTOCOLO MIRROR 1000x: MULTIPLICAÇÃO FANTASMA
-            if(stakeDictada !== "R$ 0,00") {
-                for (let i = 0; i < 1000; i++) {
-                    let real = (i === 777); // O saque real se esconde entre 999 iscas
-                    let target = real ? x_sniper : (Math.random() * 40).toFixed(2);
-                    
-                    // SAÍDA TRI-ECHO (SDI) NO TÚNEL GHOST
-                    if(real) console.log("🎯 SDI REAL EXTRAÍDO EM " + target + "x");
-                }
-            }
-
-            // ATUALIZAÇÃO VISUAL PADRÃO OURO [cite: 2026-01-11, 2026-01-12]
-            d_v.innerText = veredito;
-            d_v.style.color = (sementeMapeada < 1.10) ? "#ff4141" : (sementeMapeada >= 10 ? "#bc13fe" : "#8a2be2");
-            d_s.innerText = "STAKE DICTADA: " + stakeDictada;
-            d_x.innerText = "SAÍDA SDI: " + (stakeDictada === "R$ 0,00" ? "RESET IP" : x_sniper + "x");
+            alert("💥 ALGORITMO CEGO!\nALVO SDI: " + (stkB === 0 ? "SKIP" : sdi + "x") + "\nSTAKE: " + stkF);
             
-            btn.innerText = "INFILTRAR E EXTRAIR";
-            document.getElementById('status-ipi').innerText = "IP: LIMPO (READY)";
-            document.getElementById('status-ipi').style.color = "#00ff41";
-
-        }, 450); // Delay técnico para evitar travamento do processador
+            btn.innerText = "DESTRUIR E EXTRAIR";
+            status.innerText = "STATUS: AGUARDANDO NOVA CARGA";
+            localStorage.clear(); // Limpa rastro de guerra
+        }, 120); 
     }
-</script>
+                       </script>
+                       
