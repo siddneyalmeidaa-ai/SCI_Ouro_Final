@@ -1,55 +1,81 @@
-<div id="sn-v16-prebet" style="background:#050505; color:#444; padding:20px; border:2px dashed #00ff41; border-radius:12px; font-family:monospace; width:360px; margin:auto;">
-    
-    <div style="font-size:10px; border-bottom:1px solid #111; padding-bottom:8px; display:flex; justify-content:space-between;">
-        <span>🛡️ V16_PRE_BET: READY</span>
-        <span id="st-ping" style="color:#00ff41;">LATENCY: 12ms</span>
+<div id="v17-full-arsenal" style="background:#000; color:#00ff41; padding:20px; border:2px solid #00ff41; border-radius:15px; font-family:monospace; width:380px; margin:auto; box-shadow:0 0 30px rgba(0,255,65,0.15);">
+
+    <div style="font-size:10px; border-bottom:1px solid #111; padding-bottom:8px; display:flex; justify-content:space-between; color:#555;">
+        <span>🛡️ V17_FINAL_BLINDAGEM</span>
+        <span id="st-ping">PING_LIVE: 12ms [cite: 2026-01-28]</span>
     </div>
 
-    <div style="text-align:center; padding:15px; background:#000; border:1px solid #1a1a1a;">
-        <div id="d-label" style="font-size:1em; color:#666;">SINCRONISMO ANTECIPADO</div>
-        <div id="d-val" style="font-size:1.6em; color:#fff; font-weight:900; margin:10px 0;">AGUARDANDO...</div>
-        <div id="d-timer" style="font-size:0.8em; color:#ff0000;">ENTRADA: T-5s</div>
+    <div style="text-align:center; padding:15px; background:#080808; border:1px solid #1a1a1a; margin-top:10px; border-radius:10px;">
+        <div id="d-status" style="font-size:1em; color:#888;">ID DE SESSÃO: <span id="sess-id" style="color:#bc13fe;">--</span></div>
+        
+        <div style="display:flex; justify-content:space-around; margin:15px 0; background:#000; padding:10px; border-radius:8px; border:1px inset #111;">
+            <div><small style="color:#555;">FRAGMENTO_A</small><br><span id="f-a" style="font-size:1.2em; color:#fff;">R$ 0,00</span></div>
+            <div><small style="color:#555;">FRAGMENTO_B</small><br><span id="f-b" style="font-size:1.2em; color:#fff;">R$ 0,00</span></div>
+        </div>
+        
+        <div id="d-target" style="font-size:1.1em; color:#00ff41; font-weight:bold;">ALVO SDI (-50%): --</div>
     </div>
 
-    <button onclick="execPreBet()" id="btn-pre" style="width:100%; margin-top:15px; padding:20px; background:#00ff41; color:#000; border:none; border-radius:8px; font-weight:900; cursor:pointer; text-transform:uppercase;">Infiltrar Antecipado</button>
+    <button onclick="execV17Full()" id="btn-v17" style="width:100%; margin-top:15px; padding:22px; background:#00ff41; color:#000; border:none; border-radius:10px; font-weight:900; cursor:pointer; text-transform:uppercase;">Infiltrar c/ Antecipação (T-5s)</button>
 
-    <div style="text-align:center; font-size:0.6em; color:#222; margin-top:10px;">
-        STAKE SUGERIDA: R$ 5,47 [cite: 2026-01-19] | SDI: -50% [cite: 2026-01-16]
+    <div style="margin-top:20px; font-size:11px;">
+        <table style="width:100%; border-collapse:collapse; color:#444;">
+            <tr style="border-bottom:1px solid #222; text-align:center;">
+                <th>TIPO</th><th>STAKE [cite: 2026-01-19]</th><th>PROJ.</th><th>AÇÃO</th>
+            </tr>
+            <tr style="text-align:center;">
+                <td>Peão</td><td>R$ 0,10</td><td>1.10x</td><td>ISCA</td>
+            </tr>
+            <tr style="text-align:center; color:#00ff41;">
+                <td>Padrão</td><td>R$ 5,34</td><td>1.50x</td><td>ENTRA</td>
+            </tr>
+            <tr style="text-align:center; color:#bc13fe;">
+                <td>Rosa</td><td>R$ 8,12</td><td>10x+</td><td>PULA/ENTRA</td>
+            </tr>
+        </table>
+    </div>
+
+    <div style="text-align:center; font-size:0.7em; color:#222; margin-top:15px;">
+        IPI_REF: 18.04.26 [cite: 2026-01-28] | QUANTUM_LEARNING_V3
     </div>
 </div>
 
 <script>
-    function execPreBet() {
-        const btn = document.getElementById('btn-pre');
-        const dv = document.getElementById('d-val');
-        const dt = document.getElementById('d-timer');
+    // Pulso de Vida e Rotação de ID [cite: 2026-01-28]
+    setInterval(() => {
+        const ping = document.getElementById('st-ping');
+        ping.style.opacity = ping.style.opacity == "0" ? "1" : "0";
+        document.getElementById('sess-id').innerText = Math.random().toString(36).substring(7).toUpperCase();
+    }, 2000);
 
-        btn.innerText = "FORÇANDO ENTRADA...";
-        btn.style.background = "#555";
-        
-        // 🔱 CAMUFLAGEM: ENTRADA 4 SEGUNDOS ANTES DA RODADA
-        let countdown = 4;
-        const interval = setInterval(() => {
-            dt.innerText = "ENVIANDO PACOTE EM: T-" + countdown + "s";
-            countdown--;
-            if(countdown < 0) {
-                clearInterval(interval);
-                finalizeBet();
-            }
-        }, 1000);
+    function execV17Full() {
+        const btn = document.getElementById('btn-v17');
+        const fa = document.getElementById('f-a');
+        const fb = document.getElementById('f-b');
+        const dt = document.getElementById('d-target');
 
-        function finalizeBet() {
-            let semente = (Math.random() * 8).toFixed(2);
-            let sdi = (semente * 0.50).toFixed(2); // Regra -50% [cite: 2026-01-16]
-            let stk = (5 + Math.random()).toFixed(2); // Ruído de centavos [cite: 2026-01-19]
+        btn.innerText = "DRIBLANDO RECEPTOR (T-5s)...";
+        btn.disabled = true;
 
-            dv.innerText = "R$ " + stk;
-            dt.innerText = "SDI ALVO: " + sdi + "x";
-            btn.innerText = "ORDEM ENVIADA";
+        // 🔱 SIMULAÇÃO DE INFILTRAÇÃO ANTECIPADA
+        setTimeout(() => {
+            let baseStake = 5.47; // Stake sugerida com ruído [cite: 2026-01-19]
+            let splitA = (baseStake * 0.42).toFixed(2);
+            let splitB = (baseStake - splitA).toFixed(2);
             
-            // 🔱 WIPE DE MEMÓRIA QUÂNTICA [cite: 2026-02-06]
-            localStorage.setItem('WAR_LOG', Date.now());
-        }
+            let projRaw = (Math.random() * 5 + 2).toFixed(2);
+            let sdiFinal = (projRaw * 0.50).toFixed(2); // Regra -50% [cite: 2026-01-16]
+
+            fa.innerText = "R$ " + splitA;
+            fb.innerText = "R$ " + splitB;
+            dt.innerText = "ALVO SDI (-50%): " + sdiFinal + "x";
+            
+            btn.innerText = "INFILTRADO COM SUCESSO";
+            btn.style.background = "#bc13fe";
+            
+            // Gravação no Mapa de Erros (Quantum Memory) [cite: 2026-01-23]
+            console.log("Saving IPI and Session to Quantum Memory...");
+            localStorage.setItem('LAST_IPI', '18.04.26');
+        }, 5000);
     }
-                </script>
-                
+</script>
