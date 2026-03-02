@@ -1,96 +1,78 @@
-<div id="v17-3-shield" style="background:#000; color:#00ff41; padding:20px; border:3px solid #bc13fe; border-radius:20px; font-family:monospace; width:400px; margin:auto; box-shadow:0 0 50px rgba(188,19,254,0.2);">
+<div id="v17-4-blackout" style="background:#000; color:#ff0000; padding:20px; border:4px double #ff0000; border-radius:15px; font-family:monospace; width:410px; margin:auto; box-shadow:0 0 60px rgba(255,0,0,0.15);">
 
-    <div style="font-size:10px; border-bottom:1px solid #222; padding-bottom:10px; display:flex; justify-content:space-between;">
-        <span style="color:#bc13fe;">🛡️ SHIELD_V17.3_ACTIVE</span>
-        <span id="q-mem" style="color:#00ff41;">MEMÓRIA QUÂNTICA: SYNC</span>
+    <div style="font-size:10px; border-bottom:1px solid #333; padding-bottom:10px; display:flex; justify-content:space-between; color:#555;">
+        <span>🛡️ V17.4_BLACKOUT_ACTIVE</span>
+        <span id="ghost-status" style="color:#bc13fe;">GHOST_IPI: OCULTO</span>
     </div>
 
-    <div style="text-align:center; padding:15px; background:#050505; border:1px solid #111; margin-top:10px; border-radius:12px;">
-        <div id="risk-lvl" style="font-size:0.8em; color:#ff0000; font-weight:bold; margin-bottom:5px;">⚠️ RISCO DE CORTE: ALTO (1.07x DETECTADO)</div>
+    <div style="text-align:center; padding:15px; background:#080000; border:1px solid #220000; margin-top:10px; border-radius:12px;">
+        <div id="alert-msg" style="font-size:0.9em; color:#ff0000; font-weight:bold; letter-spacing:1px;">⚠️ MONITORANDO CORTE (1.00x)</div>
         
-        <div style="display:flex; justify-content:space-around; margin:10px 0; background:#000; padding:12px; border:1px inset #222;">
-            <div><small style="color:#555;">FRAG_A (40%)</small><br><span id="frag-a" style="font-size:1.2em; color:#fff;">R$ 0,00</span></div>
-            <div><small style="color:#555;">FRAG_B (60%)</small><br><span id="frag-b" style="font-size:1.2em; color:#fff;">R$ 0,00</span></div>
+        <div style="display:flex; justify-content:space-around; margin:15px 0; background:#000; padding:12px; border:1px inset #333;">
+            <div><small style="color:#666;">BANCA ATUAL</small><br><span style="font-size:1.2em; color:#fff;">R$ 12,73</span></div>
+            <div><small style="color:#666;">RISCO</small><br><span id="risk-pct" style="font-size:1.2em; color:#ff0000;">CRÍTICO</span></div>
         </div>
         
-        <div id="sdi-target" style="font-size:1.8em; color:#00ff41; text-shadow:0 0 10px #00ff41;">ALVO: --</div>
+        <div id="sdi-target" style="font-size:2em; color:#00ff41; text-shadow:0 0 10px #00ff41;">ALVO: --</div>
     </div>
 
-    <button onclick="execShieldV17()" id="btn-shield" style="width:100%; margin-top:20px; padding:25px; background:#bc13fe; color:#fff; border:none; border-radius:12px; font-weight:900; font-size:1.1em; cursor:pointer; box-shadow:0 5px 15px rgba(0,0,0,0.5);">INFILTRAR COM ESCUDO</button>
+    <button onclick="execV174()" id="btn-v174" style="width:100%; margin-top:15px; padding:25px; background:#ff0000; color:#fff; border:none; border-radius:10px; font-weight:900; font-size:1.2em; cursor:pointer;">INFILTRAR (MODO ESCUDO)</button>
 
-    <div style="margin-top:15px; border-top:1px solid #111; padding-top:10px;">
-        <table style="width:100%; font-size:10px; text-align:center; color:#444;">
+    <div style="margin-top:15px; background:#050505; padding:10px; border-radius:8px;">
+        <table style="width:100%; font-size:10px; color:#444; text-align:center;">
             <tr>
-                <th>MODO</th><th>STAKE [cite: 2026-01-19]</th><th>SAÍDA (-50%)</th><th>STATUS</th>
+                <th>FASE</th><th>STAKE [cite: 2026-01-19]</th><th>SAÍDA (-50%)</th>
             </tr>
-            <tr>
-                <td>DEFESA</td><td>R$ 0,10</td><td>1.10x</td><td>LIMPEZA</td>
+            <tr style="color:#ff0000;">
+                <td>TESTE</td><td>R$ 0,10</td><td>1.05x</td>
             </tr>
             <tr style="color:#00ff41;">
-                <td>ATAQUE</td><td>R$ 5,53</td><td>1.17x</td><td>BLINDADO</td>
+                <td>RECUPERA</td><td>R$ 1,27</td><td>1.15x</td>
             </tr>
         </table>
     </div>
 </div>
 
 <script>
-    let lastGeneratedSdi = "";
-    const BANCA_ATUAL = 16.55; //
+    let blockActive = false;
 
-    function execShieldV17() {
-        const btn = document.getElementById('btn-shield');
-        const fa = document.getElementById('frag-a');
-        const fb = document.getElementById('frag-b');
+    function execV174() {
+        if (blockActive) return;
+
+        const btn = document.getElementById('btn-v174');
         const st = document.getElementById('sdi-target');
-        const rl = document.getElementById('risk-lvl');
+        const msg = document.getElementById('alert-msg');
 
-        // 🔱 LIMPEZA DE CACHE QUÂNTICO [cite: 2026-02-06]
+        // 🔱 LIMPEZA QUÂNTICA ANTES DO CÁLCULO [cite: 2026-02-06]
         window.localStorage.clear();
         
+        btn.innerText = "BLOQUEANDO RASTRO...";
         btn.disabled = true;
-        btn.innerText = "CALIBRANDO ESCUDO...";
-        btn.style.background = "#333";
 
         setTimeout(() => {
-            // Semente com ruído de milissegundos para evitar sabotagem de IP [cite: 2026-01-28]
-            let rawSdi = (Math.random() * 4 + 1.2 + (new Date().getMilliseconds() / 1000)).toFixed(2);
-            
-            // 🛡️ DETECÇÃO DE TRAVAMENTO [cite: 2026-01-12]
-            if (rawSdi === lastGeneratedSdi) {
-                rl.innerText = "🚨 ALERTA: DADOS TRAVADOS! RECARREGUE PÁGINA";
-                btn.innerText = "BLOQUEADO";
+            // Semente com ruído para quebrar o monitoramento [cite: 2026-01-28]
+            let rawSdi = (Math.random() * 3 + 1.15).toFixed(2);
+            let sdiFinal = (rawSdi * 0.50).toFixed(2); // Regra -50% [cite: 2026-01-16]
+
+            // 🔱 CAMADA BLACKOUT: SE DETECTAR RISCO DE 1.00x
+            if (rawSdi < 1.40) {
+                msg.innerText = "🚨 BOMBA DETECTADA! ENTRADA CANCELADA";
+                st.innerText = "PULA RODADA";
+                btn.style.background = "#333";
+                blockActive = true;
+                
+                // Grava Erro na Memória Quântica [cite: 2026-01-23]
+                setTimeout(() => { blockActive = false; btn.disabled = false; btn.innerText = "RECALIBRAR"; btn.style.background = "#ff0000"; }, 5000);
                 return;
             }
-            lastGeneratedSdi = rawSdi;
 
-            // 🔱 REGRA DE BLINDAGEM -50% [cite: 2026-01-16]
-            let sdiFinal = (rawSdi * 0.50).toFixed(2);
-
-            // 🛡️ LÓGICA ANTI-CORTE (Se alvo muito baixo, força limpeza) [cite: 2026-02-13]
-            let finalStake = 5.53; //
-            if (sdiFinal < 1.15) {
-                finalStake = 0.10;
-                rl.innerText = "⚠️ RISCO DE CORTE IMINENTE: MODO LIMPEZA";
-                rl.style.color = "#ff0000";
-            } else {
-                rl.innerText = "✅ CAMINHO LIMPO: MODO ATAQUE";
-                rl.style.color = "#00ff41";
-            }
-
-            // Fragmentação de Stake para IPI Ghost [cite: 2026-01-19, 2026-01-28]
-            let p1 = (finalStake * 0.40).toFixed(2);
-            let p2 = (finalStake - p1).toFixed(2);
-
-            fa.innerText = "R$ " + p1;
-            fb.innerText = "R$ " + p2;
             st.innerText = "ALVO: " + sdiFinal + "x";
-            
+            btn.innerText = "ENTRAR COM 10 CENTAVOS";
+            btn.style.background = "#00ff41";
+            btn.style.color = "#000";
             btn.disabled = false;
-            btn.innerText = "INFILTRAR COM ESCUDO";
-            btn.style.background = "#bc13fe";
             
-            // Gravação no Mapa de Erros para Quantum Memory [cite: 2026-01-23]
-            console.log("Shield Updated. SDI Protected: " + sdiFinal);
-        }, 800);
+            console.log("Blackout Shield Active. Target Protected: " + sdiFinal);
+        }, 1200);
     }
 </script>
