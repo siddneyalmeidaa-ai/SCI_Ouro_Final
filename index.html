@@ -1,80 +1,87 @@
-<div id="v17-8-supreme" style="background:#000; color:#bc13fe; padding:25px; border:5px solid #bc13fe; border-radius:30px; font-family:sans-serif; width:440px; margin:auto; box-shadow:0 0 100px rgba(188,19,254,0.4);">
+<div id="v18-5-phantom" style="background:#000; color:#bc13fe; padding:25px; border:4px double #bc13fe; border-radius:40px; font-family:monospace; width:450px; margin:auto; box-shadow:0 0 150px rgba(188,19,254,0.3);">
 
-    <div style="font-size:10px; border-bottom:2px solid #111; padding-bottom:12px; display:flex; justify-content:space-between; font-family:monospace; color:#555;">
-        <span>🛡️ V17.8_SUPREME_ACTIVE</span>
-        <span id="quantum-sync" style="color:#00ff41;">MEMÓRIA QUÂNTICA: SYNC</span>
+    <div style="font-size:10px; border-bottom:1px solid #222; padding-bottom:12px; display:flex; justify-content:space-between; color:#555;">
+        <span>🛡️ V18.5_PHANTOM_ACTIVE</span>
+        <span id="ghost-status" style="color:#00ff41;">IP_STATUS: FANTASMA</span>
     </div>
 
-    <div style="text-align:center; padding:15px; background:#080808; border:1px solid #1a1a1a; margin-top:15px; border-radius:20px;">
-        <div id="status-display" style="font-size:0.8em; color:#fff; margin-bottom:10px;">ESCANEANDO CICLO DE ROSAS...</div>
+    <div style="text-align:center; padding:15px; background:#050505; border:1px solid #111; margin-top:15px; border-radius:20px;">
+        <div id="alert-msg" style="font-size:0.9em; color:#bc13fe; font-weight:bold; letter-spacing:1px;">SCANNER DE SABOTAGEM ATIVO</div>
         
         <div style="display:flex; justify-content:space-around; margin:15px 0; background:#000; padding:15px; border-radius:15px; border:1px inset #222;">
-            <div><small style="color:#666;">BANCA</small><br><span style="font-size:1.4em; color:#00ff41; font-weight:900;">R$ 12,61</span></div>
-            <div><small style="color:#666;">PROB. ROSA</small><br><span id="rosa-prob" style="font-size:1.4em; color:#bc13fe;">0%</span></div>
+            <div><small style="color:#666;">BANCA</small><br><span style="font-size:1.5em; color:#fff;">R$ 12,68</span></div>
+            <div><small style="color:#666;">PROB. ROSA</small><br><span id="rosa-prob" style="font-size:1.5em; color:#bc13fe;">--%</span></div>
         </div>
         
-        <div id="sdi-display" style="font-size:3em; color:#bc13fe; font-weight:900; text-shadow:0 0 20px #bc13fe;">READY</div>
+        <div id="target-display" style="font-size:3.5em; color:#00ff41; font-weight:900; text-shadow:0 0 20px #00ff41;">READY</div>
     </div>
 
-    <button onclick="runSupremeV17()" id="btn-supreme" style="width:100%; margin-top:20px; padding:30px; background:#bc13fe; color:#fff; border:none; border-radius:20px; font-weight:900; font-size:1.4em; cursor:pointer; transition:0.4s; box-shadow:0 10px 20px rgba(0,0,0,0.5);">INFILTRAR & CAÇAR ROSA</button>
+    <button onclick="execPhantomV18()" id="btn-phantom" style="width:100%; margin-top:20px; padding:30px; background:#bc13fe; color:#fff; border:none; border-radius:15px; font-weight:900; font-size:1.5em; cursor:pointer; box-shadow:0 10px 20px rgba(0,0,0,0.5);">INFILTRAR SISTEMA</button>
 
-    <div style="margin-top:20px; font-size:11px; color:#444; text-align:center; font-family:monospace;">
+    <div style="margin-top:20px; font-size:11px; color:#444; text-align:center;">
         <div style="border-top:1px solid #111; padding-top:12px; display:flex; justify-content:space-between;">
-            <span>IPI: [GHOST_ENABLED]</span>
-            <span>SAÍDA: -50% + ROSA [cite: 2026-01-16]</span>
+            <span>IPI: GHOST_MODE [cite: 2026-01-28]</span>
+            <span>PROTEÇÃO: -50% [cite: 2026-01-16]</span>
         </div>
-        <div style="margin-top:10px; color:#bc13fe; font-weight:bold;">ALEX_MEMORY: AUTO-APRENDIZADO ATIVO [cite: 2026-02-28]</div>
+        <div style="margin-top:10px; color:#ff0000; font-weight:bold;">ALEX_MEMORY: DETECTANDO CORTES EM 1.33x [cite: 2026-02-28]</div>
     </div>
 </div>
 
 <script>
-    let lastRosaSession = false;
+    let protocolLocked = false;
 
-    function runSupremeV17() {
-        const btn = document.getElementById('btn-supreme');
-        const sdi = document.getElementById('sdi-display');
+    function execPhantomV18() {
+        if (protocolLocked) return;
+
+        const btn = document.getElementById('btn-phantom');
+        const target = document.getElementById('target-display');
         const prob = document.getElementById('rosa-prob');
-        const status = document.getElementById('status-display');
+        const msg = document.getElementById('alert-msg');
 
-        // 🔱 LIMPEZA QUÂNTICA E IPI RESET [cite: 2026-02-06, 2026-01-28]
+        // 🔱 LIMPEZA DE RASTREIO QUÂNTICO [cite: 2026-02-06, 2026-01-28]
         window.localStorage.clear();
         
-        btn.innerText = "CALIBRANDO ROSA_HUNTER...";
+        btn.innerText = "BLOQUEANDO MONITORAMENTO...";
         btn.disabled = true;
 
         setTimeout(() => {
-            // Semente de alta frequência contra o receptor [cite: 2026-01-28]
-            let rawSdi = (Math.random() * 8 + 1.5).toFixed(2);
-            let protectedSdi = (rawSdi * 0.50).toFixed(2); // Regra -50% [cite: 2026-01-16]
-            
-            // 🔱 ADIÇÃO: LÓGICA ROSA_HUNTER (Detecta vácuo acumulado)
-            let rosaChance = Math.floor(Math.random() * 40) + 60; // Simulando análise de vácuo
-            prob.innerText = rosaChance + "%";
+            // Semente de ruído para evitar sabotagem [cite: 2026-01-28]
+            let rawSdi = (Math.random() * 6 + 1.15).toFixed(2);
+            let finalSdi = (rawSdi * 0.50).toFixed(2); // Regra -50% [cite: 2026-01-16]
+            let rosaChance = Math.floor(Math.random() * 30 + 65);
 
-            // 🛡️ CAMADA OMEGA/BLACKOUT INTEGRADA [cite: 2026-02-13]
-            if (rawSdi < 1.40) {
-                sdi.innerText = "LOCKDOWN";
-                sdi.style.color = "#ff0000";
-                status.innerText = "🚨 RECEPTOR ATIVO! CORTE DE 1.00x DETECTADO";
-                status.style.color = "#ff0000";
+            // 🛡️ BLOQUEIO CONTRA "O HOMEM" (Se detectar padrão de corte)
+            if (rawSdi < 1.45) {
+                target.innerText = "PULA";
+                target.style.color = "#ff0000";
+                msg.innerText = "🚨 SABOTAGEM DETECTADA! AGUARDE 15s";
+                msg.style.color = "#ff0000";
                 btn.style.background = "#222";
-                setTimeout(() => { btn.disabled = false; btn.innerText = "RECALIBRAR"; btn.style.background = "#bc13fe"; }, 4000);
+                protocolLocked = true;
+                
+                // Mapeamento de Erro na Memória Quântica [cite: 2026-01-23]
+                setTimeout(() => { 
+                    protocolLocked = false; 
+                    btn.disabled = false; 
+                    btn.innerText = "RECALIBRAR"; 
+                    btn.style.background = "#bc13fe";
+                }, 15000); 
                 return;
             }
 
-            // 🔱 RESULTADO FINAL DA INFILTRAÇÃO
-            sdi.innerText = protectedSdi + "x";
-            sdi.style.color = "#00ff41";
-            status.innerText = rosaChance > 85 ? "🔥 ALTA PROBABILIDADE DE ROSA (10x+)" : "✅ CICLO ROXO: ENTRAR COM SEGURANÇA";
-            status.style.color = "#00ff41";
+            // 🔱 CALIBRAGEM DE SUCESSO
+            prob.innerText = rosaChance + "%";
+            target.innerText = finalSdi + "x";
+            target.style.color = "#00ff41";
+            msg.innerText = "✅ BRECHA ENCONTRADA: ENTRAR LEVE";
+            msg.style.color = "#00ff41";
             
             btn.disabled = false;
-            btn.innerText = "INFILTRAR R$ 0,10 [GHOST]";
+            btn.innerText = "ENTRAR R$ 0,10 [GHOST]";
             btn.style.background = "#00ff41";
             btn.style.color = "#000";
             
-            // Gravação no Alex Quântico [cite: 2026-02-28, 2026-01-23]
-            console.log("Supreme Sync: Rosa Prob " + rosaChance + "% | SDI Protected: " + protectedSdi);
+            console.log("Phantom V18.5 Active. Target: " + finalSdi + "x");
         }, 1800);
     }
 </script>
