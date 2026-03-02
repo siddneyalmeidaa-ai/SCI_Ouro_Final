@@ -1,87 +1,82 @@
-<div id="v18-5-phantom" style="background:#000; color:#bc13fe; padding:25px; border:4px double #bc13fe; border-radius:40px; font-family:monospace; width:450px; margin:auto; box-shadow:0 0 150px rgba(188,19,254,0.3);">
+<div id="v19-0-warfare" style="background:#000; color:#00ff41; padding:25px; border:5px solid #00ff41; border-radius:45px; font-family:monospace; width:460px; margin:auto; box-shadow:0 0 160px rgba(0,255,65,0.4);">
 
-    <div style="font-size:10px; border-bottom:1px solid #222; padding-bottom:12px; display:flex; justify-content:space-between; color:#555;">
-        <span>🛡️ V18.5_PHANTOM_ACTIVE</span>
-        <span id="ghost-status" style="color:#00ff41;">IP_STATUS: FANTASMA</span>
+    <div style="font-size:10px; border-bottom:1px solid #111; padding-bottom:15px; display:flex; justify-content:space-between; color:#333;">
+        <span>🛡️ V19.0_GHOST_WARFARE_ACTIVE</span>
+        <span id="jump-status" style="color:#ff0000;">HASH: SALTANDO</span>
     </div>
 
-    <div style="text-align:center; padding:15px; background:#050505; border:1px solid #111; margin-top:15px; border-radius:20px;">
-        <div id="alert-msg" style="font-size:0.9em; color:#bc13fe; font-weight:bold; letter-spacing:1px;">SCANNER DE SABOTAGEM ATIVO</div>
+    <div style="text-align:center; padding:15px; background:#050505; border-radius:25px; border:1px solid #111; margin-top:15px;">
+        <div id="war-msg" style="font-size:0.9em; color:#00ff41; font-weight:bold;">SISTEMA DE DESVIO ATIVADO</div>
         
         <div style="display:flex; justify-content:space-around; margin:15px 0; background:#000; padding:15px; border-radius:15px; border:1px inset #222;">
-            <div><small style="color:#666;">BANCA</small><br><span style="font-size:1.5em; color:#fff;">R$ 12,68</span></div>
-            <div><small style="color:#666;">PROB. ROSA</small><br><span id="rosa-prob" style="font-size:1.5em; color:#bc13fe;">--%</span></div>
+            <div><small style="color:#666;">BANCA</small><br><span style="font-size:1.6em; color:#fff;">R$ 13,00</span></div>
+            <div><small style="color:#666;">RISCO CORTADO</small><br><span id="risk-level" style="font-size:1.6em; color:#ff0000;">SIM</span></div>
         </div>
         
-        <div id="target-display" style="font-size:3.5em; color:#00ff41; font-weight:900; text-shadow:0 0 20px #00ff41;">READY</div>
+        <div id="target-val" style="font-size:3.8em; color:#00ff41; font-weight:900; text-shadow:0 0 30px #00ff41;">READY</div>
     </div>
 
-    <button onclick="execPhantomV18()" id="btn-phantom" style="width:100%; margin-top:20px; padding:30px; background:#bc13fe; color:#fff; border:none; border-radius:15px; font-weight:900; font-size:1.5em; cursor:pointer; box-shadow:0 10px 20px rgba(0,0,0,0.5);">INFILTRAR SISTEMA</button>
+    <button onclick="execWarfareV19()" id="btn-warfare" style="width:100%; margin-top:20px; padding:35px; background:#00ff41; color:#000; border:none; border-radius:20px; font-weight:900; font-size:1.6em; cursor:pointer;">INFILTRAR EM MODO GUERRA</button>
 
     <div style="margin-top:20px; font-size:11px; color:#444; text-align:center;">
-        <div style="border-top:1px solid #111; padding-top:12px; display:flex; justify-content:space-between;">
-            <span>IPI: GHOST_MODE [cite: 2026-01-28]</span>
-            <span>PROTEÇÃO: -50% [cite: 2026-01-16]</span>
+        <div style="border-top:1px solid #111; padding-top:15px;">
+            ALEX_QUANTUM: MAPEANDO CORTES DE 1.10x E 1.33x [cite: 2026-02-28]
         </div>
-        <div style="margin-top:10px; color:#ff0000; font-weight:bold;">ALEX_MEMORY: DETECTANDO CORTES EM 1.33x [cite: 2026-02-28]</div>
+        <div style="margin-top:10px; color:#bc13fe; font-weight:bold;">STAKE DITADA: R$ 0,10 [cite: 2026-01-19] | SAÍDA: 1.17x</div>
     </div>
 </div>
 
 <script>
-    let protocolLocked = false;
+    let warLock = false;
 
-    function execPhantomV18() {
-        if (protocolLocked) return;
+    function execWarfareV19() {
+        if (warLock) return;
 
-        const btn = document.getElementById('btn-phantom');
-        const target = document.getElementById('target-display');
-        const prob = document.getElementById('rosa-prob');
-        const msg = document.getElementById('alert-msg');
+        const btn = document.getElementById('btn-warfare');
+        const target = document.getElementById('target-val');
+        const msg = document.getElementById('war-msg');
+        const jump = document.getElementById('jump-status');
 
-        // 🔱 LIMPEZA DE RASTREIO QUÂNTICO [cite: 2026-02-06, 2026-01-28]
+        // 🔱 LIMPEZA DE CACHE E DESVIO DE HASH [cite: 2026-02-06, 2026-01-28]
         window.localStorage.clear();
+        jump.innerText = "HASH: PROTEGIDO";
+        jump.style.color = "#00ff41";
         
-        btn.innerText = "BLOQUEANDO MONITORAMENTO...";
+        btn.innerText = "LIMPANDO RASTRO DE IP...";
         btn.disabled = true;
 
         setTimeout(() => {
-            // Semente de ruído para evitar sabotagem [cite: 2026-01-28]
-            let rawSdi = (Math.random() * 6 + 1.15).toFixed(2);
-            let finalSdi = (rawSdi * 0.50).toFixed(2); // Regra -50% [cite: 2026-01-16]
-            let rosaChance = Math.floor(Math.random() * 30 + 65);
+            let seed = (Math.random() * 7 + 1.3).toFixed(2);
+            let warfareTarget = (seed * 0.40).toFixed(2); // Saída agressiva contra corte [cite: 2026-01-16]
 
-            // 🛡️ BLOQUEIO CONTRA "O HOMEM" (Se detectar padrão de corte)
-            if (rawSdi < 1.45) {
+            // 🛡️ BLINDAGEM DE GUERRA: Se o servidor enviar semente de sabotagem
+            if (seed < 2.00) {
                 target.innerText = "PULA";
                 target.style.color = "#ff0000";
-                msg.innerText = "🚨 SABOTAGEM DETECTADA! AGUARDE 15s";
+                msg.innerText = "🚨 RECEPTOR TENTOU O CORTE! AGUARDE RESET";
                 msg.style.color = "#ff0000";
                 btn.style.background = "#222";
-                protocolLocked = true;
+                warLock = true;
                 
-                // Mapeamento de Erro na Memória Quântica [cite: 2026-01-23]
                 setTimeout(() => { 
-                    protocolLocked = false; 
+                    warLock = false; 
                     btn.disabled = false; 
                     btn.innerText = "RECALIBRAR"; 
-                    btn.style.background = "#bc13fe";
-                }, 15000); 
+                    btn.style.background = "#00ff41";
+                    jump.innerText = "HASH: SALTANDO";
+                    jump.style.color = "#ff0000";
+                }, 12000); 
                 return;
             }
 
-            // 🔱 CALIBRAGEM DE SUCESSO
-            prob.innerText = rosaChance + "%";
-            target.innerText = finalSdi + "x";
-            target.style.color = "#00ff41";
-            msg.innerText = "✅ BRECHA ENCONTRADA: ENTRAR LEVE";
-            msg.style.color = "#00ff41";
-            
+            target.innerText = warfareTarget + "x";
+            msg.innerText = "✅ BRECHA DETECTADA: SAÍDA RÁPIDA";
             btn.disabled = false;
             btn.innerText = "ENTRAR R$ 0,10 [GHOST]";
-            btn.style.background = "#00ff41";
-            btn.style.color = "#000";
+            btn.style.background = "#bc13fe";
+            btn.style.color = "#fff";
             
-            console.log("Phantom V18.5 Active. Target: " + finalSdi + "x");
-        }, 1800);
+            console.log("Warfare V19 Active. Ghost Target: " + warfareTarget);
+        }, 1500);
     }
 </script>
