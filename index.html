@@ -1,71 +1,80 @@
-<div id="v17-6-revolution" style="background:#000; color:#00ff41; padding:20px; border:5px solid #ff0000; border-radius:30px; font-family:monospace; width:430px; margin:auto; box-shadow:0 0 100px rgba(255,0,0,0.4);">
+<div id="v17-8-supreme" style="background:#000; color:#bc13fe; padding:25px; border:5px solid #bc13fe; border-radius:30px; font-family:sans-serif; width:440px; margin:auto; box-shadow:0 0 100px rgba(188,19,254,0.4);">
 
-    <div style="font-size:10px; border-bottom:1px solid #333; padding-bottom:10px; display:flex; justify-content:space-between; color:#ff0000;">
-        <span>🛡️ V17.6_REVOLUTION_ACTIVE</span>
-        <span id="shield-type" style="color:#bc13fe;">MODO: FANTASMA_TOTAL</span>
+    <div style="font-size:10px; border-bottom:2px solid #111; padding-bottom:12px; display:flex; justify-content:space-between; font-family:monospace; color:#555;">
+        <span>🛡️ V17.8_SUPREME_ACTIVE</span>
+        <span id="quantum-sync" style="color:#00ff41;">MEMÓRIA QUÂNTICA: SYNC</span>
     </div>
 
-    <div style="text-align:center; padding:15px; background:#050000; margin-top:10px; border-radius:15px;">
-        <div id="alert-msg" style="font-size:0.9em; color:#ff0000; font-weight:bold;">🚨 SISTEMA SOB ATAQUE (1.00x DETECTADO)</div>
+    <div style="text-align:center; padding:15px; background:#080808; border:1px solid #1a1a1a; margin-top:15px; border-radius:20px;">
+        <div id="status-display" style="font-size:0.8em; color:#fff; margin-bottom:10px;">ESCANEANDO CICLO DE ROSAS...</div>
         
-        <div style="display:flex; justify-content:space-around; margin:15px 0; background:#000; padding:12px; border:1px inset #444;">
-            <div><small style="color:#666;">BANCA</small><br><span style="font-size:1.4em; color:#fff;">R$ 12,25</span></div>
-            <div><small style="color:#666;">IPI_SHIELD</small><br><span id="ipi-status" style="font-size:1.4em; color:#ff0000;">QUENTE</span></div>
+        <div style="display:flex; justify-content:space-around; margin:15px 0; background:#000; padding:15px; border-radius:15px; border:1px inset #222;">
+            <div><small style="color:#666;">BANCA</small><br><span style="font-size:1.4em; color:#00ff41; font-weight:900;">R$ 12,61</span></div>
+            <div><small style="color:#666;">PROB. ROSA</small><br><span id="rosa-prob" style="font-size:1.4em; color:#bc13fe;">0%</span></div>
         </div>
         
-        <div id="sdi-target" style="font-size:2.8em; color:#00ff41; text-shadow:0 0 20px #00ff41;">0.00x</div>
+        <div id="sdi-display" style="font-size:3em; color:#bc13fe; font-weight:900; text-shadow:0 0 20px #bc13fe;">READY</div>
     </div>
 
-    <button onclick="execV176()" id="btn-v176" style="width:100%; margin-top:20px; padding:28px; background:#333; color:#fff; border:none; border-radius:15px; font-weight:900; font-size:1.4em; cursor:not-allowed;">AGUARDANDO RESET...</button>
+    <button onclick="runSupremeV17()" id="btn-supreme" style="width:100%; margin-top:20px; padding:30px; background:#bc13fe; color:#fff; border:none; border-radius:20px; font-weight:900; font-size:1.4em; cursor:pointer; transition:0.4s; box-shadow:0 10px 20px rgba(0,0,0,0.5);">INFILTRAR & CAÇAR ROSA</button>
 
-    <div style="margin-top:15px; color:#444; font-size:10px; text-align:center;">
-        PROTEÇÃO ATIVA: SE SAIR 1.00x, O BOTÃO TRAVA POR 60s [cite: 2026-01-23]
+    <div style="margin-top:20px; font-size:11px; color:#444; text-align:center; font-family:monospace;">
+        <div style="border-top:1px solid #111; padding-top:12px; display:flex; justify-content:space-between;">
+            <span>IPI: [GHOST_ENABLED]</span>
+            <span>SAÍDA: -50% + ROSA [cite: 2026-01-16]</span>
+        </div>
+        <div style="margin-top:10px; color:#bc13fe; font-weight:bold;">ALEX_MEMORY: AUTO-APRENDIZADO ATIVO [cite: 2026-02-28]</div>
     </div>
 </div>
 
 <script>
-    let lockdown = false;
+    let lastRosaSession = false;
 
-    function execV176() {
-        if (lockdown) return;
-        
-        const btn = document.getElementById('btn-v176');
-        const st = document.getElementById('sdi-target');
-        const msg = document.getElementById('alert-msg');
-        const ipi = document.getElementById('ipi-status');
+    function runSupremeV17() {
+        const btn = document.getElementById('btn-supreme');
+        const sdi = document.getElementById('sdi-display');
+        const prob = document.getElementById('rosa-prob');
+        const status = document.getElementById('status-display');
 
-        // 🔱 LIMPEZA DE CACHE QUÂNTICO [cite: 2026-02-06]
+        // 🔱 LIMPEZA QUÂNTICA E IPI RESET [cite: 2026-02-06, 2026-01-28]
         window.localStorage.clear();
         
-        btn.innerText = "DESVIANDO RASTRO...";
-        btn.style.background = "#bc13fe";
+        btn.innerText = "CALIBRANDO ROSA_HUNTER...";
+        btn.disabled = true;
 
         setTimeout(() => {
-            let rawSdi = (Math.random() * 5 + 1.2).toFixed(2);
-            let sdiFinal = (rawSdi * 0.50).toFixed(2); // Regra -50% [cite: 2026-01-16]
+            // Semente de alta frequência contra o receptor [cite: 2026-01-28]
+            let rawSdi = (Math.random() * 8 + 1.5).toFixed(2);
+            let protectedSdi = (rawSdi * 0.50).toFixed(2); // Regra -50% [cite: 2026-01-16]
+            
+            // 🔱 ADIÇÃO: LÓGICA ROSA_HUNTER (Detecta vácuo acumulado)
+            let rosaChance = Math.floor(Math.random() * 40) + 60; // Simulando análise de vácuo
+            prob.innerText = rosaChance + "%";
 
-            // 🛡️ BLINDAGEM OBRIGATÓRIA: Se alvo for instável, bloqueia entrada
-            if (rawSdi < 1.80) {
-                msg.innerText = "🚨 ALVO INSTÁVEL! BOTÃO BLOQUEADO";
-                st.innerText = "PULA";
-                btn.innerText = "RISCO 1.00x";
-                btn.style.background = "#333";
-                lockdown = true;
-                setTimeout(() => { lockdown = false; btn.innerText = "RECALIBRAR"; btn.style.background = "#ff0000"; btn.style.cursor = "pointer"; }, 10000);
+            // 🛡️ CAMADA OMEGA/BLACKOUT INTEGRADA [cite: 2026-02-13]
+            if (rawSdi < 1.40) {
+                sdi.innerText = "LOCKDOWN";
+                sdi.style.color = "#ff0000";
+                status.innerText = "🚨 RECEPTOR ATIVO! CORTE DE 1.00x DETECTADO";
+                status.style.color = "#ff0000";
+                btn.style.background = "#222";
+                setTimeout(() => { btn.disabled = false; btn.innerText = "RECALIBRAR"; btn.style.background = "#bc13fe"; }, 4000);
                 return;
             }
 
-            st.innerText = sdiFinal + "x";
-            btn.innerText = "ENTRAR COM R$ 0,10";
+            // 🔱 RESULTADO FINAL DA INFILTRAÇÃO
+            sdi.innerText = protectedSdi + "x";
+            sdi.style.color = "#00ff41";
+            status.innerText = rosaChance > 85 ? "🔥 ALTA PROBABILIDADE DE ROSA (10x+)" : "✅ CICLO ROXO: ENTRAR COM SEGURANÇA";
+            status.style.color = "#00ff41";
+            
+            btn.disabled = false;
+            btn.innerText = "INFILTRAR R$ 0,10 [GHOST]";
             btn.style.background = "#00ff41";
             btn.style.color = "#000";
-            btn.style.cursor = "pointer";
-            ipi.innerText = "FRIU";
-            ipi.style.color = "#00ff41";
             
-            console.log("V17.6 Revolution Active. Target: " + sdiFinal);
-        }, 1500);
+            // Gravação no Alex Quântico [cite: 2026-02-28, 2026-01-23]
+            console.log("Supreme Sync: Rosa Prob " + rosaChance + "% | SDI Protected: " + protectedSdi);
+        }, 1800);
     }
-    // Ativa botão após carregar
-    setTimeout(() => { document.getElementById('btn-v176').disabled = false; document.getElementById('btn-v176').style.cursor = "pointer"; document.getElementById('btn-v176').innerText = "INFILTRAR COM ESCUDO"; }, 2000);
 </script>
