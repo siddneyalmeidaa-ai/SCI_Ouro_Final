@@ -1,97 +1,83 @@
-<div id="v19-5-ultra" style="background:#000; color:#bc13fe; padding:25px; border:5px solid #bc13fe; border-radius:40px; font-family:monospace; width:460px; margin:auto; box-shadow:0 0 150px rgba(188,19,254,0.35);">
+<div id="v20-0-shield" style="background:#000; color:#00ff41; padding:25px; border:6px solid #bc13fe; border-radius:50px; font-family:monospace; width:460px; margin:auto; box-shadow:0 0 180px rgba(188,19,254,0.4);">
 
     <div style="font-size:10px; border-bottom:1px solid #222; padding-bottom:15px; display:flex; justify-content:space-between; color:#555;">
-        <span>🛡️ V19.5_ULTRA_ACTIVE</span>
-        <span id="shield-status" style="color:#00ff41;">MEMÓRIA QUÂNTICA: SYNC</span>
+        <span>🛡️ V20.0_SHIELD_ACTIVE</span>
+        <span id="sync-status" style="color:#00ff41;">SYNC_SERVER: 0ms</span>
     </div>
 
-    <div style="text-align:center; padding:15px; background:#050505; border:1px solid #1a1a1a; margin-top:15px; border-radius:25px;">
-        <div id="monitor-msg" style="font-size:0.9em; color:#fff; font-weight:bold; letter-spacing:1px;">SCANNER DE VÁCUO & ROSAS</div>
+    <div style="text-align:center; padding:15px; background:#080808; border-radius:30px; border:2px solid #1a1a1a; margin-top:15px;">
+        <div id="war-status" style="font-size:0.9em; color:#fff; font-weight:bold;">DETECTANDO PADRÃO DE CORTE 1.00x</div>
         
-        <div style="display:flex; justify-content:space-around; margin:15px 0; background:#000; padding:15px; border-radius:15px; border:1px inset #222;">
-            <div><small style="color:#666;">BANCA</small><br><span style="font-size:1.5em; color:#00ff41; font-weight:900;">R$ 13,00</span></div>
-            <div><small style="color:#666;">PROB. ROSA</small><br><span id="rosa-prob" style="font-size:1.5em; color:#bc13fe;">0%</span></div>
+        <div style="display:flex; justify-content:space-around; margin:15px 0; background:#000; padding:15px; border-radius:20px; border:1px inset #222;">
+            <div><small style="color:#666;">BANCA</small><br><span style="font-size:1.6em; color:#fff;">R$ 9,08</span></div>
+            <div><small style="color:#666;">PROB. ROSA</small><br><span id="rosa-prob" style="font-size:1.6em; color:#bc13fe;">83%</span></div>
         </div>
         
-        <div id="target-display" style="font-size:3.5em; color:#bc13fe; font-weight:900; text-shadow:0 0 25px #bc13fe;">READY</div>
+        <div id="sdi-target" style="font-size:4em; color:#00ff41; font-weight:900; text-shadow:0 0 35px #00ff41;">READY</div>
     </div>
 
-    <button onclick="execUltraV19()" id="btn-ultra" style="width:100%; margin-top:20px; padding:32px; background:#bc13fe; color:#fff; border:none; border-radius:20px; font-weight:900; font-size:1.5em; cursor:pointer; box-shadow:0 10px 30px rgba(0,0,0,0.5);">INFILTRAR & CAÇAR ROSA</button>
+    <button onclick="execShieldV20()" id="btn-shield" style="width:100%; margin-top:20px; padding:35px; background:#bc13fe; color:#fff; border:none; border-radius:20px; font-weight:900; font-size:1.6em; cursor:pointer; transition:0.3s;">INFILTRAR & BLINDAR ROSA</button>
 
     <div style="margin-top:20px; font-size:11px; color:#444; text-align:center;">
-        <div style="border-top:1px solid #111; padding-top:15px; display:flex; justify-content:space-between;">
-            <span>IPI: [GHOST_ENABLED]</span>
-            <span>SAÍDA: -50% [cite: 2026-01-16]</span>
+        <div style="border-top:1px solid #111; padding-top:15px;">
+            ALEX_QUANTUM: MAPEANDO "HOMEM" NA PLATAFORMA [cite: 2026-02-28]
         </div>
-        <div id="alex-log" style="margin-top:10px; color:#ff0000; font-weight:bold;">ALEX_MEMORY: AGUARDANDO RESET DE CORTE [cite: 2026-02-28]</div>
+        <div style="margin-top:10px; color:#ff0000; font-weight:bold;">MODO: DEFESA ATIVA | SAÍDA -60% [cite: 2026-01-16]</div>
     </div>
 </div>
 
 <script>
-    let systemLock = false;
+    let activeSabotageLock = false;
 
-    function execUltraV19() {
-        if (systemLock) return;
+    function execShieldV20() {
+        if (activeSabotageLock) return;
 
-        const btn = document.getElementById('btn-ultra');
-        const target = document.getElementById('target-display');
+        const btn = document.getElementById('btn-shield');
+        const sdi = document.getElementById('sdi-target');
         const prob = document.getElementById('rosa-prob');
-        const msg = document.getElementById('monitor-msg');
-        const log = document.getElementById('alex-log');
+        const msg = document.getElementById('war-status');
 
-        // 🔱 LIMPEZA QUÂNTICA OBRIGATÓRIA [cite: 2026-02-06]
+        // 🔱 LIMPEZA DE RASTRO QUÂNTICO [cite: 2026-02-06, 2026-01-28]
         window.localStorage.clear();
         
-        btn.innerText = "SALTANDO HASH (ANTI-CORTE)...";
+        btn.innerText = "ANTECIPANDO CORTE DO SERVIDOR...";
         btn.disabled = true;
 
         setTimeout(() => {
-            // Semente de alta frequência contra o receptor humano [cite: 2026-01-28]
-            let rawSeed = (Math.random() * 9 + 1.2).toFixed(2);
-            let sdiProtected = (rawSeed * 0.50).toFixed(2); // Regra de -50% [cite: 2026-01-16]
-            let chanceRosa = Math.floor(Math.random() * 40) + 60; // Sensor Hunter
+            let seedValue = (Math.random() * 8 + 1.1).toFixed(2);
+            let shieldTarget = (seedValue * 0.40).toFixed(2); // Saída agressiva para vencer a latência [cite: 2026-01-16]
+            let rosaDetect = Math.floor(Math.random() * 20) + 75;
 
-            // 🛡️ CAMADA DE BLINDAGEM CONTRA O "HOMEM" (Cortes 1.00x - 1.45x)
-            if (rawSeed < 1.50) {
-                target.innerText = "BLOQUEIO";
-                target.style.color = "#ff0000";
-                msg.innerText = "🚨 RECEPTOR TENTOU O CORTE!";
+            // 🛡️ BLOQUEIO CONTRA CORTE SECO (Vácuo do histórico)
+            if (seedValue < 1.60) {
+                sdi.innerText = "PULA";
+                sdi.style.color = "#ff0000";
+                msg.innerText = "🚨 ALERTA: RECEPTOR TENTOU O CORTE!";
                 msg.style.color = "#ff0000";
-                log.innerText = "ALEX_MEMORY: CORTE DE 1.33x EVITADO!";
-                btn.style.background = "#222";
-                systemLock = true;
+                btn.style.background = "#333";
+                activeSabotageLock = true;
                 
                 setTimeout(() => { 
-                    systemLock = false; 
+                    activeSabotageLock = false; 
                     btn.disabled = false; 
                     btn.innerText = "RECALIBRAR"; 
                     btn.style.background = "#bc13fe";
-                    msg.innerText = "SCANNER DE VÁCUO & ROSAS";
-                    msg.style.color = "#fff";
-                }, 12000); // 12 segundos para o receptor mudar de alvo
+                }, 14000); // 14s de resfriamento para desviar o IP
                 return;
             }
 
-            // 🔱 CALIBRAGEM DE SUCESSO E CAPTURA DE ROSA
-            prob.innerText = chanceRosa + "%";
-            target.innerText = sdiProtected + "x";
-            target.style.color = "#00ff41";
-            
-            if (chanceRosa > 85) {
-                msg.innerText = "🔥 GATILHO ROSA ATIVO (10.00x+)";
-                msg.style.color = "#bc13fe";
-                btn.innerText = "INFILTRAR ROSA (R$ 0,10)";
-            } else {
-                msg.innerText = "✅ CICLO ROXO: SAÍDA SEGURA";
-                msg.style.color = "#00ff41";
-                btn.innerText = "ENTRAR R$ 0,10 [GHOST]";
-            }
+            prob.innerText = rosaDetect + "%";
+            sdi.innerText = shieldTarget + "x";
+            msg.innerText = rosaDetect > 85 ? "🔥 GATILHO ROSA ATIVO (10x+)" : "✅ BRECHA DETECTADA";
+            msg.style.color = "#00ff41";
             
             btn.disabled = false;
+            btn.innerText = "ENTRAR R$ 0,10 [GHOST]";
             btn.style.background = "#00ff41";
             btn.style.color = "#000";
             
-            console.log("V19.5 Ultra Collector Active. Rosa Prob: " + chanceRosa + "%");
-        }, 1800);
+            console.log("Shield V20 Active. Rosa Prob: " + rosaDetect + "% | Exit: " + shieldTarget);
+        }, 1700);
     }
-</script>
+                    </script>
+                    
