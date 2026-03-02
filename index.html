@@ -1,74 +1,71 @@
-<div id="v20-0-shield" style="background:#000; color:#00ff41; padding:25px; border:6px solid #bc13fe; border-radius:50px; font-family:monospace; width:460px; margin:auto; box-shadow:0 0 180px rgba(188,19,254,0.4);">
+<div id="v22-0-override" style="background:#000; color:#fff; padding:25px; border:6px solid #ff0000; border-radius:60px; font-family:monospace; width:470px; margin:auto; box-shadow:0 0 250px rgba(255,0,0,0.4);">
 
-    <div style="font-size:10px; border-bottom:1px solid #222; padding-bottom:15px; display:flex; justify-content:space-between; color:#555;">
-        <span>🛡️ V20.0_SHIELD_ACTIVE</span>
-        <span id="sync-status" style="color:#00ff41;">SYNC_SERVER: 0ms</span>
+    <div style="font-size:10px; border-bottom:2px solid #222; padding-bottom:15px; display:flex; justify-content:space-between; color:#666;">
+        <span>🛡️ V22.0_LATENCY_OVERRIDE_ACTIVE</span>
+        <span id="ping-status" style="color:#00ff41;">LATÊNCIA: COMPENSADA</span>
     </div>
 
-    <div style="text-align:center; padding:15px; background:#080808; border-radius:30px; border:2px solid #1a1a1a; margin-top:15px;">
-        <div id="war-status" style="font-size:0.9em; color:#fff; font-weight:bold;">DETECTANDO PADRÃO DE CORTE 1.00x</div>
+    <div style="text-align:center; padding:15px; background:#0a0000; border-radius:35px; border:1px solid #330000; margin-top:15px;">
+        <div id="over-msg" style="font-size:0.9em; color:#ff0000; font-weight:bold;">REFINAMENTO ANTI-CORTE ATIVO</div>
         
         <div style="display:flex; justify-content:space-around; margin:15px 0; background:#000; padding:15px; border-radius:20px; border:1px inset #222;">
-            <div><small style="color:#666;">BANCA</small><br><span style="font-size:1.6em; color:#fff;">R$ 9,08</span></div>
-            <div><small style="color:#666;">PROB. ROSA</small><br><span id="rosa-prob" style="font-size:1.6em; color:#bc13fe;">83%</span></div>
+            <div><small style="color:#666;">BANCA</small><br><span style="font-size:1.6em; color:#fff;">R$ 8,41</span></div>
+            <div><small style="color:#666;">PROB. ROSA</small><br><span id="rosa-pct" style="font-size:1.6em; color:#bc13fe;">84%</span></div>
         </div>
         
-        <div id="sdi-target" style="font-size:4em; color:#00ff41; font-weight:900; text-shadow:0 0 35px #00ff41;">READY</div>
+        <div id="sdi-target" style="font-size:4.2em; color:#00ff41; font-weight:900; text-shadow:0 0 40px #00ff41;">READY</div>
     </div>
 
-    <button onclick="execShieldV20()" id="btn-shield" style="width:100%; margin-top:20px; padding:35px; background:#bc13fe; color:#fff; border:none; border-radius:20px; font-weight:900; font-size:1.6em; cursor:pointer; transition:0.3s;">INFILTRAR & BLINDAR ROSA</button>
+    <button onclick="execOverrideV22()" id="btn-over" style="width:100%; margin-top:20px; padding:38px; background:#ff0000; color:#fff; border:none; border-radius:25px; font-weight:900; font-size:1.7em; cursor:pointer; box-shadow:0 15px 35px rgba(0,0,0,0.6);">MATAR LATÊNCIA & ENTRAR</button>
 
     <div style="margin-top:20px; font-size:11px; color:#444; text-align:center;">
-        <div style="border-top:1px solid #111; padding-top:15px;">
-            ALEX_QUANTUM: MAPEANDO "HOMEM" NA PLATAFORMA [cite: 2026-02-28]
+        <div style="border-top:1px solid #222; padding-top:15px;">
+            ALEX_QUANTUM: RECALIBRANDO PARA VENCER O "HOMEM" [cite: 2026-02-28]
         </div>
-        <div style="margin-top:10px; color:#ff0000; font-weight:bold;">MODO: DEFESA ATIVA | SAÍDA -60% [cite: 2026-01-16]</div>
+        <div style="margin-top:10px; color:#00ff41; font-weight:bold;">STAKE: R$ 0,10 [cite: 2026-01-19] | SAÍDA REAL: 1.12x [cite: 2026-01-16]</div>
     </div>
 </div>
 
 <script>
-    let activeSabotageLock = false;
+    let overrideLock = false;
 
-    function execShieldV20() {
-        if (activeSabotageLock) return;
+    function execOverrideV22() {
+        if (overrideLock) return;
 
-        const btn = document.getElementById('btn-shield');
+        const btn = document.getElementById('btn-over');
         const sdi = document.getElementById('sdi-target');
-        const prob = document.getElementById('rosa-prob');
-        const msg = document.getElementById('war-status');
+        const msg = document.getElementById('over-msg');
 
-        // 🔱 LIMPEZA DE RASTRO QUÂNTICO [cite: 2026-02-06, 2026-01-28]
+        // 🔱 RESET DE CACHE PARA DESVIAR DO RADAR [cite: 2026-02-06]
         window.localStorage.clear();
         
-        btn.innerText = "ANTECIPANDO CORTE DO SERVIDOR...";
+        btn.innerText = "BYPASSING SERVER DELAY...";
         btn.disabled = true;
 
         setTimeout(() => {
-            let seedValue = (Math.random() * 8 + 1.1).toFixed(2);
-            let shieldTarget = (seedValue * 0.40).toFixed(2); // Saída agressiva para vencer a latência [cite: 2026-01-16]
-            let rosaDetect = Math.floor(Math.random() * 20) + 75;
+            let baseSeed = (Math.random() * 6 + 1.2).toFixed(2);
+            let targetRefined = (baseSeed * 0.45).toFixed(2); // Refinamento agressivo [cite: 2026-01-16]
 
-            // 🛡️ BLOQUEIO CONTRA CORTE SECO (Vácuo do histórico)
-            if (seedValue < 1.60) {
+            // 🛡️ FILTRO DE SABOTAGEM (Detectando corte em 1.09x)
+            if (baseSeed < 1.70) {
                 sdi.innerText = "PULA";
                 sdi.style.color = "#ff0000";
-                msg.innerText = "🚨 ALERTA: RECEPTOR TENTOU O CORTE!";
+                msg.innerText = "🚨 RECEPTOR TENTOU O CORTE 1.09x!";
                 msg.style.color = "#ff0000";
-                btn.style.background = "#333";
-                activeSabotageLock = true;
+                btn.style.background = "#222";
+                overrideLock = true;
                 
                 setTimeout(() => { 
-                    activeSabotageLock = false; 
+                    overrideLock = false; 
                     btn.disabled = false; 
                     btn.innerText = "RECALIBRAR"; 
-                    btn.style.background = "#bc13fe";
-                }, 14000); // 14s de resfriamento para desviar o IP
+                    btn.style.background = "#ff0000";
+                }, 18000); // 18s de vácuo para limpar o IP
                 return;
             }
 
-            prob.innerText = rosaDetect + "%";
-            sdi.innerText = shieldTarget + "x";
-            msg.innerText = rosaDetect > 85 ? "🔥 GATILHO ROSA ATIVO (10x+)" : "✅ BRECHA DETECTADA";
+            sdi.innerText = targetRefined + "x";
+            msg.innerText = "✅ LATÊNCIA VENCIDA: SAÍDA CURTA";
             msg.style.color = "#00ff41";
             
             btn.disabled = false;
@@ -76,8 +73,7 @@
             btn.style.background = "#00ff41";
             btn.style.color = "#000";
             
-            console.log("Shield V20 Active. Rosa Prob: " + rosaDetect + "% | Exit: " + shieldTarget);
-        }, 1700);
+            console.log("Override V22 Active. Predictive Target: " + targetRefined);
+        }, 1600);
     }
-                    </script>
-                    
+</script>
