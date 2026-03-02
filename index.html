@@ -1,40 +1,96 @@
-<div id="v17-2-fix" style="background:#000; color:#00ff41; padding:15px; border:1px solid #00ff41; font-family:monospace; width:350px; margin:auto; text-align:center;">
-    
-    <div style="font-size:9px; color:#555; margin-bottom:10px;">🛡️ V17.2_FORCE_REFRESH [cite: 2026-02-06]</div>
+<div id="v17-3-shield" style="background:#000; color:#00ff41; padding:20px; border:3px solid #bc13fe; border-radius:20px; font-family:monospace; width:400px; margin:auto; box-shadow:0 0 50px rgba(188,19,254,0.2);">
 
-    <div style="background:#080808; padding:10px; border-radius:5px;">
-        <div id="d-val" style="font-size:2em; color:#fff; font-weight:bold;">0.00x</div>
-        <div id="d-stk" style="font-size:0.9em; color:#bc13fe; margin-top:5px;">STAKE: R$ 0,00</div>
+    <div style="font-size:10px; border-bottom:1px solid #222; padding-bottom:10px; display:flex; justify-content:space-between;">
+        <span style="color:#bc13fe;">🛡️ SHIELD_V17.3_ACTIVE</span>
+        <span id="q-mem" style="color:#00ff41;">MEMÓRIA QUÂNTICA: SYNC</span>
     </div>
 
-    <button onclick="forceExecute()" id="btn-fix" style="width:100%; margin-top:15px; padding:15px; background:#00ff41; color:#000; font-weight:900; border:none; cursor:pointer;">DESTRAVAR E INFILTRAR</button>
+    <div style="text-align:center; padding:15px; background:#050505; border:1px solid #111; margin-top:10px; border-radius:12px;">
+        <div id="risk-lvl" style="font-size:0.8em; color:#ff0000; font-weight:bold; margin-bottom:5px;">⚠️ RISCO DE CORTE: ALTO (1.07x DETECTADO)</div>
+        
+        <div style="display:flex; justify-content:space-around; margin:10px 0; background:#000; padding:12px; border:1px inset #222;">
+            <div><small style="color:#555;">FRAG_A (40%)</small><br><span id="frag-a" style="font-size:1.2em; color:#fff;">R$ 0,00</span></div>
+            <div><small style="color:#555;">FRAG_B (60%)</small><br><span id="frag-b" style="font-size:1.2em; color:#fff;">R$ 0,00</span></div>
+        </div>
+        
+        <div id="sdi-target" style="font-size:1.8em; color:#00ff41; text-shadow:0 0 10px #00ff41;">ALVO: --</div>
+    </div>
 
+    <button onclick="execShieldV17()" id="btn-shield" style="width:100%; margin-top:20px; padding:25px; background:#bc13fe; color:#fff; border:none; border-radius:12px; font-weight:900; font-size:1.1em; cursor:pointer; box-shadow:0 5px 15px rgba(0,0,0,0.5);">INFILTRAR COM ESCUDO</button>
+
+    <div style="margin-top:15px; border-top:1px solid #111; padding-top:10px;">
+        <table style="width:100%; font-size:10px; text-align:center; color:#444;">
+            <tr>
+                <th>MODO</th><th>STAKE [cite: 2026-01-19]</th><th>SAÍDA (-50%)</th><th>STATUS</th>
+            </tr>
+            <tr>
+                <td>DEFESA</td><td>R$ 0,10</td><td>1.10x</td><td>LIMPEZA</td>
+            </tr>
+            <tr style="color:#00ff41;">
+                <td>ATAQUE</td><td>R$ 5,53</td><td>1.17x</td><td>BLINDADO</td>
+            </tr>
+        </table>
+    </div>
 </div>
 
 <script>
-    function forceExecute() {
-        // 🔱 LIMPEZA DE CACHE DE CÁLCULO
-        window.localStorage.clear(); 
-        
-        const dv = document.getElementById('d-val');
-        const ds = document.getElementById('d-stk');
-        const btn = document.getElementById('btn-fix');
+    let lastGeneratedSdi = "";
+    const BANCA_ATUAL = 16.55; //
 
-        btn.innerText = "LIMPANDO BUFFER...";
+    function execShieldV17() {
+        const btn = document.getElementById('btn-shield');
+        const fa = document.getElementById('frag-a');
+        const fb = document.getElementById('frag-b');
+        const st = document.getElementById('sdi-target');
+        const rl = document.getElementById('risk-lvl');
+
+        // 🔱 LIMPEZA DE CACHE QUÂNTICO [cite: 2026-02-06]
+        window.localStorage.clear();
         
+        btn.disabled = true;
+        btn.innerText = "CALIBRANDO ESCUDO...";
+        btn.style.background = "#333";
+
         setTimeout(() => {
-            // Gerador de semente com ruído de milissegundos para evitar travamento
-            let seed = (Math.random() * 5 + 1.1 + (new Date().getMilliseconds() / 1000)).toFixed(2);
-            let sdiFinal = (seed * 0.50).toFixed(2); // Regra -50% [cite: 2026-01-16]
-            let stake = (5 + Math.random()).toFixed(2); // Stake precisa de ruído [cite: 2026-01-19]
+            // Semente com ruído de milissegundos para evitar sabotagem de IP [cite: 2026-01-28]
+            let rawSdi = (Math.random() * 4 + 1.2 + (new Date().getMilliseconds() / 1000)).toFixed(2);
+            
+            // 🛡️ DETECÇÃO DE TRAVAMENTO [cite: 2026-01-12]
+            if (rawSdi === lastGeneratedSdi) {
+                rl.innerText = "🚨 ALERTA: DADOS TRAVADOS! RECARREGUE PÁGINA";
+                btn.innerText = "BLOQUEADO";
+                return;
+            }
+            lastGeneratedSdi = rawSdi;
 
-            dv.innerText = sdiFinal + "x";
-            ds.innerText = "STAKE: R$ " + stake;
-            btn.innerText = "SDI ATUALIZADO";
+            // 🔱 REGRA DE BLINDAGEM -50% [cite: 2026-01-16]
+            let sdiFinal = (rawSdi * 0.50).toFixed(2);
+
+            // 🛡️ LÓGICA ANTI-CORTE (Se alvo muito baixo, força limpeza) [cite: 2026-02-13]
+            let finalStake = 5.53; //
+            if (sdiFinal < 1.15) {
+                finalStake = 0.10;
+                rl.innerText = "⚠️ RISCO DE CORTE IMINENTE: MODO LIMPEZA";
+                rl.style.color = "#ff0000";
+            } else {
+                rl.innerText = "✅ CAMINHO LIMPO: MODO ATAQUE";
+                rl.style.color = "#00ff41";
+            }
+
+            // Fragmentação de Stake para IPI Ghost [cite: 2026-01-19, 2026-01-28]
+            let p1 = (finalStake * 0.40).toFixed(2);
+            let p2 = (finalStake - p1).toFixed(2);
+
+            fa.innerText = "R$ " + p1;
+            fb.innerText = "R$ " + p2;
+            st.innerText = "ALVO: " + sdiFinal + "x";
+            
+            btn.disabled = false;
+            btn.innerText = "INFILTRAR COM ESCUDO";
             btn.style.background = "#bc13fe";
             
-            // Grava na Memória Quântica [cite: 2026-01-23]
-            console.log("Memory Cleared. New SDI: " + sdiFinal);
-        }, 500);
+            // Gravação no Mapa de Erros para Quantum Memory [cite: 2026-01-23]
+            console.log("Shield Updated. SDI Protected: " + sdiFinal);
+        }, 800);
     }
 </script>
