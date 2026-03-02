@@ -1,76 +1,50 @@
-<div id="sn-terminal-war" style="background:#050505; color:#555; padding:20px; border:2px solid #222; border-radius:12px; font-family:monospace; width:370px; margin:auto; box-shadow:0 0 30px rgba(0,0,0,1);">
-    
-    <div style="display:flex; justify-content:space-between; font-size:10px; margin-bottom:12px; border-bottom:1px solid #111; padding-bottom:5px;">
-        <span id="st-kernel">KERNEL_V13: OK</span>
-        <span id="st-ipi" style="color:#bc13fe;">GHOST_MODE_ACTIVE</span>
+<div id="sn-blindagem-v14" style="background:#000; color:#555; padding:20px; border:2px solid #ff0000; border-radius:15px; font-family:monospace; width:370px; margin:auto;">
+    <div style="font-size:10px; border-bottom:1px solid #222; margin-bottom:10px; display:flex; justify-content:space-between;">
+        <span>🛡️ STATUS: BLINDAGEM_ON</span>
+        <span id="st-jitter" style="color:#bc13fe;">JITTER: AUTO</span>
     </div>
 
-    <div id="display-frame" style="background:#000; padding:20px; border-radius:8px; text-align:center; border:1px solid #1a1a1a;">
-        <div id="v-status" style="font-size:1.4em; font-weight:bold; color:#eee; letter-spacing:2px;">STANDBY</div>
-        <div id="v-stake" style="font-size:1.1em; color:#00ff41; margin:8px 0;">--</div>
-        <div id="v-sdi" style="font-size:0.9em; color:#444;">SDI: --</div>
+    <div style="text-align:center; background:#080808; padding:15px; border-radius:10px;">
+        <div id="d-status" style="font-size:1.4em; color:#eee;">AGUARDANDO BRECHA</div>
+        <div id="d-stake" style="font-size:1.1em; color:#00ff41; margin:8px 0;">STAKE: --</div>
+        <div id="d-sdi" style="font-size:0.9em; color:#bc13fe;">ALVO SDI: --</div>
     </div>
 
-    <button onclick="execAtaqueShadow()" id="b-master" style="width:100%; margin-top:15px; padding:20px; background:#111; color:#333; border:1px solid #222; border-radius:8px; font-weight:900; cursor:pointer; font-size:1.1em; text-transform:uppercase; transition: 0.2s;">Sincronizar Diagnóstico</button>
-
-    <div style="text-align:center; font-size:0.6em; color:#222; margin-top:12px;">
-        MEMÓRIA QUÂNTICA SN | IPI: RESET_ON_CLICK [cite: 2026-01-28]
-    </div>
+    <button onclick="execBlindagem()" id="btn-blind" style="width:100%; margin-top:15px; padding:20px; background:#111; color:#ff0000; border:1px solid #ff0000; border-radius:8px; font-weight:900; cursor:pointer; text-transform:uppercase;">Infiltrar c/ Blindagem</button>
 </div>
 
 <script>
-    const SN_WAR_CORE = {
-        // Gera Stake Quebrada para destruir o rastreio [cite: 2026-01-19]
-        gerarRuido: (base) => {
-            if (base === 0) return "R$ 0,00";
-            const noise = (Math.random() * 1.87).toFixed(2); 
-            return "R$ " + (parseFloat(base) + parseFloat(noise)).toFixed(2);
-        },
-        // Limpeza de rastro digital [cite: 2026-01-27]
-        wipe: () => {
-            localStorage.setItem('SYS_TKN', Math.random().toString(36).substring(5));
-            document.getElementById('st-ipi').innerText = "IP_CLOAKED_" + Math.floor(Math.random()*99);
-        }
-    };
+    function execBlindagem() {
+        const btn = document.getElementById('btn-blind');
+        const ds = document.getElementById('d-status');
+        const dk = document.getElementById('d-stake');
+        const dx = document.getElementById('d-sdi');
 
-    function execAtaqueShadow() {
-        const dv = document.getElementById('v-status');
-        const ds = document.getElementById('v-stake');
-        const dx = document.getElementById('v-sdi');
-        const btn = document.getElementById('b-master');
-        
-        // 🔱 ACELERAÇÃO VISUAL (Feedback instantâneo para o operador)
-        btn.innerText = "VERIFICANDO...";
-        btn.style.borderColor = "#bc13fe";
-        btn.style.color = "#bc13fe";
-        
-        // 🔱 JITTER HUMANO: O segredo para não ser descoberto
-        // Varia o tempo de resposta entre 150ms e 850ms
-        const jitter = Math.floor(Math.random() * 700) + 150;
+        // 🔱 CAMUFLAGEM 1: LATÊNCIA HUMANA ALEATÓRIA
+        const jitter = Math.floor(Math.random() * 900) + 150;
+        document.getElementById('st-jitter').innerText = "JITTER: " + jitter + "ms";
+
+        btn.innerText = "DRIBLANDO RECEPTOR...";
+        btn.disabled = true;
 
         setTimeout(() => {
-            SN_WAR_CORE.wipe();
+            let sem = (Math.random() * 10).toFixed(2);
+            let sdi = (sem * 0.50).toFixed(2); // Regra -50% [cite: 2026-01-16]
             
-            let semente = (Math.random() * 15).toFixed(2);
-            let sdi = (semente * 0.50).toFixed(2); // Regra -50% [cite: 2026-01-16]
+            // 🔱 CAMUFLAGEM 2: STAKE QUEBRADA (CENTAVOS) [cite: 2026-01-19]
+            let base = (sem < 1.20) ? 0 : 5.01;
+            let finalStk = (base === 0) ? "R$ 0,00" : "R$ " + (base + Math.random()).toFixed(2);
             
-            // Stake Base R$ 5,01 ou R$ 1,00 conforme risco [cite: 2026-01-19]
-            let stkB = (semente < 1.20) ? 0 : 5.01;
-            let stkF = SN_WAR_CORE.gerarRuido(stkB);
+            ds.innerText = (base === 0) ? "VÁCUO (PULA)" : "ALVO DETECTADO";
+            ds.style.color = (base === 0) ? "#555" : "#00ff41";
+            dk.innerText = "STAKE: " + finalStk;
+            dx.innerText = "SDI: " + (base === 0 ? "SKIP" : sdi + "x");
             
-            // 🔱 OFUSCAÇÃO DE RESULTADO: Nomes que não indicam aposta
-            dv.innerText = (stkB === 0) ? "SIGNAL_SKIP" : (semente >= 10 ? "ALPHA_ROSE" : "BETA_PURPLE");
-            dv.style.color = (stkB === 0) ? "#333" : (semente >= 10 ? "#bc13fe" : "#8a2be2");
-            ds.innerText = "DADOS: " + stkF;
-            dx.innerText = "OUT_REF: " + (stkB === 0 ? "NULL" : sdi + "x");
+            btn.innerText = "Infiltrar c/ Blindagem";
+            btn.disabled = false;
             
-            btn.innerText = "Sincronizar Diagnóstico";
-            btn.style.borderColor = "#222";
-            btn.style.color = "#333";
-
-            // Mirror 1.000x rodando em background para cegar o servidor
-            for(let i=0; i<1000; i++) { if(i===777) console.log("SDI_LOG_SYNC"); }
-
+            // Limpeza de Token Quântica [cite: 2026-01-28]
+            localStorage.setItem('IPI_REF', Math.random());
         }, jitter);
     }
 </script>
