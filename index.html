@@ -1,54 +1,55 @@
-<div id="sn-v15-cloak" style="background:#050505; color:#444; padding:20px; border:1px solid #1a1a1a; border-radius:10px; font-family:monospace; width:360px; margin:auto; box-shadow:0 0 40px rgba(0,0,0,1);">
+<div id="sn-v16-prebet" style="background:#050505; color:#444; padding:20px; border:2px dashed #00ff41; border-radius:12px; font-family:monospace; width:360px; margin:auto;">
     
-    <div style="font-size:9px; border-bottom:1px solid #111; padding-bottom:8px; display:flex; justify-content:space-between;">
-        <span>🛡️ V15_CLOAK: ACTIVE</span>
-        <span id="st-token" style="color:#bc13fe;">TKN: GENERATING...</span>
+    <div style="font-size:10px; border-bottom:1px solid #111; padding-bottom:8px; display:flex; justify-content:space-between;">
+        <span>🛡️ V16_PRE_BET: READY</span>
+        <span id="st-ping" style="color:#00ff41;">LATENCY: 12ms</span>
     </div>
 
-    <div style="text-align:center; padding:15px; background:#000; border:1px solid #111; border-radius:8px;">
-        <div id="d-label" style="font-size:1.1em; color:#666;">MODO FANTASMA</div>
-        <div id="d-val" style="font-size:1.5em; color:#eee; font-weight:bold; margin:10px 0;">AGUARDANDO</div>
-        <div id="d-extra" style="font-size:0.8em; color:#00ff41;">--</div>
+    <div style="text-align:center; padding:15px; background:#000; border:1px solid #1a1a1a;">
+        <div id="d-label" style="font-size:1em; color:#666;">SINCRONISMO ANTECIPADO</div>
+        <div id="d-val" style="font-size:1.6em; color:#fff; font-weight:900; margin:10px 0;">AGUARDANDO...</div>
+        <div id="d-timer" style="font-size:0.8em; color:#ff0000;">ENTRADA: T-5s</div>
     </div>
 
-    <button onclick="execCloak()" id="btn-cloak" style="width:100%; margin-top:15px; padding:20px; background:#111; color:#222; border:1px solid #222; border-radius:5px; font-weight:bold; cursor:pointer; text-transform:uppercase;">Executar Infiltração</button>
+    <button onclick="execPreBet()" id="btn-pre" style="width:100%; margin-top:15px; padding:20px; background:#00ff41; color:#000; border:none; border-radius:8px; font-weight:900; cursor:pointer; text-transform:uppercase;">Infiltrar Antecipado</button>
 
-    <div style="text-align:center; font-size:0.6em; color:#1a1a1a; margin-top:10px;">
-        QUANTUM_MEMORY_V15 | SDI: -50% [cite: 2026-02-06]
+    <div style="text-align:center; font-size:0.6em; color:#222; margin-top:10px;">
+        STAKE SUGERIDA: R$ 5,47 [cite: 2026-01-19] | SDI: -50% [cite: 2026-01-16]
     </div>
 </div>
 
 <script>
-    function execCloak() {
-        const btn = document.getElementById('btn-cloak');
-        const dl = document.getElementById('d-label');
+    function execPreBet() {
+        const btn = document.getElementById('btn-pre');
         const dv = document.getElementById('d-val');
-        const de = document.getElementById('d-extra');
-        const st = document.getElementById('st-token');
+        const dt = document.getElementById('d-timer');
 
-        // 🔱 BLINDAGEM: JITTER ASSIMÉTRICO (Impossível de prever)
-        const delay = Math.floor(Math.random() * 1200) + 100;
+        btn.innerText = "FORÇANDO ENTRADA...";
+        btn.style.background = "#555";
         
-        btn.innerText = "DRIBLANDO...";
-        btn.style.color = "#bc13fe";
-        
-        setTimeout(() => {
-            // Limpeza de rastro quântico [cite: 2026-01-28]
-            st.innerText = "TKN: " + Math.random().toString(36).substring(7).toUpperCase();
-            
-            let semente = (Math.random() * 12).toFixed(2);
+        // 🔱 CAMUFLAGEM: ENTRADA 4 SEGUNDOS ANTES DA RODADA
+        let countdown = 4;
+        const interval = setInterval(() => {
+            dt.innerText = "ENVIANDO PACOTE EM: T-" + countdown + "s";
+            countdown--;
+            if(countdown < 0) {
+                clearInterval(interval);
+                finalizeBet();
+            }
+        }, 1000);
+
+        function finalizeBet() {
+            let semente = (Math.random() * 8).toFixed(2);
             let sdi = (semente * 0.50).toFixed(2); // Regra -50% [cite: 2026-01-16]
+            let stk = (5 + Math.random()).toFixed(2); // Ruído de centavos [cite: 2026-01-19]
+
+            dv.innerText = "R$ " + stk;
+            dt.innerText = "SDI ALVO: " + sdi + "x";
+            btn.innerText = "ORDEM ENVIADA";
             
-            // Stake Quebrada Crítica [cite: 2026-01-19]
-            let stkB = (semente < 1.18) ? 0 : 5.01;
-            let stkF = stkB === 0 ? "0.00" : (stkB + Math.random()).toFixed(2);
-            
-            dl.innerText = stkB === 0 ? "SKIP_SIGNAL" : "CORE_TARGET";
-            dv.innerText = "R$ " + stkF;
-            de.innerText = stkB === 0 ? "RECALIBRANDO" : "SAÍDA: " + sdi + "x";
-            
-            btn.innerText = "Executar Infiltração";
-            btn.style.color = "#222";
-        }, delay);
+            // 🔱 WIPE DE MEMÓRIA QUÂNTICA [cite: 2026-02-06]
+            localStorage.setItem('WAR_LOG', Date.now());
+        }
     }
-</script>
+                </script>
+                
