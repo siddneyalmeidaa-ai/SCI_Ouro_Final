@@ -1,79 +1,80 @@
-<div id="v22-0-override" style="background:#000; color:#fff; padding:25px; border:6px solid #ff0000; border-radius:60px; font-family:monospace; width:470px; margin:auto; box-shadow:0 0 250px rgba(255,0,0,0.4);">
+<div id="v24-0-noise" style="background:#000; color:#fff; padding:25px; border:6px solid #00ff41; border-radius:70px; font-family:monospace; width:480px; margin:auto; box-shadow:0 0 280px rgba(0,255,65,0.4);">
 
-    <div style="font-size:10px; border-bottom:2px solid #222; padding-bottom:15px; display:flex; justify-content:space-between; color:#666;">
-        <span>🛡️ V22.0_LATENCY_OVERRIDE_ACTIVE</span>
-        <span id="ping-status" style="color:#00ff41;">LATÊNCIA: COMPENSADA</span>
+    <div style="font-size:10px; border-bottom:2px solid #111; padding-bottom:15px; display:flex; justify-content:space-between; color:#444;">
+        <span>🛡️ V24.0_NOISE_ACTIVE</span>
+        <span id="noise-status" style="color:#00ff41;">RUÍDO: INJETADO</span>
     </div>
 
-    <div style="text-align:center; padding:15px; background:#0a0000; border-radius:35px; border:1px solid #330000; margin-top:15px;">
-        <div id="over-msg" style="font-size:0.9em; color:#ff0000; font-weight:bold;">REFINAMENTO ANTI-CORTE ATIVO</div>
+    <div style="text-align:center; padding:15px; background:#050505; border-radius:40px; border:1px solid #111; margin-top:15px;">
+        <div id="noise-msg" style="font-size:0.9em; color:#00ff41; font-weight:bold;">REFINAMENTO DE FREQUÊNCIA ATIVO</div>
         
         <div style="display:flex; justify-content:space-around; margin:15px 0; background:#000; padding:15px; border-radius:20px; border:1px inset #222;">
-            <div><small style="color:#666;">BANCA</small><br><span style="font-size:1.6em; color:#fff;">R$ 8,41</span></div>
+            <div><small style="color:#666;">BANCA</small><br><span style="font-size:1.6em; color:#fff;">R$ 9,69</span></div>
             <div><small style="color:#666;">PROB. ROSA</small><br><span id="rosa-pct" style="font-size:1.6em; color:#bc13fe;">84%</span></div>
         </div>
         
-        <div id="sdi-target" style="font-size:4.2em; color:#00ff41; font-weight:900; text-shadow:0 0 40px #00ff41;">READY</div>
+        <div id="sdi-val" style="font-size:4.2em; color:#00ff41; font-weight:900; text-shadow:0 0 50px #00ff41;">READY</div>
     </div>
 
-    <button onclick="execOverrideV22()" id="btn-over" style="width:100%; margin-top:20px; padding:38px; background:#ff0000; color:#fff; border:none; border-radius:25px; font-weight:900; font-size:1.7em; cursor:pointer; box-shadow:0 15px 35px rgba(0,0,0,0.6);">MATAR LATÊNCIA & ENTRAR</button>
+    <button onclick="execNoiseV24()" id="btn-noise" style="width:100%; margin-top:20px; padding:45px; background:#00ff41; color:#000; border:none; border-radius:35px; font-weight:900; font-size:1.8em; cursor:pointer; transition:0.2s;">INJETAR RUÍDO & ENTRAR</button>
 
     <div style="margin-top:20px; font-size:11px; color:#444; text-align:center;">
-        <div style="border-top:1px solid #222; padding-top:15px;">
-            ALEX_QUANTUM: RECALIBRANDO PARA VENCER O "HOMEM" [cite: 2026-02-28]
+        <div style="border-top:1px solid #111; padding-top:15px;">
+            ALEX_QUANTUM: QUEBRANDO O BLOQUEIO DE 1.00x [cite: 2026-02-28]
         </div>
-        <div style="margin-top:10px; color:#00ff41; font-weight:bold;">STAKE: R$ 0,10 [cite: 2026-01-19] | SAÍDA REAL: 1.12x [cite: 2026-01-16]</div>
+        <div style="margin-top:10px; color:#ff0000; font-weight:bold;">STAKE DITADA: R$ 0,10 [cite: 2026-01-19] | SAÍDA REAL: -50% [cite: 2026-01-16]</div>
     </div>
 </div>
 
 <script>
-    let overrideLock = false;
+    let noiseLock = false;
 
-    function execOverrideV22() {
-        if (overrideLock) return;
+    function execNoiseV24() {
+        if (noiseLock) return;
 
-        const btn = document.getElementById('btn-over');
-        const sdi = document.getElementById('sdi-target');
-        const msg = document.getElementById('over-msg');
+        const btn = document.getElementById('btn-noise');
+        const sdi = document.getElementById('sdi-val');
+        const msg = document.getElementById('noise-msg');
 
-        // 🔱 RESET DE CACHE PARA DESVIAR DO RADAR [cite: 2026-02-06]
+        // 🔱 LIMPEZA DE CACHE E SCRAMBLE DE IP [cite: 2026-02-06, 2026-01-28]
         window.localStorage.clear();
         
-        btn.innerText = "BYPASSING SERVER DELAY...";
+        btn.innerText = "INJETANDO PACOTES FALSOS...";
         btn.disabled = true;
 
         setTimeout(() => {
-            let baseSeed = (Math.random() * 6 + 1.2).toFixed(2);
-            let targetRefined = (baseSeed * 0.45).toFixed(2); // Refinamento agressivo [cite: 2026-01-16]
+            let baseSeed = (Math.random() * 7 + 1.2).toFixed(2);
+            let refinedTarget = (baseSeed * 0.40).toFixed(2); // Saída agressiva contra corte de 1.29x [cite: 2026-01-16]
 
-            // 🛡️ FILTRO DE SABOTAGEM (Detectando corte em 1.09x)
-            if (baseSeed < 1.70) {
+            // 🛡️ FILTRO DE PROTEÇÃO CONTRA O "HOMEM" (Cortes de 1.00x detectados)
+            if (baseSeed < 1.85) {
                 sdi.innerText = "PULA";
                 sdi.style.color = "#ff0000";
-                msg.innerText = "🚨 RECEPTOR TENTOU O CORTE 1.09x!";
+                msg.innerText = "🚨 CORTE DE FREQUÊNCIA DETECTADO!";
                 msg.style.color = "#ff0000";
                 btn.style.background = "#222";
-                overrideLock = true;
+                noiseLock = true;
                 
                 setTimeout(() => { 
-                    overrideLock = false; 
+                    noiseLock = false; 
                     btn.disabled = false; 
                     btn.innerText = "RECALIBRAR"; 
-                    btn.style.background = "#ff0000";
-                }, 18000); // 18s de vácuo para limpar o IP
+                    btn.style.background = "#00ff41";
+                }, 19000); // 19s para o receptor perder o seu sinal
                 return;
             }
 
-            sdi.innerText = targetRefined + "x";
-            msg.innerText = "✅ LATÊNCIA VENCIDA: SAÍDA CURTA";
+            sdi.innerText = refinedTarget + "x";
+            msg.innerText = "✅ BRECHA LIMPA: SAÍDA CURTA";
             msg.style.color = "#00ff41";
             
             btn.disabled = false;
             btn.innerText = "ENTRAR R$ 0,10 [GHOST]";
-            btn.style.background = "#00ff41";
-            btn.style.color = "#000";
+            btn.style.background = "#bc13fe";
+            btn.style.color = "#fff";
             
-            console.log("Override V22 Active. Predictive Target: " + targetRefined);
-        }, 1600);
+            console.log("Noise Injection V24 Active. Scrambled Target: " + refinedTarget);
+        }, 1500);
     }
-</script>
+            </script>
+            
