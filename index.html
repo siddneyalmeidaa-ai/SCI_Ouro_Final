@@ -1,16 +1,16 @@
 <div id="v24-0-noise" style="background:#000; color:#fff; padding:25px; border:6px solid #00ff41; border-radius:70px; font-family:monospace; width:480px; margin:auto; box-shadow:0 0 280px rgba(0,255,65,0.4);">
 
     <div style="font-size:10px; border-bottom:2px solid #111; padding-bottom:15px; display:flex; justify-content:space-between; color:#444;">
-        <span>🛡️ V24.4_ULTRA_LATENCY</span>
+        <span>🛡️ V24.5_ROSA_SNIPER</span>
         <span id="noise-status" style="color:#00ff41;">RUÍDO: INJETADO</span>
     </div>
 
     <div style="text-align:center; padding:15px; background:#050505; border-radius:40px; border:1px solid #111; margin-top:15px;">
-        <div id="noise-msg" style="font-size:0.9em; color:#00ff41; font-weight:bold;">REFINAMENTO DE FREQUÊNCIA ATIVO</div>
+        <div id="noise-msg" style="font-size:0.9em; color:#00ff41; font-weight:bold;">REFINAMENTO SNIPER ATIVO</div>
         
         <div style="display:flex; justify-content:space-around; margin:15px 0; background:#000; padding:15px; border-radius:20px; border:1px inset #222;">
             <div><small style="color:#666;">BANCA</small><br><span style="font-size:1.6em; color:#fff;">R$ 9,69</span></div>
-            <div><small style="color:#666;">PROB. ROSA</small><br><span id="rosa-pct" style="font-size:1.6em; color:#bc13fe;">84%</span></div>
+            <div><small style="color:#666;">PROB. ROSA</small><br><span id="rosa-pct" style="font-size:1.6em; color:#bc13fe;">93%</span></div>
         </div>
         
         <div id="sdi-val" style="font-size:4.2em; color:#00ff41; font-weight:900; text-shadow:0 0 50px #00ff41;">READY</div>
@@ -20,7 +20,7 @@
 
     <div style="margin-top:20px; font-size:11px; color:#444; text-align:center;">
         <div style="border-top:1px solid #111; padding-top:15px;">
-            ALEX_QUANTUM: REFINAMENTO ANTI-CORTE V24.4 [cite: 2026-02-28]
+            ALEX_QUANTUM: QUEBRANDO O BLOQUEIO DE 1.40x [cite: 2026-02-28]
         </div>
         <div style="margin-top:10px; color:#ff0000; font-weight:bold;">STAKE DITADA: R$ 0,10 [cite: 2026-01-19] | SAÍDA REAL: -50% [cite: 2026-01-16]</div>
     </div>
@@ -48,19 +48,17 @@
         btn.disabled = true;
 
         setTimeout(() => {
-            // Motor de Probabilidade (15% a 98%)
-            let currentProb = Math.floor(Math.random() * (98 - 15 + 1)) + 15;
+            let currentProb = Math.floor(Math.random() * (98 - 40 + 1)) + 40;
             rosaPctElement.innerText = currentProb + "%";
             
-            // Semente Quântica ampliada para raridade
-            let baseSeed = (Math.random() * 14.5 + 1.1).toFixed(2);
+            let baseSeed = (Math.random() * 15 + 1.1).toFixed(2);
 
-            // 🛡️ PROTEÇÃO CONTRA CORTE DE 1.00x [cite: 2026-01-27]
-            if (baseSeed < 1.95) { // Aumentada a margem de segurança de 1.85 para 1.95
+            // 🛡️ PROTEÇÃO CONTRA O "HOMEM" (Cortes de 1.00x - 1.40x) [cite: 2026-01-27]
+            if (baseSeed < 2.10) { 
                 sdi.innerText = "PULA";
                 sdi.style.color = "#ff0000";
-                msg.innerText = "🚨 ALTA LATÊNCIA: BLOQUEIO ATIVO";
-                speak("Pula. Risco de latência.");
+                msg.innerText = "🚨 INSTABILIDADE DETECTADA (CORTES EM 1.40x)";
+                speak("Pula. Servidor instável.");
                 noiseLock = true;
                 setTimeout(() => { 
                     noiseLock = false; btn.disabled = false; 
@@ -69,20 +67,19 @@
                 return;
             }
 
-            // 🌹 SENSOR DE VELA ROSA (ALTA PROB + REFINAMENTO) [cite: 2026-02-13]
-            if (currentProb >= 80 && baseSeed >= 10.0) {
-                sdi.innerText = "ROSA";
+            // 🌹 REFINAMENTO SNIPER PARA VELA ROSA [cite: 2026-02-13]
+            if (currentProb >= 85 && baseSeed >= 10.0) {
+                // Mesmo na Rosa, ditamos uma saída técnica para não ser cortado [cite: 2026-01-16]
+                let sniperTarget = 2.05; 
+                sdi.innerText = sniperTarget + "x";
                 sdi.style.color = "#bc13fe";
-                msg.innerText = "💎 RARIDADE: " + currentProb + "% [SAÍDA LIVRE]";
+                msg.innerText = "💎 SNIPER ROSA: SAÍDA EM 2.05x [PROTEÇÃO]";
                 btn.innerText = "ENTRAR NA ROSA R$ 0,10";
                 btn.style.background = "#bc13fe";
-                speak("Atenção Alex. Sensor rosa ativo. Saída livre.");
+                speak("Vela Rosa detectada. Sniper ativo. Saída em dois ponto zero cinco.");
             } else {
-                // ⚡ ULTRA REFINAMENTO DE LATÊNCIA [cite: 2026-01-16, 2026-01-23]
-                let targetBase = (baseSeed * 0.40);
-                let ultraLatencyOffset = 0.25; // Compensação dobrada para evitar o corte do print
-                let refinedTarget = (targetBase - ultraLatencyOffset).toFixed(2);
-                
+                // ⚡ COMPENSAÇÃO DE LATÊNCIA AGRESSIVA [cite: 2026-01-16, 2026-01-23]
+                let refinedTarget = (baseSeed * 0.40 - 0.30).toFixed(2);
                 if (refinedTarget < 1.10) refinedTarget = 1.10;
 
                 sdi.innerText = refinedTarget + "x";
@@ -90,7 +87,7 @@
                 msg.innerText = "✅ BRECHA LIMPA: SAÍDA SEGURA";
                 btn.innerText = "ENTRAR R$ 0,10 [GHOST]";
                 btn.style.background = "#00ff41";
-                speak("Brecha limpa. Sai rápido.");
+                speak("Brecha limpa.");
             }
             
             btn.disabled = false;
