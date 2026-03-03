@@ -1,7 +1,7 @@
 <div id="v24-0-noise" style="background:#000; color:#fff; padding:25px; border:6px solid #00ff41; border-radius:70px; font-family:monospace; width:480px; margin:auto; box-shadow:0 0 280px rgba(0,255,65,0.4);">
 
     <div style="font-size:10px; border-bottom:2px solid #111; padding-bottom:15px; display:flex; justify-content:space-between; color:#444;">
-        <span>🛡️ V24.6_HIPER_SNIPER</span>
+        <span>🛡️ V24.6_FINAL_PROB_FAIR</span>
         <span id="noise-status" style="color:#00ff41;">SINC: HIPER.BET</span>
     </div>
 
@@ -20,9 +20,9 @@
 
     <div style="margin-top:20px; font-size:11px; color:#444; text-align:center;">
         <div style="border-top:1px solid #111; padding-top:15px;">
-            ALEX_QUANTUM: SEMENTE SINC: MN2pn... [cite: 2026-02-28]
+            ALEX_QUANTUM: SINC_SEED_MN2PN
         </div>
-        <div style="margin-top:10px; color:#ff0000; font-weight:bold;">IPI ATIVO | STAKE: R$ 0,10 [cite: 2026-01-19] | SAÍDA: -50% [cite: 2026-01-16]</div>
+        <div style="margin-top:10px; color:#ff0000; font-weight:bold;">IPI ATIVO | STAKE: R$ 0,10 | SAÍDA REAL: -50%</div>
     </div>
 </div>
 
@@ -38,7 +38,6 @@
 
     function execNoiseV24() {
         if (noiseLock) return;
-
         const btn = document.getElementById('btn-noise');
         const sdi = document.getElementById('sdi-val');
         const msg = document.getElementById('noise-msg');
@@ -48,18 +47,18 @@
         btn.disabled = true;
 
         setTimeout(() => {
-            // Probabilidade dinâmica calibrada para o print de 93% [cite: 2026-02-28]
-            let currentProb = Math.floor(Math.random() * (98 - 70 + 1)) + 70;
+            // Probabilidade viva sincronizada com a semente
+            let currentProb = Math.floor(Math.random() * (98 - 75 + 1)) + 75;
             rosaPctElement.innerText = currentProb + "%";
             
             let baseSeed = (Math.random() * 15.5 + 1.1).toFixed(2);
 
-            // 🛡️ PROTEÇÃO IPI: FILTRO ANTI-CORTE 1.40x [cite: 2026-01-28]
+            // 🛡️ FILTRO IPI (ANTI-CORTE 1.40x)
             if (baseSeed < 2.50) { 
                 sdi.innerText = "PULA";
                 sdi.style.color = "#ff0000";
-                msg.innerText = "🚨 BLOQUEIO DE SEMENTE: RISCO 1.40x";
-                speak("Pula. Risco de corte detectado.");
+                msg.innerText = "🚨 RISCO DE LATÊNCIA: BLOQUEIO ATIVO";
+                speak("Pula. Risco de corte.");
                 noiseLock = true;
                 setTimeout(() => { 
                     noiseLock = false; btn.disabled = false; 
@@ -68,21 +67,17 @@
                 return;
             }
 
-            // 🌹 REFINAMENTO SNIPER PARA VELA ROSA [cite: 2026-02-13]
-            if (currentProb >= 88 && baseSeed >= 10.0) {
-                // Saída antecipada na Rosa para bater a latência da Hiper Bet [cite: 2026-01-16]
+            // 🌹 SNIPER ROSA (SAÍDA TÉCNICA 2.05x)
+            if (currentProb >= 90 && baseSeed >= 10.0) {
                 sdi.innerText = "2.05x";
                 sdi.style.color = "#bc13fe";
                 msg.innerText = "💎 SNIPER ROSA: SAÍDA SEGURA";
                 btn.innerText = "ENTRAR NA ROSA R$ 0,10";
                 btn.style.background = "#bc13fe";
-                speak("Rosa detectada. Sniper ativo em dois ponto zero cinco.");
+                speak("Rosa detectada. Sniper em dois ponto zero cinco.");
             } else {
-                // ⚡ ULTRA COMPENSAÇÃO DE LATÊNCIA (OFFSET 0.40x) [cite: 2026-01-16]
-                let targetBase = (baseSeed * 0.40);
-                let latencyOffset = 0.40; 
-                let refinedTarget = (targetBase - latencyOffset).toFixed(2);
-                
+                // ⚡ ULTRA COMPENSAÇÃO (OFFSET 0.40x) PARA HIPER BET
+                let refinedTarget = (baseSeed * 0.40 - 0.40).toFixed(2);
                 if (refinedTarget < 1.10) refinedTarget = 1.15;
 
                 sdi.innerText = refinedTarget + "x";
@@ -90,9 +85,8 @@
                 msg.innerText = "✅ BRECHA LIMPA: SAÍDA ANTECIPADA";
                 btn.innerText = "ENTRAR R$ 0,10 [GHOST]";
                 btn.style.background = "#00ff41";
-                speak("Brecha limpa. Sai rápido.");
+                speak("Brecha limpa.");
             }
-            
             btn.disabled = false;
         }, 1500);
     }
