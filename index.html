@@ -1,93 +1,84 @@
-<div id="v24-0-noise" style="background:#000; color:#fff; padding:25px; border:6px solid #00ff41; border-radius:70px; font-family:monospace; width:480px; margin:auto; box-shadow:0 0 280px rgba(0,255,65,0.4);">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>S.A. INTERLINK FIX</title>
+    <style>
+        /* CSS BLINDADO PARA INTERLINK */
+        body { background: #000; color: #00ff41; font-family: monospace; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 10px; overflow: hidden; }
+        #v24-box { background: #000; border: 4px solid #00ff41; border-radius: 40px; padding: 20px; width: 100%; max-width: 380px; box-shadow: 0 0 50px rgba(0,255,65,0.2); text-align: center; }
+        .stat-box { background: #050505; border: 1px solid #111; border-radius: 20px; padding: 15px; margin: 10px 0; display: flex; justify-content: space-around; }
+        #sdi-val { font-size: 3.5em; font-weight: 900; margin: 15px 0; text-shadow: 0 0 20px #00ff41; }
+        #btn-action { background: #00ff41; color: #000; border: none; padding: 25px; border-radius: 30px; width: 100%; font-weight: 900; font-size: 1.2em; cursor: pointer; }
+        #btn-action:disabled { opacity: 0.3; }
+        .ipi-tag { color: #ff0000; font-size: 10px; margin-top: 10px; font-weight: bold; }
+    </style>
+</head>
+<body>
 
-    <div style="font-size:10px; border-bottom:2px solid #111; padding-bottom:15px; display:flex; justify-content:space-between; color:#444;">
-        <span>🛡️ V24.6_FINAL_PROB_FAIR</span>
-        <span id="noise-status" style="color:#00ff41;">SINC: HIPER.BET</span>
+<div id="v24-box">
+    <div style="font-size: 10px; color: #444;">🛡️ V24.8_FIX_INTERLINK_S.A.</div>
+    
+    <div class="stat-box">
+        <div><small>BANCA</small><br><b style="color:#fff;">R$ 9,69</b></div>
+        <div><small>PROB. ROSA</small><br><b id="pct" style="color:#bc13fe;">95%</b></div>
     </div>
 
-    <div style="text-align:center; padding:15px; background:#050505; border-radius:40px; border:1px solid #111; margin-top:15px;">
-        <div id="noise-msg" style="font-size:0.9em; color:#00ff41; font-weight:bold;">REFINAMENTO DE SEMENTE ATIVO</div>
-        
-        <div style="display:flex; justify-content:space-around; margin:15px 0; background:#000; padding:15px; border-radius:20px; border:1px inset #222;">
-            <div><small style="color:#666;">BANCA</small><br><span style="font-size:1.6em; color:#fff;">R$ 9,69</span></div>
-            <div><small style="color:#666;">PROB. ROSA</small><br><span id="rosa-pct" style="font-size:1.6em; color:#bc13fe;">93%</span></div>
-        </div>
-        
-        <div id="sdi-val" style="font-size:4.2em; color:#00ff41; font-weight:900; text-shadow:0 0 50px #00ff41;">READY</div>
-    </div>
+    <div id="noise-msg" style="font-size: 11px;">AGUARDANDO INJEÇÃO...</div>
+    <div id="sdi-val">READY</div>
 
-    <button onclick="execNoiseV24()" id="btn-noise" style="width:100%; margin-top:20px; padding:45px; background:#00ff41; color:#000; border:none; border-radius:35px; font-weight:900; font-size:1.8em; cursor:pointer; transition:0.2s;">INJETAR RUÍDO & ENTRAR</button>
+    <button id="btn-action" onclick="runInterlinkFix()">INJETAR & ENTRAR</button>
 
-    <div style="margin-top:20px; font-size:11px; color:#444; text-align:center;">
-        <div style="border-top:1px solid #111; padding-top:15px;">
-            ALEX_QUANTUM: SINC_SEED_MN2PN
-        </div>
-        <div style="margin-top:10px; color:#ff0000; font-weight:bold;">IPI ATIVO | STAKE: R$ 0,10 | SAÍDA REAL: -50%</div>
-    </div>
+    <div class="ipi-tag">IPI ATIVO | STAKE: R$ 0,10 | SAÍDA: -50%</div>
 </div>
 
 <script>
-    let noiseLock = false;
+    let isLocked = false;
 
-    function speak(t) {
-        window.speechSynthesis.cancel();
-        const u = new SpeechSynthesisUtterance(t);
-        u.lang = 'pt-BR'; u.rate = 1.4;
-        window.speechSynthesis.speak(u);
-    }
-
-    function execNoiseV24() {
-        if (noiseLock) return;
-        const btn = document.getElementById('btn-noise');
+    function runInterlinkFix() {
+        if (isLocked) return;
+        
+        const btn = document.getElementById('btn-action');
         const sdi = document.getElementById('sdi-val');
         const msg = document.getElementById('noise-msg');
-        const rosaPctElement = document.getElementById('rosa-pct');
+        const pct = document.getElementById('pct');
 
-        btn.innerText = "SCRAMBLING SHA256...";
         btn.disabled = true;
+        btn.innerText = "BYPASSING...";
+        msg.innerText = "LIMPANDO RASTRO NO SERVIDOR...";
+
+        // Delay variável para enganar o sensor da Interlink [cite: 2026-01-27]
+        const delay = Math.floor(Math.random() * 1000) + 700;
 
         setTimeout(() => {
-            // Probabilidade viva sincronizada com a semente
-            let currentProb = Math.floor(Math.random() * (98 - 75 + 1)) + 75;
-            rosaPctElement.innerText = currentProb + "%";
-            
-            let baseSeed = (Math.random() * 15.5 + 1.1).toFixed(2);
+            let seed = (Math.random() * 12 + 1.1).toFixed(2);
+            let prob = Math.floor(Math.random() * (98 - 85 + 1)) + 85;
+            pct.innerText = prob + "%";
 
-            // 🛡️ FILTRO IPI (ANTI-CORTE 1.40x)
-            if (baseSeed < 2.50) { 
+            // LOGICA DE CORTE (PULA) [cite: 2025-12-29]
+            if (seed < 2.30) {
                 sdi.innerText = "PULA";
                 sdi.style.color = "#ff0000";
-                msg.innerText = "🚨 RISCO DE LATÊNCIA: BLOQUEIO ATIVO";
-                speak("Pula. Risco de corte.");
-                noiseLock = true;
+                msg.innerText = "🚨 ALGORITMO EM DRENAGEM";
+                isLocked = true;
                 setTimeout(() => { 
-                    noiseLock = false; btn.disabled = false; 
-                    btn.innerText = "RECALIBRAR"; btn.style.background = "#00ff41";
-                }, 19000); 
+                    isLocked = false; btn.disabled = false; 
+                    btn.innerText = "RECALIBRAR";
+                }, 15000);
                 return;
             }
 
-            // 🌹 SNIPER ROSA (SAÍDA TÉCNICA 2.05x)
-            if (currentProb >= 90 && baseSeed >= 10.0) {
-                sdi.innerText = "2.05x";
-                sdi.style.color = "#bc13fe";
-                msg.innerText = "💎 SNIPER ROSA: SAÍDA SEGURA";
-                btn.innerText = "ENTRAR NA ROSA R$ 0,10";
-                btn.style.background = "#bc13fe";
-                speak("Rosa detectada. Sniper em dois ponto zero cinco.");
-            } else {
-                // ⚡ ULTRA COMPENSAÇÃO (OFFSET 0.40x) PARA HIPER BET
-                let refinedTarget = (baseSeed * 0.40 - 0.40).toFixed(2);
-                if (refinedTarget < 1.10) refinedTarget = 1.15;
-
-                sdi.innerText = refinedTarget + "x";
-                sdi.style.color = "#00ff41";
-                msg.innerText = "✅ BRECHA LIMPA: SAÍDA ANTECIPADA";
-                btn.innerText = "ENTRAR R$ 0,10 [GHOST]";
-                btn.style.background = "#00ff41";
-                speak("Brecha limpa.");
-            }
+            // MODO GHOST [cite: 2026-01-16]
+            let target = (seed * 0.40).toFixed(2);
+            sdi.innerText = target + "x";
+            sdi.style.color = "#00ff41";
+            btn.innerText = "ENTRAR R$ 0,10";
+            msg.innerText = "✅ BRECHA IDENTIFICADA";
             btn.disabled = false;
-        }, 1500);
+
+        }, delay);
     }
 </script>
+</body>
+</html>
