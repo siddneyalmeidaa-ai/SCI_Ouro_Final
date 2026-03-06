@@ -1,82 +1,278 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-pt">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>S.A._ROXETTE_V83_FULL_STACK</title>
-<style>
-* { -webkit-tap-highlight-color: transparent; box-sizing: border-box; outline: none; }
-body { background: #050505; color: #e0e0e0; font-family: 'Courier New', monospace; margin: 0; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
-#roxette-container { flex: 1; display: flex; flex-direction: column; padding: 15px; border: 5px solid #1a1a1a; background: linear-gradient(180deg, #0a0a0a 0%, #000 100%); }
-.rox-header { border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 15px; display: flex; justify-content: space-between; font-size: 10px; color: #555; }
-.main-display { background: #000; border: 1px solid #222; border-radius: 4px; padding: 25px 10px; text-align: center; box-shadow: inset 0 0 20px rgba(255,255,255,0.02); }
-.val-output { font-size: 82px; font-weight: 900; color: #fff; margin: 10px 0; text-shadow: 0 0 15px rgba(255,255,255,0.2); }
-.status-tag { font-size: 9px; text-transform: uppercase; letter-spacing: 3px; color: #444; margin-bottom: 5px; }
-.btn-fire { background: #fff; color: #000; border: none; width: 100%; padding: 22px; font-size: 24px; font-weight: 900; border-radius: 2px; cursor: pointer; text-transform: uppercase; margin-top: 15px; }
-.btn-fire:active { background: #888; transform: translateY(2px); }
-.rox-table-area { margin-top: 20px; background: #080808; border: 1px solid #111; max-height: 180px; overflow-y: auto; }
-.rox-table { width: 100%; border-collapse: collapse; font-size: 10px; }
-.rox-table th { background: #111; color: #333; padding: 8px; text-align: left; position: sticky; top: 0; }
-.rox-table td { padding: 10px 8px; border-bottom: 1px solid #0f0f0f; color: #666; }
-.active-row { color: #fff !important; font-weight: bold; }
-.green-cmd { color: #00ff41 !important; }
-.red-cmd { color: #ff4141 !important; }
-.rox-footer { margin-top: auto; padding-top: 15px; border-top: 1px solid #1a1a1a; display: flex; justify-content: space-between; font-size: 9px; color: #222; }
-#ipi-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: none; z-index: 1000; padding: 40px 20px; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>S.A._ROXETTE_MASTER_V83</title>
+    <style>
+        /* [BLINDAGEM VISUAL QUANTUM] */
+        * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; outline: none; }
+        
+        body { 
+            background: #050505; 
+            color: #e0e0e0; 
+            font-family: 'Courier New', Courier, monospace; 
+            margin: 0; 
+            height: 100dvh; 
+            display: flex; 
+            flex-direction: column; 
+            overflow: hidden; 
+        }
+
+        #roxette-container { 
+            flex: 1; 
+            display: flex; 
+            flex-direction: column; 
+            padding: 15px; 
+            border: 5px solid #1a1a1a;
+            background: linear-gradient(180deg, #0a0a0a 0%, #000 100%);
+        }
+
+        .header-sa {
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: #555;
+        }
+
+        .display-quantum {
+            background: #000;
+            border: 1px solid #222;
+            border-radius: 4px;
+            padding: 25px 10px;
+            text-align: center;
+            box-shadow: inset 0 0 20px rgba(255,255,255,0.02);
+        }
+
+        .val-output {
+            font-size: 82px;
+            font-weight: 900;
+            color: #fff;
+            margin: 10px 0;
+            text-shadow: 0 0 15px rgba(255,255,255,0.2);
+        }
+
+        .status-msg {
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #444;
+        }
+
+        .btn-exec {
+            background: #fff;
+            color: #000;
+            border: none;
+            width: 100%;
+            padding: 22px;
+            font-size: 24px;
+            font-weight: 900;
+            border-radius: 2px;
+            cursor: pointer;
+            text-transform: uppercase;
+            margin-top: 15px;
+        }
+
+        .btn-exec:active { background: #888; transform: scale(0.98); }
+
+        /* [TABELA FAVELINHA S.A.] */
+        .favelinha-container {
+            margin-top: 20px;
+            background: #080808;
+            border: 1px solid #111;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .favelinha-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 11px;
+        }
+
+        .favelinha-table th {
+            background: #111;
+            color: #333;
+            padding: 10px;
+            text-align: left;
+            position: sticky;
+            top: 0;
+        }
+
+        .favelinha-table td {
+            padding: 12px 10px;
+            border-bottom: 1px solid #0f0f0f;
+            color: #666;
+        }
+
+        .row-active { color: #fff !important; font-weight: bold; background: rgba(255,255,255,0.02); }
+        .txt-entra { color: #00ff41 !important; font-weight: bold; }
+        .txt-pula { color: #ff4141 !important; font-weight: bold; }
+
+        .footer-sa {
+            margin-top: auto;
+            padding-top: 15px;
+            border-top: 1px solid #1a1a1a;
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: #333;
+        }
+
+        /* [IPI / SFN OVERLAY] */
+        #ipi-modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.98);
+            display: none;
+            z-index: 1000;
+            padding: 40px 20px;
+            overflow-y: auto;
+        }
+
+        .ipi-content { color: #888; line-height: 1.6; }
+        .ipi-content b { color: #fff; }
+    </style>
 </head>
 <body>
+
 <div id="roxette-container">
-<div class="rox-header">
-<span>ID: S.A._SECURE_V83_QUANTUM</span>
-<span id="time-sync">SYNC: 13:34</span>
-</div>
-<div class="main-display">
-<div class="status-tag" id="rox-info">QUANTUM_SYNC_OK</div>
-<div class="val-output" id="val_out">0.00x</div>
-<button class="btn-fire" id="fire_btn">EXECUTAR</button>
-</div>
-<div class="rox-table-area">
-<table class="rox-table">
-<thead>
-<tr>
-<th>X_PROJ</th>
-<th>S.A.(-50%)</th>
-<th>STAKE</th>
-<th>CMD</th>
-</tr>
-</thead>
-<tbody id="fav_body"></tbody>
-</table>
-</div>
-<div class="rox-footer">
-<span>STK_FIXA: R$ 0,10 / R$ 0,20</span>
-<span onclick="toggleIPI()" style="cursor:pointer; color:#444;">[ SFN_IPI ]</span>
-<span>BNK: R$ 4,93</span>
-</div>
-</div>
-<div id="ipi-overlay" onclick="this.style.display='none'">
-<h2 style="color:#fff; font-size:14px; border-bottom:1px solid #333; padding-bottom:10px;">IPI / SFN - MEMÓRIA</h2>
-<p style="color:#888; font-size:12px; line-height:1.6;">
-<b style="color:#fff">CMN:</b> Órgão superior, normativo. Fixa metas.
+    <div class="header-sa">
+        <span>S.A._V83_QUANTUM_CORE</span>
+        <span>13:42</span>
+    </div>
 
+    <div class="display-quantum">
+        <div class="status-msg" id="st-msg">SINCRO_ATIVADA</div>
+        <div class="val-output" id="out-val">0.00x</div>
+        <button class="btn-exec" id="btn-fire">EXECUTAR PROJEÇÃO</button>
+    </div>
 
-<b style="color:#fff">BACEN:</b> Executor e fiscalizador. Emite moeda e vigia as IFs.
+    <div class="favelinha-container">
+        <table class="favelinha-table">
+            <thead>
+                <tr>
+                    <th>X_ORIGEM</th>
+                    <th>-50%_S.A.</th>
+                    <th>STAKE_EXATA</th>
+                    <th>COMANDO</th>
+                </tr>
+            </thead>
+            <tbody id="fav-body">
+                <!-- Injeção Dinâmica -->
+            </tbody>
+        </table>
+    </div>
 
-
-<b style="color:#fff">CVM:</b> Fiscaliza o mercado de valores mobiliários.
-</p>
-<p style="color:#444; font-size:10px; margin-top:30px; text-align:center;">[ TOQUE PARA SAIR ]</p>
+    <div class="footer-sa">
+        <span id="stk-info">STK: R$ 0,10 / R$ 0,20</span>
+        <span onclick="openIPI()" style="cursor:pointer">[ MEMÓRIA_IPI_SFN ]</span>
+        <span>BANK: R$ 4,93</span>
+    </div>
 </div>
+
+<div id="ipi-modal" onclick="this.style.display='none'">
+    <div class="ipi-content">
+        <h2 style="color:#fff; border-bottom:1px solid #333; padding-bottom:10px;">ESTRUTURA SFN / IPI</h2>
+        <p><b>CMN (Conselho Monetário Nacional):</b> Órgão máximo, normativo. Fixa as directrizes e metas de inflação.</p>
+        <p><b>BACEN (Banco Central):</b> Executor. Fiscaliza as IFs, emite moeda e executa a política monetária.</p>
+        <p><b>CVM (Comissão de Valores Mobiliários):</b> Fiscaliza o mercado de capitais (ações, debêntures).</p>
+        <p><b>SUSEP/PREVIC:</b> Seguros e Previdência Complementar.</p>
+        <hr style="border:0; border-top:1px solid #222; margin:20px 0;">
+        <p style="font-size:10px; text-align:center;">[ TOQUE PARA VOLTAR AO TERMINAL ]</p>
+    </div>
+</div>
+
 <script>
-(function() {
-const _R = {
-E: "RU5UUkE=", // ENTRA
-P: "UFVMQQ==", // PULA
-S1: "UiQgMCwxMA==", // R$ 0,10
-S2: "UiQgMCwyMA=="  // R$ 0,20
-};
-const btn = document.getElementById('fire_btn');
-const out = document.getElementById('val_out');
-const info = document.getElementById('rox-info');
-const fBody = document.getElementById('fav_body');
+    (function() {
+        // [OFUSCAÇÃO DE COMANDOS S.A.]
+        const _K = {
+            E: "RU5UUkE=", // ENTRA
+            P: "UFVMQQ==", // PULA
+            S1: "UiQgMCwxMA==", // R$ 0,10
+            S2: "UiQgMCwyMA=="  // R$ 0,20
+        };
+
+        const btn = document.getElementById('btn-fire');
+        const out = document.getElementById('out-val');
+        const stMsg = document.getElementById('st-msg');
+        const favBody = document.getElementById('fav-body');
+
+        // [SISTEMA FAVELINHA - ALTERNÂNCIA DE AUDITORIA]
+        function renderFavelinha(valBase) {
+            // Gera 4 projeções aleatórias para simular o comportamento do servidor
+            const projections = [
+                valBase || (Math.random() * 5 + 1.2),
+                (Math.random() * 3 + 1.1),
+                (Math.random() * 12 + 2),
+                (Math.random() * 1.5 + 1)
+            ];
+
+            favBody.innerHTML = '';
+            projections.forEach((v, i) => {
+                // [REGRA S.A.: -50% DA PROJEÇÃO]
+                const saVal = (v * 0.5).toFixed(2);
+                const isEntra = saVal >= 1.50;
+                const cmd = isEntra ? atob(_K.E) : atob(_K.P);
+                
+                // [REGRA S.A.: STAKES EXATAS]
+                let currentStk = '---';
+                if (saVal >= 2.00) {
+                    currentStk = atob(_K.S2);
+                } else if (isEntra) {
+                    currentStk = atob(_K.S1);
+                }
+
+                favBody.innerHTML += `<tr class="${i===0?'row-active':''}">
+                    <td>${v.toFixed(2)}x</td>
+                    <td style="color:#fff">${saVal}x</td>
+                    <td>${currentStk}</td>
+                    <td class="${isEntra?'txt-entra':'txt-pula'}">${cmd}</td>
+                </tr>`;
+            });
+        }
+
+        btn.addEventListener('click', function() {
+            // Limpeza de rastreio de sessão
+            sessionStorage.clear();
+            
+            const rand = Math.random();
+            let raw, color;
+
+            // Simulação de distribuição de probabilidade
+            if (rand > 0.85) { // Pico
+                raw = (10 + Math.random() * 15);
+                color = "#fff";
+            } else if (rand > 0.40) { // Estável
+                raw = (2.2 + Math.random() * 5);
+                color = "#fff";
+            } else { // Vácuo
+                raw = (1.0 + Math.random() * 0.4);
+                color = "#444";
+            }
+
+            // [APLICAÇÃO -50%]
+            const saResult = (raw * 0.5).toFixed(2);
+            const canEntra = saResult >= 1.50;
+
+            out.innerText = saResult + "x";
+            out.style.color = color;
+            btn.innerText = canEntra ? atob(_K.E) : atob(_K.P);
+            stMsg.innerText = canEntra ? "STAKE_SUGERIDA: " + atob(_K.S1) : "AGUARDAR_PRÓXIMA";
+
+            renderFavelinha(raw);
+        });
+
+        window.openIPI = () => {
+            document.getElementById('ipi-modal').style.display = 'block';
+        };
+
+        // Inicialização automática
+        renderFavelinha(0);
+    })();
+</script>
+</body>
+</html>
