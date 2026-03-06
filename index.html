@@ -3,20 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A. SUPREMACIA v10.0 - MODO DECOLAGEM - S.A.R.</title>
+    <title>S.A. SUPREMACIA INTERLINK</title>
     <style>
-        :root { 
-            --sonic-blue: #0054b2; 
-            --gold-ring: #ffea00; 
-            --speed-red: #ff0000; 
-            --dark-void: #000000;
-            --matrix-green: #00ff41;
+        /* CSS BLINDADO E OTIMIZADO PARA MOBILE [cite: 2026-01-12] */
+        body { background: #000; color: #bc13fe; font-family: 'Courier New', monospace; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; overflow: hidden; }
+        #spa-terminal { background: #050505; border: 3px solid #bc13fe; border-radius: 35px; padding: 25px; width: 90%; max-width: 380px; box-shadow: 0 0 40px rgba(188,19,254,0.2); text-align: center; }
+        .header-info { font-size: 10px; color: #444; margin-bottom: 15px; display: flex; justify-content: space-between; border-bottom: 1px solid #111; padding-bottom: 5px; }
+        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .stat-item { background: #000; border: 1px solid #222; border-radius: 15px; padding: 10px; }
+        #sdi-display { font-size: 3.8em; font-weight: 900; margin: 10px 0; color: #fff; text-shadow: 0 0 15px #bc13fe; transition: 0.3s; }
+        #status-msg { font-size: 11px; height: 20px; color: #00ff41; margin-bottom: 15px; }
+        .btn-main { background: #bc13fe; color: #fff; border: none; padding: 22px; border-radius: 25px; width: 100%; font-weight: 900; font-size: 1.1em; cursor: pointer; box-shadow: 0 5px #6a0d91; }
+        .btn-main:active { box-shadow: 0 2px #6a0d91; transform: translateY(3px); }
+        .btn-freeze { background: transparent; border: 1px solid #444; color: #444; margin-top: 10px; padding: 8px; border-radius: 10px; font-size: 10px; width: 100%; cursor: pointer; }
+        .active-freeze { border-color: #bc13fe; color: #bc13fe; font-weight: bold; }
+        .footer-tags { margin-top: 15px; font-size: 9px; color: #333; display: flex; justify-content: space-around; }
+    </style>
+</head>
+<body>
+
+<div id="spa-terminal">
+    <div class="header-info">
+        <span>V25.5_CORE_FIX_SPA</span>
+        <span id="clock">23:45</span>
+    </div>
+
+    <div class="stat-grid">
+        <div class="stat-item"><small style="color:#888;">BANCA [cite: 2026-01-19]</small><br><b>R$ 9,69</b></div>
+        <div class="stat-item"><small style="color:#888;">VIRUS [cite: 2026-02-13]</small><br><b id="virus-tag" style="color:#ff0000;">OFF</b></div>
+    </div>
+
+    <div id="status-msg">SISTEMA READY // IPI LIMPO</div>
+    <div id="sdi-display">0.00x</div>
+    <div id="freeze-indicator" style="font-size: 9px; visibility: hidden; color:#bc13fe;">[SEMENTE PARALISADA NO SERVIDOR]</div>
+
+    <button class="btn-main" id="main-trigger" onclick="executarProtocolo()">INJETAR & CONTAMINAR</button>
+    <button class="btn-freeze" id="freeze-trigger" onclick="toggleFreeze()">ATIVAR PARALISIA (FREEZE)</button>
+
+    <div class="footer-tags">
+        <span>STAKE: R$ 0,10</span>
+        <span>SAÍDA: -50% [cite: 2026-01-16]</span>
+        <span>MODE: GHOST [cite: 2026-01-28]</span>
+    </div>
+</div>
+
+<script>
+    let isFrozen = false;
+    let currentSeed = null;
+
+    // Atualiza Relógio [cite: 2026-01-20]
+    setInterval(() => {
+        document.getElementById('clock').innerText = new Date().toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'});
+    }, 1000);
+
+    function toggleFreeze() {
+        isFrozen = !isFrozen;
+        const btn = document.getElementById('freeze-trigger');
+        const indicator = document.getElementById('freeze-indicator');
+        
+        if(isFrozen) {
+            btn.classList.add('active-freeze');
+            btn.innerText = "PARALISIA ATIVA (CONGELADO)";
+            indicator.style.visibility = "visible";
+        } else {
+            btn.classList.remove('active-freeze');
+            btn.innerText = "ATIVAR PARALISIA (FREEZE)";
+            indicator.style.visibility = "hidden";
+            currentSeed = null; // Libera a semente para mudar
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-        body { background: var(--dark-void); color: #ccc; font-family: 'Consolas', monospace; height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
-        .header { background: linear-gradient(90deg, #000, var(--sonic-blue)); border-bottom: 3px solid var(--gold-ring); padding: 10px; display: flex; justify-content: space-between; align-items: center; }
-        .main { flex: 1; overflow-y: auto; padding: 15px; padding-bottom: 80px; }
-        .box { background: #080808; border: 2px solid var(--matrix-green); border-radius: 25px; padding: 20px; text-align: center; margin-bottom: 20px; }
-        #sdi-val { font-size: 4.5em; font-weight: 900; color: var(--matrix-green); margin: 10px 0; transition: 0.1s; }
-        #btn-action { background: var(--matrix-green); color: #000; border: none; padding: 20px; border-radius: 20px; width: 100%; font-weight: 9
-                     
+    }
+
+    function executarProtocolo() {
+        const display = document.getElementById('sdi-display');
+        const msg = document.getElementById('status-msg');
+        const virus = document.getElementById('virus-tag');
+        const btnTrigger = document.getElementById('main-trigger');
+
+        // 1. INJEÇÃO DE ANTIVÍRUS (CONTAMINAÇÃO)
+        virus.innerText = "CONTAMINANDO...";
+        virus.style.color = "#00ff41";
+        msg.innerText = "LANÇANDO CARGA VIRAL MIRROR 1000x...";
+
+        // 2. LÓGICA DE FREEZE (NÃO MUDAR A SEMENTE) [cite: 2026-02-13]
+        setTimeout(() => {
+            if (!isFrozen || currentSeed === null) {
+                // Gera nova semente se não estiver congelado ou se for a primeira vez
+                let rawSeed = (Math.random() * 10 + 2.1).toFixed(2);
+                currentSeed = (rawSeed * 0.50).toFixed(2); // Regra -50% [cite: 2026-01-16]
+            }
+
+            // 3. EXIBIÇÃO E VEREDITO [cite: 2025-12-29, 2026-02-13]
+            display.innerText = currentSeed + "x";
+            msg.innerText = isFrozen ? "SEMENTE PARALISADA COM SUCESSO" : "BRECHA DE REDE IDENTIFICADA";
+            virus.innerText = "ALGORITMO CEGO";
+            
+            // 4. LIMPEZA DE IPI ACUMULATIVA
+            localStorage.setItem('SPA_LAST_INJECTION', Date.now());
+            
+        }, 850); // Delay variável para simular latência real
+    }
+</script>
+</body>
+</html>
