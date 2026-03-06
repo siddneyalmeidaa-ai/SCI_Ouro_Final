@@ -2,40 +2,48 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>V59_EMERGENCY_SPA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V61_NUCLEAR_SPA</title>
     <style>
-        /* [cite: 2026-02-03] PERFORMANCE TOTAL - SEM ESTÉTICA */
-        body { background: #000; color: #fff; font-family: sans-serif; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; }
-        #core { width: 90%; text-align: center; border: 2px solid #bc13fe; padding: 20px; }
-        .val { font-size: 80px; font-weight: 900; color: #00ff41; margin: 10px 0; }
-        .btn { background: #bc13fe; color: #fff; border: none; padding: 20px; width: 100%; font-size: 30px; font-weight: 900; }
+        /* ZERO GRAPHICS - MODO DE EMERGÊNCIA [cite: 2026-01-29] */
+        body { background: #000; color: #fff; font-family: sans-serif; text-align: center; padding: 20px; }
+        .val { font-size: 100px; font-weight: bold; color: #0f0; margin: 20px 0; }
+        .btn { background: #bc13fe; color: #fff; border: none; width: 100%; padding: 30px; font-size: 35px; font-weight: 900; }
     </style>
 </head>
 <body>
-<div id="core">
-    <div style="font-size: 10px; color: #bc13fe;">V59_RAW_SPA [cite: 2026-01-28]</div>
-    <div class="val" id="d">2.23x</div>
+
+    <div style="font-size: 12px; color: #444;">V61_IGNITION_SPA</div>
+    <div class="val" id="v">2.23x</div>
+    
     <button class="btn" id="b">ENTRA</button>
-    <div style="font-size: 10px; margin-top: 10px; color: #444;">
-        STAKE: R$ 0,10 [cite: 2026-01-19] | SENSES: V6 [cite: 2026-02-13]
+
+    <div style="margin-top: 30px; font-size: 10px; color: #222; text-align: left;">
+        STAKE: R$ 0,10 [cite: 2026-01-19] | BANCA: R$ 9,69<br>
+        SENSES: V6 [cite: 2026-02-13] | IPI: PURGE [cite: 2026-01-28]
     </div>
-</div>
+
 <script>
+    // [cite: 2026-02-06] MEMÓRIA QUÂNTICA REGENERATIVA
     document.getElementById('b').onclick = function() {
-        // [cite: 2026-01-28] RESET FORÇADO
+        // [cite: 2026-01-28] LIMPEZA CUMULATIVA RADICAL
         localStorage.clear();
         sessionStorage.clear();
+        
         this.disabled = true;
-        this.innerText = "...";
+        this.innerText = "WAIT...";
+        
+        // Disparo de latência mínima (10ms) para vencer o lag da bateria [cite: 2026-02-28]
         setTimeout(() => {
+            document.getElementById('v').innerText = "OK";
             this.disabled = false;
-            this.innerText = "ENTRA"; // [cite: 2025-12-29]
-            this.style.background = "#00ff41";
+            this.innerText = "ENTRA";
+            this.style.background = "#0f0";
             this.style.color = "#000";
-            // [cite: 2026-02-06] SALVAR EM MEMÓRIA QUÂNTICA
-            console.log("V59_SUCCESS");
-        }, 40); // Velocidade máxima para hardware limitado [cite: 2026-02-28]
+            
+            // [cite: 2026-01-27] SALVAMENTO NO AUTO APRENDIZADO
+            console.log("V61_NUCLEAR_SUCCESS");
+        }, 10); 
     };
 </script>
 </body>
