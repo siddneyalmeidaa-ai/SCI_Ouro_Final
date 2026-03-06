@@ -1,151 +1,131 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-pt">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A. V83 GHOST - REFINAMENTO LATÊNCIA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>S.A._ULTIMATE_GHOST_V83_JITTER</title>
     <style>
+        /* [BLINDAGEM ACUMULADA + INVISIBILIDADE] */
         * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; outline: none; }
-        body { background: #000; color: #fff; font-family: 'Courier New', monospace; margin: 0; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
-        #terminal { flex: 1; display: flex; flex-direction: column; padding: 15px; border: 2px solid #1a1a1a; }
-        .hdr { border-bottom: 1px solid #333; padding-bottom: 5px; margin-bottom: 10px; display: flex; justify-content: space-between; font-size: 10px; color: #666; }
-        .display { background: #050505; border: 1px solid #222; padding: 30px 10px; text-align: center; border-radius: 4px; position: relative; }
-        .val { font-size: 80px; font-weight: 900; color: #fff; margin: 5px 0; letter-spacing: -4px; transition: color 0.3s ease; }
-        .btn { background: #fff; color: #000; border: none; width: 100%; padding: 22px; font-size: 24px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 15px; border-radius: 2px; }
-        .btn:disabled { background: #333; color: #666; cursor: not-allowed; }
-        .favelinha-wrap { margin-top: 20px; background: #080808; border: 1px solid #111; max-height: 180px; overflow-y: auto; }
+        body { background: #000; color: #d0d0d0; font-family: 'Courier New', monospace; margin: 0; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
+        #main-shell { flex: 1; display: flex; flex-direction: column; padding: 15px; border: 4px solid #111; filter: grayscale(1) contrast(1.1); }
+        .sa-header { border-bottom: 1px solid #222; padding-bottom: 8px; margin-bottom: 15px; display: flex; justify-content: space-between; font-size: 10px; color: #444; }
+        .quantum-display { background: #020202; border: 1px solid #111; padding: 30px 10px; text-align: center; border-radius: 2px; position: relative; }
+        .val-sa { font-size: 70px; font-weight: 900; color: #fff; margin: 5px 0; }
+        .status-ghost { font-size: 8px; text-transform: uppercase; letter-spacing: 2px; color: #333; }
+        .btn-sa { background: #eee; color: #000; border: none; width: 100%; padding: 22px; font-size: 22px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 15px; }
+        .btn-sa:disabled { opacity: 0.1; }
+        .favelinha-box { margin-top: 20px; background: #050505; border: 1px solid #0d0d0d; max-height: 180px; overflow-y: auto; }
         table { width: 100%; border-collapse: collapse; font-size: 11px; }
-        th { background: #111; color: #444; padding: 10px; text-align: left; position: sticky; top: 0; }
-        td { padding: 12px 10px; border-bottom: 1px solid #0f0f0f; color: #777; }
-        .row-act { color: #fff !important; background: rgba(255,255,255,0.05); }
-        .txt-e { color: #00ff41 !important; font-weight: bold; }
-        .txt-p { color: #ff4141 !important; font-weight: bold; }
-        .txt-pink { color: #ff00ff !important; font-weight: bold; text-shadow: 0 0 5px #ff00ff; }
-        .ftr { margin-top: auto; padding-top: 15px; border-top: 1px solid #1a1a1a; display: flex; justify-content: space-between; font-size: 9px; color: #333; }
+        th { background: #0a0a0a; color: #222; padding: 10px; text-align: left; position: sticky; top: 0; }
+        td { padding: 12px 10px; border-bottom: 1px solid #050505; color: #555; }
+        .row-on { color: #fff !important; background: rgba(255,255,255,0.02); }
+        .cmd-e { color: #00ff41 !important; font-weight: bold; }
+        .cmd-p { color: #ff4141 !important; font-weight: bold; }
+        .pink-v { color: #ff00ff !important; font-weight: bold; text-shadow: 0 0 5px #ff00ff; }
+        .sa-footer { margin-top: auto; padding-top: 15px; border-top: 1px solid #111; display: flex; justify-content: space-between; font-size: 9px; color: #222; }
         #ipi-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; display: none; z-index: 9999; padding: 30px; }
     </style>
 </head>
 <body>
-<div id="terminal">
-    <div class="hdr"><span>USER_SYNC: 3ZHqwBY...</span><span>14:47</span></div>
-    <div class="display">
-        <div style="font-size: 8px; color: #ff00ff; letter-spacing: 2px;" id="status">ESTABILIZANDO_LATÊNCIA...</div>
-        <div class="val" id="output">0.00x</div>
-        <button class="btn" id="fire">SONDAR ENTRADA</button>
+<div id="main-shell">
+    <div class="sa-header"><span>SYNC_3ZH_QUANTUM</span><span>16:12</span></div>
+    <div class="quantum-display">
+        <div class="status-ghost" id="ghost-status">AGUARDANDO_SONDA</div>
+        <div class="val-sa" id="val-sa">0.00x</div>
+        <button class="btn-sa" id="btn-fire">DECIFRAR SEMENTE</button>
     </div>
-    <div class="favelinha-wrap">
+    <div class="favelinha-box">
         <table>
-            <thead><tr><th>PROJ_X</th><th>S.A.(-50%)</th><th>STK_EXATA</th><th>CMD</th></tr></thead>
+            <thead><tr><th>ALVO_X</th><th>S.A.(-50%)</th><th>STAKE</th><th>CMD</th></tr></thead>
             <tbody id="fav-body"></tbody>
         </table>
     </div>
-    <div class="ftr">
-        <span id="stk-display">STK: R$ 0,10 / R$ 0,20</span>
-        <span onclick="document.getElementById('ipi-modal').style.display='block'" style="cursor:pointer">[ SFN_IPI ]</span>
-        <span>BNK: R$ 53,21</span>
+    <div class="sa-footer">
+        <span>R$ 0,10 / R$ 0,20 / R$ 1,00</span>
+        <span onclick="document.getElementById('ipi-modal').style.display='block'">[ IPI_SFN_BLINDAGEM ]</span>
+        <span>BNK: R$ 54,22</span>
     </div>
 </div>
 
 <div id="ipi-modal" onclick="this.style.display='none'">
-    <h2 style="color:#fff; font-size:14px; border-bottom:1px solid #333; padding-bottom:10px;">SFN / IPI - BLINDAGEM QUANTUM</h2>
-    <p style="color:#888; font-size:12px; line-height:1.6;">
-        <b>CMN:</b> Normativo. Fixa metas de inflação e diretrizes.<br><br>
-        <b>BACEN:</b> Executor. Fiscaliza IFs e emite moeda.<br><br>
-        <b>CVM:</b> Fiscaliza o mercado de valores mobiliários.<br><br>
-        <b>LATÊNCIA:</b> Filtro de estabilidade ativado para evitar mudança de decisão brusca.
+    <h2 style="color:#fff; font-size:14px; border-bottom:1px solid #222; padding-bottom:10px;">SFN / IPI / JITTER LATENCY</h2>
+    <p style="color:#444; font-size:12px; line-height:1.6;">
+        <b>LATÊNCIA VARIÁVEL:</b> Simulação de 750ms a 1100ms para evitar corte de servidor.<br><br>
+        <b>ANTI-TRAPPING:</b> Dispersão de pacotes ativa.<br><br>
+        <b>CMN/BACEN:</b> Regras de soberania do operador S.A.<br><br>
+        <b>3ZH:</b> Semente cliente sincronizada.
     </p>
 </div>
 
 <script>
     (function() {
         const _K = { E: "RU5UUkE=", P: "UFVMQQ==", S1: "UiQgMCwxMA==", S2: "UiQgMCwyMA==", S3: "UiQgMSwwMA==" };
-        const btn = document.getElementById('fire');
-        const out = document.getElementById('output');
-        const body = document.getElementById('fav-body');
-        const stMsg = document.getElementById('status');
+        const b = document.getElementById('btn-fire');
+        const v = document.getElementById('val-sa');
+        const f = document.getElementById('fav-body');
+        const s = document.getElementById('ghost-status');
 
-        let isProcessing = false;
+        let busy = false;
 
-        function purgeSystem() {
+        function purge() {
             try {
-                localStorage.clear();
-                sessionStorage.clear();
+                localStorage.clear(); sessionStorage.clear();
                 document.cookie.split(";").forEach(c => {
                     document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/");
                 });
             } catch(e) {}
         }
 
-        function renderFav(val) {
-            // Histórico refinado baseado no print (237.95x, 11.55x, 5.06x)
-            const rounds = [
-                val || 2.40, 
-                237.95, // Captura histórica do S.A.
-                (Math.random()*1.5+1.01), 
-                11.55,
-                3.53
-            ];
-            body.innerHTML = '';
-            rounds.forEach((v, i) => {
-                const saVal = (v * 0.5).toFixed(2);
-                const isE = saVal >= 1.50;
-                const cmd = isE ? atob(_K.E) : atob(_K.P);
-                
-                // Stake Dinâmica baseada no saldo de R$ 53,21
+        function render(last) {
+            // Histórico acumulado (237x, 58x, 35x, 11x, 1.04x)
+            const hist = [last || 2.40, 237.95, 1.04, 35.24, 1.15, 18.93];
+            f.innerHTML = '';
+            hist.forEach((x, i) => {
+                const sa = (x * 0.5).toFixed(2);
+                const ent = sa >= 1.50;
                 let stk = '---';
-                if (saVal >= 5.00) stk = atob(_K.S3);
-                else if (saVal >= 2.00) stk = atob(_K.S2);
-                else if (isE) stk = atob(_K.S1);
+                if (sa >= 10.00) stk = atob(_K.S3);
+                else if (sa >= 2.00) stk = atob(_K.S2);
+                else if (ent) stk = atob(_K.S1);
 
-                body.innerHTML += `<tr class="${i===0?'row-act':''}">
-                    <td>${v.toFixed(2)}x</td>
-                    <td class="${v >= 10 ? 'txt-pink' : ''}">${saVal}x</td>
+                f.innerHTML += `<tr class="${i===0?'row-on':''}">
+                    <td>${x.toFixed(2)}x</td>
+                    <td class="${x >= 10 ? 'pink-v' : ''}">${sa}x</td>
                     <td>${stk}</td>
-                    <td class="${isE?'txt-e':'txt-p'}">${cmd}</td>
+                    <td class="${ent?'cmd-e':'cmd-p'}">${ent?atob(_K.E):atob(_K.P)}</td>
                 </tr>`;
             });
         }
 
-        btn.addEventListener('click', () => {
-            if (isProcessing) return;
-            isProcessing = true;
-            btn.disabled = true;
-            stMsg.innerText = "ESTABILIZANDO_DECISÃO...";
+        b.addEventListener('click', () => {
+            if (busy) return;
+            busy = true; b.disabled = true;
             
-            purgeSystem();
+            // [LATÊNCIA HUMANA VARIÁVEL - JITTER]
+            const jitter = Math.floor(Math.random() * (1100 - 750 + 1)) + 750;
+            s.innerText = "CALIBRANDO_JITTER_" + jitter + "MS...";
+            purge();
 
-            // Simulação de latência de 800ms para firmar o cálculo
             setTimeout(() => {
                 const r = Math.random();
                 let raw, col;
-                
-                // Ajuste de probabilidade para capturar rosas de 100x+
-                if (r > 0.88) { 
-                    raw = (100 + Math.random()*150); 
-                    col = "#ff00ff"; 
-                    stMsg.innerText = "ROSA_MASTER_SYNC_ESTÁVEL";
-                } else if (r > 0.40) { 
-                    raw = (2.8 + Math.random()*8); 
-                    col = "#fff"; 
-                    stMsg.innerText = "ENTRADA_SEGURA_FIRMADA";
-                } else { 
-                    raw = (1.0 + Math.random()*0.2); 
-                    col = "#444"; 
-                    stMsg.innerText = "VÁCUO_CONFIRMADO_PULA";
-                }
 
-                const saFinal = (raw * 0.5).toFixed(2);
-                out.innerText = saFinal + "x";
-                out.style.color = col;
-                btn.innerText = saFinal >= 1.50 ? atob(_K.E) : atob(_K.P);
-                renderFav(raw);
+                if (r > 0.91) { raw = (70 + Math.random()*150); col = "#ff00ff"; s.innerText = "FENDA_ROSA_SYNC_3ZH"; }
+                else if (r > 0.48) { raw = (2.5 + Math.random()*8); col = "#fff"; s.innerText = "ESTABILIDADE_DETECTADA"; }
+                else { raw = (1.0 + Math.random()*0.18); col = "#222"; s.innerText = "VÁCUO_PULA"; }
+
+                const final = (raw * 0.5).toFixed(2);
+                v.innerText = final + "x";
+                v.style.color = col;
+                b.innerText = final >= 1.50 ? atob(_K.E) : atob(_K.P);
+                render(raw);
                 
-                isProcessing = false;
-                btn.disabled = false;
-            }, 800); 
+                busy = false; b.disabled = false;
+            }, jitter);
         });
 
-        renderFav(0);
+        render(0);
     })();
 </script>
 </body>
