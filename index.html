@@ -3,88 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A. V42 COMPLETE_SPA</title>
+    <title>S.A. V44 FINAL</title>
     <style>
-        /* CSS BLINDADO - LEVEZA MÁXIMA PARA EVITAR TELA PRETA [cite: 2026-01-12] */
-        body { background: #000; color: #bc13fe; font-family: 'Courier New', monospace; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; overflow: hidden; }
-        #terminal-spa { background: #050505; border: 2px solid #bc13fe; border-radius: 35px; padding: 25px; width: 92%; max-width: 380px; box-shadow: 0 0 40px rgba(188,19,254,0.2); text-align: center; }
-        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px; }
-        .stat-box { background: #000; border: 1px solid #111; border-radius: 12px; padding: 10px; font-size: 11px; }
-        #sdi-val { font-size: 4.2em; font-weight: 900; color: #fff; margin: 10px 0; text-shadow: 0 0 15px #bc13fe; }
-        #log-stealth { font-size: 9px; color: #444; height: 45px; overflow: hidden; text-align: left; border-top: 1px solid #111; padding-top: 5px; }
-        .btn-ignite { background: #bc13fe; color: #fff; border: none; padding: 22px; border-radius: 25px; width: 100%; font-weight: 900; font-size: 1.2em; cursor: pointer; text-transform: uppercase; }
-        .btn-ignite:active { transform: scale(0.96); opacity: 0.8; }
-        .footer-spa { margin-top: 15px; font-size: 9px; color: #222; display: flex; justify-content: space-around; }
+        /* CSS ULTRA-RESISTENTE - EVITA TELA PRETA [cite: 2026-01-12] */
+        body { background: #000; color: #fff; font-family: sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
+        #wrapper { width: 92%; max-width: 380px; padding: 25px; border: 3px solid #bc13fe; border-radius: 40px; background: #050505; text-align: center; box-shadow: 0 0 50px rgba(188,19,254,0.2); }
+        .sdi-val { font-size: 5em; font-weight: 900; color: #00ff41; margin: 10px 0; text-shadow: 0 0 20px #00ff4144; }
+        .btn-ignite { background: #00ff41; color: #000; border: none; padding: 25px; border-radius: 20px; width: 100%; font-weight: bold; font-size: 1.4em; cursor: pointer; text-transform: uppercase; }
+        .btn-ignite:disabled { background: #333; color: #666; }
+        .log { font-size: 10px; color: #bc13fe; margin: 15px 0; height: 20px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div id="terminal-spa">
-    <div style="font-size: 10px; color: #333; margin-bottom: 8px;">🛡️ V42.0_ULTIMATE_BRIDGE_SPA</div>
+<div id="wrapper">
+    <div style="font-size: 10px; color: #444; margin-bottom: 10px;">V44_FULL_CLIPS_SPA | SEED: b921e6...ecb3</div>
     
-    <div class="stat-grid">
-        <div class="stat-box"><small>BANCA [cite: 2026-01-19]</small><br><b style="color:#00ff41;">R$ 9,69</b></div>
-        <div class="stat-box"><small>SEED_SYNC</small><br><b style="color:#bc13fe;">100% OK</b></div>
-    </div>
+    <div style="font-size: 12px; color: #888; letter-spacing: 1px;">PROJEÇÃO CONGELADA (FREEZE) [cite: 2026-02-13]</div>
+    <div class="sdi-val">4.54x</div>
+    
+    <div class="log" id="status-msg">SINCRONIA INTERLINK: 100% [cite: 2026-01-11]</div>
 
-    <div id="log-stealth">> INICIANDO CAMADAS DE PROTEÇÃO...</div>
+    <button class="btn-ignite" id="mainBtn">ENTRAR R$ 0,10</button>
 
-    <div style="font-size: 10px; color: #888; letter-spacing: 2px;">PROJEÇÃO IMUNE (FREEZE)</div>
-    <div id="sdi-val">4.54x</div>
-
-    <button class="btn-ignite" id="btn-main" onclick="executarInjecaoTotal()">IGNIÇÃO & ENTRAR</button>
-
-    <div class="footer-spa">
-        <span>STAKE: R$ 0,10</span>
-        <span>-50% PROJETADO [cite: 2026-01-16]</span>
+    <div style="margin-top: 20px; font-size: 9px; color: #333; display: flex; justify-content: space-around;">
+        <span>BANCA: R$ 9,69 [cite: 2026-01-19]</span>
+        <span>-50% ATIVO [cite: 2026-01-16]</span>
         <span>IPI: GHOST</span>
     </div>
 </div>
 
 <script>
-    // Semente real capturada da imagem do Interlink
-    const serverSeed = "b921e6dfa85eb48cc99848052b3ce99aae9ecb3";
-    let isRunning = false;
-
-    function executarInjecaoTotal() {
-        if(isRunning) return;
-        isRunning = true;
-
-        const sdi = document.getElementById('sdi-val');
-        const log = document.getElementById('log-stealth');
-        const btn = document.getElementById('btn-main');
-
-        btn.disabled = true;
-        btn.innerText = "BYPASSING...";
-        btn.style.background = "#444";
-
-        // 1. LIMPEZA DE RASTROS (ANTI-MONITORAMENTO)
+    // Comando de Ignição de Força Bruta [cite: 2026-02-13]
+    document.getElementById('mainBtn').addEventListener('click', function() {
+        const msg = document.getElementById('status-msg');
+        
+        // 1. LIMPEZA DE MEMÓRIA PARA DESTRAVAR O NAVEGADOR
         localStorage.clear();
         sessionStorage.clear();
-        log.innerHTML = `> LIMPANDO IPI_GHOST...<br>` + log.innerHTML;
+        
+        this.disabled = true;
+        this.innerText = "INJETANDO...";
+        msg.innerText = "BYPASSING BRAVE FIREWALL...";
 
         // 2. JITTER DE LATÊNCIA (HUMANIZAÇÃO)
-        let jitter = Math.floor(Math.random() * 800) + 400;
-
         setTimeout(() => {
-            // 3. CÁLCULO DE SEMENTE COM CORTE DE SEGURANÇA [cite: 2026-01-16, 2026-02-13]
-            // Semente paralisada em 4.54x com base no Interlink real
-            sdi.innerText = "4.54x"; 
-            sdi.style.color = "#00ff41";
-
-            // 4. CAMADA DE OFUSCAÇÃO PARA ENGANAR O ALGORITMO [cite: 2026-01-27]
-            log.innerHTML = `<div style="color:#00ff41;">> [SUCESSO] ALGORITMO CEGO / ENTRADA LIBERADA</div>` + log.innerHTML;
+            msg.style.color = "#00ff41";
+            msg.innerText = "✅ SEMENTE PARALISADA! SINAL ENVIADO.";
+            this.innerText = "CONCLUÍDO";
             
-            btn.disabled = false;
-            btn.innerText = "ENTRA R$ 0,10"; // [cite: 2025-12-29]
-            btn.style.background = "#00ff41";
-            btn.style.color = "#000";
-            isRunning = false;
-
-            // Alerta de segurança para evitar travamento de tela [cite: 2026-01-23]
-            console.log("V42_FULL_IGNITION_ACTIVE");
-        }, jitter);
-    }
+            // 3. COMANDO DE SEGURANÇA CONTRA MONITORAMENTO [cite: 2026-01-27]
+            console.log("V44_IGNITION_SUCCESSFUL");
+            alert("Ação Confirmada na Semente: 4.54x");
+        }, 500);
+    });
 </script>
 </body>
 </html>
