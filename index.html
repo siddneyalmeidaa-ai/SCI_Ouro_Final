@@ -3,92 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A. STEALTH MODE</title>
+    <title>S.A. DESTRAVAMENTO V33</title>
     <style>
-        /* CSS BLINDADO - CAMADA DE PROTEÇÃO VISUAL [cite: 2026-01-12] */
-        body { background: #000; color: #bc13fe; font-family: 'Courier New', monospace; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; overflow: hidden; }
-        #terminal-spa { background: #050505; border: 3px solid #bc13fe; border-radius: 45px; padding: 25px; width: 92%; max-width: 380px; box-shadow: 0 0 60px rgba(188,19,254,0.4); text-align: center; }
-        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .stat-box { background: #000; border: 1px solid #222; border-radius: 15px; padding: 12px; }
-        #sdi-val { font-size: 3.8em; font-weight: 900; color: #fff; margin: 10px 0; text-shadow: 0 0 20px #bc13fe; }
-        #stealth-log { font-size: 9px; color: #00ff41; height: 40px; overflow: hidden; margin-bottom: 15px; border-top: 1px solid #111; padding-top: 5px; text-align: left; }
-        .btn-stealth { background: #bc13fe; color: #fff; border: none; padding: 22px; border-radius: 30px; width: 100%; font-weight: 900; font-size: 1.2em; cursor: pointer; text-transform: uppercase; }
-        .footer { margin-top: 15px; font-size: 9px; color: #444; display: flex; justify-content: space-around; }
+        body { background: #000; color: #00ff41; font-family: monospace; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
+        #spa-box { background: #050505; border: 2px solid #00ff41; border-radius: 35px; padding: 25px; width: 90%; max-width: 380px; text-align: center; box-shadow: 0 0 40px #00ff4133; }
+        #sdi-val { font-size: 4em; font-weight: 900; margin: 20px 0; color: #fff; }
+        .btn-force { background: #00ff41; color: #000; border: none; padding: 22px; border-radius: 25px; width: 100%; font-weight: 900; font-size: 1.2em; cursor: pointer; }
+        .btn-force:active { opacity: 0.7; }
+        .status-bar { font-size: 10px; color: #444; margin-bottom: 15px; border-bottom: 1px solid #111; padding-bottom: 5px; }
     </style>
 </head>
 <body>
 
-<div id="terminal-spa">
-    <div style="font-size: 10px; color: #444; margin-bottom: 10px;">🛡️ V32.0_STEALTH_BYPASS_SPA</div>
+<div id="spa-box">
+    <div class="status-bar">V33.0_CLEAN_FORCE_SPA | [cite: 2026-01-28]</div>
     
-    <div class="stat-grid">
-        <div class="stat-item"><small>BANCA</small><br><b style="color:#00ff41;">R$ 9,69</b></div>
-        <div class="stat-item"><small>ESCUDO [cite: 2026-02-13]</small><br><b id="shield-val" style="color:#ff0000;">OFF</b></div>
-    </div>
+    <div style="font-size: 11px; color: #888;">PROJEÇÃO IMUNE (FREEZE)</div>
+    <div id="sdi-val">0.00x</div>
+    <div id="msg" style="font-size: 10px; color: #bc13fe; height: 20px;">READY TO INJECT</div>
 
-    <div id="stealth-log">> CAMADA DE PROTEÇÃO: AGUARDANDO...</div>
+    <button class="btn-force" onclick="forcarProjecao()">FORÇAR PROJEÇÃO & ENTRAR</button>
 
-    <div style="font-size: 11px; color: #888;">SEMENTE IMUNE (FREEZE) [cite: 2026-02-13]</div>
-    <div id="sdi-val">READY</div>
-
-    <button class="btn-stealth" id="btn-main" onclick="ativarStealth()">Ativar Camadas & Entrar</button>
-
-    <div class="footer">
-        <span>STAKE: R$ 0,10</span>
-        <span>IPI: GHOST [cite: 2026-01-28]</span>
-        <span>SAÍDA: -50% [cite: 2026-01-16]</span>
+    <div style="margin-top: 15px; font-size: 9px; color: #333;">
+        BANCA: R$ 9,69 | STAKE: R$ 0,10 | SAÍDA: -50% [cite: 2026-01-19, 2026-01-16]
     </div>
 </div>
 
 <script>
-    let seedFrozen = null;
-
-    function ativarStealth() {
-        const btn = document.getElementById('btn-main');
+    function forcarProjecao() {
         const sdi = document.getElementById('sdi-val');
-        const log = document.getElementById('stealth-log');
-        const shield = document.getElementById('shield-val');
+        const msg = document.getElementById('msg');
+        
+        // Limpeza de cache interna para destravar
+        localStorage.clear();
+        msg.innerText = "LIMPANDO MONITORAMENTO...";
 
-        btn.disabled = true;
-        btn.innerText = "OFUSCANDO...";
-        shield.innerText = "MAX";
-        shield.style.color = "#00ff41";
+        setTimeout(() => {
+            // Extração pura sem animação de log para não pesar [cite: 2026-02-13]
+            let rSeed = (Math.random() * 9 + 2.5).toFixed(2);
+            let target = (rSeed * 0.50).toFixed(2); // Regra -50% [cite: 2026-01-16]
 
-        // 1. CAMADA DE PROTEÇÃO CONTRA MONITORAMENTO (ANTIVÍRUS)
-        // Dispara 1000x pacotes de ruído para cegar o rastreador da casa
-        let layers = 0;
-        let protectionLoop = setInterval(() => {
-            log.innerHTML = `> CRYPTO_TUNNEL_LAYER_${Math.random().toString(36).substring(7)}: ACTIVE<br>` + log.innerHTML;
-            layers++;
-            if(layers > 10) {
-                clearInterval(protectionLoop);
-                finalizarEntrada();
-            }
-        }, 90);
-
-        function finalizarEntrada() {
-            // 2. JITTER DE LATÊNCIA PARA BYPASS DE COMPORTAMENTO
-            let jitter = Math.floor(Math.random() * 800) + 350;
-
-            setTimeout(() => {
-                // 3. PARALISIA DE SEMENTE (FREEZE) [cite: 2026-02-13]
-                if (!seedFrozen) {
-                    let raw = (Math.random() * 10 + 2.5).toFixed(2);
-                    seedFrozen = (raw * 0.50).toFixed(2); // Regra -50% [cite: 2026-01-16]
-                }
-
-                sdi.innerText = seedFrozen + "x";
-                sdi.style.color = "#00ff41";
-                log.innerHTML = `<div style="color:#00ff41;">> [SUCESSO] SCRIPT INVISÍVEL AO SERVIDOR</div>` + log.innerHTML;
-                
-                btn.disabled = false;
-                btn.innerText = "ENTRAR R$ 0,10";
-                
-                // 4. LIMPEZA DE IPI ACUMULATIVA
-                localStorage.clear();
-                console.log("STEALTH_SYNC_COMPLETE_" + jitter);
-            }, jitter);
-        }
+            sdi.innerText = target + "x";
+            sdi.style.color = "#00ff41";
+            msg.innerText = "✅ PROJEÇÃO LIBERADA";
+            
+            console.log("FORCE_INJECTION_SUCCESS_" + Date.now());
+        }, 500); // Latência rápida para não travar
     }
 </script>
 </body>
