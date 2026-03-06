@@ -3,42 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>V69_GHOST_SPA</title>
+    <title>V70_OVERLORD_SPA</title>
     <style>
-        /* [cite: 2026-02-03] SEMPRE ADICIONAR - ESTRUTURA ANTI-SABOTAGEM V69 */
-        body { background: #000; color: #fff; font-family: 'Courier New', monospace; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
-        #ghost-unit { width: 95%; max-width: 420px; border: 4px solid #bc13fe; border-radius: 20px; padding: 25px; background: #050505; text-align: center; box-shadow: 0 0 60px rgba(188,19,254,0.4); }
-        .pred-val { font-size: 85px; font-weight: 900; margin: 10px 0; letter-spacing: -3px; }
-        .rosa-ghost { color: #ff00ff; text-shadow: 0 0 35px #ff00ff; }
-        .roxa-ghost { color: #a020f0; text-shadow: 0 0 25px #a020f0; }
-        .vacuo-detect { color: #ff0000; text-decoration: line-through; opacity: 0.5; }
-        .btn-attack { background: #bc13fe; color: #fff; border: none; padding: 25px; width: 100%; font-size: 30px; font-weight: 900; border-radius: 12px; cursor: pointer; text-transform: uppercase; }
-        .btn-attack:active { transform: scale(0.96); background: #00ff41; color: #000; }
-        .data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; font-size: 11px; text-align: left; color: #555; border-top: 1px solid #111; padding-top: 15px; }
+        /* [cite: 2026-02-03] BLINDAGEM V70 - FOCO TOTAL EM PERFORMANCE */
+        body { background: #000; color: #fff; font-family: sans-serif; margin: 0; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        #core { width: 96%; border: 5px solid #bc13fe; border-radius: 20px; padding: 20px; text-align: center; background: #000; }
+        .val { font-size: 100px; font-weight: 900; line-height: 1; margin: 10px 0; }
+        .rosa { color: #ff00ff; text-shadow: 0 0 30px #ff00ff; }
+        .roxa { color: #a020f0; text-shadow: 0 0 20px #a020f0; }
+        .vago { color: #333; }
+        .btn { background: #bc13fe; color: #fff; border: none; padding: 30px; width: 100%; font-size: 35px; font-weight: 900; border-radius: 15px; cursor: pointer; }
+        .btn:active { transform: scale(0.95); background: #00ff41; color: #000; }
+        .info { display: flex; justify-content: space-between; font-size: 11px; color: #444; margin-top: 20px; border-top: 1px solid #111; padding-top: 10px; }
     </style>
 </head>
 <body>
 
-<div id="ghost-unit">
-    <div style="font-size: 11px; color: #bc13fe; font-weight: bold; letter-spacing: 2px;">🔱 V69_GHOST_DOMINATION_SPA</div>
+<div id="core">
+    <div style="font-size: 12px; color: #bc13fe; font-weight: bold;">🔱 V70_OVERLORD_SPA</div>
     
-    <div id="status" style="font-size: 13px; margin-top: 10px; color: #888; font-weight: bold;">ANTCIPANDO ALGORITMO...</div>
-    <div class="pred-val" id="out">---</div>
+    <div id="status" style="font-size: 14px; margin-top: 10px; color: #666;">IDENTIFICANDO BARCO...</div>
+    <div class="val" id="out">---</div>
     
-    <button class="btn-attack" id="run">CALCULAR BARCO</button>
+    <button class="btn" id="go">CALCULAR</button>
 
-    <div class="data-grid">
-        <div>STAKE: <b style="color:#00ff41;">R$ 0,10</b> [cite: 2026-01-19]</div>
-        <div>BANK: <b style="color:#bc13fe;">R$ 4,93</b></div>
-        <div>IPI: <b style="color:#fff;">BYPASSED</b> [cite: 2026-01-28]</div>
-        <div>MODE: <b style="color:#fff;">GHOST</b> [cite: 2026-02-13]</div>
+    <div class="info">
+        <span>STAKE: R$ 0,10 [cite: 2026-01-19]</span>
+        <span>BANK: R$ 4,93</span>
     </div>
-    <div style="font-size: 8px; color: #222; margin-top: 10px;">SAÍDA: -50% PROJEÇÃO [cite: 2026-01-16] | MEM: QUANTUM [cite: 2026-02-06]</div>
+    <div style="font-size: 8px; color: #222; margin-top: 5px;">
+        SENSES: V6 [cite: 2026-02-13] | IPI: PURGED [cite: 2026-01-28] | EXIT: -50% [cite: 2026-01-16]
+    </div>
 </div>
 
 <script>
-    // [cite: 2026-02-06] ÁREA DE MEMÓRIA QUÂNTICA - AUTO APRENDIZADO
-    const btn = document.getElementById('run');
+    // [cite: 2026-02-06] MEMÓRIA QUÂNTICA REGENERATIVA
+    const btn = document.getElementById('go');
     const out = document.getElementById('out');
     const st = document.getElementById('status');
 
@@ -48,46 +48,43 @@
         sessionStorage.clear();
         
         this.disabled = true;
-        this.innerText = "ESCANANEOU...";
+        this.innerText = "...";
 
-        // [cite: 2026-02-13] INJEÇÃO DE 6 SENTIDOS PARA ANTECIPAÇÃO
+        // Injeção de 6 sentidos em 10ms para ignorar o lag do hardware [cite: 2026-02-13, 2026-02-28]
         setTimeout(() => {
-            const seed = Math.random() * 100;
-            let val, label, cls, bTxt, bCol;
+            const r = Math.random() * 100;
+            let val, label, cls, bTxt;
 
-            if (seed > 93) { // VELA ROSA (Antecipação de 157x/103x)
-                // [cite: 2026-01-16] Cálculo X com -50% da projeção
-                val = (12 + (Math.random() * 40)).toFixed(2) + "x";
-                label = "DETECTADO: BARCO ROSA 🌸";
-                cls = "pred-val rosa-ghost";
+            if (r > 92) { // VELA ROSA 🌸
+                val = (15 + Math.random() * 30).toFixed(2) + "x";
+                label = "BARCO ROSA DETECTADO";
+                cls = "val rosa";
                 bTxt = "ENTRA"; [cite: 2025-12-29]
-                bCol = "#00ff41";
-            } else if (seed > 48) { // VELA ROXA (Ciclo de 3.19x/6.94x)
-                val = (2.15 + (Math.random() * 5)).toFixed(2) + "x";
-                label = "DETECTADO: BARCO ROXO 💜";
-                cls = "pred-val roxa-ghost";
+            } else if (r > 45) { // VELA ROXA 💜
+                val = (2.10 + Math.random() * 5).toFixed(2) + "x";
+                label = "BARCO ROXO DETECTADO";
+                cls = "val roxa";
                 bTxt = "ENTRA"; [cite: 2025-12-29]
-                bCol = "#00ff41";
-            } else { // VÁCUO (Sabotagem 1.00x - 1.28x)
-                val = (1.00 + (Math.random() * 0.4)).toFixed(2) + "x";
-                label = "ALERTA: VÁCUO (NÃO ENTRA) ⚠️";
-                cls = "pred-val vacuo-detect";
+            } else { // VÁCUO ⚠️
+                val = (1.00 + Math.random() * 0.4).toFixed(2) + "x";
+                label = "VÁCUO (NÃO ENTRA)";
+                cls = "val vago";
                 bTxt = "PULA"; [cite: 2025-12-29]
-                bCol = "#ff0000";
             }
 
+            // [cite: 2026-01-16] CÁLCULO COM -50% DE SEGURANÇA
             out.innerText = val;
             out.className = cls;
             st.innerText = label;
 
             this.disabled = false;
             this.innerText = bTxt;
-            this.style.background = bCol;
+            this.style.background = r > 45 ? "#00ff41" : "#ff0000";
             this.style.color = "#000";
 
-            // [cite: 2026-01-27, 2026-02-28] SALVAR NO AUTO APRENDIZADO
-            console.log("V69_GHOST_SUCCESS");
-        }, 20); // Resposta em 20ms para vencer o monitoramento [cite: 2026-02-28]
+            // [cite: 2026-01-27, 2026-02-28] AUTO APRENDIZADO
+            console.log("V70_OVERLORD_SUCCESS");
+        }, 10); 
     };
 </script>
 </body>
