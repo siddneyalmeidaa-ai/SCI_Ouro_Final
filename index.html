@@ -3,99 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A. SUPREMACIA INTERLINK</title>
+    <title>S.A. SUPREMACIA V29.5</title>
     <style>
-        /* CSS BLINDADO - FOCO EM CLAREZA E PERFORMANCE */
+        /* CSS BLINDADO - OTIMIZADO PARA MOBILE */
         body { background: #000; color: #00ff41; font-family: 'Courier New', monospace; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; overflow: hidden; }
-        #spa-war-room { background: #050505; border: 3px solid #bc13fe; border-radius: 45px; padding: 25px; width: 90%; max-width: 380px; box-shadow: 0 0 60px rgba(188,19,254,0.3); text-align: center; }
-        .header { font-size: 10px; color: #444; margin-bottom: 15px; display: flex; justify-content: space-between; border-bottom: 1px solid #111; padding-bottom: 5px; }
-        .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        #spa-terminal { background: #050505; border: 3px solid #bc13fe; border-radius: 40px; padding: 25px; width: 92%; max-width: 380px; box-shadow: 0 0 60px rgba(188,19,254,0.3); text-align: center; }
+        .header { font-size: 10px; color: #444; margin-bottom: 12px; display: flex; justify-content: space-between; border-bottom: 1px solid #111; padding-bottom: 5px; }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px; }
         .stat-card { background: #000; border: 1px solid #222; border-radius: 15px; padding: 10px; }
-        #log-terminal { background: #000; height: 60px; font-size: 10px; color: #ff0000; overflow-y: hidden; text-align: left; padding: 10px; border: 1px solid #111; margin-bottom: 15px; border-radius: 10px; }
-        #sdi-output { font-size: 4.2em; font-weight: 900; color: #fff; margin: 10px 0; text-shadow: 0 0 20px #bc13fe; }
-        .btn-action { background: #bc13fe; color: #fff; border: none; padding: 22px; border-radius: 30px; width: 100%; font-weight: 900; font-size: 1.2em; cursor: pointer; text-transform: uppercase; box-shadow: 0 6px #6a0d91; }
-        .btn-action:active { box-shadow: 0 2px #6a0d91; transform: translateY(4px); }
-        .immunity-tag { font-size: 10px; color: #bc13fe; font-weight: bold; margin-top: 10px; display: block; visibility: hidden; }
-        .footer { margin-top: 15px; font-size: 9px; color: #333; display: flex; justify-content: space-between; }
-    </style>
-</head>
-<body>
-
-<div id="spa-war-room">
-    <div class="header">
-        <span>V28.0_IMMUNITY_TOTAL_SPA</span>
-        <span id="clock">00:00</span>
-    </div>
-
-    <div class="stats">
-        <div class="stat-card"><small>BANCA</small><br><b style="color:#00ff41;">R$ 9,69</b></div>
-        <div class="stat-card"><small>ANTIVÍRUS</small><br><b id="virus-status" style="color:#ff0000;">OFF</b></div>
-    </div>
-
-    <div id="log-terminal">> SISTEMA EM AGUARDO...</div>
-
-    <div style="font-size: 11px; color: #888;">SEMENTE PARALISADA (FREEZE)</div>
-    <div id="sdi-output">0.00x</div>
-    <span class="immunity-tag" id="imm-tag">[ IMUNIDADE ATIVA - ALGORITMO CEGO ]</span>
-
-    <button class="btn-action" id="trigger" onclick="iniciarGuerra()">Contaminar & Entrar</button>
-
-    <div class="footer">
-        <span>STAKE: R$ 0,10</span>
-        <span>MODE: SIM_GHOST</span>
-    </div>
-</div>
-
-<script>
-    // Relógio em tempo real
-    setInterval(() => {
-        document.getElementById('clock').innerText = new Date().toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'});
-    }, 1000);
-
-    let isLocked = false;
-
-    function iniciarGuerra() {
-        if(isLocked) return;
-        isLocked = true;
-
-        const log = document.getElementById('log-terminal');
-        const sdi = document.getElementById('sdi-output');
-        const vStatus = document.getElementById('virus-status');
-        const tag = document.getElementById('imm-tag');
-        const btn = document.getElementById('trigger');
-
-        btn.disabled = true;
-        vStatus.innerText = "CONTAMINANDO...";
-        vStatus.style.color = "#00ff41";
-
-        // SIMULAÇÃO DE CARGA MASSIVA DE ANTIVÍRUS (MIRROR 1000x)
-        let carga = 0;
-        let viralAttack = setInterval(() => {
-            log.innerHTML = `> INJETANDO VIRUS_SPA_${Math.random().toString(16).slice(10)}...<br>` + log.innerHTML;
-            carga++;
-            if(carga > 12) {
-                clearInterval(viralAttack);
-                aplicarImunidade();
-            }
-        }, 80);
-
-        function aplicarImunidade() {
-            // LÓGICA DE PARALISIA E EXTRAÇÃO DA HORA CERTA
-            let seedReal = (Math.random() * 12 + 2.3).toFixed(2);
-            let sdiFinal = (seedReal * 0.50).toFixed(2); // Regra -50%
-
-            sdi.innerText = sdiFinal + "x";
-            tag.style.visibility = "visible";
-            log.innerHTML = `<div style="color:#00ff41;">> [SUCESSO] IMUNIDADE ESTABELECIDA. ENTRADA LIBERADA!</div>` + log.innerHTML;
-            
-            btn.disabled = false;
-            btn.innerText = "ENTRAR R$ 0,10";
-            isLocked = false;
-            
-            // LIMPEZA DE IPI ACUMULATIVA PARA EVITAR CORTE
-            localStorage.setItem('SPA_GHOST_TKN', Date.now());
-        }
-    }
-</script>
-</body>
-</html>
+        #log-area { background: #000; height: 50px; font-size: 9px; color: #ff0000; overflow: hidden; text-align: left; padding: 8px; border: 1px solid #111; margin-bottom: 12px; border-radius: 10px; }
+        #sdi-display { font-size: 3.8em; font-weight: 900; color: #fff; margin: 5px 0; text-shadow: 0 0 20px #bc13fe; }
+        #latency-tag { font-size: 11px; color: #bc13fe; font-weight: bold; margin-bottom: 10px; display: block; }
+        .btn-main { background: #bc13fe; color: #fff; border: none;
+                   
