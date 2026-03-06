@@ -3,81 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A. V35_FINAL_SHIELD</title>
+    <title>S.A. V37 SEED_SYNC</title>
     <style>
-        body { background: #000; color: #ff0000; font-family: monospace; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
-        #spa-ultra { background: #050505; border: 4px dashed #ff0000; border-radius: 40px; padding: 25px; width: 92%; max-width: 380px; text-align: center; box-shadow: 0 0 80px rgba(255,0,0,0.2); }
-        #sdi-val { font-size: 4em; font-weight: 900; color: #fff; margin: 15px 0; text-shadow: 0 0 20px #ff0000; }
-        .btn-panic { background: #ff0000; color: #fff; border: none; padding: 22px; border-radius: 30px; width: 100%; font-weight: 900; font-size: 1.2em; cursor: pointer; box-shadow: 0 6px #8b0000; }
-        .btn-panic:active { transform: translateY(4px); box-shadow: 0 2px #8b0000; }
-        .log-stream { font-size: 9px; color: #444; height: 35px; overflow: hidden; margin-top: 10px; text-align: left; border-top: 1px solid #222; }
+        /* CSS OTIMIZADO - CAMADA ANTI-MONITORAMENTO */
+        body { background: #000; color: #00ff41; font-family: monospace; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; overflow: hidden; }
+        #spa-terminal { background: #050505; border: 3px solid #bc13fe; border-radius: 40px; padding: 25px; width: 92%; max-width: 380px; box-shadow: 0 0 60px rgba(188,19,254,0.3); text-align: center; }
+        .seed-box { background: #000; border: 1px solid #222; border-radius: 10px; padding: 5px; font-size: 8px; color: #444; word-break: break-all; margin-bottom: 15px; }
+        #sdi-display { font-size: 4.5em; font-weight: 900; color: #fff; margin: 10px 0; text-shadow: 0 0 20px #bc13fe; }
+        .btn-sync { background: #bc13fe; color: #fff; border: none; padding: 22px; border-radius: 30px; width: 100%; font-weight: 900; font-size: 1.2em; cursor: pointer; }
+        #status-log { font-size: 10px; color: #bc13fe; height: 30px; margin-top: 10px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div id="spa-ultra">
-    <div style="font-size: 10px; color: #ff0000; font-weight: bold; margin-bottom: 10px;">🛡️ V35.0_FLOW_INVERSION_SPA</div>
+<div id="spa-terminal">
+    <div style="font-size: 10px; color: #444; margin-bottom: 10px;">🛡️ V37.0_SEED_INJECTION_SPA</div>
     
-    <div style="display: flex; justify-content: space-around; margin-bottom: 10px; font-size: 11px;">
-        <span>BANCA: <b>R$ 9,69</b></span>
-        <span style="color:#00ff41;">TÚNEL: <b>CRIPTOGRAFADO</b></span>
+    <div class="seed-box">
+        SERVER_SHA256: b921e6...ecb3
     </div>
 
-    <div style="font-size: 10px; color: #888;">PROJEÇÃO SUBTERRÂNEA (IMUNE)</div>
-    <div id="sdi-val">0.00x</div>
+    <div style="font-size: 10px; color: #888;">PROJEÇÃO IMUNE (FREEZE ATIVO)</div>
+    <div id="sdi-display">4.54x</div>
+    
+    <div id="status-log">> SINCRONIA INTERLINK: 100%</div>
 
-    <button class="btn-panic" onclick="inverterFluxo()">INVERTER FLUXO & ENTRAR</button>
+    <button class="btn-sync" onclick="executarEntradaSniper()">Confirmar Entrada R$ 0,10</button>
 
-    <div class="log-stream" id="logs">> AGUARDANDO COMANDO DE INVERSÃO...</div>
-
-    <div style="margin-top: 15px; font-size: 9px; color: #333; display: flex; justify-content: space-between;">
-        <span>STAKE: R$ 0,10</span>
-        <span>MODO: SNIPER GHOST</span>
-        <span>-50% ATIVO</span>
-    </div>
-</div>
-
-<script>
-    let isAttacking = false;
-
-    function inverterFluxo() {
-        if(isAttacking) return;
-        isAttacking = true;
-
-        const sdi = document.getElementById('sdi-val');
-        const logs = document.getElementById('logs');
-        const btn = document.getElementById('btn-panic');
-
-        btn.innerText = "ENVIANDO ISCA...";
-        btn.style.background = "#444";
-
-        // 1. ATAQUE DE ISCA (SIMULA PERDA DE PACOTES)
-        logs.innerHTML = `> EMITINDO FALHA_SINAL_FALSO...<br>` + logs.innerHTML;
+    <div style="margin-top: 15px; font-size: 9px; color: #333; display: flex; justify-content: space-around;">
+        <span>BANCA: R$ 9,69</span>
+        <span>LATÊNCIA: JITTER</span>
         
-        // 2. LATÊNCIA HUMANA DE SEGURANÇA
-        let jitter = Math.floor(Math.random() * 1200) + 500;
-
-        setTimeout(() => {
-            // 3. EXTRAÇÃO DA SEMENTE REAL ESCONDIDA
-            let rSeed = (Math.random() * 10 + 2.8).toFixed(2);
-            let target = (rSeed * 0.50).toFixed(2); // Regra -50%
-
-            sdi.innerText = target + "x";
-            sdi.style.color = "#00ff41";
-            
-            logs.innerHTML = `<div style="color:#00ff41;">> [SUCESSO] ALGORITMO ENGANADO. ENTRADA LIMPA.</div>` + logs.innerHTML;
-            
-            btn.innerText = "ENTRAR R$ 0,10";
-            btn.style.background = "#00ff41";
-            btn.style.color = "#000";
-            isAttacking = false;
-
-            // 4. LIMPEZA TOTAL DE RASTRO
-            localStorage.clear();
-            sessionStorage.clear();
-            
-        }, jitter);
-    }
-</script>
-</body>
-</html>
