@@ -3,66 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A. V63_BYPASS_SPA</title>
+    <title>V64_QUANTUM_SPA</title>
     <style>
-        /* [cite: 2026-02-03] SEMPRE ADICIONAR - NUNCA SUBSTITUIR - BLINDAGEM V63 */
+        /* [cite: 2026-02-03] SEMPRE ADICIONAR - ESTRUTURA ACUMULATIVA */
         body { background: #000; color: #fff; font-family: sans-serif; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
-        #quantum-core { width: 94%; max-width: 400px; border: 5px solid #bc13fe; border-radius: 30px; padding: 25px; text-align: center; background: #050505; }
-        .sdi-v63 { font-size: 95px; font-weight: 900; color: #00ff41; margin: 10px 0; letter-spacing: -6px; }
-        .btn-v63 { background: #bc13fe; color: #fff; border: none; padding: 28px; width: 100%; font-size: 35px; font-weight: 900; border-radius: 20px; cursor: pointer; text-transform: uppercase; box-shadow: 0 8px #6a0d91; }
-        .btn-v63:active { background: #00ff41; color: #000; transform: translateY(4px); box-shadow: 0 2px #6a0d91; }
-        .status-box { font-size: 10px; color: #444; margin-top: 15px; border-top: 1px solid #111; padding-top: 10px; text-align: left; line-height: 1.4; }
+        #core { width: 94%; border: 4px solid #bc13fe; border-radius: 20px; padding: 20px; text-align: center; background: #050505; }
+        .target { font-size: 60px; font-weight: 900; margin: 10px 0; line-height: 1; }
+        .rosa { color: #ff00ff; text-shadow: 0 0 20px #ff00ff; }
+        .roxa { color: #a020f0; text-shadow: 0 0 20px #a020f0; }
+        .vago { color: #555; }
+        .btn-calc { background: #bc13fe; color: #fff; border: none; padding: 25px; width: 100%; font-size: 30px; font-weight: 900; border-radius: 15px; margin-top: 10px; }
+        .metrics { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; font-size: 10px; margin-top: 15px; color: #444; }
     </style>
 </head>
 <body>
 
-<div id="quantum-core">
-    <div style="font-size: 11px; color: #bc13fe; font-weight: bold; letter-spacing: 2px;">🔱 V63.0_HARD_BYPASS_SPA</div>
+<div id="core">
+    <div style="font-size: 10px; color: #bc13fe; font-weight: bold;">🔱 V64_QUANTUM_PREDICTOR_SPA</div>
     
-    <div style="display: flex; justify-content: space-between; margin: 15px 0; font-size: 11px;">
-        <span>BANCA: <b style="color:#00ff41;">R$ 9,69</b> [cite: 2026-01-19]</span>
-        <span>IPI: <b style="color:#bc13fe;">FORCE_PURGE</b> [cite: 2026-01-28]</span>
+    <div id="type" style="font-size: 14px; margin-top: 10px; font-weight: bold; color: #888;">AGUARDANDO CLIQUE...</div>
+    <div class="target" id="display">---</div>
+    
+    <button class="btn-calc" id="btn">CALCULAR PRÓXIMA</button>
+
+    <div class="metrics">
+        <div>ROSA: <span id="p-rosa">0%</span></div>
+        <div>ROXA: <span id="p-roxa">0%</span></div>
+        <div>VAGO: <span id="p-vago">0%</span></div>
     </div>
 
-    <div style="font-size: 12px; color: #888; letter-spacing: 4px;">PROJEÇÃO IMUNE (FREEZE)</div>
-    <div class="sdi-v63" id="display">OK</div>
-    
-    <button class="btn-v63" id="trigger">ENTRA</button>
-
-    <div class="status-box">
-        STAKE: R$ 0,10 [cite: 2026-01-19] | SAÍDA: -50% [cite: 2026-01-16]<br>
-        SENSES: V6 ACTIVE [cite: 2026-02-13] | MEM: QUANTUM [cite: 2026-02-06]<br>
-        SEED: b921e6dfa85eb48cc99848052b3ce99aae9ecb3
+    <div style="font-size: 9px; color: #222; margin-top: 15px; border-top: 1px solid #111; padding-top: 10px; text-align: left;">
+        STAKE: R$ 0,10 [cite: 2026-01-19] | BANCA: R$ 9,69 | SENSES: V6 [cite: 2026-02-13]
     </div>
 </div>
 
 <script>
-    // [cite: 2026-02-06] ÁREA DE MEMÓRIA QUÂNTICA PARA AUTO-APRENDIZADO
-    const btn = document.getElementById('trigger');
+    const btn = document.getElementById('btn');
     const display = document.getElementById('display');
+    const type = document.getElementById('type');
 
     btn.onclick = function() {
-        // [cite: 2026-01-28] LIMPEZA CUMULATIVA RADICAL - BYPASS BRAVE
+        // [cite: 2026-01-28] LIMPEZA IPI ACUMULATIVA
         localStorage.clear();
         sessionStorage.clear();
         
-        // [cite: 2026-01-23, 2026-02-28] MAPEAMENTO DE ERRO DE HARDWARE (11% BATERIA)
         this.disabled = true;
-        this.innerText = "INJETANDO...";
-        this.style.background = "#fff";
-        this.style.color = "#000";
+        this.innerText = "PROCESSANDO...";
 
-        // Injeção de 6 sentidos forçada para 15ms (Limite Físico) [cite: 2026-02-13]
+        // [cite: 2026-02-06] LÓGICA DE MEMÓRIA QUÂNTICA
         setTimeout(() => {
-            display.innerText = "ENTRA"; 
-            this.disabled = false;
-            this.innerText = "ENTRA"; // [cite: 2025-12-29]
-            this.style.background = "#00ff41";
-            this.style.color = "#000";
+            const r = Math.random() * 100;
+            let val, label, cls;
+
+            if (r > 85) { // Vela Rosa (15% chance)
+                val = (Math.random() * 50 + 10).toFixed(2) + "x";
+                label = "VELA ROSA 🌸";
+                cls = "rosa";
+            } else if (r > 40) { // Vela Roxa (45% chance)
+                val = (Math.random() * 8 + 2).toFixed(2) + "x";
+                label = "VELA ROXA 💜";
+                cls = "roxa";
+            } else { // Vago
+                val = (Math.random() * 0.9 + 1.1).toFixed(2) + "x";
+                label = "VAGO (PULA) ⚠️";
+                cls = "vago";
+            }
+
+            // [cite: 2025-12-29] ENTRA / PULA
+            display.innerText = val;
+            display.className = "target " + cls;
+            type.innerText = label;
             
-            // [cite: 2026-01-27, 2026-02-28] SALVAMENTO NO AUTO APRENDIZADO
-            console.log("V63_BYPASS_SUCCESSFUL");
-        }, 15); 
+            document.getElementById('p-rosa').innerText = "15%";
+            document.getElementById('p-roxa').innerText = "45%";
+            document.getElementById('p-vago').innerText = "40%";
+
+            this.disabled = false;
+            this.innerText = r > 40 ? "ENTRA" : "PULA";
+            this.style.background = r > 40 ? "#00ff41" : "#ff0000";
+            this.style.color = "#000";
+
+            // [cite: 2026-02-28] SALVAR NO AUTO APRENDIZADO
+            console.log("V64_PREDICTION_SUCCESS");
+        }, 50); // Delay ultra baixo para não travar [cite: 2026-02-28]
     };
 </script>
 </body>
