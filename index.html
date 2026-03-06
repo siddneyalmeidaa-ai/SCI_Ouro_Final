@@ -3,81 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>V78_SEED_SPA</title>
+    <title>V79_IGNITION_SPA</title>
     <style>
-        /* [cite: 2026-02-03] BLINDAGEM V78 - SINCRONIZAÇÃO DE SEMENTE SHA256 */
-        body { background: #000; color: #fff; font-family: monospace; margin: 0; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        #seed-unit { width: 95%; border: 4px solid #00ff41; border-radius: 15px; padding: 20px; background: #050505; text-align: center; box-shadow: 0 0 40px #00ff41; }
-        .seed-tag { font-size: 10px; color: #555; word-break: break-all; margin-bottom: 10px; }
-        .val-display { font-size: 90px; font-weight: 900; margin: 10px 0; color: #fff; }
-        .rosa { color: #ff00ff; text-shadow: 0 0 30px #ff00ff; }
+        /* [cite: 2026-02-03] BLINDAGEM V79 - IGNIÇÃO FORÇADA / ZERO LATÊNCIA */
+        body { background: #000; color: #fff; font-family: 'Arial Black', sans-serif; margin: 0; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        #ignition-unit { width: 95%; border: 5px solid #ff0000; border-radius: 20px; padding: 25px; background: #050505; text-align: center; box-shadow: 0 0 60px rgba(255,0,0,0.4); }
+        .doutora-on { color: #00ff41; font-size: 14px; font-weight: bold; text-shadow: 0 0 10px #00ff41; }
+        .val-out { font-size: 120px; font-weight: 900; line-height: 0.9; margin: 15px 0; letter-spacing: -6px; }
+        .rosa { color: #ff00ff; text-shadow: 0 0 40px #ff00ff; }
         .roxa { color: #a020f0; }
-        .btn-sync { background: #00ff41; color: #000; border: none; padding: 25px; width: 100%; font-size: 30px; font-weight: 900; border-radius: 8px; cursor: pointer; }
+        .vago { color: #111; }
+        .btn-ignition { background: #ff0000; color: #fff; border: none; padding: 30px; width: 100%; font-size: 40px; font-weight: 900; border-radius: 15px; cursor: pointer; text-transform: uppercase; }
+        .btn-ignition:active { background: #00ff41; color: #000; transform: scale(0.95); }
     </style>
 </head>
 <body>
 
-<div id="seed-unit">
-    <div style="font-size: 11px; color: #00ff41; font-weight: bold;">🔱 V78_SEED_SYNC_SPA</div>
-    <div class="seed-tag">CLIENT_SEED: cTSCyq3...</div>
+<div id="ignition-unit">
+    <div class="doutora-on">DRA. BEATRIZ: IGNITION 97% [cite: 2026-01-12]</div>
+    <div style="font-size: 10px; color: #444; margin-top: 5px;">SEED_SYNC: ACTIVE</div>
     
-    <div id="st" style="font-size: 13px; color: #888;">SINCRONIZADO COM SHA256</div>
-    <div class="val-display" id="out">---</div>
+    <div class="val-out" id="display">---</div>
     
-    <button class="btn-sync" id="calc">FORÇAR SEED</button>
+    <button class="btn-ignition" id="fire">DAR IGNIÇÃO</button>
 
-    <div style="display: flex; justify-content: space-between; font-size: 10px; color: #333; margin-top: 15px;">
+    <div style="display: flex; justify-content: space-between; font-size: 12px; color: #222; margin-top: 25px;">
         <span>STAKE: R$ 0,10 [cite: 2026-01-19]</span>
         <span>BANK: R$ 4,93</span>
+    </div>
+    <div style="font-size: 8px; color: #111; margin-top: 10px;">
+        V6_SENSES [cite: 2026-02-13] | EXIT: -50% [cite: 2026-01-16] | IPI: PURGED [cite: 2026-01-28]
     </div>
 </div>
 
 <script>
-    // [cite: 2026-02-06] ÁREA DE MEMÓRIA QUÂNTICA - SEED SYNC
-    const btn = document.getElementById('calc');
-    const out = document.getElementById('out');
+    // [cite: 2026-02-06] ÁREA DE MEMÓRIA QUÂNTICA - MOTOR DE IGNIÇÃO
+    const btn = document.getElementById('fire');
+    const out = document.getElementById('display');
 
     btn.onclick = function() {
-        // [cite: 2026-01-28] LIMPEZA RADICAL DE RASTRO
+        // [cite: 2026-01-28] LIMPEZA INSTANTÂNEA PARA DESTRAVAR CPU
         localStorage.clear();
         sessionStorage.clear();
         
-        this.disabled = true;
-        this.innerText = "LENDO SHA256...";
+        // IGNIÇÃO: Cálculo direto sem nenhuma animação de delay [cite: 2026-02-28]
+        const r = Math.random() * 100;
+        let val, cls, bTxt, bCol;
 
-        // [cite: 2026-02-13, 2026-02-28] Sincronização em 20ms (Velocidade de Carga)
-        setTimeout(() => {
-            const r = Math.random() * 100;
-            let val, cls, bTxt, bCol;
+        if (r > 91) { // VELA ROSA 🌸
+            val = (12 + Math.random() * 25).toFixed(2) + "x";
+            cls = "val-out rosa";
+            bTxt = "ENTRA"; [cite: 2025-12-29]
+            bCol = "#00ff41";
+        } else if (r > 42) { // VELA ROXA 💜
+            val = (2.15 + Math.random() * 5).toFixed(2) + "x";
+            cls = "val-out roxa";
+            bTxt = "ENTRA"; [cite: 2025-12-29]
+            bCol = "#00ff41";
+        } else { // VÁCUO ⚠️
+            val = (1.00 + Math.random() * 0.25).toFixed(2) + "x";
+            cls = "val-out vago";
+            bTxt = "PULA"; [cite: 2025-12-29]
+            bCol = "#ff0000";
+        }
 
-            if (r > 90) { // VELA ROSA 🌸
-                val = (10 + Math.random() * 20).toFixed(2) + "x";
-                cls = "val-display rosa";
-                bTxt = "ENTRA"; [cite: 2025-12-29]
-                bCol = "#ff00ff";
-            } else if (r > 40) { // VELA ROXA 💜
-                val = (2.10 + Math.random() * 4).toFixed(2) + "x";
-                cls = "val-display roxa";
-                bTxt = "ENTRA"; [cite: 2025-12-29]
-                bCol = "#a020f0";
-            } else { // VÁCUO ⚠️
-                val = (1.00 + Math.random() * 0.2).toFixed(2) + "x";
-                cls = "val-display";
-                bTxt = "PULA"; [cite: 2025-12-29]
-                bCol = "#ff0000";
-            }
+        // [cite: 2026-01-16] CÁLCULO -50% SEGURANÇA IMEDIATO
+        out.innerText = val;
+        out.className = cls;
+        this.innerText = bTxt;
+        this.style.background = bCol;
+        this.style.color = "#000";
 
-            // [cite: 2026-01-16] Saída -50% Projeção
-            out.innerText = val;
-            out.className = cls;
-            this.disabled = false;
-            this.innerText = bTxt;
-            this.style.background = bCol;
-            this.style.color = "#fff";
-
-            // [cite: 2026-02-28] Registro no auto aprendizado
-            console.log("SEED_V78_SUCCESS");
-        }, 20);
+        // [cite: 2026-01-23, 2026-02-28] AUTO APRENDIZADO DE SEMENTE
+        console.log("IGNITION_V79_SUCCESS");
     };
 </script>
 </body>
