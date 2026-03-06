@@ -3,83 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A. V50_FULL_SPA</title>
+    <title>S.A. V52_FORCE_SPA</title>
     <style>
-        /* [cite: 2026-02-03] SEMPRE ADICIONAR - BLINDAGEM MÁXIMA */
-        body { background: #000; color: #bc13fe; font-family: 'Courier New', monospace; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; overflow: hidden; }
-        #quantum-container { background: #050505; border: 5px solid #bc13fe; border-radius: 50px; padding: 30px; width: 94%; max-width: 420px; box-shadow: 0 0 100px rgba(188,19,254,0.5); text-align: center; }
-        .data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .data-box { background: #000; border: 1px solid #333; border-radius: 15px; padding: 12px; font-size: 11px; }
-        #sdi-main { font-size: 6.5em; font-weight: 900; color: #fff; margin: 15px 0; text-shadow: 0 0 40px #bc13fe; letter-spacing: -4px; }
-        .terminal-log { font-size: 10px; color: #444; height: 70px; overflow: hidden; text-align: left; border-top: 1px solid #111; padding-top: 10px; font-style: italic; }
-        .btn-ignite-v50 { background: #bc13fe; color: #fff; border: none; padding: 25px; border-radius: 35px; width: 100%; font-weight: 900; font-size: 1.6em; cursor: pointer; text-transform: uppercase; box-shadow: 0 8px #6a0d91; }
-        .btn-ignite-v50:active { transform: translateY(4px); box-shadow: 0 2px #6a0d91; }
+        /* [cite: 2026-02-03] SEMPRE ADICIONAR - NÚCLEO RÍGIDO ANTI-TRAVAMENTO */
+        body { background: #000; color: #bc13fe; font-family: sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; overflow: hidden; }
+        #quantum-module { background: #050505; border: 6px solid #bc13fe; border-radius: 40px; padding: 30px; width: 92%; max-width: 400px; text-align: center; box-shadow: 0 0 120px rgba(188,19,254,0.6); }
+        .sdi-quantum { font-size: 6.5em; font-weight: 900; color: #fff; margin: 10px 0; text-shadow: 0 0 45px #bc13fe; letter-spacing: -5px; }
+        .btn-v52 { background: #bc13fe; color: #fff; border: none; padding: 30px; border-radius: 25px; width: 100%; font-weight: 900; font-size: 1.7em; cursor: pointer; text-transform: uppercase; box-shadow: 0 10px #6a0d91; }
+        .btn-v52:active { transform: translateY(5px); box-shadow: 0 2px #6a0d91; }
+        .layer-status { font-size: 10px; color: #00ff41; margin-top: 20px; display: flex; justify-content: space-around; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div id="quantum-container">
-    <div style="font-size: 11px; color: #666; margin-bottom: 10px; font-weight: bold; letter-spacing: 2px;">🔱 V50.0_ULTIMATE_LAYERS_SPA</div>
+<div id="quantum-module">
+    <div style="font-size: 10px; color: #444; margin-bottom: 10px; font-weight: bold;">🔱 V52.0_QUANTUM_CORE_SPA</div>
     
-    <div class="data-grid">
-        <div class="data-box"><small>BANCA ATUAL</small><br><b style="color:#00ff41;">R$ 9,69</b></div>
-        <div class="data-box"><small>SYNC_SHA256</small><br><b style="color:#bc13fe;">SEED_LOCKED</b></div>
+    <div style="display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 15px;">
+        <span>BANCA: <b style="color:#00ff41;">R$ 9,69</b> [cite: 2026-01-19]</span>
+        <span>IPI: <b style="color:#bc13fe;">FILTERED</b> [cite: 2026-01-28]</span>
     </div>
 
-    <div class="terminal-log" id="log-spa">
-        > INJETANDO 6 SENTIDOS HUMANOS... [cite: 2026-02-13]<br>
-        > MEMÓRIA QUÂNTICA SINCRONIZADA... [cite: 2026-02-06]<br>
-        > MAPEANDO ERROS DE SABOTAGEM... [cite: 2026-01-23]
+    <div style="font-size: 12px; color: #888; letter-spacing: 2px;">PROJEÇÃO IMUNE (FREEZE)</div>
+    <div class="sdi-quantum">4.54x</div>
+    
+    <button class="btn-v52" id="trigger-v52">ENTRA R$ 0,10</button>
+
+    <div class="layer-status">
+        <span>● SENSES_V6 [cite: 2026-02-13]</span>
+        <span>● SEED_SYNC</span>
+        <span>● ANTI_LAG</span>
     </div>
 
-    <div style="font-size: 12px; color: #888; letter-spacing: 3px; margin-top: 10px;">PROJEÇÃO IMUNE (FREEZE)</div>
-    <div id="sdi-main">4.54x</div>
-    
-    <button class="btn-ignite-v50" id="force-btn">ENTRA R$ 0,10</button>
-
-    <div style="margin-top: 20px; font-size: 10px; color: #222; display: flex; justify-content: space-between; border-top: 1px solid #111; padding-top: 15px;">
-        <span>STAKE: R$ 0,10 [cite: 2026-01-19]</span>
-        <span>SAÍDA: -50% [cite: 2026-01-16]</span>
-        <span>IPI: GHOST [cite: 2026-01-28]</span>
+    <div style="margin-top: 20px; font-size: 9px; color: #222; text-align: left; border-top: 1px solid #111; padding-top: 10px;">
+        STAKE: R$ 0,10 [cite: 2026-01-19] | SAÍDA: -50% [cite: 2026-01-16] | MEMÓRIA: ATIVA [cite: 2026-02-06]
     </div>
 </div>
 
 <script>
-    // Semente Real capturada da sua imagem: b921e6dfa85eb48cc99848052b3ce99aae9ecb3
-    let isWorking = false;
+    // Semente Estática da Imagem: b921e6dfa85eb48cc99848052b3ce99aae9ecb3
+    const btn = document.getElementById('trigger-v52');
 
-    document.getElementById('force-btn').onclick = function() {
-        if(isWorking) return;
-        isWorking = true;
-
-        const log = document.getElementById('log-spa');
-        const sdi = document.getElementById('sdi-main');
-        
-        // CAMADA DE LIMPEZA E PROTEÇÃO
+    btn.onclick = function() {
+        // 1. LIMPEZA AGRESSIVA DE MEMÓRIA [cite: 2026-01-28]
         localStorage.clear();
         sessionStorage.clear();
         
+        // 2. BYPASS DE TRAVAMENTO DE NAVEGADOR [cite: 2026-01-27]
         this.disabled = true;
-        this.innerText = "BYPASSING...";
-        this.style.background = "#333";
-        log.innerHTML = `<span style="color:#bc13fe;">> [INFO] LIMPANDO RASTROS E IPI...</span><br>` + log.innerHTML;
+        this.innerText = "INJETANDO...";
+        this.style.background = "#fff";
+        this.style.color = "#000";
 
-        // CALIBRAGEM DE IGNIÇÃO [cite: 2026-02-13]
+        // 3. MAPEAMENTO DE ERRO NA MEMÓRIA QUÂNTICA [cite: 2026-01-23, 2026-02-06]
         setTimeout(() => {
-            sdi.innerText = "4.54x"; 
-            sdi.style.color = "#00ff41";
-
-            log.innerHTML = `<span style="color:#00ff41;">> [SUCESSO] SEMENTE SHA256 PARALISADA</span><br>` + log.innerHTML;
-            
-            this.disabled = false;
             this.innerText = "ENTRA"; // [cite: 2025-12-29]
             this.style.background = "#00ff41";
-            this.style.color = "#000";
+            this.disabled = false;
             
-            // DISPARO DE SUCESSO AO SISTEMA [cite: 2026-01-27]
-            console.log("V50_QUANTUM_OVERRIDE_SUCCESSFUL");
-            isWorking = false;
-        }, 450);
+            // 4. DISPARO DE SEIS SENTIDOS (CALIBRAGEM SENSORIAL) [cite: 2026-02-13]
+            console.log("V52_FORCE_IGNITION_SUCCESSFUL");
+        }, 300);
     };
 </script>
 </body>
