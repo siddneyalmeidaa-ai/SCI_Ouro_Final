@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>S.A._STABLE_ULTIMATE_V83</title>
+    <title>S.A._V83_GHOST_SEED_LOCK_ULTIMATE</title>
     <style>
+        /* [BLINDAGEM E SOBERANIA S.A.] */
         * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; outline: none; }
         body { background: #000; color: #d0d0d0; font-family: 'Courier New', monospace; margin: 0; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
         #main-shell { flex: 1; display: flex; flex-direction: column; padding: 15px; border: 4px solid #111; filter: grayscale(1) contrast(1.1); }
@@ -28,11 +29,11 @@
 </head>
 <body>
 <div id="main-shell">
-    <div class="sa-header"><span>SYNC_3ZHqwBY0s9...</span><span>15:35</span></div>
+    <div class="sa-header"><span>SYNC_3ZHqwBY0s9...</span><span>15:47</span></div>
     <div class="quantum-display">
-        <div class="status-ghost" id="ghost-status">ESTADO_ESTÁVEL</div>
+        <div class="status-ghost" id="ghost-status">AGUARDANDO_DECIFRAGEM</div>
         <div class="val-sa" id="val-sa">0.00x</div>
-        <button class="btn-sa" id="btn-fire">DECIFRAR PRÓXIMA</button>
+        <button class="btn-sa" id="btn-fire">VERIFICAR RODADA</button>
     </div>
     <div class="favelinha-box">
         <table>
@@ -42,18 +43,18 @@
     </div>
     <div class="sa-footer">
         <span>STK: R$ 0,10 / R$ 0,20 / R$ 1,00</span>
-        <span onclick="document.getElementById('ipi-modal').style.display='block'">[ IPI_SFN_STABLE ]</span>
+        <span onclick="document.getElementById('ipi-modal').style.display='block'">[ IPI_STABLE_V2 ]</span>
         <span>BNK: R$ 54,22</span>
     </div>
 </div>
 
 <div id="ipi-modal" onclick="this.style.display='none'">
-    <h2 style="color:#fff; font-size:14px; border-bottom:1px solid #222; padding-bottom:10px;">SFN / IPI / ANTI-MONITORAMENTO</h2>
+    <h2 style="color:#fff; font-size:14px; border-bottom:1px solid #222; padding-bottom:10px;">SFN / IPI / TRAVA DE SEMENTE</h2>
     <p style="color:#444; font-size:12px; line-height:1.6;">
-        <b>TRAVA DE ESTADO:</b> Bloqueia oscilação visual.<br><br>
-        <b>JITTER HUMANO:</b> 750ms-1100ms variáveis.<br><br>
-        <b>RECUO ESTRATÉGICO:</b> Reset de rastro após vácuos.<br><br>
-        <b>3ZH:</b> Semente sincronizada (3ZHqwBY...).
+        <b>SINGLE SEED LOCK:</b> Impede que o resultado mude ao clicar várias vezes. O resultado é único por rodada.<br><br>
+        <b>JITTER HUMANO:</b> 750ms-1100ms variáveis para evitar corte de servidor.<br><br>
+        <b>RECUO ESTRATÉGICO:</b> Força 'PULA' após vácuo acumulado.<br><br>
+        <b>3ZH:</b> Sincronia de semente cliente.
     </p>
 </div>
 
@@ -67,6 +68,7 @@
 
         let isCalculating = false;
         let vacuumCount = 0;
+        let currentRoundSeed = null; // Trava de semente única
 
         function purge() {
             try {
@@ -98,36 +100,59 @@
         }
 
         b.addEventListener('click', () => {
+            // Se já calculou esta rodada, não muda o resultado!
             if (isCalculating) return;
-            isCalculating = true; b.disabled = true;
+            
+            isCalculating = true; 
+            b.disabled = true;
             v.style.opacity = "0.3";
+            
             const jitter = Math.floor(Math.random() * (1100 - 750 + 1)) + 750;
-            s.innerText = "BLOQUEANDO_RASTREIO_IP...";
+            s.innerText = "ESTABILIZANDO_SEMENTE_ÚNICA...";
             purge();
 
             setTimeout(() => {
-                const r = Math.random();
-                let raw, col;
-                if (vacuumCount >= 3) {
-                    raw = 1.00; col = "#222"; s.innerText = "RECUO_ESTRATÉGICO_ATIVO";
-                    vacuumCount = 0;
-                } else if (r > 0.92) { 
-                    raw = (80 + Math.random()*150); col = "#ff00ff"; s.innerText = "3ZH_ROSA_DETECTADA";
-                    vacuumCount = 0;
-                } else if (r > 0.55) { 
-                    raw = (2.8 + Math.random()*7); col = "#fff"; s.innerText = "SINAL_ESTABILIZADO";
-                    vacuumCount = 0;
-                } else { 
-                    raw = (1.0 + Math.random()*0.15); col = "#222"; s.innerText = "VÁCUO_PULA_CONFIRMADO";
-                    vacuumCount++;
+                // Semente única: se o resultado já existe para esta 'instância', ele não muda
+                if (!currentRoundSeed) {
+                    const r = Math.random();
+                    let raw, col, status;
+
+                    if (vacuumCount >= 3) {
+                        raw = 1.00; col = "#222"; status = "RECUO_ESTRATÉGICO"; vacuumCount = 0;
+                    } else if (r > 0.92) { 
+                        raw = (80 + Math.random()*150); col = "#ff00ff"; status = "ROSA_3ZH_CONFIRMADA"; vacuumCount = 0;
+                    } else if (r > 0.55) { 
+                        raw = (2.8 + Math.random()*7); col = "#fff"; status = "ENTRADA_SEGURA"; vacuumCount = 0;
+                    } else { 
+                        raw = (1.0 + Math.random()*0.15); col = "#222"; status = "VÁCUO_DETECTADO"; vacuumCount++;
+                    }
+                    
+                    currentRoundSeed = { raw, col, status };
                 }
-                const final = (raw * 0.5).toFixed(2);
-                v.innerText = final + "x"; v.style.color = col; v.style.opacity = "1";
+
+                const res = currentRoundSeed;
+                const final = (res.raw * 0.5).toFixed(2);
+                
+                v.innerText = final + "x";
+                v.style.color = res.col;
+                v.style.opacity = "1";
+                s.innerText = res.status;
                 b.innerText = final >= 1.50 ? atob(_K.E) : atob(_K.P);
-                render(raw);
-                isCalculating = false; b.disabled = false;
+                render(res.raw);
+                
+                // O botão volta a ser clicável, mas a semente só reseta se você "mudar de rodada"
+                // Simulamos o reset após 8 segundos (tempo médio de uma rodada)
+                setTimeout(() => { 
+                    currentRoundSeed = null; 
+                    isCalculating = false; 
+                    b.disabled = false;
+                    b.innerText = "VERIFICAR PRÓXIMA";
+                    s.innerText = "SISTEMA_AGUARDANDO";
+                }, 8000);
+
             }, jitter);
         });
+
         render(0);
     })();
 </script>
