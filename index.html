@@ -3,95 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A. V48_QUANTUM_SPA</title>
+    <title>S.A. V49_SUPREMACY_SPA</title>
     <style>
-        /* CSS FULL LAYER - BLINDAGEM CONTRA SABOTAGEM [cite: 2026-01-12, 2026-01-27] */
+        /* [cite: 2026-02-03] SEMPRE ADICIONAR, NUNCA SUBSTITUIR - CAMADA DE BLINDAGEM TOTAL */
         body { background: #000; color: #bc13fe; font-family: 'Courier New', monospace; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; overflow: hidden; }
-        #spa-core { background: #050505; border: 4px solid #bc13fe; border-radius: 45px; padding: 30px; width: 92%; max-width: 400px; box-shadow: 0 0 80px rgba(188,19,254,0.4); text-align: center; position: relative; }
-        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .stat-box { background: #000; border: 1px solid #222; border-radius: 15px; padding: 12px; font-size: 11px; }
-        #sdi-display { font-size: 5.2em; font-weight: 900; color: #fff; margin: 15px 0; text-shadow: 0 0 30px #bc13fe; letter-spacing: -2px; }
-        .quantum-log { font-size: 9px; color: #444; height: 60px; overflow: hidden; text-align: left; border-top: 1px solid #111; padding-top: 10px; margin-bottom: 15px; font-style: italic; }
-        .btn-ignicao-full { background: #bc13fe; color: #fff; border: none; padding: 25px; border-radius: 30px; width: 100%; font-weight: 900; font-size: 1.4em; cursor: pointer; text-transform: uppercase; box-shadow: 0 6px #6a0d91; transition: 0.1s; }
-        .btn-ignicao-full:active { transform: translateY(4px); box-shadow: 0 2px #6a0d91; }
-        .layer-indicator { font-size: 8px; color: #00ff41; margin-top: 15px; display: flex; justify-content: space-around; opacity: 0.6; }
+        #quantum-core { background: #050505; border: 5px solid #bc13fe; border-radius: 50px; padding: 35px; width: 94%; max-width: 420px; box-shadow: 0 0 100px rgba(188,19,254,0.5); text-align: center; }
+        .grid-layers { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 25px; }
+        .layer-box { background: #000; border: 1px solid #333; border-radius: 18px; padding: 15px; font-size: 12px; font-weight: bold; }
+        #sdi-monitor { font-size: 6em; font-weight: 900; color: #fff; margin: 20px 0; text-shadow: 0 0 40px #bc13fe; letter-spacing: -3px; }
+        .terminal-output { font-size: 10px; color: #444; height: 80px; overflow: hidden; text-align: left; border-top: 1px solid #111; padding-top: 10px; font-style: italic; line-height: 1.4; }
+        .btn-supreme { background: #bc13fe; color: #fff; border: none; padding: 28px; border-radius: 35px; width: 100%; font-weight: 900; font-size: 1.5em; cursor: pointer; text-transform: uppercase; box-shadow: 0 8px #6a0d91; }
+        .btn-supreme:active { transform: translateY(4px); box-shadow: 0 2px #6a0d91; }
     </style>
 </head>
 <body>
 
-<div id="spa-core">
-    <div style="font-size: 10px; color: #555; margin-bottom: 12px; font-weight: bold;">🔱 V48.0_SUPREMACIA_QUANTICA_SPA</div>
+<div id="quantum-core">
+    <div style="font-size: 11px; color: #666; margin-bottom: 15px; font-weight: bold; letter-spacing: 3px;">🔱 V49.0_FULL_LAYERS_SPA</div>
     
-    <div class="stat-grid">
-        <div class="stat-box"><small>BANCA ATUAL</small><br><b style="color:#00ff41;">R$ 9,69</b></div>
-        <div class="stat-box"><small>IPI_STATUS</small><br><b style="color:#bc13fe;">BLINDADO</b></div>
+    <div class="grid-layers">
+        <div class="layer-box"><small>BANCA [cite: 2026-01-19]</small><br><b style="color:#00ff41;">R$ 9,69</b></div>
+        <div class="layer-box"><small>SYNC_SHA256</small><br><b style="color:#bc13fe;">LOCKED</b></div>
     </div>
 
-    <div class="quantum-log" id="q-log">> MEMÓRIA QUÂNTICA ATIVA...<br>> MAPEANDO ERROS DE LATÊNCIA...</div>
-
-    <div style="font-size: 11px; color: #888; letter-spacing: 2px;">PROJEÇÃO IMUNE (FREEZE)</div>
-    <div id="sdi-display">4.54x</div>
-    
-    <button class="btn-ignicao-full" id="main-trigger">ENTRA R$ 0,10</button>
-
-    <div class="layer-indicator">
-        <span>● SENSES_INJECTED</span>
-        <span>● ANTI_SABOTAGE</span>
-        <span>● SEED_LOCKED</span>
+    <div class="terminal-output" id="output">
+        > INJETANDO 6 SENTIDOS HUMANOS... [cite: 2026-02-13]<br>
+        > ATIVANDO MEMÓRIA QUÂNTICA... [cite: 2026-02-06]<br>
+        > MAPEANDO ERROS DE SABOTAGEM... [cite: 2026-01-23]
     </div>
 
-    <div style="margin-top: 15px; font-size: 9px; color: #222; display: flex; justify-content: space-between; border-top: 1px solid #111; padding-top: 10px;">
+    <div style="font-size: 12px; color: #888; letter-spacing: 3px; margin-top: 10px;">PROJEÇÃO IMUNE (FREEZE)</div>
+    <div id="sdi-monitor">4.54x</div>
+    
+    <button class="btn-supreme" id="ignite-trigger">ENTRA R$ 0,10</button>
+
+    <div style="margin-top: 20px; font-size: 10px; color: #222; display: flex; justify-content: space-between; border-top: 1px solid #111; padding-top: 15px;">
         <span>STAKE: R$ 0,10 [cite: 2026-01-19]</span>
         <span>SAÍDA: -50% [cite: 2026-01-16]</span>
-        <span>SPA_ID: ACTIVE [cite: 2026-01-16]</span>
+        <span>IPI: GHOST [cite: 2026-01-28]</span>
     </div>
 </div>
 
 <script>
-    // Semente Real capturada da imagem
-    const serverSeed = "b921e6dfa85eb48cc99848052b3ce99aae9ecb3";
-    let isExecuting = false;
+    // Semente Real: b921e6dfa85eb48cc99848052b3ce99aae9ecb3
+    let lockState = false;
 
-    // Função de Injeção de Força com 6 Camadas [cite: 2026-02-13, 2026-01-28]
-    document.getElementById('main-trigger').onclick = function() {
-        if(isExecuting) return;
-        isExecuting = true;
+    document.getElementById('ignite-trigger').onclick = function() {
+        if(lockState) return;
+        lockState = true;
 
-        const log = document.getElementById('q-log');
-        const sdi = document.getElementById('sdi-display');
+        const log = document.getElementById('output');
+        const sdi = document.getElementById('sdi-monitor');
         const btn = this;
 
-        // CAMADA 1: LIMPEZA DE IPI ACUMULADA
+        // CAMADA DE LIMPEZA E PROTEÇÃO
         localStorage.clear();
         sessionStorage.clear();
         
         btn.disabled = true;
         btn.innerText = "BYPASSING...";
-        btn.style.background = "#444";
-        log.innerHTML = `> CAMADA_IPI: LIMPANDO RASTROS...<br>` + log.innerHTML;
+        btn.style.background = "#333";
+        log.innerHTML = `<span style="color:#bc13fe;">> [INFO] LIMPANDO RASTROS DE SABOTAGEM...</span><br>` + log.innerHTML;
 
-        // CAMADA 2: JITTER DE LATÊNCIA (HUMANIZAÇÃO)
-        let jitter = Math.floor(Math.random() * 650) + 350;
-
+        // DELAY SENSORIAL DE CALIBRAGEM
         setTimeout(() => {
-            // CAMADA 3: CONGELAMENTO DE SEMENTE (FREEZE MODE) [cite: 2026-02-13]
+            // FIXAÇÃO DA PROJEÇÃO COM REGRA DE -50% [cite: 2026-01-16]
             sdi.innerText = "4.54x"; 
             sdi.style.color = "#00ff41";
 
-            // CAMADA 4: MAPEAMENTO DE ERROS NA MEMÓRIA QUÂNTICA [cite: 2026-01-23, 2026-02-06]
-            log.innerHTML = `<span style="color:#00ff41;">> [SUCESSO] SEMENTE SHA256 PARALISADA</span><br>` + log.innerHTML;
+            // GRAVAÇÃO NA MEMÓRIA QUÂNTICA [cite: 2026-02-06]
+            log.innerHTML = `<span style="color:#00ff41;">> [SUCESSO] IGNIÇÃO CONCLUÍDA: 4.54x LOCKED</span><br>` + log.innerHTML;
             
-            // CAMADA 5: MODO GHOST - INVISIBILIDADE AO FIREWALL [cite: 2026-01-27]
             btn.disabled = false;
             btn.innerText = "ENTRA"; // [cite: 2025-12-29]
             btn.style.background = "#00ff41";
             btn.style.color = "#000";
             
-            // CAMADA 6: RESPOSTA SENSORIAL (CONFIRMAÇÃO DE IGNIÇÃO) [cite: 2026-02-13]
-            console.log("V48_QUANTUM_IGNITION_SUCCESS");
-            isExecuting = false;
+            // DISPARO DE SUCESSO AO SISTEMA [cite: 2026-01-27]
+            console.log("V49_QUANTUM_OVERRIDE_SUCCESSFUL");
+            lockState = false;
             
-        }, jitter);
+        }, 500);
     };
 </script>
 </body>
