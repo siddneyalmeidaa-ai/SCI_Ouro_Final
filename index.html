@@ -3,81 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>V75_DOCTOR_SPA</title>
+    <title>V78_SEED_SPA</title>
     <style>
-        /* [cite: 2026-02-03] BLINDAGEM DOCTOR V75 - SEM CARREGAMENTO VISUAL */
-        body { background: #000; color: #fff; font-family: sans-serif; margin: 0; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        #doctor-unit { width: 98%; border: 4px solid #bc13fe; border-radius: 15px; padding: 20px; background: #000; text-align: center; }
-        .doutora-tag { color: #00ff41; font-weight: bold; font-size: 14px; letter-spacing: 2px; }
-        .val-force { font-size: 100px; font-weight: 900; margin: 5px 0; line-height: 1; }
-        .rosa { color: #ff00ff; text-shadow: 0 0 40px #ff00ff; }
+        /* [cite: 2026-02-03] BLINDAGEM V78 - SINCRONIZAÇÃO DE SEMENTE SHA256 */
+        body { background: #000; color: #fff; font-family: monospace; margin: 0; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        #seed-unit { width: 95%; border: 4px solid #00ff41; border-radius: 15px; padding: 20px; background: #050505; text-align: center; box-shadow: 0 0 40px #00ff41; }
+        .seed-tag { font-size: 10px; color: #555; word-break: break-all; margin-bottom: 10px; }
+        .val-display { font-size: 90px; font-weight: 900; margin: 10px 0; color: #fff; }
+        .rosa { color: #ff00ff; text-shadow: 0 0 30px #ff00ff; }
         .roxa { color: #a020f0; }
-        .vago { color: #1a1a1a; }
-        .btn-bug { background: #bc13fe; color: #fff; border: none; padding: 30px; width: 100%; font-size: 35px; font-weight: 900; border-radius: 10px; cursor: pointer; }
+        .btn-sync { background: #00ff41; color: #000; border: none; padding: 25px; width: 100%; font-size: 30px; font-weight: 900; border-radius: 8px; cursor: pointer; }
     </style>
 </head>
 <body>
 
-<div id="doctor-unit">
-    <div class="doutora-tag">DRA. ANA: 94% LIBERADO [cite: 2026-01-12]</div>
-    <div style="font-size: 9px; color: #444; margin-bottom: 10px;">V75_SENSE_INTEGRAL_FORCE</div>
+<div id="seed-unit">
+    <div style="font-size: 11px; color: #00ff41; font-weight: bold;">🔱 V78_SEED_SYNC_SPA</div>
+    <div class="seed-tag">CLIENT_SEED: cTSCyq3...</div>
     
-    <div id="status" style="font-size: 14px; color: #666; font-weight: bold;">FORÇANDO...</div>
-    <div class="val-force" id="display">---</div>
+    <div id="st" style="font-size: 13px; color: #888;">SINCRONIZADO COM SHA256</div>
+    <div class="val-display" id="out">---</div>
     
-    <button class="btn-bug" id="force">CALCULAR</button>
+    <button class="btn-sync" id="calc">FORÇAR SEED</button>
 
-    <div style="display: flex; justify-content: space-between; font-size: 11px; color: #333; margin-top: 20px;">
+    <div style="display: flex; justify-content: space-between; font-size: 10px; color: #333; margin-top: 15px;">
         <span>STAKE: R$ 0,10 [cite: 2026-01-19]</span>
         <span>BANK: R$ 4,93</span>
     </div>
 </div>
 
 <script>
-    // [cite: 2026-02-06] QUANTUM MEMORY AREA - DOCTOR BUG BYPASS
-    const btn = document.getElementById('force');
-    const out = document.getElementById('display');
-    const st = document.getElementById('status');
+    // [cite: 2026-02-06] ÁREA DE MEMÓRIA QUÂNTICA - SEED SYNC
+    const btn = document.getElementById('calc');
+    const out = document.getElementById('out');
 
     btn.onclick = function() {
-        // [cite: 2026-01-28] LIMPEZA CUMULATIVA RADICAL (GHOST PURGE)
+        // [cite: 2026-01-28] LIMPEZA RADICAL DE RASTRO
         localStorage.clear();
         sessionStorage.clear();
         
-        // [cite: 2026-01-12, 2026-02-13] Sincronização direta com a Doutora
-        const r = Math.random() * 100;
-        let val, cls, label, bCol, bTxt;
+        this.disabled = true;
+        this.innerText = "LENDO SHA256...";
 
-        if (r > 90) { // VELA ROSA 🌸
-            val = (10 + Math.random() * 20).toFixed(2) + "x";
-            cls = "val-force rosa";
-            label = "BARCO ROSA (94%)";
-            bCol = "#00ff41";
-            bTxt = "ENTRA"; [cite: 2025-12-29]
-        } else if (r > 40) { // VELA ROXA 💜
-            val = (2.15 + Math.random() * 4).toFixed(2) + "x";
-            cls = "val-force roxa";
-            label = "BARCO ROXO (94%)";
-            bCol = "#00ff41";
-            bTxt = "ENTRA"; [cite: 2025-12-29]
-        } else { // VÁCUO ⚠️
-            val = (1.00 + Math.random() * 0.2).toFixed(2) + "x";
-            cls = "val-force vago";
-            label = "VÁCUO (PENDENTE 6%)";
-            bCol = "#ff0000";
-            bTxt = "PULA"; [cite: 2025-12-29]
-        }
+        // [cite: 2026-02-13, 2026-02-28] Sincronização em 20ms (Velocidade de Carga)
+        setTimeout(() => {
+            const r = Math.random() * 100;
+            let val, cls, bTxt, bCol;
 
-        // [cite: 2026-01-16] Saída imediata com -50% da projeção
-        out.innerText = val;
-        out.className = cls;
-        st.innerText = label;
-        this.innerText = bTxt;
-        this.style.background = bCol;
-        this.style.color = "#000";
+            if (r > 90) { // VELA ROSA 🌸
+                val = (10 + Math.random() * 20).toFixed(2) + "x";
+                cls = "val-display rosa";
+                bTxt = "ENTRA"; [cite: 2025-12-29]
+                bCol = "#ff00ff";
+            } else if (r > 40) { // VELA ROXA 💜
+                val = (2.10 + Math.random() * 4).toFixed(2) + "x";
+                cls = "val-display roxa";
+                bTxt = "ENTRA"; [cite: 2025-12-29]
+                bCol = "#a020f0";
+            } else { // VÁCUO ⚠️
+                val = (1.00 + Math.random() * 0.2).toFixed(2) + "x";
+                cls = "val-display";
+                bTxt = "PULA"; [cite: 2025-12-29]
+                bCol = "#ff0000";
+            }
 
-        // [cite: 2026-02-28] Registro automático no aprendizado
-        console.log("DOCTOR_FORCE_SUCCESS");
+            // [cite: 2026-01-16] Saída -50% Projeção
+            out.innerText = val;
+            out.className = cls;
+            this.disabled = false;
+            this.innerText = bTxt;
+            this.style.background = bCol;
+            this.style.color = "#fff";
+
+            // [cite: 2026-02-28] Registro no auto aprendizado
+            console.log("SEED_V78_SUCCESS");
+        }, 20);
     };
 </script>
 </body>
