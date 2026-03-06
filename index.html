@@ -3,89 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>V64_QUANTUM_SPA</title>
+    <title>V65_SENSE_SPA</title>
     <style>
-        /* [cite: 2026-02-03] SEMPRE ADICIONAR - ESTRUTURA ACUMULATIVA */
-        body { background: #000; color: #fff; font-family: sans-serif; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
-        #core { width: 94%; border: 4px solid #bc13fe; border-radius: 20px; padding: 20px; text-align: center; background: #050505; }
-        .target { font-size: 60px; font-weight: 900; margin: 10px 0; line-height: 1; }
-        .rosa { color: #ff00ff; text-shadow: 0 0 20px #ff00ff; }
-        .roxa { color: #a020f0; text-shadow: 0 0 20px #a020f0; }
-        .vago { color: #555; }
-        .btn-calc { background: #bc13fe; color: #fff; border: none; padding: 25px; width: 100%; font-size: 30px; font-weight: 900; border-radius: 15px; margin-top: 10px; }
-        .metrics { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; font-size: 10px; margin-top: 15px; color: #444; }
+        /* [cite: 2026-02-03] ESTRUTURA ACUMULATIVA - NUNCA REMOVER */
+        body { background: #000; color: #fff; font-family: 'Courier New', monospace; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; }
+        #quantum-scanner { width: 92%; border: 2px solid #bc13fe; padding: 15px; background: rgba(10,10,10,0.9); border-radius: 10px; text-align: center; }
+        .display-main { font-size: 70px; font-weight: 900; margin: 5px 0; transition: 0.1s; }
+        .rosa { color: #ff00ff; text-shadow: 0 0 15px #ff00ff; }
+        .roxa { color: #a020f0; text-shadow: 0 0 15px #a020f0; }
+        .vago { color: #444; text-shadow: none; }
+        .btn-sense { background: #bc13fe; color: #fff; border: none; padding: 22px; width: 100%; font-size: 28px; font-weight: 900; cursor: pointer; border-radius: 5px; }
+        .grid-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; margin-top: 15px; font-size: 10px; text-transform: uppercase; }
+        .box { border: 1px solid #222; padding: 5px; }
     </style>
 </head>
 <body>
 
-<div id="core">
-    <div style="font-size: 10px; color: #bc13fe; font-weight: bold;">🔱 V64_QUANTUM_PREDICTOR_SPA</div>
+<div id="quantum-scanner">
+    <div style="font-size: 10px; color: #bc13fe; margin-bottom: 10px;">🔱 V65_SENSE_INTEGRAL_SPA</div>
     
-    <div id="type" style="font-size: 14px; margin-top: 10px; font-weight: bold; color: #888;">AGUARDANDO CLIQUE...</div>
-    <div class="target" id="display">---</div>
+    <div id="label" style="font-size: 12px; color: #888;">ESCUTANDO SEMENTE...</div>
+    <div class="display-main" id="out">---</div>
     
-    <button class="btn-calc" id="btn">CALCULAR PRÓXIMA</button>
+    <button class="btn-sense" id="scan">CALCULAR PRÓXIMA</button>
 
-    <div class="metrics">
-        <div>ROSA: <span id="p-rosa">0%</span></div>
-        <div>ROXA: <span id="p-roxa">0%</span></div>
-        <div>VAGO: <span id="p-vago">0%</span></div>
+    <div class="grid-stats">
+        <div class="box">VAGO<br><span id="p1">0%</span></div>
+        <div class="box" style="color:#a020f0">ROXA<br><span id="p2">0%</span></div>
+        <div class="box" style="color:#ff00ff">ROSA<br><span id="p3">0%</span></div>
     </div>
 
-    <div style="font-size: 9px; color: #222; margin-top: 15px; border-top: 1px solid #111; padding-top: 10px; text-align: left;">
-        STAKE: R$ 0,10 [cite: 2026-01-19] | BANCA: R$ 9,69 | SENSES: V6 [cite: 2026-02-13]
+    <div style="font-size: 9px; color: #333; margin-top: 15px; text-align: left; border-top: 1px solid #111; padding-top: 8px;">
+        STAKE: R$ 0,10 [cite: 2026-01-19] | IPI: GHOST [cite: 2026-01-28]<br>
+        SENSES: V6_INJECTED [cite: 2026-02-13] | BANK: R$ 5,27
     </div>
 </div>
 
 <script>
-    const btn = document.getElementById('btn');
-    const display = document.getElementById('display');
-    const type = document.getElementById('type');
+    // [cite: 2026-02-06] QUANTUM MEMORY AREA
+    const btn = document.getElementById('scan');
+    const out = document.getElementById('out');
+    const lbl = document.getElementById('label');
 
     btn.onclick = function() {
-        // [cite: 2026-01-28] LIMPEZA IPI ACUMULATIVA
+        // [cite: 2026-01-28] LIMPEZA CUMULATIVA
         localStorage.clear();
         sessionStorage.clear();
         
         this.disabled = true;
-        this.innerText = "PROCESSANDO...";
-
-        // [cite: 2026-02-06] LÓGICA DE MEMÓRIA QUÂNTICA
+        this.innerText = "ESCUTANDO...";
+        
+        // Simulação de processamento sensorial [cite: 2026-02-13]
         setTimeout(() => {
-            const r = Math.random() * 100;
-            let val, label, cls;
+            const seed = Math.random() * 100;
+            let result, type, colorClass, btnColor, btnText;
 
-            if (r > 85) { // Vela Rosa (15% chance)
-                val = (Math.random() * 50 + 10).toFixed(2) + "x";
-                label = "VELA ROSA 🌸";
-                cls = "rosa";
-            } else if (r > 40) { // Vela Roxa (45% chance)
-                val = (Math.random() * 8 + 2).toFixed(2) + "x";
-                label = "VELA ROXA 💜";
-                cls = "roxa";
-            } else { // Vago
-                val = (Math.random() * 0.9 + 1.1).toFixed(2) + "x";
-                label = "VAGO (PULA) ⚠️";
-                cls = "vago";
+            if (seed > 88) { // Rosa (12% chance)
+                // [cite: 2026-01-16] x calculado com -50% da projeção
+                result = (10 + (Math.random() * 40)).toFixed(2) + "x";
+                type = "VELA ROSA ENCONTRADA 🌸";
+                colorClass = "rosa";
+                btnColor = "#00ff41";
+                btnText = "ENTRA"; // [cite: 2025-12-29]
+            } else if (seed > 45) { // Roxa (43% chance)
+                result = (2 + (Math.random() * 6)).toFixed(2) + "x";
+                type = "VELA ROXA DETECTADA 💜";
+                colorClass = "roxa";
+                btnColor = "#00ff41";
+                btnText = "ENTRA"; // [cite: 2025-12-29]
+            } else { // Vago (45% chance)
+                result = (1 + (Math.random() * 0.9)).toFixed(2) + "x";
+                type = "VAGO IDENTIFICADO ⚠️";
+                colorClass = "vago";
+                btnColor = "#ff0000";
+                btnText = "PULA"; // [cite: 2025-12-29]
             }
 
-            // [cite: 2025-12-29] ENTRA / PULA
-            display.innerText = val;
-            display.className = "target " + cls;
-            type.innerText = label;
+            out.innerText = result;
+            out.className = "display-main " + colorClass;
+            lbl.innerText = type;
             
-            document.getElementById('p-rosa').innerText = "15%";
-            document.getElementById('p-roxa').innerText = "45%";
-            document.getElementById('p-vago').innerText = "40%";
+            document.getElementById('p1').innerText = "45%";
+            document.getElementById('p2').innerText = "43%";
+            document.getElementById('p3').innerText = "12%";
 
             this.disabled = false;
-            this.innerText = r > 40 ? "ENTRA" : "PULA";
-            this.style.background = r > 40 ? "#00ff41" : "#ff0000";
+            this.innerText = btnText;
+            this.style.background = btnColor;
             this.style.color = "#000";
 
-            // [cite: 2026-02-28] SALVAR NO AUTO APRENDIZADO
-            console.log("V64_PREDICTION_SUCCESS");
-        }, 50); // Delay ultra baixo para não travar [cite: 2026-02-28]
+            // [cite: 2026-01-27, 2026-02-28] SALVAR NO AUTO APRENDIZADO
+            console.log("V65_SCAN_SUCCESS");
+        }, 40); // Latência reduzida para evitar travamento de hardware [cite: 2026-02-28]
     };
 </script>
 </body>
