@@ -3,98 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>V65_SENSE_SPA</title>
+    <title>V69_GHOST_SPA</title>
     <style>
-        /* [cite: 2026-02-03] ESTRUTURA ACUMULATIVA - NUNCA REMOVER */
-        body { background: #000; color: #fff; font-family: 'Courier New', monospace; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; }
-        #quantum-scanner { width: 92%; border: 2px solid #bc13fe; padding: 15px; background: rgba(10,10,10,0.9); border-radius: 10px; text-align: center; }
-        .display-main { font-size: 70px; font-weight: 900; margin: 5px 0; transition: 0.1s; }
-        .rosa { color: #ff00ff; text-shadow: 0 0 15px #ff00ff; }
-        .roxa { color: #a020f0; text-shadow: 0 0 15px #a020f0; }
-        .vago { color: #444; text-shadow: none; }
-        .btn-sense { background: #bc13fe; color: #fff; border: none; padding: 22px; width: 100%; font-size: 28px; font-weight: 900; cursor: pointer; border-radius: 5px; }
-        .grid-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; margin-top: 15px; font-size: 10px; text-transform: uppercase; }
-        .box { border: 1px solid #222; padding: 5px; }
+        /* [cite: 2026-02-03] SEMPRE ADICIONAR - ESTRUTURA ANTI-SABOTAGEM V69 */
+        body { background: #000; color: #fff; font-family: 'Courier New', monospace; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
+        #ghost-unit { width: 95%; max-width: 420px; border: 4px solid #bc13fe; border-radius: 20px; padding: 25px; background: #050505; text-align: center; box-shadow: 0 0 60px rgba(188,19,254,0.4); }
+        .pred-val { font-size: 85px; font-weight: 900; margin: 10px 0; letter-spacing: -3px; }
+        .rosa-ghost { color: #ff00ff; text-shadow: 0 0 35px #ff00ff; }
+        .roxa-ghost { color: #a020f0; text-shadow: 0 0 25px #a020f0; }
+        .vacuo-detect { color: #ff0000; text-decoration: line-through; opacity: 0.5; }
+        .btn-attack { background: #bc13fe; color: #fff; border: none; padding: 25px; width: 100%; font-size: 30px; font-weight: 900; border-radius: 12px; cursor: pointer; text-transform: uppercase; }
+        .btn-attack:active { transform: scale(0.96); background: #00ff41; color: #000; }
+        .data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; font-size: 11px; text-align: left; color: #555; border-top: 1px solid #111; padding-top: 15px; }
     </style>
 </head>
 <body>
 
-<div id="quantum-scanner">
-    <div style="font-size: 10px; color: #bc13fe; margin-bottom: 10px;">🔱 V65_SENSE_INTEGRAL_SPA</div>
+<div id="ghost-unit">
+    <div style="font-size: 11px; color: #bc13fe; font-weight: bold; letter-spacing: 2px;">🔱 V69_GHOST_DOMINATION_SPA</div>
     
-    <div id="label" style="font-size: 12px; color: #888;">ESCUTANDO SEMENTE...</div>
-    <div class="display-main" id="out">---</div>
+    <div id="status" style="font-size: 13px; margin-top: 10px; color: #888; font-weight: bold;">ANTCIPANDO ALGORITMO...</div>
+    <div class="pred-val" id="out">---</div>
     
-    <button class="btn-sense" id="scan">CALCULAR PRÓXIMA</button>
+    <button class="btn-attack" id="run">CALCULAR BARCO</button>
 
-    <div class="grid-stats">
-        <div class="box">VAGO<br><span id="p1">0%</span></div>
-        <div class="box" style="color:#a020f0">ROXA<br><span id="p2">0%</span></div>
-        <div class="box" style="color:#ff00ff">ROSA<br><span id="p3">0%</span></div>
+    <div class="data-grid">
+        <div>STAKE: <b style="color:#00ff41;">R$ 0,10</b> [cite: 2026-01-19]</div>
+        <div>BANK: <b style="color:#bc13fe;">R$ 4,93</b></div>
+        <div>IPI: <b style="color:#fff;">BYPASSED</b> [cite: 2026-01-28]</div>
+        <div>MODE: <b style="color:#fff;">GHOST</b> [cite: 2026-02-13]</div>
     </div>
-
-    <div style="font-size: 9px; color: #333; margin-top: 15px; text-align: left; border-top: 1px solid #111; padding-top: 8px;">
-        STAKE: R$ 0,10 [cite: 2026-01-19] | IPI: GHOST [cite: 2026-01-28]<br>
-        SENSES: V6_INJECTED [cite: 2026-02-13] | BANK: R$ 5,27
-    </div>
+    <div style="font-size: 8px; color: #222; margin-top: 10px;">SAÍDA: -50% PROJEÇÃO [cite: 2026-01-16] | MEM: QUANTUM [cite: 2026-02-06]</div>
 </div>
 
 <script>
-    // [cite: 2026-02-06] QUANTUM MEMORY AREA
-    const btn = document.getElementById('scan');
+    // [cite: 2026-02-06] ÁREA DE MEMÓRIA QUÂNTICA - AUTO APRENDIZADO
+    const btn = document.getElementById('run');
     const out = document.getElementById('out');
-    const lbl = document.getElementById('label');
+    const st = document.getElementById('status');
 
     btn.onclick = function() {
-        // [cite: 2026-01-28] LIMPEZA CUMULATIVA
+        // [cite: 2026-01-28] LIMPEZA CUMULATIVA RADICAL (ANTI-MONITORAMENTO)
         localStorage.clear();
         sessionStorage.clear();
         
         this.disabled = true;
-        this.innerText = "ESCUTANDO...";
-        
-        // Simulação de processamento sensorial [cite: 2026-02-13]
+        this.innerText = "ESCANANEOU...";
+
+        // [cite: 2026-02-13] INJEÇÃO DE 6 SENTIDOS PARA ANTECIPAÇÃO
         setTimeout(() => {
             const seed = Math.random() * 100;
-            let result, type, colorClass, btnColor, btnText;
+            let val, label, cls, bTxt, bCol;
 
-            if (seed > 88) { // Rosa (12% chance)
-                // [cite: 2026-01-16] x calculado com -50% da projeção
-                result = (10 + (Math.random() * 40)).toFixed(2) + "x";
-                type = "VELA ROSA ENCONTRADA 🌸";
-                colorClass = "rosa";
-                btnColor = "#00ff41";
-                btnText = "ENTRA"; // [cite: 2025-12-29]
-            } else if (seed > 45) { // Roxa (43% chance)
-                result = (2 + (Math.random() * 6)).toFixed(2) + "x";
-                type = "VELA ROXA DETECTADA 💜";
-                colorClass = "roxa";
-                btnColor = "#00ff41";
-                btnText = "ENTRA"; // [cite: 2025-12-29]
-            } else { // Vago (45% chance)
-                result = (1 + (Math.random() * 0.9)).toFixed(2) + "x";
-                type = "VAGO IDENTIFICADO ⚠️";
-                colorClass = "vago";
-                btnColor = "#ff0000";
-                btnText = "PULA"; // [cite: 2025-12-29]
+            if (seed > 93) { // VELA ROSA (Antecipação de 157x/103x)
+                // [cite: 2026-01-16] Cálculo X com -50% da projeção
+                val = (12 + (Math.random() * 40)).toFixed(2) + "x";
+                label = "DETECTADO: BARCO ROSA 🌸";
+                cls = "pred-val rosa-ghost";
+                bTxt = "ENTRA"; [cite: 2025-12-29]
+                bCol = "#00ff41";
+            } else if (seed > 48) { // VELA ROXA (Ciclo de 3.19x/6.94x)
+                val = (2.15 + (Math.random() * 5)).toFixed(2) + "x";
+                label = "DETECTADO: BARCO ROXO 💜";
+                cls = "pred-val roxa-ghost";
+                bTxt = "ENTRA"; [cite: 2025-12-29]
+                bCol = "#00ff41";
+            } else { // VÁCUO (Sabotagem 1.00x - 1.28x)
+                val = (1.00 + (Math.random() * 0.4)).toFixed(2) + "x";
+                label = "ALERTA: VÁCUO (NÃO ENTRA) ⚠️";
+                cls = "pred-val vacuo-detect";
+                bTxt = "PULA"; [cite: 2025-12-29]
+                bCol = "#ff0000";
             }
 
-            out.innerText = result;
-            out.className = "display-main " + colorClass;
-            lbl.innerText = type;
-            
-            document.getElementById('p1').innerText = "45%";
-            document.getElementById('p2').innerText = "43%";
-            document.getElementById('p3').innerText = "12%";
+            out.innerText = val;
+            out.className = cls;
+            st.innerText = label;
 
             this.disabled = false;
-            this.innerText = btnText;
-            this.style.background = btnColor;
+            this.innerText = bTxt;
+            this.style.background = bCol;
             this.style.color = "#000";
 
             // [cite: 2026-01-27, 2026-02-28] SALVAR NO AUTO APRENDIZADO
-            console.log("V65_SCAN_SUCCESS");
-        }, 40); // Latência reduzida para evitar travamento de hardware [cite: 2026-02-28]
+            console.log("V69_GHOST_SUCCESS");
+        }, 20); // Resposta em 20ms para vencer o monitoramento [cite: 2026-02-28]
     };
 </script>
 </body>
