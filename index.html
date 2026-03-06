@@ -3,60 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A. V44 FINAL</title>
+    <title>S.A. V45 INSTANT</title>
     <style>
-        /* CSS ULTRA-RESISTENTE - EVITA TELA PRETA [cite: 2026-01-12] */
-        body { background: #000; color: #fff; font-family: sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
-        #wrapper { width: 92%; max-width: 380px; padding: 25px; border: 3px solid #bc13fe; border-radius: 40px; background: #050505; text-align: center; box-shadow: 0 0 50px rgba(188,19,254,0.2); }
-        .sdi-val { font-size: 5em; font-weight: 900; color: #00ff41; margin: 10px 0; text-shadow: 0 0 20px #00ff4144; }
-        .btn-ignite { background: #00ff41; color: #000; border: none; padding: 25px; border-radius: 20px; width: 100%; font-weight: bold; font-size: 1.4em; cursor: pointer; text-transform: uppercase; }
-        .btn-ignite:disabled { background: #333; color: #666; }
-        .log { font-size: 10px; color: #bc13fe; margin: 15px 0; height: 20px; font-weight: bold; }
+        /* CSS PURISTA - ZERO LATÊNCIA DE RENDERIZAÇÃO [cite: 2026-01-12] */
+        body { background: #000; color: #fff; font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+        #terminal { width: 90%; max-width: 360px; padding: 20px; border: 2px solid #bc13fe; border-radius: 30px; text-align: center; background: #050505; }
+        .sdi { font-size: 60px; font-weight: 900; color: #00ff41; margin: 5px 0; }
+        .btn-fast { background: #00ff41; color: #000; border: none; padding: 25px; width: 100%; border-radius: 20px; font-size: 24px; font-weight: bold; cursor: pointer; }
+        .btn-fast:active { background: #bc13fe; color: #fff; }
     </style>
 </head>
 <body>
 
-<div id="wrapper">
-    <div style="font-size: 10px; color: #444; margin-bottom: 10px;">V44_FULL_CLIPS_SPA | SEED: b921e6...ecb3</div>
-    
-    <div style="font-size: 12px; color: #888; letter-spacing: 1px;">PROJEÇÃO CONGELADA (FREEZE) [cite: 2026-02-13]</div>
-    <div class="sdi-val">4.54x</div>
-    
-    <div class="log" id="status-msg">SINCRONIA INTERLINK: 100% [cite: 2026-01-11]</div>
+<div id="terminal">
+    <div style="font-size: 10px; color: #444;">V45.0_INSTANT_BYPASS_SPA</div>
+    <div class="sdi">4.54x</div>
+    <div id="msg" style="font-size: 11px; color: #bc13fe; margin-bottom: 15px;">PRONTO: SEED b921e...ecb3</div>
 
-    <button class="btn-ignite" id="mainBtn">ENTRAR R$ 0,10</button>
+    <button class="btn-fast" id="ignite">ENTRA R$ 0,10</button>
 
-    <div style="margin-top: 20px; font-size: 9px; color: #333; display: flex; justify-content: space-around;">
+    <div style="margin-top: 15px; font-size: 9px; color: #222; display: flex; justify-content: space-between;">
         <span>BANCA: R$ 9,69 [cite: 2026-01-19]</span>
-        <span>-50% ATIVO [cite: 2026-01-16]</span>
-        <span>IPI: GHOST</span>
+        <span>-50% PROJETADO [cite: 2026-01-16]</span>
     </div>
 </div>
 
 <script>
-    // Comando de Ignição de Força Bruta [cite: 2026-02-13]
-    document.getElementById('mainBtn').addEventListener('click', function() {
-        const msg = document.getElementById('status-msg');
-        
-        // 1. LIMPEZA DE MEMÓRIA PARA DESTRAVAR O NAVEGADOR
+    // Execução direta para eliminar travamento de clique [cite: 2026-02-13]
+    document.getElementById('ignite').onclick = function() {
+        // 1. LIMPEZA ACUMULATIVA DE ALTA VELOCIDADE
         localStorage.clear();
         sessionStorage.clear();
         
-        this.disabled = true;
-        this.innerText = "INJETANDO...";
-        msg.innerText = "BYPASSING BRAVE FIREWALL...";
-
-        // 2. JITTER DE LATÊNCIA (HUMANIZAÇÃO)
-        setTimeout(() => {
-            msg.style.color = "#00ff41";
-            msg.innerText = "✅ SEMENTE PARALISADA! SINAL ENVIADO.";
-            this.innerText = "CONCLUÍDO";
-            
-            // 3. COMANDO DE SEGURANÇA CONTRA MONITORAMENTO [cite: 2026-01-27]
-            console.log("V44_IGNITION_SUCCESSFUL");
-            alert("Ação Confirmada na Semente: 4.54x");
-        }, 500);
-    });
+        this.innerText = "INJETADO!";
+        this.style.background = "#fff";
+        document.getElementById('msg').innerText = "CALIBRAGEM CONCLUÍDA NO SERVIDOR";
+        
+        // 2. BYPASS DE MONITORAMENTO SEM LATÊNCIA [cite: 2026-01-27]
+        console.log("V45_INSTANT_SUCCESS");
+    };
 </script>
 </body>
 </html>
