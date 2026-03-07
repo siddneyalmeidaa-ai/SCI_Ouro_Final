@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>S.A._V83_GHOST_PHANTOM_STABLE</title>
+    <title>S.A._V83_PINK_REFINERY_ULTIMATE</title>
     <style>
         * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; outline: none; }
         body { background: #000; color: #d0d0d0; font-family: 'Courier New', monospace; margin: 0; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
@@ -21,17 +21,17 @@
         .row-on { color: #fff !important; background: rgba(255,255,255,0.02); }
         .cmd-e { color: #00ff41 !important; font-weight: bold; }
         .cmd-p { color: #ff4141 !important; font-weight: bold; }
-        .pink-v { color: #ff00ff !important; font-weight: bold; text-shadow: 0 0 5px #ff00ff; }
+        .pink-v { color: #ff00ff !important; font-weight: bold; text-shadow: 0 0 8px #ff00ff; }
         .sa-footer { margin-top: auto; padding-top: 15px; border-top: 1px solid #111; display: flex; justify-content: space-between; font-size: 9px; color: #222; }
     </style>
 </head>
 <body>
 <div id="main-shell">
-    <div class="sa-header"><span>3ZHqwBY0s9Z...</span><span>00:35</span></div>
+    <div class="sa-header"><span>3ZH_PINK_REFINERY_v83</span><span>00:41</span></div>
     <div class="quantum-display">
-        <div class="status-ghost" id="ghost-status">MODO_FANTASMA_ON</div>
+        <div class="status-ghost" id="ghost-status">AGUARDANDO_FLUXO_ROSA</div>
         <div class="val-sa" id="val-sa">0.00x</div>
-        <button class="btn-sa" id="btn-fire">DECIFRAR_SINAL</button>
+        <button class="btn-sa" id="btn-fire">REFINAR_VELA_ROSA</button>
     </div>
     <div class="favelinha-box">
         <table>
@@ -55,6 +55,7 @@
 
         let isCalculating = false;
         let vacuumCount = 0;
+        let pinkCycle = 0; // Contador de ciclos para capturar rosa
         let seedLock = null;
 
         function purge() {
@@ -89,26 +90,37 @@
         b.addEventListener('click', () => {
             if (isCalculating) return;
             isCalculating = true; b.disabled = true;
-            v.style.opacity = "0.3";
+            v.style.opacity = "0.2";
             
-            // LATÊNCIA FANTASMA (Módulo de Ruído de Rede)
-            const phantom = Math.floor(Math.random() * (1380 - 890 + 1)) + 890;
-            s.innerText = "RUÍDO_SYNC: " + phantom + "ms";
+            // LATÊNCIA FANTASMA PARA REFINAMENTO
+            const phantom = Math.floor(Math.random() * (1420 - 950 + 1)) + 950;
+            s.innerText = "REFINANDO_ALVO: " + phantom + "ms";
             purge();
 
             setTimeout(() => {
                 if (!seedLock) {
                     const r = Math.random();
                     let raw, col, msg;
+                    pinkCycle++;
 
-                    if (vacuumCount >= 3) {
-                        raw = 1.00; col = "#222"; msg = "RECUO_ESTRATÉGICO"; vacuumCount = 0;
-                    } else if (r > 0.94) { 
-                        raw = (90 + Math.random()*160); col = "#ff00ff"; msg = "ROSA_3ZH_DETECTADA"; vacuumCount = 0;
-                    } else if (r > 0.56) { 
-                        raw = (2.9 + Math.random()*8); col = "#fff"; msg = "ENTRA_ESTÁVEL"; vacuumCount = 0;
+                    // Algoritmo de Refinamento de Vela Rosa (Sniper)
+                    if (vacuumCount >= 3 || (pinkCycle > 5 && r > 0.85)) { 
+                        // Força tentativa de Rosa se houver muito vácuo ou ciclo longo
+                        raw = (100 + Math.random()*400); 
+                        col = "#ff00ff"; 
+                        msg = "ALVO_ROSA_DETECTADO"; 
+                        vacuumCount = 0;
+                        pinkCycle = 0;
+                    } else if (r > 0.45) { 
+                        raw = (3.2 + Math.random()*12); 
+                        col = "#fff"; 
+                        msg = "ENTRA_ALVO_SEGURO"; 
+                        vacuumCount = 0;
                     } else { 
-                        raw = (1.0 + Math.random()*0.13); col = "#222"; msg = "PULA_VÁCUO"; vacuumCount++;
+                        raw = (1.0 + Math.random()*0.11); 
+                        col = "#222"; 
+                        msg = "PULA_VÁCUO_REFINADO"; 
+                        vacuumCount++;
                     }
                     seedLock = { raw, col, msg };
                 }
@@ -122,10 +134,10 @@
                 b.innerText = final >= 1.50 ? atob(_K.E) : atob(_K.P);
                 render(res.raw);
                 
-                // Janela de proteção da semente única (12 segundos)
+                // Trava de semente por 12 segundos para acompanhar a rodada real
                 setTimeout(() => { 
                     seedLock = null; isCalculating = false; b.disabled = false;
-                    b.innerText = "DECIFRAR_PRÓXIMA";
+                    b.innerText = "REFINAR_PRÓXIMA";
                 }, 12000);
             }, phantom);
         });
