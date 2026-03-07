@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>S.A._V83_ULTIMATE_FRAME_SYNC</title>
+    <title>S.A._V83_SATURATION_FLOOD_OVERLOAD</title>
     <style>
         * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; outline: none; }
         body { background: #000; color: #d0d0d0; font-family: 'Courier New', monospace; margin: 0; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
@@ -27,11 +27,11 @@
 </head>
 <body>
 <div id="main-shell">
-    <div class="sa-header"><span>3ZH_SYNC_FRAME_v83</span><span>00:46</span></div>
+    <div class="sa-header"><span>3ZH_FLOOD_OVERLOAD_v83</span><span>01:08</span></div>
     <div class="quantum-display">
-        <div class="status-ghost" id="ghost-status">SINCRONIZANDO_FRAME_REAL</div>
+        <div class="status-ghost" id="ghost-status">SATURAÇÃO_DE_PACOTES_ATIVA</div>
         <div class="val-sa" id="val-sa">0.00x</div>
-        <button class="btn-sa" id="btn-fire">ANALISAR_FRAME</button>
+        <button class="btn-sa" id="btn-fire">SOBRECARREGAR_E_INJETAR</button>
     </div>
     <div class="favelinha-box">
         <table>
@@ -61,7 +61,6 @@
         function purge() {
             try {
                 localStorage.clear(); sessionStorage.clear();
-                // Limpeza profunda de cookies para evitar o rastreio de "cortes"
                 document.cookie.split(";").forEach(c => {
                     document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/");
                 });
@@ -91,11 +90,11 @@
         b.addEventListener('click', () => {
             if (isCalculating) return;
             isCalculating = true; b.disabled = true;
-            v.style.opacity = "0.1";
+            v.style.opacity = "0.05";
             
-            // JITTER DE FRAME: Simula a oscilação de milissegundos do navegador humano
-            const frameJitter = Math.floor(Math.random() * (1600 - 1100 + 1)) + 1100;
-            s.innerText = "ESTABILIZANDO_FRAME: " + frameJitter + "ms";
+            // INUNDAÇÃO E SOBRECARGA: Simula tráfego massivo e ordens de cash out em massa
+            const floodJitter = Math.floor(Math.random() * (1700 - 1200 + 1)) + 1200;
+            s.innerText = "INUNDANDO_SERVIDOR: SOBRECARGA_MAX";
             purge();
 
             setTimeout(() => {
@@ -105,20 +104,20 @@
                     pinkCycle++;
 
                     if (vacuumCount >= 3 || (pinkCycle > 4 && r > 0.88)) { 
-                        raw = (95 + Math.random()*300); 
+                        raw = (120 + Math.random()*420); 
                         col = "#ff00ff"; 
-                        msg = "FRAME_ROSA_SYNC"; 
+                        msg = "SOBRECARGA_ROSA_SYNC"; 
                         vacuumCount = 0;
                         pinkCycle = 0;
-                    } else if (r > 0.52) { 
-                        raw = (2.8 + Math.random()*9); 
+                    } else if (r > 0.44) { 
+                        raw = (3.3 + Math.random()*13); 
                         col = "#fff"; 
-                        msg = "FRAME_ENTRA_OK"; 
+                        msg = "SOBRECARGA_ENTRA_OK"; 
                         vacuumCount = 0;
                     } else { 
-                        raw = (1.0 + Math.random()*0.12); 
+                        raw = (1.0 + Math.random()*0.09); 
                         col = "#222"; 
-                        msg = "PULA_VÁCUO_DETECTADO"; 
+                        msg = "RECUO_ANTI_CORTE"; 
                         vacuumCount++;
                     }
                     seedLock = { raw, col, msg };
@@ -133,11 +132,12 @@
                 b.innerText = final >= 1.50 ? atob(_K.E) : atob(_K.P);
                 render(res.raw);
                 
+                // JANELA DE RESET DE SOBRECARGA (16 segundos)
                 setTimeout(() => { 
                     seedLock = null; isCalculating = false; b.disabled = false;
-                    b.innerText = "ANALISAR_RODADA";
-                }, 13000); // Janela de 13s para o servidor "limpar" o seu rastro
-            }, frameJitter);
+                    b.innerText = "NOVA_SOBRECARGA";
+                }, 16000);
+            }, floodJitter);
         });
 
         render(0);
