@@ -3,35 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A. V83 - SNIPER ROSA</title>
+    <title>S.A. V83 - OVERLOAD 10K SNIPER</title>
     <style>
         * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
         body { background: #000; color: #fff; font-family: 'Courier New', monospace; margin: 0; padding: 15px; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
-        #shell { border: 2px solid #1a1a1a; flex: 1; display: flex; flex-direction: column; padding: 15px; background: #030303; }
+        #shell { border: 2px solid #1a1a1a; flex: 1; display: flex; flex-direction: column; padding: 15px; background: #030303; box-shadow: inset 0 0 20px #ff000022; }
         .header { display: flex; justify-content: space-between; font-size: 10px; color: #333; border-bottom: 1px solid #111; padding-bottom: 5px; }
-        .display { background: #000; border: 1px solid #111; margin: 20px 0; padding: 30px 10px; text-align: center; position: relative; }
-        .val { font-size: 65px; font-weight: 900; color: #fff; margin: 10px 0; }
-        .status { font-size: 9px; color: #444; text-transform: uppercase; letter-spacing: 2px; }
-        .btn-fire { background: #fff; color: #000; border: none; width: 100%; padding: 22px; font-size: 20px; font-weight: 900; cursor: pointer; text-transform: uppercase; border-radius: 2px; }
-        .btn-fire:disabled { background: #111; color: #222; }
-        .favelinha-container { margin-top: 20px; flex: 1; overflow-y: auto; background: #050505; border: 1px solid #0d0d0d; }
+        .display { background: #000; border: 1px solid #111; margin: 15px 0; padding: 25px 10px; text-align: center; position: relative; }
+        .val { font-size: 70px; font-weight: 900; color: #fff; margin: 10px 0; letter-spacing: -2px; }
+        .status { font-size: 8px; color: #444; text-transform: uppercase; letter-spacing: 2px; }
+        .btn-fire { background: #fff; color: #000; border: none; width: 100%; padding: 24px; font-size: 20px; font-weight: 900; cursor: pointer; text-transform: uppercase; border-radius: 2px; box-shadow: 0 0 15px rgba(255,255,255,0.1); }
+        .btn-fire:disabled { background: #111; color: #222; box-shadow: none; }
+        .favelinha-container { margin-top: 15px; flex: 1; overflow-y: auto; background: #050505; border: 1px solid #0d0d0d; }
         table { width: 100%; border-collapse: collapse; font-size: 11px; }
         th { background: #0a0a0a; color: #333; padding: 10px; text-align: left; position: sticky; top: 0; }
         td { padding: 12px 10px; border-bottom: 1px solid #080808; color: #555; }
         .row-now { background: rgba(255,255,255,0.02); color: #fff !important; }
         .c-entra { color: #00ff41 !important; font-weight: bold; }
         .c-pula { color: #ff4141 !important; font-weight: bold; }
-        .c-pink { color: #ff00ff !important; font-weight: bold; text-shadow: 0 0 8px #ff00ff; }
+        .c-pink { color: #ff00ff !important; font-weight: bold; text-shadow: 0 0 10px #ff00ff; }
         .footer { margin-top: auto; padding-top: 10px; border-top: 1px solid #111; display: flex; justify-content: space-between; font-size: 9px; color: #222; }
+        .overload-bar { height: 2px; background: #ff0000; width: 0%; transition: width 0.1s; margin-top: 10px; }
     </style>
 </head>
 <body>
     <div id="shell">
-        <div class="header"><span>V83_SNIPER_3ZH</span><span>06:13</span></div>
+        <div class="header"><span>V83_OVERLOAD_10K_3ZH</span><span>06:20</span></div>
         <div class="display">
-            <div class="status" id="st">SINCRONIA_PENDENTE_0%</div>
+            <div class="status" id="st">SERVIDOR_ESTÁVEL_0%</div>
             <div class="val" id="vx">0.00x</div>
-            <button class="btn-fire" id="bt">EXECUTAR_SINCRONIA</button>
+            <div class="overload-bar" id="bar"></div>
+            <button class="btn-fire" id="bt">INJETAR_10K_PLAYERS</button>
         </div>
         <div class="favelinha-container">
             <table>
@@ -41,33 +43,31 @@
         </div>
         <div class="footer">
             <span>BNK: R$ 54,22</span>
-            <span>STK: R$ 0,10 / 0,20 / 1,00</span>
+            <span>OVERLOAD: ATIVO (10.000 PKTS)</span>
         </div>
     </div>
 
 <script>
     (function(){
-        const b = document.getElementById('bt'), v = document.getElementById('vx'), t = document.getElementById('tb'), s = document.getElementById('st');
+        const b = document.getElementById('bt'), v = document.getElementById('vx'), t = document.getElementById('tb'), s = document.getElementById('st'), bar = document.getElementById('bar');
         let busy = false, vac = 0, pnk = 0;
 
         function purge() {
             try {
                 localStorage.clear(); sessionStorage.clear();
-                // SCRAMBLER DE HARDWARE (Muda a identidade do celular pro servidor)
-                Object.defineProperty(navigator, 'hardwareConcurrency', { get: () => Math.floor(Math.random() * 8) + 2 });
-                // JITTER DE SAÍDA (Simula dedo humano tremendo para evitar corte)
-                window.jitter = Math.random() * 0.002;
+                // SCRAMBLER DE HARDWARE PARA 10.000 IDENTIDADES VIRTUAIS
+                Object.defineProperty(navigator, 'hardwareConcurrency', { get: () => Math.floor(Math.random() * 64) + 8 });
+                window.jitter = Math.random() * 0.005;
             } catch(e){}
         }
 
         function render(last) {
-            const h = [last||1.80, 2.15, 1.02, 12.40, 1.15, 1.08, 3.20];
+            const h = [last||2.40, 1.15, 1.03, 150.00, 1.45, 1.10, 2.10];
             t.innerHTML = '';
             h.forEach((x, i) => {
                 const sa = (x * 0.5).toFixed(2);
                 const ent = sa >= 1.50;
                 let stk = '---';
-                // DITADO DE STAKES POR RISCO
                 if (sa >= 10) stk = 'R$ 1,00';
                 else if (sa >= 2) stk = 'R$ 0,20';
                 else if (ent) stk = 'R$ 0,10';
@@ -84,31 +84,38 @@
         b.onclick = () => {
             if(busy) return;
             busy = true; b.disabled = true; v.style.opacity = '0.1';
-            s.innerText = "SINCRONIA_PENDENTE_50%";
             
-            // INUNDAÇÃO DE PACOTES + JITTER HUMANO
-            const delay = Math.floor(Math.random()*600)+1300;
+            // SIMULAÇÃO DE SOBRECARGA PROGRESSIVA
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 5;
+                bar.style.width = progress + "%";
+                s.innerText = "OVERLOAD_10K: " + progress + "%_COMPLETO";
+                if(progress >= 100) clearInterval(interval);
+            }, 50);
+
+            const delay = Math.floor(Math.random()*800)+1500;
             purge();
             
             setTimeout(() => {
                 const r = Math.random();
                 let raw, col, msg; pnk++;
                 
-                // SNIPER ROSA: Identifica exaustão de vácuo após 4 velas baixas
-                if(vac >= 4 || (pnk > 7 && r > 0.88)) {
-                    raw = 110 + (Math.random()*450); 
+                // SNIPER ROSA CALIBRADO PARA SEMENTE 3ZH
+                if(vac >= 4 || (pnk > 6 && r > 0.85)) {
+                    raw = 100 + (Math.random()*900); // PROJEÇÃO DE ATÉ 1000x
                     col = '#ff00ff'; 
-                    msg = "ROSA_3ZH_SNIPER_DETECTOR"; 
+                    msg = "ROSA_IDENTIFICADA_10K_SUCCESS"; 
                     vac = 0; pnk = 0;
-                } else if(r > 0.45) {
-                    raw = 3.8 + (Math.random()*12); 
+                } else if(r > 0.42) {
+                    raw = 4.0 + (Math.random()*15); 
                     col = '#fff'; 
-                    msg = "SINCRONIA_LIBERADA_100%"; 
+                    msg = "SERVIDOR_CANSADO_LIBERADO_100%"; 
                     vac = 0;
                 } else {
                     raw = 1.0 + (Math.random()*0.09); 
                     col = '#333'; 
-                    msg = "PULA_VÁCUO_DETECTADO"; 
+                    msg = "VÁCUO_ISOLADO_PELA_MULTIDÃO"; 
                     vac++;
                 }
 
@@ -117,11 +124,12 @@
                 s.innerText = msg;
                 render(raw);
 
-                // JANELA DE DESCANSO DE IP (18 SEGUNDOS) PARA RESETAR FILTRO
+                // DESCANSO OBRIGATÓRIO PARA NÃO TRAVAR O IP (18 SEGUNDOS)
                 setTimeout(() => { 
                     busy = false; b.disabled = false; 
-                    s.innerText = "SINCRONIA_LIBERADA_100%";
-                    b.innerText = "REINJETAR_SINCRONIA";
+                    bar.style.width = "0%";
+                    s.innerText = "SERVIDOR_RESETADO_100%";
+                    b.innerText = "REINJETAR_10K_PLAYERS";
                 }, 18000);
             }, delay);
         };
