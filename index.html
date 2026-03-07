@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>S.A._V83_ULTIMATE_LATENCY_ADAPT</title>
+    <title>S.A._V83_GHOST_PHANTOM_STABLE</title>
     <style>
         * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; outline: none; }
         body { background: #000; color: #d0d0d0; font-family: 'Courier New', monospace; margin: 0; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
@@ -27,11 +27,11 @@
 </head>
 <body>
 <div id="main-shell">
-    <div class="sa-header"><span>3ZHqwBY0s9Z...</span><span>16:11</span></div>
+    <div class="sa-header"><span>3ZHqwBY0s9Z...</span><span>00:35</span></div>
     <div class="quantum-display">
-        <div class="status-ghost" id="ghost-status">LATÊNCIA_ADAPTATIVA_OFF</div>
+        <div class="status-ghost" id="ghost-status">MODO_FANTASMA_ON</div>
         <div class="val-sa" id="val-sa">0.00x</div>
-        <button class="btn-sa" id="btn-fire">ANALISAR RODADA</button>
+        <button class="btn-sa" id="btn-fire">DECIFRAR_SINAL</button>
     </div>
     <div class="favelinha-box">
         <table>
@@ -40,7 +40,7 @@
         </table>
     </div>
     <div class="sa-footer">
-        <span>R$ 0,10 / R$ 0,20 / R$ 1,00</span>
+        <span>STK: R$ 0,10 / R$ 0,20 / R$ 1,00</span>
         <span>BNK: R$ 54,22</span>
     </div>
 </div>
@@ -55,7 +55,7 @@
 
         let isCalculating = false;
         let vacuumCount = 0;
-        let seedLock = null; 
+        let seedLock = null;
 
         function purge() {
             try {
@@ -67,7 +67,7 @@
         }
 
         function render(last) {
-            const hist = [last || 1.38, 1.52, 1.04, 1.63, 1.36, 1.06];
+            const hist = [last || 1.38, 1.52, 1.04, 1.63, 1.36, 1.06, 1.15];
             f.innerHTML = '';
             hist.forEach((x, i) => {
                 const sa = (x * 0.5).toFixed(2);
@@ -91,9 +91,9 @@
             isCalculating = true; b.disabled = true;
             v.style.opacity = "0.3";
             
-            // Ajuste de Latência Adaptativa (Simula atraso de pacote de rede)
-            const lat = Math.floor(Math.random() * (1400 - 850 + 1)) + 850;
-            s.innerText = "LATÊNCIA_SYNC: " + lat + "ms";
+            // LATÊNCIA FANTASMA (Módulo de Ruído de Rede)
+            const phantom = Math.floor(Math.random() * (1380 - 890 + 1)) + 890;
+            s.innerText = "RUÍDO_SYNC: " + phantom + "ms";
             purge();
 
             setTimeout(() => {
@@ -102,13 +102,13 @@
                     let raw, col, msg;
 
                     if (vacuumCount >= 3) {
-                        raw = 1.00; col = "#222"; msg = "RECUO_SFN"; vacuumCount = 0;
-                    } else if (r > 0.93) { 
-                        raw = (75 + Math.random()*120); col = "#ff00ff"; msg = "3ZH_ROSA_SYNC"; vacuumCount = 0;
-                    } else if (r > 0.50) { 
-                        raw = (2.6 + Math.random()*6); col = "#fff"; msg = "ENTRA_ESTÁVEL"; vacuumCount = 0;
+                        raw = 1.00; col = "#222"; msg = "RECUO_ESTRATÉGICO"; vacuumCount = 0;
+                    } else if (r > 0.94) { 
+                        raw = (90 + Math.random()*160); col = "#ff00ff"; msg = "ROSA_3ZH_DETECTADA"; vacuumCount = 0;
+                    } else if (r > 0.56) { 
+                        raw = (2.9 + Math.random()*8); col = "#fff"; msg = "ENTRA_ESTÁVEL"; vacuumCount = 0;
                     } else { 
-                        raw = (1.0 + Math.random()*0.12); col = "#222"; msg = "PULA_VÁCUO"; vacuumCount++;
+                        raw = (1.0 + Math.random()*0.13); col = "#222"; msg = "PULA_VÁCUO"; vacuumCount++;
                     }
                     seedLock = { raw, col, msg };
                 }
@@ -122,12 +122,12 @@
                 b.innerText = final >= 1.50 ? atob(_K.E) : atob(_K.P);
                 render(res.raw);
                 
-                // Reset da semente após 10 segundos para nova rodada
+                // Janela de proteção da semente única (12 segundos)
                 setTimeout(() => { 
                     seedLock = null; isCalculating = false; b.disabled = false;
-                    b.innerText = "ANALISAR PRÓXIMA";
-                }, 10000);
-            }, lat);
+                    b.innerText = "DECIFRAR_PRÓXIMA";
+                }, 12000);
+            }, phantom);
         });
 
         render(0);
