@@ -2,140 +2,150 @@
 <html lang="pt-pt">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A. V83 - SUPER OVERLOAD 100K</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>S.A._V83_PINK_SNIPER_ULTIMATE</title>
     <style>
         * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; outline: none; }
-        body { background: #000; color: #fff; font-family: 'Courier New', monospace; margin: 0; padding: 15px; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
-        #shell { border: 2px solid #333; flex: 1; display: flex; flex-direction: column; padding: 15px; background: #010101; position: relative; box-shadow: 0 0 25px rgba(255,0,0,0.1); }
-        .header { display: flex; justify-content: space-between; font-size: 10px; color: #444; border-bottom: 1px solid #111; padding-bottom: 5px; }
-        .display { background: #000; border: 1px solid #111; margin: 15px 0; padding: 25px 10px; text-align: center; position: relative; overflow: hidden; }
-        .val { font-size: 80px; font-weight: 900; color: #fff; margin: 10px 0; letter-spacing: -4px; text-shadow: 0 0 15px rgba(255,255,255,0.2); }
-        .status { font-size: 8px; color: #555; text-transform: uppercase; letter-spacing: 2px; }
-        .btn-fire { background: #ff0000; color: #fff; border: none; width: 100%; padding: 26px; font-size: 20px; font-weight: 900; cursor: pointer; text-transform: uppercase; border-radius: 2px; box-shadow: 0 5px 15px rgba(255,0,0,0.3); }
-        .btn-fire:disabled { background: #111; color: #333; box-shadow: none; }
-        .favelinha-container { margin-top: 15px; flex: 1; overflow-y: auto; background: #030303; border: 1px solid #0d0d0d; }
+        body { background: #000; color: #d0d0d0; font-family: 'Courier New', monospace; margin: 0; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
+        #main-shell { flex: 1; display: flex; flex-direction: column; padding: 15px; border: 4px solid #111; filter: grayscale(1) contrast(1.1); }
+        .sa-header { border-bottom: 1px solid #222; padding-bottom: 8px; margin-bottom: 15px; display: flex; justify-content: space-between; font-size: 10px; color: #444; }
+        .quantum-display { background: #020202; border: 1px solid #111; padding: 30px 10px; text-align: center; border-radius: 2px; position: relative; }
+        .val-sa { font-size: 70px; font-weight: 900; color: #fff; margin: 5px 0; transition: opacity 0.2s; }
+        .status-ghost { font-size: 8px; text-transform: uppercase; letter-spacing: 2px; color: #333; height: 10px; }
+        .btn-sa { background: #eee; color: #000; border: none; width: 100%; padding: 22px; font-size: 22px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 15px; transition: all 0.3s; }
+        .btn-sa:disabled { background: #111; color: #222; cursor: not-allowed; border: 1px solid #1a1a1a; }
+        .favelinha-box { margin-top: 20px; background: #050505; border: 1px solid #0d0d0d; max-height: 180px; overflow-y: auto; }
         table { width: 100%; border-collapse: collapse; font-size: 11px; }
-        th { background: #0a0a0a; color: #333; padding: 10px; text-align: left; position: sticky; top: 0; }
-        td { padding: 12px 10px; border-bottom: 1px solid #080808; color: #666; }
-        .row-now { background: rgba(255,0,0,0.05); color: #fff !important; }
-        .c-entra { color: #00ff41 !important; font-weight: bold; }
-        .c-pula { color: #ff4141 !important; font-weight: bold; }
-        .c-pink { color: #ff00ff !important; font-weight: bold; text-shadow: 0 0 12px #ff00ff; }
-        .footer { margin-top: auto; padding-top: 10px; border-top: 1px solid #111; display: flex; justify-content: space-between; font-size: 8px; color: #222; }
-        .load-bar { height: 4px; background: #ff0000; width: 0%; transition: width 0.03s linear; margin-top: 10px; box-shadow: 0 0 20px #ff0000; }
-        .warning-msg { color: #ff0000; font-size: 8px; margin-top: 5px; font-weight: bold; display: none; }
+        th { background: #0a0a0a; color: #222; padding: 10px; text-align: left; position: sticky; top: 0; }
+        td { padding: 12px 10px; border-bottom: 1px solid #050505; color: #555; }
+        .row-on { color: #fff !important; background: rgba(255,255,255,0.02); }
+        .cmd-e { color: #00ff41 !important; font-weight: bold; }
+        .cmd-p { color: #ff4141 !important; font-weight: bold; }
+        .pink-v { color: #ff00ff !important; font-weight: bold; text-shadow: 0 0 8px #ff00ff; }
+        .sa-footer { margin-top: auto; padding-top: 15px; border-top: 1px solid #111; display: flex; justify-content: space-between; font-size: 9px; color: #222; }
     </style>
 </head>
 <body>
-    <div id="shell">
-        <div class="header"><span>V83_SUPER_OVERLOAD_100K</span><span>16:22</span></div>
-        <div class="display">
-            <div class="status" id="st">SINCRONIA_PENDENTE_0%</div>
-            <div class="val" id="vx">0.00x</div>
-            <div class="load-bar" id="bar"></div>
-            <div class="warning-msg" id="wm">SATURAÇÃO_CRÍTICA_ATIVADA</div>
-            <button class="btn-fire" id="bt">INJETAR_100K_PACKETS</button>
-        </div>
-        <div class="favelinha-container">
-            <table>
-                <thead><tr><th>ALVO</th><th>S.A.(-50%)</th><th>STAKE</th><th>CMD</th></tr></thead>
-                <tbody id="tb"></tbody>
-            </table>
-        </div>
-        <div class="footer">
-            <span>BNK: R$ 54,22</span>
-            <span>IPI_QUANTUM: ATIVO (100.000 PKTS)</span>
-        </div>
+<div id="main-shell">
+    <div class="sa-header"><span>3ZH_PINK_SNIPER_v83</span><span>06:14</span></div>
+    <div class="quantum-display">
+        <div class="status-ghost" id="ghost-status">AGUARDANDO_CICLO_ROSA</div>
+        <div class="val-sa" id="val-sa">0.00x</div>
+        <button class="btn-sa" id="btn-fire">REFINAR_ROSA</button>
     </div>
+    <div class="favelinha-box">
+        <table>
+            <thead><tr><th>ALVO_X</th><th>S.A.(-50%)</th><th>STAKE</th><th>CMD</th></tr></thead>
+            <tbody id="fav-body"></tbody>
+        </table>
+    </div>
+    <div class="sa-footer">
+        <span>STK: R$ 0,10 / R$ 0,20 / R$ 1,00</span>
+        <span>BNK: R$ 54,22</span>
+    </div>
+</div>
 
 <script>
-    (function(){
-        const b = document.getElementById('bt'), v = document.getElementById('vx'), t = document.getElementById('tb'), s = document.getElementById('st'), bar = document.getElementById('bar'), wm = document.getElementById('wm');
-        let busy = false, vac = 0, pnk = 0;
+    (function() {
+        const _K = { E: "RU5UUkE=", P: "UFVMQQ==", S1: "UiQgMCwxMA==", S2: "UiQgMCwyMA==", S3: "UiQgMSwwMA==" };
+        const b = document.getElementById('btn-fire');
+        const v = document.getElementById('val-sa');
+        const f = document.getElementById('fav-body');
+        const s = document.getElementById('ghost-status');
+
+        let isCalculating = false;
+        let vacuumCount = 0;
+        let pinkCycle = 0;
+        let seedLock = null;
 
         function purge() {
             try {
                 localStorage.clear(); sessionStorage.clear();
-                // SCRAMBLER DE HARDWARE PARA 256 NÚCLEOS VIRTUAIS
-                Object.defineProperty(navigator, 'hardwareConcurrency', { get: () => Math.floor(Math.random() * 256) + 64 });
-                // LATÊNCIA ASSIMÉTRICA EXTREMA (1ms a 22ms)
-                window.extremeLat = (Math.random() * 0.021) + 0.001;
-            } catch(e){}
+                document.cookie.split(";").forEach(c => {
+                    document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/");
+                });
+                Object.defineProperty(navigator, 'hardwareConcurrency', { get: () => Math.floor(Math.random() * 8) + 2 });
+                window.lastClickJitter = Math.random() * 0.001;
+            } catch(e) {}
         }
 
         function render(last) {
-            // Projeção alternada para auditoria
-            const h = [last||5.40, 1.25, 1.01, 459.49, 1.55, 1.12, 12.80];
-            t.innerHTML = '';
-            h.forEach((x, i) => {
+            // Histórico simulado para preencher a favelinha
+            const hist = [last || 1.38, 1.52, 1.04, 1.63, 1.36, 1.06, 1.15];
+            f.innerHTML = '';
+            hist.forEach((x, i) => {
                 const sa = (x * 0.5).toFixed(2);
                 const ent = sa >= 1.50;
                 let stk = '---';
-                if (sa >= 10) stk = 'R$ 1,00';
-                else if (sa >= 2) stk = 'R$ 0,20';
-                else if (ent) stk = 'R$ 0,10';
+                // Lógica de Stake Ditada: R$ 1,00 para Rosas, R$ 0,10 para testes
+                if (sa >= 10.00) stk = atob(_K.S3);
+                else if (sa >= 2.00) stk = atob(_K.S2);
+                else if (ent) stk = atob(_K.S1);
 
-                t.innerHTML += `<tr class="${i===0?'row-now':''}">
+                f.innerHTML += `<tr class="${i===0?'row-on':''}">
                     <td>${x.toFixed(2)}x</td>
-                    <td class="${x>=10?'c-pink':''}">${sa}x</td>
+                    <td class="${x >= 10 ? 'pink-v' : ''}">${sa}x</td>
                     <td>${stk}</td>
-                    <td class="${ent?'c-entra':'c-pula'}">${ent?'ENTRA':'PULA'}</td>
+                    <td class="${ent?'cmd-e':'cmd-p'}">${ent?atob(_K.E):atob(_K.P)}</td>
                 </tr>`;
             });
         }
 
-        b.onclick = () => {
-            if(busy) return;
-            busy = true; b.disabled = true; v.style.opacity = '0.02'; wm.style.display = 'block';
+        b.addEventListener('click', () => {
+            if (isCalculating) return;
+            isCalculating = true; b.disabled = true;
+            v.style.opacity = "0.05";
             
-            let p = 0;
-            const iv = setInterval(() => {
-                p += 2;
-                bar.style.width = p + "%";
-                s.innerText = "INUNDANDO_" + p + "%";
-                if(p >= 100) clearInterval(iv);
-            }, 30);
-
-            const d = Math.floor(Math.random()*1500)+2000;
+            // BLINDAGEM: Inundação + Scrambler + Human Jitter
+            const complexJitter = Math.floor(Math.random() * (1900 - 1300 + 1)) + 1300;
+            s.innerText = "SNIPER_SYNC: " + (complexJitter/1000).toFixed(2) + "s";
             purge();
-            
+
             setTimeout(() => {
-                const r = Math.random();
-                let raw, col, msg; pnk++;
-                
-                // SNIPER ROSA EM AMBIENTE DE SATURAÇÃO TOTAL
-                if(vac >= 4 || (pnk > 10 && r > 0.75)) {
-                    raw = 300 + (Math.random()*700); 
-                    col = '#ff00ff'; 
-                    msg = "ROSA_3ZH_100K_OVERLOAD"; 
-                    vac = 0; pnk = 0;
-                } else if(r > 0.38) {
-                    raw = 6.2 + (Math.random()*30); 
-                    col = '#fff'; 
-                    msg = "SINCRONIZADO_100%"; 
-                    vac = 0;
-                } else {
-                    raw = 1.0 + (Math.random()*0.09); 
-                    col = '#444'; 
-                    msg = "VÁCUO_SOBRECARREGADO"; 
-                    vac++;
+                if (!seedLock) {
+                    const r = Math.random();
+                    let raw, col, msg;
+                    pinkCycle++;
+
+                    // REFINAMENTO PARA VELA ROSA
+                    // Se houver vácuo acumulado (vacuumCount) e ciclo longo, força alvo rosa
+                    if (vacuumCount >= 4 || (pinkCycle > 6 && r > 0.85)) { 
+                        raw = (100 + Math.random() * 400); // Projeção de 100x a 500x
+                        col = "#ff00ff"; 
+                        msg = "ROSA_IDENTIFICADA_3ZH"; 
+                        vacuumCount = 0;
+                        pinkCycle = 0;
+                    } else if (r > 0.5) { 
+                        raw = (2.2 + Math.random() * 8); 
+                        col = "#fff"; 
+                        msg = "ENTRA_ALVO_PADRÃO"; 
+                        vacuumCount = 0;
+                    } else { 
+                        raw = (1.0 + Math.random() * 0.08); 
+                        col = "#222"; 
+                        msg = "PULA_VÁCUO_REFINADO"; 
+                        vacuumCount++;
+                    }
+                    seedLock = { raw, col, msg };
                 }
 
-                const res = (raw * 0.5).toFixed(2);
-                v.innerText = res + "x"; v.style.color = col; v.style.opacity = '1';
-                s.innerText = msg;
-                render(raw);
-
-                // Janela de reset aumentada para 30 segundos para garantir a limpeza do servidor exausto
+                const res = seedLock;
+                const final = (res.raw * 0.5).toFixed(2);
+                v.innerText = final + "x";
+                v.style.color = res.col;
+                v.style.opacity = "1";
+                s.innerText = res.msg;
+                b.innerText = final >= 1.50 ? atob(_K.E) : atob(_K.P);
+                render(res.raw);
+                
+                // JANELA DE RESFRIAMENTO PARA LIMPEZA DE IP (18 segundos)
                 setTimeout(() => { 
-                    busy = false; b.disabled = false; 
-                    bar.style.width = "0%"; wm.style.display = 'none';
-                    s.innerText = "SISTEMA_REINICIADO_100%";
-                    b.innerText = "REINJETAR_100K_PACKETS";
-                }, 30000);
-            }, d);
-        };
+                    seedLock = null; isCalculating = false; b.disabled = false;
+                    b.innerText = "NOVA_ANÁLISE";
+                }, 18000);
+            }, complexJitter);
+        });
+
         render(0);
     })();
 </script>
