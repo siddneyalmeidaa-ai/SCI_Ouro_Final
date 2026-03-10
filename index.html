@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>S.A._V83_GHOST_SUPREMACIA_V91</title>
+    <title>S.A._V92_SUPREMACIA_ULTIMATE</title>
     <style>
         * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; outline: none; }
         body { background: #000; color: #d0d0d0; font-family: 'Courier New', monospace; margin: 0; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
@@ -17,16 +17,15 @@
         .status-ghost { font-size: 9px; text-transform: uppercase; letter-spacing: 2px; color: #00ffff; height: 12px; font-weight: bold; }
         .btn-sa { background: #ffffff; color: #000; border: none; width: 100%; padding: 25px; font-size: 26px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 15px; border-radius: 4px; box-shadow: 0 6px 0 #444; }
         .btn-sa:active { transform: translateY(4px); box-shadow: 0 2px 0 #222; }
-        .btn-sa:disabled { background: #222; color: #444; box-shadow: none; }
+        .btn-sa:disabled { background: #111; color: #333; box-shadow: none; cursor: not-allowed; }
         .metrics-sync { display: flex; gap: 8px; margin-top: 15px; }
         .m-card { flex: 1; background: #030303; border: 1px solid #111; padding: 10px; text-align: center; }
         .m-label { font-size: 7px; color: #333; }
         .m-val { font-size: 16px; font-weight: 900; }
         .favelinha-box { margin-top: 15px; background: #020202; border: 1px solid #0d0d0d; flex: 1; overflow-y: auto; }
         table { width: 100%; border-collapse: collapse; font-size: 11px; }
-        th { background: #080808; color: #444; padding: 12px; text-align: left; position: sticky; top: 0; }
+        th { background: #080808; color: #444; padding: 12px; text-align: left; }
         td { padding: 14px 12px; border-bottom: 1px solid #060606; color: #444; }
-        .row-on { color: #fff !important; background: rgba(0,255,255,0.05); }
         .cmd-e { color: #00ff41 !important; font-weight: bold; }
         .cmd-p { color: #ff4141 !important; font-weight: bold; }
         .sa-footer { margin-top: auto; padding-top: 15px; border-top: 1px solid #111; display: flex; justify-content: space-between; font-size: 9px; color: #222; }
@@ -34,92 +33,25 @@
 </head>
 <body>
 <div id="main-shell">
-    <div class="sa-header"><span>V91_SUPREMACIA_AF</span><span id="clock">18:27</span></div>
+    <div class="sa-header"><span>V92_SUPREMACIA_ULTIMATE_AF</span><span>18:35</span></div>
     <div class="ghost-status-panel">
         <div class="ghost-msg" id="msg-top">MIMETISMO_BANCA_ZERO: ATIVO</div>
-        <div style="font-size: 7px; color: #666;">BLINDAGEM_ANTI_CORTE_V91_SYNCED</div>
+        <div style="font-size: 7px; color: #666;">BANCA_CRITICA_PROTECAO_1.05x_ON</div>
     </div>
     <div class="quantum-display">
-        <div class="status-ghost" id="ghost-status">AGUARDANDO_GATILHO_DE_COMPENSACAO...</div>
+        <div class="status-ghost" id="ghost-status">SISTEMA_AGUARDANDO_RODADA_SEGURA...</div>
         <div class="val-sa" id="val-sa">0.00x</div>
-        <button class="btn-sa" id="btn-fire">NOVA_SCAN_GHOST</button>
+        <button class="btn-sa" id="btn-fire">SCAN_GHOST_V92</button>
     </div>
     <div class="metrics-sync">
-        <div class="m-card"><div class="m-label">LIBERADO</div><div id="m-lib" class="m-val" style="color:#00ff41">--%</div></div>
+        <div class="m-card"><div class="m-label">SEGURANÇA</div><div id="m-lib" class="m-val" style="color:#00ff41">--%</div></div>
         <div class="m-card"><div class="m-label">VÁCUO</div><div id="m-vac" class="m-val" style="color:#ff00ff">0</div></div>
     </div>
     <div class="favelinha-box">
         <table>
-            <thead><tr><th>ALVO_X</th><th>S.A.(-50%)</th><th>CMD</th></tr></thead>
+            <thead><tr><th>HISTORICO</th><th>SAIDA_SA</th><th>CMD</th></tr></thead>
             <tbody id="fav-body"></tbody>
         </table>
     </div>
-    <div class="sa-footer"><span>ESCUDO_IPI: AF_SUPREMACIA</span><span>GHOST_BYPASS_ENABLED</span></div>
-</div>
-
-<script>
-    (function() {
-        const btn = document.getElementById('btn-fire');
-        const display = document.getElementById('val-sa');
-        const status = document.getElementById('ghost-status');
-        const favBody = document.getElementById('fav-body');
-        const mVac = document.getElementById('m-vac');
+    <div class="sa-footer"><span>STAKE_
         
-        let vacCount = 0;
-        let history = [1.02, 1.05, 1.00, 1.05, 1.13]; // Seed do teu print
-
-        function updateMetrics() {
-            const wins = history.filter(x => (x * 0.5) >= 1.10).length;
-            const lib = Math.round((wins / (history.length || 1)) * 100);
-            document.getElementById('m-lib').innerText = lib + "%";
-            mVac.innerText = vacCount;
-
-            favBody.innerHTML = history.slice(0, 10).map((x, i) => {
-                const saVal = (x * 0.5).toFixed(2);
-                const isEntra = saVal >= 1.10;
-                return `<tr class="${i===0?'row-on':''}">
-                    <td>${x.toFixed(2)}x</td>
-                    <td style="color:#fff">${saVal}x</td>
-                    <td class="${isEntra?'cmd-e':'cmd-p'}">${isEntra?'ENTRA':'PULA'}</td>
-                </tr>`;
-            }).join('');
-        }
-
-        btn.addEventListener('click', () => {
-            btn.disabled = true;
-            status.innerText = "FORCANDO_BYPASS_DE_RETENCAO...";
-            display.style.opacity = "0.2";
-
-            setTimeout(() => {
-                let raw;
-                // CORREÇÃO DO GATILHO: Se vacCount >= 2, força a saída de compensação
-                if (vacCount >= 2) {
-                    raw = (2.2 + Math.random() * 1.5); // Garante um Alvo SA seguro
-                    status.innerText = "ENTRA_ALVO_ANTI_CORTE";
-                    status.style.color = "#00ff41";
-                    vacCount = 0;
-                } else {
-                    raw = (1.0 + Math.random() * 0.05); // Simula o corte do servidor
-                    status.innerText = "PULA_LOOP_DE_EXTERMINIO";
-                    status.style.color = "#ff4141";
-                    vacCount++;
-                }
-
-                const final = (raw * 0.5).toFixed(2);
-                display.innerText = final + "x";
-                display.style.opacity = "1";
-                history.unshift(raw);
-                updateMetrics();
-
-                setTimeout(() => {
-                    btn.disabled = false;
-                    btn.innerText = "NOVA_SCAN_GHOST";
-                }, 2000);
-            }, 1500);
-        });
-
-        updateMetrics();
-    })();
-</script>
-</body>
-</html>
