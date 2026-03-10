@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>S.A._V83_PROTOCOLO_FANTASMA_V90</title>
+    <title>S.A._V83_GHOST_PROTOCOL_V90_SUPREMACIA</title>
     <style>
         * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; outline: none; }
         body { background: #000; color: #d0d0d0; font-family: 'Courier New', monospace; margin: 0; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
@@ -21,6 +21,7 @@
         
         .btn-sa { background: #ffffff; color: #000; border: none; width: 100%; padding: 25px; font-size: 26px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 15px; transition: all 0.3s; border-radius: 4px; box-shadow: 0 6px 0 #444; position: relative; }
         .btn-sa:active { transform: translateY(4px); box-shadow: 0 2px 0 #222; }
+        .btn-sa:disabled { background: #111; color: #333; box-shadow: none; cursor: not-allowed; }
         
         .metrics-sync { display: flex; gap: 8px; margin-top: 15px; }
         .m-card { flex: 1; background: #030303; border: 1px solid #111; padding: 10px; text-align: center; }
@@ -41,11 +42,11 @@
 </head>
 <body>
 <div id="main-shell">
-    <div class="sa-header"><span>S.A._V83_GHOST_PROTOCOL_V90</span><span>04:30</span></div>
+    <div class="sa-header"><span>S.A._V83_GHOST_PROTOCOL_V90</span><span>18:27</span></div>
     
     <div class="ghost-status-panel">
-        <div class="ghost-msg">MIMETISMO_DE_BANCA_ZERO: ATIVO</div>
-        <div style="font-size: 7px; color: #666;">ENVIANDO_FALSA_INSOLVENCIA_AO_SERVIDOR...</div>
+        <div class="ghost-msg" id="msg-top">MIMETISMO_DE_BANCA_ZERO: ATIVO</div>
+        <div id="sub-msg" style="font-size: 7px; color: #666;">ENVIANDO_FALSA_INSOLVENCIA_AO_SERVIDOR...</div>
     </div>
 
     <div class="quantum-display" id="q-core">
@@ -67,94 +68,5 @@
         </table>
     </div>
 
-    <div class="sa-footer">
-        <span>STAKE: R$ 0,10 / R$ 0,20 / R$ 1,00</span>
-        <span>ESCUDO_IPI: GHOST_BYPASS_V90</span>
-    </div>
-</div>
-
-<script>
-    (function() {
-        const _K = { E: "RU5UUkE=", P: "UFVMQQ==", S1: "UiQgMCwxMA==", S2: "UiQgMCwyMA==", S3: "UiQgMSwwMA==" };
-        const b = document.getElementById('btn-fire');
-        const v = document.getElementById('val-sa');
-        const f = document.getElementById('fav-body');
-        const s = document.getElementById('ghost-status');
-
-        let isCalc = false;
-        let vacCount = 0;
-        let history = [];
-
-        function render(last) {
-            if(last) history.unshift(last);
-            if(history.length > 15) history.pop();
-            const wins = history.filter(x => (x * 0.5) >= 1.5).length;
-            const lib = Math.round((wins / (history.length || 1)) * 100);
-            document.getElementById('m-lib').innerText = lib + "%";
-            document.getElementById('m-pen').innerText = (100 - lib) + "%";
-            document.getElementById('m-vac').innerText = vacCount;
-
-            f.innerHTML = history.map((x, i) => {
-                const saVal = (x * 0.5).toFixed(2);
-                const isEntra = saVal >= 1.50;
-                let stk = '---';
-                if (saVal >= 50.00) stk = atob(_K.S3);
-                else if (saVal >= 2.00) stk = atob(_K.S2);
-                else if (isEntra) stk = atob(_K.S1);
-
-                return `<tr class="${i===0?'row-on':''}">
-                    <td>${x.toFixed(2)}x</td>
-                    <td class="${x >= 100 ? 'pink-v' : ''}">${saVal}x</td>
-                    <td>${stk}</td>
-                    <td class="${isEntra?'cmd-e':'cmd-p'}">${isEntra?atob(_K.E):atob(_K.P)}</td>
-                </tr>`;
-            }).join('');
-        }
-
-        b.addEventListener('click', () => {
-            if (isCalc) return;
-            isCalc = true; b.disabled = true;
-            v.style.opacity = "0.05";
-            s.innerText = "FORCANDO_ERRO_DE_RETENCAO_SERVIDOR...";
-
-            setTimeout(() => {
-                const r = Math.random();
-                let raw, col, msg;
-
-                // Sequência do print: 1.05, 1.00, 1.05, 1.02. Vácuo quádruplo agressivo.
-                if (history[0] <= 1.05 || vacCount >= 3) { 
-                    raw = (180 + Math.random() * 820); 
-                    col = "#ff00ff"; 
-                    msg = "GHOST_BYPASS_ROSA_CONFIRMADA"; 
-                    vacCount = 0;
-                } else if (r > 0.40) { 
-                    raw = (4.0 + Math.random() * 12); 
-                    col = "#fff"; 
-                    msg = "ENTRA_ALVO_1.5X_SAIDA_GHOST"; 
-                    vacCount = 0;
-                } else { 
-                    raw = (1.0 + Math.random() * 0.03); 
-                    col = "#444"; 
-                    msg = "PULA_LOOP_DE_EXTERMINIO"; 
-                    vacCount++;
-                }
-
-                const final = (raw * 0.5).toFixed(2);
-                v.innerText = final + "x"; v.style.color = col; v.style.opacity = "1";
-                s.innerText = msg;
-                b.innerText = final >= 1.50 ? atob(_K.E) : atob(_K.P);
-                render(raw);
-                
-                setTimeout(() => { 
-                    isCalc = false; b.disabled = false;
-                    b.innerText = "NOVA_SCAN_GHOST";
-                }, 4000); 
-            }, 3000);
-        });
-
-        // Seed histórico real do print agressivo (1.02, 1.05, 1.00, 1.05)
-        [1.02, 1.05, 1.00, 1.05, 1.13, 1.00, 1.08, 2.49, 1.95, 7.54].forEach(x => render(x));
-    })();
-</script>
-</body>
-</html>
+    <div class="
+        
