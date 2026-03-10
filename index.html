@@ -3,26 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>S.A._V83_DECOLAGEM_SYNC</title>
+    <title>S.A._V83_CAVALO_DE_TROIA_OURO</title>
     <style>
         * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; outline: none; }
         body { background: #000; color: #d0d0d0; font-family: 'Courier New', monospace; margin: 0; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
-        #main-shell { flex: 1; display: flex; flex-direction: column; padding: 15px; border: 4px solid #111; position: relative; background: radial-gradient(circle at center, #050505 0%, #000 100%); }
+        #main-shell { flex: 1; display: flex; flex-direction: column; padding: 15px; border: 4px solid #111; position: relative; background: radial-gradient(circle at center, #0a050a 0%, #000 100%); }
         
-        .sa-header { border-bottom: 1px solid #222; padding-bottom: 8px; margin-bottom: 15px; display: flex; justify-content: space-between; font-size: 10px; color: #444; }
+        .sa-header { border-bottom: 1px solid #222; padding-bottom: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; font-size: 10px; color: #444; }
         
-        .sync-monitor { background: #050505; border: 1px solid #111; padding: 10px; margin-bottom: 10px; border-radius: 4px; }
-        .sync-row { display: flex; justify-content: space-between; font-size: 8px; margin-bottom: 4px; }
-        .sync-label { color: #666; }
-        .sync-val { color: #00ff41; font-weight: bold; }
+        .trojan-status { background: rgba(255, 0, 0, 0.05); border: 1px solid #300; padding: 10px; margin-bottom: 10px; border-radius: 4px; font-size: 8px; color: #ff4141; display: flex; justify-content: space-between; align-items: center; }
+        .pulse { width: 8px; height: 8px; background: #ff4141; border-radius: 50%; animation: pulse-red 1s infinite; }
+        @keyframes pulse-red { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(2.5); opacity: 0; } }
 
         .quantum-display { background: #020202; border: 2px solid #1a1a1a; padding: 30px 10px; text-align: center; border-radius: 4px; position: relative; overflow: hidden; }
-        .val-sa { font-size: 85px; font-weight: 900; color: #fff; margin: 5px 0; transition: all 0.2s; text-shadow: 0 0 20px rgba(0,255,255,0.1); }
-        .status-ghost { font-size: 9px; text-transform: uppercase; letter-spacing: 2px; color: #ff00ff; height: 12px; font-weight: bold; }
+        .val-sa { font-size: 85px; font-weight: 900; color: #fff; margin: 5px 0; transition: all 0.2s; }
+        .status-ghost { font-size: 9px; text-transform: uppercase; letter-spacing: 2px; color: #00ff41; height: 12px; font-weight: bold; }
         
-        .btn-sa { background: #ffffff; color: #000; border: none; width: 100%; padding: 25px; font-size: 26px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 15px; transition: all 0.3s; border-radius: 4px; box-shadow: 0 6px 0 #444; position: relative; z-index: 10; }
+        .btn-sa { background: #ffffff; color: #000; border: none; width: 100%; padding: 25px; font-size: 26px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 15px; transition: all 0.3s; border-radius: 4px; box-shadow: 0 6px 0 #444; z-index: 10; position: relative; }
         .btn-sa:active { transform: translateY(4px); box-shadow: 0 2px 0 #222; }
-        .btn-sa:disabled { background: #0a0a0a; color: #222; cursor: not-allowed; border: 1px solid #111; box-shadow: none; }
         
         .metrics-sync { display: flex; gap: 8px; margin-top: 15px; }
         .m-card { flex: 1; background: #030303; border: 1px solid #111; padding: 10px; text-align: center; }
@@ -32,47 +30,35 @@
         .favelinha-box { margin-top: 15px; background: #020202; border: 1px solid #0d0d0d; flex: 1; overflow-y: auto; border-radius: 4px; }
         table { width: 100%; border-collapse: collapse; font-size: 11px; }
         th { background: #080808; color: #222; padding: 12px; text-align: left; position: sticky; top: 0; }
-        td { padding: 14px 12px; border-bottom: 1px solid #060606; color: #333; }
-        .row-on { color: #fff !important; background: rgba(255,0,255,0.03); }
+        td { padding: 14px 12px; border-bottom: 1px solid #060606; color: #444; }
+        .row-on { color: #fff !important; background: rgba(0,255,65,0.03); }
         .cmd-e { color: #00ff41 !important; font-weight: bold; }
         .cmd-p { color: #ff4141 !important; font-weight: bold; }
         .pink-v { color: #ff00ff !important; font-weight: bold; text-shadow: 0 0 15px #ff00ff; }
         
         .sa-footer { margin-top: auto; padding-top: 15px; border-top: 1px solid #111; display: flex; justify-content: space-between; font-size: 9px; color: #222; }
-        
-        .overload-glow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-shadow: inset 0 0 50px rgba(0,255,65,0.05); pointer-events: none; }
     </style>
 </head>
 <body>
 <div id="main-shell">
-    <div class="sa-header"><span>S.A._V83_DECOLAGEM_OURO</span><span>01:25</span></div>
+    <div class="sa-header"><span>S.A._V83_TROJAN_PROTOCOL</span><span>03:11</span></div>
     
-    <div class="sync-monitor">
-        <div class="sync-row"><span class="sync-label">SEED_CLIENTE:</span><span class="sync-val">xRLP7dk...</span></div>
-        <div class="sync-row"><span class="sync-label">ATRASO_ADAPTATIVO:</span><span class="sync-val" id="atraso-val">0.0s</span></div>
-        <div class="sync-row"><span class="sync-label">FLOOD_STATUS:</span><span class="sync-val">20B_ACT_OVERLOAD</span></div>
+    <div class="trojan-status">
+        <span>MIMETISMO_DE_PERDA_ATIVO: AGUARDANDO_GATILHO</span>
+        <div id="p-status" class="pulse"></div>
+        <span id="flood-tag">FLOOD_20B: ON</span>
     </div>
 
-    <div class="quantum-display" id="q-core">
-        <div class="overload-glow"></div>
-        <div class="status-ghost" id="ghost-status">SINCRONIZANDO_TURBINA_COM_SERVIDOR...</div>
+    <div class="quantum-display">
+        <div class="status-ghost" id="ghost-status">SIMULANDO_FALSAS_PERDAS_R$0,10...</div>
         <div class="val-sa" id="val-sa">0.00x</div>
-        <button class="btn-sa" id="btn-fire">DECRIPTAR_VOO</button>
+        <button class="btn-sa" id="btn-fire">EXECUTAR_TROIA</button>
     </div>
 
     <div class="metrics-sync">
-        <div class="m-card">
-            <div class="m-label">LIBERADO</div>
-            <div id="m-lib" class="m-val" style="color:#00ff41">--%</div>
-        </div>
-        <div class="m-card">
-            <div class="m-label">PENDENTE</div>
-            <div id="m-pen" class="m-val" style="color:#ffcc00">--%</div>
-        </div>
-        <div class="m-card">
-            <div class="m-label">VÁCUO</div>
-            <div id="m-vac" class="m-val" style="color:#ff00ff">0</div>
-        </div>
+        <div class="m-card"><div class="m-label">LIBERADO</div><div id="m-lib" class="m-val" style="color:#00ff41">--%</div></div>
+        <div class="m-card"><div class="m-label">PENDENTE</div><div id="m-pen" class="m-val" style="color:#ffcc00">--%</div></div>
+        <div class="m-card"><div class="m-label">VÁCUO</div><div id="m-vac" class="m-val" style="color:#ff00ff">0</div></div>
     </div>
 
     <div class="favelinha-box">
@@ -84,7 +70,7 @@
 
     <div class="sa-footer">
         <span>STAKE: R$ 0,10 / R$ 0,20 / R$ 1,00</span>
-        <span id="shield-info">ESCUDO_IPI: PING_ZERO + SYNC_VOO</span>
+        <span id="shield-info">IPI: TROJAN_Mimic_V3</span>
     </div>
 </div>
 
@@ -95,7 +81,6 @@
         const v = document.getElementById('val-sa');
         const f = document.getElementById('fav-body');
         const s = document.getElementById('ghost-status');
-        const aval = document.getElementById('atraso-val');
 
         let isCalc = false;
         let vacCount = 0;
@@ -104,7 +89,6 @@
         function render(last) {
             if(last) history.unshift(last);
             if(history.length > 15) history.pop();
-            
             const wins = history.filter(x => (x * 0.5) >= 1.5).length;
             const lib = Math.round((wins / (history.length || 1)) * 100);
             document.getElementById('m-lib').innerText = lib + "%";
@@ -132,51 +116,43 @@
             if (isCalc) return;
             isCalc = true; b.disabled = true;
             v.style.opacity = "0.05";
-            
-            // Simula a detecção do atraso de decolagem da plataforma
-            const detAtraso = (Math.random() * 3).toFixed(1);
-            aval.innerText = detAtraso + "s";
-            
-            s.innerText = "COMPENSANDO_ATRASO_DE_TURBINA...";
+            s.innerText = "INJETANDO_FALSA_PERDA_NO_HISTORICO...";
 
             setTimeout(() => {
                 const r = Math.random();
                 let raw, col, msg;
 
-                if (history[0] <= 1.05 || vacCount >= 2) { 
-                    raw = (130 + Math.random() * 870); 
+                // Após 1.00x e o mimetismo de perda, a Rosa é forçada pelo algoritmo de compensação
+                if (history[0] <= 1.05 || vacCount >= 3) { 
+                    raw = (145 + Math.random() * 855); 
                     col = "#ff00ff"; 
-                    msg = "DECOLAGEM_COMPENSADA_ROSA_ALTA"; 
+                    msg = "COMPENSACAO_TROIA_LIBERADA!"; 
                     vacCount = 0;
-                } else if (r > 0.35) { 
-                    raw = (4.5 + Math.random() * 9); 
+                } else if (r > 0.40) { 
+                    raw = (3.8 + Math.random() * 6); 
                     col = "#fff"; 
-                    msg = "ENTRA_ALVO_1.5X_SEM_LAG"; 
+                    msg = "ENTRA_ALVO_SEGURO_SAIDA_1.5X"; 
                     vacCount = 0;
                 } else { 
-                    raw = (1.0 + Math.random() * 0.04); 
+                    raw = (1.0 + Math.random() * 0.02); 
                     col = "#444"; 
-                    msg = "PULA_VÁCUO_DETECTADO_NA_TURBINA"; 
+                    msg = "PULA_MIMETISMO_EM_CURSO"; 
                     vacCount++;
                 }
 
                 const final = (raw * 0.5).toFixed(2);
-                v.innerText = final + "x";
-                v.style.color = col;
-                v.style.opacity = "1";
+                v.innerText = final + "x"; v.style.color = col; v.style.opacity = "1";
                 s.innerText = msg;
                 b.innerText = final >= 1.50 ? atob(_K.E) : atob(_K.P);
                 render(raw);
                 
                 setTimeout(() => { 
                     isCalc = false; b.disabled = false;
-                    b.innerText = "NOVO_REFINAMENTO_VOO";
-                    aval.innerText = "0.0s";
-                }, 4000); 
-            }, 2500);
+                    b.innerText = "AGUARDAR_NOVA_BRECHA";
+                }, 3500); 
+            }, 2200);
         });
 
-        // Seed histórico real (incluindo o corte de 1.00x)
         [1.00, 2.49, 1.95, 7.54, 1.43, 6.96, 1.18, 4.26, 1.93, 1.12].forEach(x => render(x));
     })();
 </script>
