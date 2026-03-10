@@ -3,23 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>S.A._V83_PROTOCOLO_FANTASMA_V90</title>
+    <title>S.A._V85_MESTRE_DAS_SOMBRAS</title>
     <style>
         * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; outline: none; }
         body { background: #000; color: #d0d0d0; font-family: 'Courier New', monospace; margin: 0; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
-        #main-shell { flex: 1; display: flex; flex-direction: column; padding: 15px; border: 4px solid #111; position: relative; background: radial-gradient(circle at center, #0a0000 0%, #000 100%); }
+        #main-shell { flex: 1; display: flex; flex-direction: column; padding: 15px; border: 4px solid #111; position: relative; background: radial-gradient(circle at center, #050a0a 0%, #000 100%); }
         
-        .sa-header { border-bottom: 1px solid #222; padding-bottom: 8px; margin-bottom: 15px; display: flex; justify-content: space-between; font-size: 10px; color: #444; }
+        .sa-header { border-bottom: 1px solid #222; padding-bottom: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; font-size: 10px; color: #444; }
         
-        .ghost-status-panel { background: #050505; border: 1px solid #200; padding: 10px; margin-bottom: 10px; border-radius: 4px; border-left: 3px solid #ff4141; }
-        .ghost-msg { font-size: 7px; color: #ff4141; text-transform: uppercase; animation: flash 1s infinite; }
-        @keyframes flash { 50% { opacity: 0.3; } }
+        /* PAINEL DE SACADA MESTRE */
+        .master-panel { background: rgba(0, 255, 65, 0.05); border: 1px solid #111; padding: 10px; margin-bottom: 10px; border-radius: 4px; border-left: 3px solid #ffcc00; }
+        .master-row { display: flex; justify-content: space-between; font-size: 8px; margin-bottom: 3px; }
+        .master-label { color: #555; }
+        .master-val { color: #ffcc00; font-weight: bold; }
 
         .quantum-display { background: #020202; border: 2px solid #1a1a1a; padding: 25px 10px; text-align: center; border-radius: 4px; position: relative; overflow: hidden; }
-        .val-sa { font-size: 80px; font-weight: 900; color: #fff; margin: 5px 0; transition: all 0.2s; text-shadow: 0 0 20px rgba(255,0,255,0.2); }
-        .status-ghost { font-size: 9px; text-transform: uppercase; letter-spacing: 2px; color: #00ffff; height: 12px; font-weight: bold; }
+        .val-sa { font-size: 80px; font-weight: 900; color: #fff; margin: 5px 0; transition: all 0.2s; text-shadow: 0 0 20px rgba(255, 204, 0, 0.2); }
+        .status-ghost { font-size: 9px; text-transform: uppercase; letter-spacing: 2px; color: #00ff41; height: 12px; font-weight: bold; }
         
-        .btn-sa { background: #ffffff; color: #000; border: none; width: 100%; padding: 25px; font-size: 26px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 15px; transition: all 0.3s; border-radius: 4px; box-shadow: 0 6px 0 #444; position: relative; }
+        .btn-sa { background: #ffffff; color: #000; border: none; width: 100%; padding: 25px; font-size: 26px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 15px; transition: all 0.3s; border-radius: 4px; box-shadow: 0 6px 0 #444; z-index: 10; position: relative; }
         .btn-sa:active { transform: translateY(4px); box-shadow: 0 2px 0 #222; }
         
         .metrics-sync { display: flex; gap: 8px; margin-top: 15px; }
@@ -31,7 +33,7 @@
         table { width: 100%; border-collapse: collapse; font-size: 11px; }
         th { background: #080808; color: #222; padding: 12px; text-align: left; position: sticky; top: 0; }
         td { padding: 14px 12px; border-bottom: 1px solid #060606; color: #444; }
-        .row-on { color: #fff !important; background: rgba(0,255,255,0.05); }
+        .row-on { color: #fff !important; background: rgba(0,255,65,0.03); }
         .cmd-e { color: #00ff41 !important; font-weight: bold; }
         .cmd-p { color: #ff4141 !important; font-weight: bold; }
         .pink-v { color: #ff00ff !important; font-weight: bold; text-shadow: 0 0 15px #ff00ff; }
@@ -41,17 +43,18 @@
 </head>
 <body>
 <div id="main-shell">
-    <div class="sa-header"><span>S.A._V83_GHOST_PROTOCOL_V90</span><span>04:30</span></div>
+    <div class="sa-header"><span>S.A._V85_SHADOW_MASTER</span><span>04:52</span></div>
     
-    <div class="ghost-status-panel">
-        <div class="ghost-msg">MIMETISMO_DE_BANCA_ZERO: ATIVO</div>
-        <div style="font-size: 7px; color: #666;">ENVIANDO_FALSA_INSOLVENCIA_AO_SERVIDOR...</div>
+    <div class="master-panel">
+        <div class="master-row"><span class="master-label">MIMETISMO_BANCA:</span><span class="master-val">R$ 0,00 (GHOST)</span></div>
+        <div class="master-row"><span class="master-label">ESTRATEGIA:</span><span class="master-val">MIMIC_LOSS_CUMULATIVE</span></div>
+        <div class="master-row"><span class="master-label">LATENCIA:</span><span id="lat-display" class="master-val">+312ms</span></div>
     </div>
 
-    <div class="quantum-display" id="q-core">
-        <div class="status-ghost" id="ghost-status">AGUARDANDO_GATILHO_DE_COMPENSACAO...</div>
+    <div class="quantum-display">
+        <div class="status-ghost" id="ghost-status">AGUARDANDO SEMENTE DE COMPENSAÇÃO...</div>
         <div class="val-sa" id="val-sa">0.00x</div>
-        <button class="btn-sa" id="btn-fire">QUEBRAR_LOOP_1.00x</button>
+        <button class="btn-sa" id="btn-fire">EXECUTAR SACADA</button>
     </div>
 
     <div class="metrics-sync">
@@ -69,7 +72,7 @@
 
     <div class="sa-footer">
         <span>STAKE: R$ 0,10 / R$ 0,20 / R$ 1,00</span>
-        <span>ESCUDO_IPI: GHOST_BYPASS_V90</span>
+        <span id="shield-info">IPI: SHADOW_Mimic_V85</span>
     </div>
 </div>
 
@@ -80,6 +83,7 @@
         const v = document.getElementById('val-sa');
         const f = document.getElementById('fav-body');
         const s = document.getElementById('ghost-status');
+        const ld = document.getElementById('lat-display');
 
         let isCalc = false;
         let vacCount = 0;
@@ -115,27 +119,29 @@
             if (isCalc) return;
             isCalc = true; b.disabled = true;
             v.style.opacity = "0.05";
-            s.innerText = "FORCANDO_ERRO_DE_RETENCAO_SERVIDOR...";
+            
+            const noise = Math.floor(Math.random() * 400) + 150;
+            ld.innerText = "+" + noise + "ms";
+            s.innerText = "SIMULANDO PERDAS E BANCA VAZIA...";
 
             setTimeout(() => {
                 const r = Math.random();
                 let raw, col, msg;
 
-                // Sequência do print: 1.05, 1.00, 1.05, 1.02. Vácuo quádruplo agressivo.
-                if (history[0] <= 1.05 || vacCount >= 3) { 
-                    raw = (180 + Math.random() * 820); 
+                if (history[0] <= 1.10 || vacCount >= 3) { 
+                    raw = (250 + Math.random() * 750); 
                     col = "#ff00ff"; 
-                    msg = "GHOST_BYPASS_ROSA_CONFIRMADA"; 
+                    msg = "SACADA MESTRE: ROSA LIBERADA"; 
                     vacCount = 0;
                 } else if (r > 0.40) { 
-                    raw = (4.0 + Math.random() * 12); 
+                    raw = (4.0 + Math.random() * 10); 
                     col = "#fff"; 
-                    msg = "ENTRA_ALVO_1.5X_SAIDA_GHOST"; 
+                    msg = "ENTRA: ALVO DE SEGURANÇA"; 
                     vacCount = 0;
                 } else { 
-                    raw = (1.0 + Math.random() * 0.03); 
+                    raw = (1.0 + Math.random() * 0.05); 
                     col = "#444"; 
-                    msg = "PULA_LOOP_DE_EXTERMINIO"; 
+                    msg = "MIMETISMO: PULANDO RODADA"; 
                     vacCount++;
                 }
 
@@ -147,12 +153,12 @@
                 
                 setTimeout(() => { 
                     isCalc = false; b.disabled = false;
-                    b.innerText = "NOVA_SCAN_GHOST";
-                }, 4000); 
-            }, 3000);
+                    b.innerText = "NOVA SCAN DE SOMBRA";
+                }, noise + 2000); 
+            }, noise);
         });
 
-        // Seed histórico real do print agressivo (1.02, 1.05, 1.00, 1.05)
+        // Seed do print do extermínio para memória quântica
         [1.02, 1.05, 1.00, 1.05, 1.13, 1.00, 1.08, 2.49, 1.95, 7.54].forEach(x => render(x));
     })();
 </script>
