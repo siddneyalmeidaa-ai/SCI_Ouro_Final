@@ -3,21 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>S.A._V83_QUANTUM_FLOOD_20B</title>
+    <title>S.A._V83_DECOLAGEM_SYNC</title>
     <style>
         * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; outline: none; }
         body { background: #000; color: #d0d0d0; font-family: 'Courier New', monospace; margin: 0; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
         #main-shell { flex: 1; display: flex; flex-direction: column; padding: 15px; border: 4px solid #111; position: relative; background: radial-gradient(circle at center, #050505 0%, #000 100%); }
         
         .sa-header { border-bottom: 1px solid #222; padding-bottom: 8px; margin-bottom: 15px; display: flex; justify-content: space-between; font-size: 10px; color: #444; }
-        .flood-bar { background: #080808; height: 4px; width: 100%; margin-bottom: 10px; position: relative; overflow: hidden; border-radius: 2px; }
-        .flood-progress { height: 100%; background: #00ff41; width: 0%; transition: width 0.1s; box-shadow: 0 0 10px #00ff41; }
         
-        .seed-info { background: #050505; border: 1px solid #111; padding: 10px; font-size: 8px; color: #00ff41; margin-bottom: 10px; border-radius: 2px; display: flex; justify-content: space-between; }
-        
-        .quantum-display { background: #020202; border: 2px solid #1a1a1a; padding: 25px 10px; text-align: center; border-radius: 4px; position: relative; overflow: hidden; }
-        .val-sa { font-size: 75px; font-weight: 900; color: #fff; margin: 5px 0; transition: all 0.2s; text-shadow: 0 0 20px rgba(0,255,65,0.1); }
-        .status-ghost { font-size: 9px; text-transform: uppercase; letter-spacing: 2px; color: #ffcc00; height: 12px; font-weight: bold; }
+        .sync-monitor { background: #050505; border: 1px solid #111; padding: 10px; margin-bottom: 10px; border-radius: 4px; }
+        .sync-row { display: flex; justify-content: space-between; font-size: 8px; margin-bottom: 4px; }
+        .sync-label { color: #666; }
+        .sync-val { color: #00ff41; font-weight: bold; }
+
+        .quantum-display { background: #020202; border: 2px solid #1a1a1a; padding: 30px 10px; text-align: center; border-radius: 4px; position: relative; overflow: hidden; }
+        .val-sa { font-size: 85px; font-weight: 900; color: #fff; margin: 5px 0; transition: all 0.2s; text-shadow: 0 0 20px rgba(0,255,255,0.1); }
+        .status-ghost { font-size: 9px; text-transform: uppercase; letter-spacing: 2px; color: #ff00ff; height: 12px; font-weight: bold; }
         
         .btn-sa { background: #ffffff; color: #000; border: none; width: 100%; padding: 25px; font-size: 26px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 15px; transition: all 0.3s; border-radius: 4px; box-shadow: 0 6px 0 #444; position: relative; z-index: 10; }
         .btn-sa:active { transform: translateY(4px); box-shadow: 0 2px 0 #222; }
@@ -32,32 +33,31 @@
         table { width: 100%; border-collapse: collapse; font-size: 11px; }
         th { background: #080808; color: #222; padding: 12px; text-align: left; position: sticky; top: 0; }
         td { padding: 14px 12px; border-bottom: 1px solid #060606; color: #333; }
-        .row-on { color: #fff !important; background: rgba(0,255,65,0.03); }
+        .row-on { color: #fff !important; background: rgba(255,0,255,0.03); }
         .cmd-e { color: #00ff41 !important; font-weight: bold; }
         .cmd-p { color: #ff4141 !important; font-weight: bold; }
-        .pink-v { color: #ff00ff !important; font-weight: bold; text-shadow: 0 0 10px #ff00ff; }
+        .pink-v { color: #ff00ff !important; font-weight: bold; text-shadow: 0 0 15px #ff00ff; }
         
         .sa-footer { margin-top: auto; padding-top: 15px; border-top: 1px solid #111; display: flex; justify-content: space-between; font-size: 9px; color: #222; }
         
-        .noise-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.03; pointer-events: none; background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAAGFBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAn97J6AAAABnRSTlMAAAAAAABupgeRAAAANUlEQVQ4y2NgGAWjYBSMglEwCkbBKJgFomAUjIJRMApGwSgYBaNgFIyCWSAKRsEomAWjYBSMAgAs4gFByXisWwAAAABJRU5ErkJggg=='); }
+        .overload-glow { position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-shadow: inset 0 0 50px rgba(0,255,65,0.05); pointer-events: none; }
     </style>
 </head>
 <body>
 <div id="main-shell">
-    <div class="noise-bg"></div>
-    <div class="sa-header"><span>S.A._V83_QUANTUM_FLOOD_OVERLOAD</span><span>00:22</span></div>
+    <div class="sa-header"><span>S.A._V83_DECOLAGEM_OURO</span><span>01:25</span></div>
     
-    <div class="flood-bar"><div id="flood-p" class="flood-progress"></div></div>
-    
-    <div class="seed-info">
-        <span>SEED: xRLP7dk...</span>
-        <span id="access-count" style="color:#00ff41">20,000,000,000 REQS</span>
+    <div class="sync-monitor">
+        <div class="sync-row"><span class="sync-label">SEED_CLIENTE:</span><span class="sync-val">xRLP7dk...</span></div>
+        <div class="sync-row"><span class="sync-label">ATRASO_ADAPTATIVO:</span><span class="sync-val" id="atraso-val">0.0s</span></div>
+        <div class="sync-row"><span class="sync-label">FLOOD_STATUS:</span><span class="sync-val">20B_ACT_OVERLOAD</span></div>
     </div>
 
     <div class="quantum-display" id="q-core">
-        <div class="status-ghost" id="ghost-status">SOBRECARREGANDO_FILTROS_HIPERBET</div>
+        <div class="overload-glow"></div>
+        <div class="status-ghost" id="ghost-status">SINCRONIZANDO_TURBINA_COM_SERVIDOR...</div>
         <div class="val-sa" id="val-sa">0.00x</div>
-        <button class="btn-sa" id="btn-fire">EXECUTAR_OVERLOAD</button>
+        <button class="btn-sa" id="btn-fire">DECRIPTAR_VOO</button>
     </div>
 
     <div class="metrics-sync">
@@ -84,7 +84,7 @@
 
     <div class="sa-footer">
         <span>STAKE: R$ 0,10 / R$ 0,20 / R$ 1,00</span>
-        <span id="shield-info">ESCUDO_IPI: BLINDADO_20B_FLOOD</span>
+        <span id="shield-info">ESCUDO_IPI: PING_ZERO + SYNC_VOO</span>
     </div>
 </div>
 
@@ -95,7 +95,7 @@
         const v = document.getElementById('val-sa');
         const f = document.getElementById('fav-body');
         const s = document.getElementById('ghost-status');
-        const pr = document.getElementById('flood-p');
+        const aval = document.getElementById('atraso-val');
 
         let isCalc = false;
         let vacCount = 0;
@@ -133,34 +133,30 @@
             isCalc = true; b.disabled = true;
             v.style.opacity = "0.05";
             
-            let flood = 0;
-            const floodInt = setInterval(() => {
-                flood += 5;
-                pr.style.width = flood + "%";
-                if(flood >= 100) clearInterval(floodInt);
-            }, 30);
-
-            s.innerText = "SOBRECARREGANDO_20B_ACESSOS...";
+            // Simula a detecção do atraso de decolagem da plataforma
+            const detAtraso = (Math.random() * 3).toFixed(1);
+            aval.innerText = detAtraso + "s";
+            
+            s.innerText = "COMPENSANDO_ATRASO_DE_TURBINA...";
 
             setTimeout(() => {
                 const r = Math.random();
                 let raw, col, msg;
 
-                // Após 1.00x e sobrecarga, o sistema força a leitura da Rosa
                 if (history[0] <= 1.05 || vacCount >= 2) { 
-                    raw = (110 + Math.random() * 890); 
+                    raw = (130 + Math.random() * 870); 
                     col = "#ff00ff"; 
-                    msg = "FLOOD_REVELOU_ROSA_CONFIRMADA"; 
+                    msg = "DECOLAGEM_COMPENSADA_ROSA_ALTA"; 
                     vacCount = 0;
-                } else if (r > 0.38) { 
-                    raw = (4.0 + Math.random() * 12); 
+                } else if (r > 0.35) { 
+                    raw = (4.5 + Math.random() * 9); 
                     col = "#fff"; 
-                    msg = "ENTRA_ALVO_SEGURO_SAIDA_1.5X"; 
+                    msg = "ENTRA_ALVO_1.5X_SEM_LAG"; 
                     vacCount = 0;
                 } else { 
-                    raw = (1.0 + Math.random() * 0.03); 
+                    raw = (1.0 + Math.random() * 0.04); 
                     col = "#444"; 
-                    msg = "PULA_SABOTAGEM_IDENTIFICADA"; 
+                    msg = "PULA_VÁCUO_DETECTADO_NA_TURBINA"; 
                     vacCount++;
                 }
 
@@ -174,13 +170,13 @@
                 
                 setTimeout(() => { 
                     isCalc = false; b.disabled = false;
-                    b.innerText = "NOVO_SCAN_FLOOD";
-                    pr.style.width = "0%";
-                }, 4500); 
-            }, 3000);
+                    b.innerText = "NOVO_REFINAMENTO_VOO";
+                    aval.innerText = "0.0s";
+                }, 4000); 
+            }, 2500);
         });
 
-        // Seed histórico incluindo o corte de 1.00x
+        // Seed histórico real (incluindo o corte de 1.00x)
         [1.00, 2.49, 1.95, 7.54, 1.43, 6.96, 1.18, 4.26, 1.93, 1.12].forEach(x => render(x));
     })();
 </script>
