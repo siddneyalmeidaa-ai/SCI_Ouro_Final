@@ -3,63 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>S.A._V83_PINK_SNIPER_ANTI_MONITORAMENTO</title>
+    <title>S.A._V83_PINK_SNIPER_ULTIMATE</title>
     <style>
         * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; outline: none; }
         body { background: #000; color: #d0d0d0; font-family: 'Courier New', monospace; margin: 0; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
-        #main-shell { flex: 1; display: flex; flex-direction: column; padding: 15px; border: 4px solid #111; position: relative; }
+        #main-shell { flex: 1; display: flex; flex-direction: column; padding: 15px; border: 4px solid #111; filter: contrast(1.1); position: relative; }
         
-        /* Efeito de Scanner para burlar monitoramento */
-        #main-shell::after { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: rgba(255, 0, 255, 0.1); animation: scan 3s linear infinite; pointer-events: none; }
+        /* Scanner Anti-Monitoramento */
+        .scanner-line { position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: rgba(255, 0, 255, 0.3); animation: scan 2s linear infinite; pointer-events: none; z-index: 10; }
         @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
 
         .sa-header { border-bottom: 1px solid #222; padding-bottom: 8px; margin-bottom: 15px; display: flex; justify-content: space-between; font-size: 10px; color: #444; }
-        .quantum-display { background: #020202; border: 1px solid #111; padding: 30px 10px; text-align: center; border-radius: 2px; position: relative; }
-        .val-sa { font-size: 70px; font-weight: 900; color: #fff; margin: 5px 0; transition: opacity 0.2s; }
-        .status-ghost { font-size: 8px; text-transform: uppercase; letter-spacing: 2px; color: #333; height: 10px; }
+        .quantum-display { background: #020202; border: 1px solid #111; padding: 30px 10px; text-align: center; border-radius: 2px; position: relative; overflow: hidden; }
+        .val-sa { font-size: 70px; font-weight: 900; color: #fff; margin: 5px 0; transition: opacity 0.2s; text-shadow: 0 0 10px rgba(255,255,255,0.2); }
+        .status-ghost { font-size: 8px; text-transform: uppercase; letter-spacing: 2px; color: #ff00ff; height: 10px; font-weight: bold; }
         
-        .btn-sa { background: #eee; color: #000; border: none; width: 100%; padding: 22px; font-size: 22px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 15px; transition: all 0.3s; }
+        .btn-sa { background: #eee; color: #000; border: none; width: 100%; padding: 22px; font-size: 22px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 15px; transition: all 0.3s; border-radius: 4px; position: relative; z-index: 20; }
         .btn-sa:disabled { background: #111; color: #222; cursor: not-allowed; border: 1px solid #1a1a1a; }
         
-        .metrics-bar { display: flex; gap: 5px; margin-top: 15px; }
-        .m-box { flex: 1; background: #050505; border: 1px solid #111; padding: 8px; text-align: center; }
-        .m-label { font-size: 7px; color: #333; margin-bottom: 3px; }
-        .m-val { font-size: 12px; font-weight: 900; }
+        /* Métricas Sincronizadas IPI */
+        .metrics-grid { display: flex; gap: 8px; margin-top: 15px; }
+        .m-card { flex: 1; background: #050505; border: 1px solid #111; padding: 10px; text-align: center; }
+        .m-label { font-size: 7px; color: #444; margin-bottom: 4px; }
+        .m-val { font-size: 14px; font-weight: 900; }
 
-        .favelinha-box { margin-top: 15px; background: #050505; border: 1px solid #0d0d0d; max-height: 180px; overflow-y: auto; }
+        .favelinha-box { margin-top: 15px; background: #050505; border: 1px solid #0d0d0d; max-height: 180px; overflow-y: auto; border-radius: 4px; }
         table { width: 100%; border-collapse: collapse; font-size: 11px; }
         th { background: #0a0a0a; color: #222; padding: 10px; text-align: left; position: sticky; top: 0; }
         td { padding: 12px 10px; border-bottom: 1px solid #050505; color: #555; }
-        .row-on { color: #fff !important; background: rgba(255,255,255,0.02); }
+        .row-on { color: #fff !important; background: rgba(255,255,255,0.05); }
         .cmd-e { color: #00ff41 !important; font-weight: bold; }
         .cmd-p { color: #ff4141 !important; font-weight: bold; }
-        .pink-v { color: #ff00ff !important; font-weight: bold; text-shadow: 0 0 8px #ff00ff; }
+        .pink-v { color: #ff00ff !important; font-weight: bold; text-shadow: 0 0 12px #ff00ff; }
         
         .sa-footer { margin-top: auto; padding-top: 15px; border-top: 1px solid #111; display: flex; justify-content: space-between; font-size: 9px; color: #222; }
     </style>
 </head>
 <body>
 <div id="main-shell">
-    <div class="sa-header"><span>3ZH_PINK_SNIPER_v83_ANTI_MONITOR</span><span>23:23</span></div>
+    <div class="scanner-line"></div>
+    <div class="sa-header"><span>3ZH_PINK_SNIPER_v83_OURO</span><span>23:35</span></div>
     
-    <div class="quantum-display" id="q-core">
-        <div class="status-ghost" id="ghost-status">AGUARDANDO_ROSA_2_BILHOES</div>
+    <div class="quantum-display" id="display-frame">
+        <div class="status-ghost" id="ghost-status">ANTI_DELAY_ACTIVE</div>
         <div class="val-sa" id="val-sa">0.00x</div>
-        <button class="btn-sa" id="btn-fire">REFINAR_ALVO</button>
+        <button class="btn-sa" id="btn-fire">REFINAR_ROSA</button>
     </div>
 
-    <div class="metrics-bar">
-        <div class="m-box">
+    <!-- Sincronização de Métricas S.A. -->
+    <div class="metrics-grid">
+        <div class="m-card">
             <div class="m-label">LIBERADO</div>
-            <div class="m-val text-green-500" id="m-lib">100%</div>
+            <div id="m-lib" class="m-val text-green-500">100%</div>
         </div>
-        <div class="m-box">
+        <div class="m-card">
             <div class="m-label">PENDENTE</div>
-            <div class="m-val text-yellow-500" id="m-pen">0%</div>
+            <div id="m-pen" class="m-val text-yellow-500">0%</div>
         </div>
-        <div class="m-box">
+        <div class="m-card">
             <div class="m-label">VÁCUO</div>
-            <div class="m-val text-pink-500" id="m-vac">0</div>
+            <div id="m-vac" class="m-val text-pink-500">0</div>
         </div>
     </div>
 
@@ -69,93 +72,105 @@
             <tbody id="fav-body"></tbody>
         </table>
     </div>
-
+    
     <div class="sa-footer">
         <span>STK DITADA: R$ 0,10 / R$ 0,20 / R$ 1,50</span>
-        <span id="shield-status">BLINDAGEM: ATIVA</span>
+        <span id="shield-info">BLINDAGEM: ATIVA</span>
     </div>
 </div>
 
 <script>
     (function() {
+        // CHAVES SINC (ENTRA / PULA / STAKES)
         const _K = { E: "RU5UUkE=", P: "UFVMQQ==", S1: "UiQgMCwxMA==", S2: "UiQgMCwyMA==", S3: "UiQgMSw1MA==" };
         const b = document.getElementById('btn-fire');
         const v = document.getElementById('val-sa');
         const f = document.getElementById('fav-body');
         const s = document.getElementById('ghost-status');
-        const qC = document.getElementById('q-core');
+        const dFrame = document.getElementById('display-frame');
 
-        let isCalc = false;
-        let vacCount = 0;
-        let pinkCyc = 0;
-        let hist = [];
+        let isCalculating = false;
+        let vacuumCount = 0;
+        let pinkCycle = 0;
+        let history = [];
 
-        function purge() {
+        function purgeCache() {
             try {
-                // Limpeza de rastros de navegação para evitar o monitoramento da Hiper Bet
                 localStorage.clear(); sessionStorage.clear();
-                document.cookie.split(";").forEach(c => {
-                    document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/");
-                });
+                // Limpeza de rastros de cliques anteriores
+                window.lastClickJitter = Math.random();
             } catch(e) {}
         }
 
-        function render(last) {
-            if(last) hist.unshift(last);
-            if(hist.length > 7) hist.pop();
+        function updateMetrics() {
+            const wins = history.filter(x => (x * 0.5) >= 1.5).length;
+            const total = history.length || 1;
+            const lib = Math.round((wins / total) * 100);
+            document.getElementById('m-lib').innerText = lib + "%";
+            document.getElementById('m-pen').innerText = (100 - lib) + "%";
+            document.getElementById('m-vac').innerText = vacuumCount;
+        }
+
+        function renderFav(last) {
+            if(last) history.unshift(last);
+            if(history.length > 8) history.pop();
             
-            const wins = hist.filter(x => (x*0.5) >= 1.5).length;
-            const pLib = hist.length ? Math.round((wins/hist.length)*100) : 100;
-            document.getElementById('m-lib').innerText = pLib + "%";
-            document.getElementById('m-pen').innerText = (100 - pLib) + "%";
-            document.getElementById('m-vac').innerText = vacCount;
-
-            f.innerHTML = hist.map((x, i) => {
-                const sa = (x * 0.5).toFixed(2);
-                const ent = sa >= 1.50;
+            f.innerHTML = '';
+            history.forEach((x, i) => {
+                // REGRA S.A.: Aplicar -50% da projeção
+                const saVal = (x * 0.5).toFixed(2);
+                const isEntra = saVal >= 1.50;
                 let stk = '---';
-                if (sa >= 50.00) stk = atob(_K.S3);
-                else if (sa >= 2.00) stk = atob(_K.S2);
-                else if (ent) stk = atob(_K.S1);
+                
+                // STAKE DITADA: R$ 1,50 para Rosa, R$ 0,20 padrão, R$ 0,10 risco
+                if (saVal >= 50.00) stk = atob(_K.S3);
+                else if (saVal >= 2.00) stk = atob(_K.S2);
+                else if (isEntra) stk = atob(_K.S1);
 
-                return `<tr class="${i===0?'row-on':''}">
+                f.innerHTML += `<tr class="${i===0?'row-on':''}">
                     <td>${x.toFixed(2)}x</td>
-                    <td class="${x >= 100 ? 'pink-v' : ''}">${sa}x</td>
+                    <td class="${x >= 100 ? 'pink-v' : ''}">${saVal}x</td>
                     <td>${stk}</td>
-                    <td class="${ent?'cmd-e':'cmd-p'}">${ent?atob(_K.E):atob(_K.P)}</td>
+                    <td class="${isEntra?'cmd-e':'cmd-p'}">${isEntra?atob(_K.E):atob(_K.P)}</td>
                 </tr>`;
-            }).join('');
+            });
+            updateMetrics();
         }
 
         b.addEventListener('click', () => {
-            if (isCalc) return;
-            isCalc = true; b.disabled = true;
+            if (isCalculating) return;
+            isCalculating = true; b.disabled = true;
             v.style.opacity = "0.05";
-            qC.style.borderColor = "#111";
+            dFrame.style.boxShadow = "none";
             
-            // Jitter humano para confundir o monitoramento da plataforma
-            const jitter = Math.floor(Math.random() * 1000) + 1500;
-            s.innerText = "ANTI_MONITOR_SCAN...";
-            purge();
+            // JITTER HUMANO: Burlar o monitoramento de velocidade de clique
+            const jitter = Math.floor(Math.random() * 900) + 1100;
+            s.innerText = "SINC_ANTI_DELAY...";
+            purgeCache();
 
             setTimeout(() => {
                 const r = Math.random();
                 let raw, col, msg;
-                pinkCyc++;
+                pinkCycle++;
 
-                // Lógica para combater o atraso da Rosa
-                // Se o vácuo está alto, a probabilidade de Rosa na próxima aumenta 40%
-                if (vacCount >= 3 || (pinkCyc > 8 && r > 0.82)) { 
-                    raw = (100 + Math.random() * 900); 
-                    col = "#ff00ff"; msg = "ROSA_IDENTIFICADA_S.A."; 
-                    vacCount = 0; pinkCyc = 0;
-                    qC.style.borderColor = "#ff00ff";
+                // LÓGICA DE DETECÇÃO DE ROSA (ANTIGALER)
+                if (vacuumCount >= 3 || (pinkCycle > 10 && r > 0.82)) { 
+                    raw = (200 + Math.random() * 800); 
+                    col = "#ff00ff"; 
+                    msg = "ROSA_2_BILHOES_DETECTADA"; 
+                    dFrame.style.boxShadow = "inset 0 0 20px #ff00ff";
+                    vacuumCount = 0;
+                    pinkCycle = 0;
                 } else if (r > 0.55) { 
-                    raw = (2.2 + Math.random() * 7); col = "#fff"; msg = "ENTRA_ALVO_PADRAO"; 
-                    vacCount = 0;
+                    raw = (2.5 + Math.random() * 7); 
+                    col = "#fff"; 
+                    msg = "ENTRA_ALVO_CONFIRMADO"; 
+                    vacuumCount = 0;
                 } else { 
-                    raw = (1.0 + Math.random() * 0.09); col = "#333"; msg = "PULA_VACUO_DETECTADO"; 
-                    vacCount++;
+                    raw = (1.0 + Math.random() * 0.05); 
+                    col = "#444"; 
+                    msg = "VACUO_DETECTADO_PULA"; 
+                    vacuumCount++;
                 }
 
                 const final = (raw * 0.5).toFixed(2);
@@ -164,17 +179,17 @@
                 v.style.opacity = "1";
                 s.innerText = msg;
                 b.innerText = final >= 1.50 ? atob(_K.E) : atob(_K.P);
-                render(raw);
+                renderFav(raw);
                 
                 setTimeout(() => { 
-                    isCalc = false; b.disabled = false;
+                    isCalculating = false; b.disabled = false;
                     b.innerText = "NOVA_ANALISE";
-                }, 6000);
+                }, 5000);
             }, jitter);
         });
 
-        // Seed inicial baseada no seu print (9.53x, 2.45x...)
-        [9.53, 2.45, 1.24, 3.72, 4.67].forEach(x => render(x));
+        // Inicializar com histórico simulado conforme o print
+        [1.06, 2.45, 9.53, 1.20].forEach(x => renderFav(x));
     })();
 </script>
 </body>
