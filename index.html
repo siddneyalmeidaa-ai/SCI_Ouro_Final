@@ -3,18 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>S.A._V83_PINK_SNIPER_ULTIMATE</title>
+    <title>S.A._V83_PINK_SNIPER_ULTIMATE_OURO</title>
     <style>
         * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; outline: none; }
         body { background: #000; color: #d0d0d0; font-family: 'Courier New', monospace; margin: 0; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
-        #main-shell { flex: 1; display: flex; flex-direction: column; padding: 15px; border: 4px solid #111; filter: grayscale(1) contrast(1.1); }
+        #main-shell { flex: 1; display: flex; flex-direction: column; padding: 15px; border: 4px solid #111; filter: contrast(1.1); }
         .sa-header { border-bottom: 1px solid #222; padding-bottom: 8px; margin-bottom: 15px; display: flex; justify-content: space-between; font-size: 10px; color: #444; }
         .quantum-display { background: #020202; border: 1px solid #111; padding: 30px 10px; text-align: center; border-radius: 2px; position: relative; }
         .val-sa { font-size: 70px; font-weight: 900; color: #fff; margin: 5px 0; transition: opacity 0.2s; }
         .status-ghost { font-size: 8px; text-transform: uppercase; letter-spacing: 2px; color: #333; height: 10px; }
         .btn-sa { background: #eee; color: #000; border: none; width: 100%; padding: 22px; font-size: 22px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 15px; transition: all 0.3s; }
         .btn-sa:disabled { background: #111; color: #222; cursor: not-allowed; border: 1px solid #1a1a1a; }
-        .favelinha-box { margin-top: 20px; background: #050505; border: 1px solid #0d0d0d; max-height: 180px; overflow-y: auto; }
+        
+        /* Métricas Sincronizadas S.A. */
+        .metrics-sync { display: flex; gap: 10px; margin-top: 15px; }
+        .metric-card { flex: 1; background: #050505; border: 1px solid #111; padding: 10px; text-align: center; }
+        .metric-label { font-size: 8px; color: #444; margin-bottom: 4px; }
+        .metric-value { font-size: 14px; font-weight: 900; }
+        
+        .favelinha-box { margin-top: 15px; background: #050505; border: 1px solid #0d0d0d; max-height: 180px; overflow-y: auto; }
         table { width: 100%; border-collapse: collapse; font-size: 11px; }
         th { background: #0a0a0a; color: #222; padding: 10px; text-align: left; position: sticky; top: 0; }
         td { padding: 12px 10px; border-bottom: 1px solid #050505; color: #555; }
@@ -23,16 +30,34 @@
         .cmd-p { color: #ff4141 !important; font-weight: bold; }
         .pink-v { color: #ff00ff !important; font-weight: bold; text-shadow: 0 0 8px #ff00ff; }
         .sa-footer { margin-top: auto; padding-top: 15px; border-top: 1px solid #111; display: flex; justify-content: space-between; font-size: 9px; color: #222; }
+        
+        /* Alerta Vela Rosa */
+        .pink-alert { animation: glow 0.5s infinite alternate; }
+        @keyframes glow { from { border-color: #111; } to { border-color: #ff00ff; box-shadow: 0 0 10px #ff00ff; } }
     </style>
 </head>
 <body>
 <div id="main-shell">
-    <div class="sa-header"><span>3ZH_PINK_SNIPER_v83</span><span>06:14</span></div>
-    <div class="quantum-display">
+    <div class="sa-header"><span>3ZH_PINK_SNIPER_v83_OURO</span><span>23:15</span></div>
+    
+    <div class="quantum-display" id="q-display">
         <div class="status-ghost" id="ghost-status">AGUARDANDO_CICLO_ROSA</div>
         <div class="val-sa" id="val-sa">0.00x</div>
         <button class="btn-sa" id="btn-fire">REFINAR_ROSA</button>
     </div>
+
+    <!-- Sincronização de Métricas S.A. -->
+    <div class="metrics-sync">
+        <div class="metric-card">
+            <div class="metric-label">LIBERADO</div>
+            <div id="m-liberado" class="metric-value text-green-500">100%</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">PENDENTE</div>
+            <div id="m-pendente" class="metric-value text-yellow-500">0%</div>
+        </div>
+    </div>
+
     <div class="favelinha-box">
         <table>
             <thead><tr><th>ALVO_X</th><th>S.A.(-50%)</th><th>STAKE</th><th>CMD</th></tr></thead>
@@ -52,11 +77,15 @@
         const v = document.getElementById('val-sa');
         const f = document.getElementById('fav-body');
         const s = document.getElementById('ghost-status');
+        const qD = document.getElementById('q-display');
+        const mLib = document.getElementById('m-liberado');
+        const mPen = document.getElementById('m-pendente');
 
         let isCalculating = false;
         let vacuumCount = 0;
         let pinkCycle = 0;
         let seedLock = null;
+        let history = [];
 
         function purge() {
             try {
@@ -64,85 +93,96 @@
                 document.cookie.split(";").forEach(c => {
                     document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/");
                 });
-                Object.defineProperty(navigator, 'hardwareConcurrency', { get: () => Math.floor(Math.random() * 8) + 2 });
-                window.lastClickJitter = Math.random() * 0.001;
             } catch(e) {}
         }
 
+        function updateMetrics() {
+            if(history.length === 0) return;
+            const entraCount = history.filter(x => (x * 0.5) >= 1.50).length;
+            const total = history.length;
+            const lib = Math.round((entraCount / total) * 100);
+            mLib.innerText = lib + "%";
+            mPen.innerText = (100 - lib) + "%";
+        }
+
         function render(last) {
-            // Histórico simulado para preencher a favelinha
-            const hist = [last || 1.38, 1.52, 1.04, 1.63, 1.36, 1.06, 1.15];
+            if(last) history.unshift(last);
+            if(history.length > 7) history.pop();
+            
+            const displayList = history.length > 0 ? history : [1.38, 1.52, 1.04, 1.63, 1.36, 1.06, 1.15];
+            
             f.innerHTML = '';
-            hist.forEach((x, i) => {
+            displayList.forEach((x, i) => {
+                // REGRA S.A.: Aplicar -50% da projeção
                 const sa = (x * 0.5).toFixed(2);
                 const ent = sa >= 1.50;
                 let stk = '---';
-                // Lógica de Stake Ditada: R$ 1,00 para Rosas, R$ 0,10 para testes
+                
+                // STAKE DITADA: R$ 1,00 para Rosas, R$ 0,20 para padrões, R$ 0,10 para risco
                 if (sa >= 10.00) stk = atob(_K.S3);
                 else if (sa >= 2.00) stk = atob(_K.S2);
                 else if (ent) stk = atob(_K.S1);
 
-                f.innerHTML += `<tr class="${i===0?'row-on':''}">
+                f.innerHTML += `<tr class="${i===0 && history.length > 0 ?'row-on':''}">
                     <td>${x.toFixed(2)}x</td>
                     <td class="${x >= 10 ? 'pink-v' : ''}">${sa}x</td>
                     <td>${stk}</td>
                     <td class="${ent?'cmd-e':'cmd-p'}">${ent?atob(_K.E):atob(_K.P)}</td>
                 </tr>`;
             });
+            updateMetrics();
         }
 
         b.addEventListener('click', () => {
             if (isCalculating) return;
             isCalculating = true; b.disabled = true;
             v.style.opacity = "0.05";
+            qD.classList.remove('pink-alert');
             
-            // BLINDAGEM: Inundação + Scrambler + Human Jitter
             const complexJitter = Math.floor(Math.random() * (1900 - 1300 + 1)) + 1300;
             s.innerText = "SNIPER_SYNC: " + (complexJitter/1000).toFixed(2) + "s";
             purge();
 
             setTimeout(() => {
-                if (!seedLock) {
-                    const r = Math.random();
-                    let raw, col, msg;
-                    pinkCycle++;
+                const r = Math.random();
+                let raw, col, msg;
+                pinkCycle++;
 
-                    // REFINAMENTO PARA VELA ROSA
-                    // Se houver vácuo acumulado (vacuumCount) e ciclo longo, força alvo rosa
-                    if (vacuumCount >= 4 || (pinkCycle > 6 && r > 0.85)) { 
-                        raw = (100 + Math.random() * 400); // Projeção de 100x a 500x
-                        col = "#ff00ff"; 
-                        msg = "ROSA_IDENTIFICADA_3ZH"; 
-                        vacuumCount = 0;
-                        pinkCycle = 0;
-                    } else if (r > 0.5) { 
-                        raw = (2.2 + Math.random() * 8); 
-                        col = "#fff"; 
-                        msg = "ENTRA_ALVO_PADRÃO"; 
-                        vacuumCount = 0;
-                    } else { 
-                        raw = (1.0 + Math.random() * 0.08); 
-                        col = "#222"; 
-                        msg = "PULA_VÁCUO_REFINADO"; 
-                        vacuumCount++;
-                    }
-                    seedLock = { raw, col, msg };
+                // REFINAMENTO VELA ROSA
+                if (vacuumCount >= 4 || (pinkCycle > 6 && r > 0.85)) { 
+                    raw = (100 + Math.random() * 400); 
+                    col = "#ff00ff"; 
+                    msg = "ROSA_IDENTIFICADA_S.A."; 
+                    qD.classList.add('pink-alert');
+                    vacuumCount = 0;
+                    pinkCycle = 0;
+                } else if (r > 0.5) { 
+                    raw = (2.2 + Math.random() * 8); 
+                    col = "#fff"; 
+                    msg = "ENTRA_ALVO_S.A."; 
+                    vacuumCount = 0;
+                } else { 
+                    raw = (1.0 + Math.random() * 0.08); 
+                    col = "#222"; 
+                    msg = "PULA_VÁCUO_REFINADO"; 
+                    vacuumCount++;
                 }
 
-                const res = seedLock;
-                const final = (res.raw * 0.5).toFixed(2);
+                // REGRA S.A.: Mostrar resultado com -50%
+                const final = (raw * 0.5).toFixed(2);
                 v.innerText = final + "x";
-                v.style.color = res.col;
+                v.style.color = col;
                 v.style.opacity = "1";
-                s.innerText = res.msg;
-                b.innerText = final >= 1.50 ? atob(_K.E) : atob(_K.P);
-                render(res.raw);
+                s.innerText = msg;
                 
-                // JANELA DE RESFRIAMENTO PARA LIMPEZA DE IP (18 segundos)
+                // DITADO S.A.: Entra ou Pula
+                b.innerText = final >= 1.50 ? atob(_K.E) : atob(_K.P);
+                render(raw);
+                
                 setTimeout(() => { 
-                    seedLock = null; isCalculating = false; b.disabled = false;
+                    isCalculating = false; b.disabled = false;
                     b.innerText = "NOVA_ANÁLISE";
-                }, 18000);
+                }, 8000); // Resfriamento reduzido para agilidade S.A.
             }, complexJitter);
         });
 
