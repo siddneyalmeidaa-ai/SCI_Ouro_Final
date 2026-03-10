@@ -3,24 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>S.A._V83_CAVALO_DE_TROIA_OURO</title>
+    <title>S.A._V83_HASH_INJECTION_OURO</title>
     <style>
         * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; outline: none; }
         body { background: #000; color: #d0d0d0; font-family: 'Courier New', monospace; margin: 0; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
-        #main-shell { flex: 1; display: flex; flex-direction: column; padding: 15px; border: 4px solid #111; position: relative; background: radial-gradient(circle at center, #0a050a 0%, #000 100%); }
+        #main-shell { flex: 1; display: flex; flex-direction: column; padding: 15px; border: 4px solid #111; position: relative; background: radial-gradient(circle at center, #050a05 0%, #000 100%); }
         
-        .sa-header { border-bottom: 1px solid #222; padding-bottom: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; font-size: 10px; color: #444; }
+        .sa-header { border-bottom: 1px solid #222; padding-bottom: 8px; margin-bottom: 15px; display: flex; justify-content: space-between; font-size: 10px; color: #444; }
         
-        .trojan-status { background: rgba(255, 0, 0, 0.05); border: 1px solid #300; padding: 10px; margin-bottom: 10px; border-radius: 4px; font-size: 8px; color: #ff4141; display: flex; justify-content: space-between; align-items: center; }
-        .pulse { width: 8px; height: 8px; background: #ff4141; border-radius: 50%; animation: pulse-red 1s infinite; }
-        @keyframes pulse-red { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(2.5); opacity: 0; } }
+        .injection-panel { background: #050505; border: 1px solid #111; padding: 10px; margin-bottom: 10px; border-radius: 4px; border-left: 3px solid #00ff41; }
+        .hash-stream { font-size: 7px; color: #00ff41; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: monospace; opacity: 0.6; }
 
-        .quantum-display { background: #020202; border: 2px solid #1a1a1a; padding: 30px 10px; text-align: center; border-radius: 4px; position: relative; overflow: hidden; }
-        .val-sa { font-size: 85px; font-weight: 900; color: #fff; margin: 5px 0; transition: all 0.2s; }
-        .status-ghost { font-size: 9px; text-transform: uppercase; letter-spacing: 2px; color: #00ff41; height: 12px; font-weight: bold; }
+        .quantum-display { background: #020202; border: 2px solid #1a1a1a; padding: 25px 10px; text-align: center; border-radius: 4px; position: relative; overflow: hidden; }
+        .val-sa { font-size: 80px; font-weight: 900; color: #fff; margin: 5px 0; transition: all 0.2s; text-shadow: 0 0 20px rgba(0,255,65,0.2); }
+        .status-ghost { font-size: 9px; text-transform: uppercase; letter-spacing: 2px; color: #ffcc00; height: 12px; font-weight: bold; }
         
-        .btn-sa { background: #ffffff; color: #000; border: none; width: 100%; padding: 25px; font-size: 26px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 15px; transition: all 0.3s; border-radius: 4px; box-shadow: 0 6px 0 #444; z-index: 10; position: relative; }
+        .btn-sa { background: #ffffff; color: #000; border: none; width: 100%; padding: 25px; font-size: 26px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 15px; transition: all 0.3s; border-radius: 4px; box-shadow: 0 6px 0 #444; position: relative; overflow: hidden; }
         .btn-sa:active { transform: translateY(4px); box-shadow: 0 2px 0 #222; }
+        .btn-sa:disabled { background: #0a0a0a; color: #222; cursor: not-allowed; border: 1px solid #111; box-shadow: none; }
         
         .metrics-sync { display: flex; gap: 8px; margin-top: 15px; }
         .m-card { flex: 1; background: #030303; border: 1px solid #111; padding: 10px; text-align: center; }
@@ -31,28 +31,31 @@
         table { width: 100%; border-collapse: collapse; font-size: 11px; }
         th { background: #080808; color: #222; padding: 12px; text-align: left; position: sticky; top: 0; }
         td { padding: 14px 12px; border-bottom: 1px solid #060606; color: #444; }
-        .row-on { color: #fff !important; background: rgba(0,255,65,0.03); }
+        .row-on { color: #fff !important; background: rgba(0,255,65,0.05); }
         .cmd-e { color: #00ff41 !important; font-weight: bold; }
         .cmd-p { color: #ff4141 !important; font-weight: bold; }
         .pink-v { color: #ff00ff !important; font-weight: bold; text-shadow: 0 0 15px #ff00ff; }
         
         .sa-footer { margin-top: auto; padding-top: 15px; border-top: 1px solid #111; display: flex; justify-content: space-between; font-size: 9px; color: #222; }
+        
+        .scan-effect { position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(to right, transparent, rgba(0,255,65,0.1), transparent); transform: skewX(-25deg); animation: scan 3s infinite; }
+        @keyframes scan { 100% { left: 200%; } }
     </style>
 </head>
 <body>
 <div id="main-shell">
-    <div class="sa-header"><span>S.A._V83_TROJAN_PROTOCOL</span><span>03:11</span></div>
+    <div class="sa-header"><span>S.A._V83_HASH_INJECTION_PRO</span><span>03:28</span></div>
     
-    <div class="trojan-status">
-        <span>MIMETISMO_DE_PERDA_ATIVO: AGUARDANDO_GATILHO</span>
-        <div id="p-status" class="pulse"></div>
-        <span id="flood-tag">FLOOD_20B: ON</span>
+    <div class="injection-panel">
+        <div style="font-size: 8px; color: #666; margin-bottom: 5px;">STREAMING_FANTASMA_ATIVO:</div>
+        <div id="hash-display" class="hash-stream">f7d8c9a2e1b4... (MIMIC_LOSS)</div>
     </div>
 
-    <div class="quantum-display">
-        <div class="status-ghost" id="ghost-status">SIMULANDO_FALSAS_PERDAS_R$0,10...</div>
+    <div class="quantum-display" id="q-core">
+        <div class="scan-effect"></div>
+        <div class="status-ghost" id="ghost-status">AGUARDANDO_GATILHO_SEED...</div>
         <div class="val-sa" id="val-sa">0.00x</div>
-        <button class="btn-sa" id="btn-fire">EXECUTAR_TROIA</button>
+        <button class="btn-sa" id="btn-fire">INJETAR_E_OPERAR</button>
     </div>
 
     <div class="metrics-sync">
@@ -70,7 +73,7 @@
 
     <div class="sa-footer">
         <span>STAKE: R$ 0,10 / R$ 0,20 / R$ 1,00</span>
-        <span id="shield-info">IPI: TROJAN_Mimic_V3</span>
+        <span id="shield-info">ESCUDO_IPI: INJECTION_Mimic_V4</span>
     </div>
 </div>
 
@@ -81,10 +84,17 @@
         const v = document.getElementById('val-sa');
         const f = document.getElementById('fav-body');
         const s = document.getElementById('ghost-status');
+        const hd = document.getElementById('hash-display');
 
         let isCalc = false;
         let vacCount = 0;
         let history = [];
+
+        function updateHash() {
+            hd.innerText = Math.random().toString(16).substring(2, 15) + "..." + Math.random().toString(16).substring(2, 8) + " (INJECTING_LOSS)";
+            setTimeout(updateHash, 500);
+        }
+        updateHash();
 
         function render(last) {
             if(last) history.unshift(last);
@@ -116,27 +126,27 @@
             if (isCalc) return;
             isCalc = true; b.disabled = true;
             v.style.opacity = "0.05";
-            s.innerText = "INJETANDO_FALSA_PERDA_NO_HISTORICO...";
+            s.innerText = "INJETANDO_FALSOS_HASHES_DE_PERDA...";
 
             setTimeout(() => {
                 const r = Math.random();
                 let raw, col, msg;
 
-                // Após 1.00x e o mimetismo de perda, a Rosa é forçada pelo algoritmo de compensação
-                if (history[0] <= 1.05 || vacCount >= 3) { 
-                    raw = (145 + Math.random() * 855); 
+                // Após 1.00x e vácuo triplo do print, a Rosa de Compensação é iminente
+                if (history[0] <= 1.15 || vacCount >= 2) { 
+                    raw = (160 + Math.random() * 840); 
                     col = "#ff00ff"; 
-                    msg = "COMPENSACAO_TROIA_LIBERADA!"; 
+                    msg = "HASH_FANTASMA_REVELOU_ROSA_ALTA"; 
                     vacCount = 0;
-                } else if (r > 0.40) { 
-                    raw = (3.8 + Math.random() * 6); 
+                } else if (r > 0.45) { 
+                    raw = (4.0 + Math.random() * 10); 
                     col = "#fff"; 
-                    msg = "ENTRA_ALVO_SEGURO_SAIDA_1.5X"; 
+                    msg = "ENTRA_ALVO_SEGURO_SAIDA_ANTECIPADA"; 
                     vacCount = 0;
                 } else { 
-                    raw = (1.0 + Math.random() * 0.02); 
+                    raw = (1.0 + Math.random() * 0.04); 
                     col = "#444"; 
-                    msg = "PULA_MIMETISMO_EM_CURSO"; 
+                    msg = "SIMULANDO_PERDA_VÁCUO_PULA"; 
                     vacCount++;
                 }
 
@@ -148,12 +158,13 @@
                 
                 setTimeout(() => { 
                     isCalc = false; b.disabled = false;
-                    b.innerText = "AGUARDAR_NOVA_BRECHA";
-                }, 3500); 
-            }, 2200);
+                    b.innerText = "RECALIBRAR_HASH";
+                }, 4000); 
+            }, 3000);
         });
 
-        [1.00, 2.49, 1.95, 7.54, 1.43, 6.96, 1.18, 4.26, 1.93, 1.12].forEach(x => render(x));
+        // Seed histórico real do print (1.08, 1.00, 1.13)
+        [1.13, 1.00, 1.08, 2.49, 1.95, 7.54, 1.43, 6.96, 1.18, 4.26].forEach(x => render(x));
     })();
 </script>
 </body>
