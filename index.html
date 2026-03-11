@@ -2,81 +2,108 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>V100_SHIELD_SYNC_AF</title>
+    <title>S.A._V102_GHOST_SYNC_AF</title>
     <style>
         body { background: #000; color: #00ff41; font-family: 'Courier New', monospace; text-align: center; margin: 0; overflow: hidden; }
-        #terminal { height: 100vh; display: flex; flex-direction: column; padding: 15px; border: 1px solid #1a1a1a; }
-        .monitor-seed { font-size: 8px; color: #222; margin-bottom: 10px; height: 40px; overflow: hidden; }
-        #comando-central { font-size: 60px; font-weight: 900; margin: 30px 0; letter-spacing: -2px; }
-        .btn-sync { background: #fff; color: #000; border: none; padding: 25px; width: 100%; font-size: 18px; font-weight: 900; border-radius: 8px; cursor: pointer; }
-        .btn-sync:disabled { background: #111; color: #333; }
-        .shield-status { font-size: 9px; margin-top: 15px; color: #666; display: flex; justify-content: space-around; }
-        .highlight { color: #00ff41; font-weight: bold; }
+        #terminal { height: 100vh; display: flex; flex-direction: column; padding: 10px; border: 2px solid #111; }
+        .noise-header { font-size: 8px; color: #1a1a1a; height: 30px; overflow: hidden; margin-bottom: 5px; }
+        .status-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; font-size: 9px; color: #444; margin-bottom: 10px; border-bottom: 1px solid #111; padding-bottom: 5px; }
+        #comando-display { font-size: 55px; font-weight: 900; margin: 25px 0; transition: 0.3s; }
+        .btn-master { background: #ffffff; color: #000; border: none; padding: 22px; width: 100%; font-size: 18px; font-weight: 900; border-radius: 6px; cursor: pointer; }
+        .btn-master:disabled { background: #111; color: #333; cursor: not-allowed; }
+        #log-auditoria { flex: 1; font-size: 9px; text-align: left; overflow-y: auto; margin-top: 10px; color: #222; border-top: 1px solid #111; padding-top: 10px; }
+        .highlight-green { color: #00ff41; }
+        .highlight-red { color: #ff4141; }
     </style>
 </head>
 <body>
 
 <div id="terminal">
-    <div class="monitor-seed" id="noise-stream">INJECTING_GHOST_NOISE_AF...</div>
+    <div class="noise-header" id="noise">INJETANDO_RUIDO_BANCA_ZERADA_AF...</div>
     
-    <div class="shield-status">
-        <span>ESCUDO: <span class="highlight">ATIVO</span></span>
-        <span>SEED_DELAY: <span class="highlight">850ms</span></span>
-        <span>RASTO: <span class="highlight">0.02%</span></span>
+    <div class="status-grid">
+        <div>ESCUDO: <span class="highlight-green">ON</span></div>
+        <div>JITTER: <span id="jitter-val">--</span></div>
+        <div>RASTO: <span class="highlight-green">0.01%</span></div>
     </div>
 
-    <div id="comando-central" style="color: #ff4141;">AGUARDE</div>
+    <div id="comando-display">AGUARDE</div>
 
-    <button class="btn-sync" id="btn-master">AGUARDANDO_3_PRIMEIROS...</button>
+    <button class="btn-master" id="btn-sync">SINCRONIZAR_SEMENTE</button>
 
-    <div id="log-auditoria" style="font-size: 9px; color: #333; margin-top: 20px; text-align: left; height: 100px; overflow-y: auto;">
-        > Auditor V100 Online.<br>
-        > Sincronizando com Semente do Servidor...
+    <div id="log-auditoria">
+        > Auditor V102 (Projeto Frajola) Online.<br>
+        > Aguardando 3 primeiros jogadores...
     </div>
 </div>
 
 <script>
-    const btn = document.getElementById('btn-master');
-    const cmd = document.getElementById('comando-central');
-    const noise = document.getElementById('noise-stream');
+    const btn = document.getElementById('btn-sync');
+    const cmd = document.getElementById('comando-display');
     const log = document.getElementById('log-auditoria');
+    const noise = document.getElementById('noise');
+    const jitterVal = document.getElementById('jitter-val');
 
-    // Injeção de Ruído Constante de Banca Zerada
+    let greensConsecutivos = 0;
+
+    // Injeção de Ruído de Banca Zerada e Perda Simulada
     setInterval(() => {
-        noise.innerText = `[NOISE]: ${Math.random().toString(36).substring(2, 15)} | BANK_MIMIC: 0.00 | ${new Date().getMilliseconds()}ms\n` + noise.innerText.substring(0, 100);
-    }, 100);
+        const fakeData = ["SEND_ZERO_BAL", "MIMIC_LOSS", "GHOST_ID_SYNC", "BYPASS_RECOLHA"];
+        noise.innerText = `[TRAFFIC]: ${Math.random().toString(36).substring(7)} | ${fakeData[Math.floor(Math.random()*4)]} | ${new Date().getMilliseconds()}ms\n` + noise.innerText.substring(0, 100);
+    }, 120);
 
-    function addLog(msg, color = "#444") {
-        log.innerHTML = `<div style="color:${color}">> ${msg}</div>` + log.innerHTML;
+    function addLog(msg, color = "#222") {
+        log.innerHTML = `<div style="color:${color}">[${new Date().toLocaleTimeString()}] > ${msg}</div>` + log.innerHTML;
     }
 
     btn.addEventListener('click', () => {
         btn.disabled = true;
-        btn.innerText = "AUDITANDO_3_PRIMEIROS...";
-        addLog("CAPTurando SEMENTE DOS 3 PRIMEIROS JOGADORES...", "#00ff41");
+        btn.innerText = "AUDITANDO_VOLUME_MESA...";
+        
+        // Jitter de Hesitação Humana (Variável entre 0.9s e 2.1s)
+        const currentJitter = (Math.random() * (2.1 - 0.9) + 0.9).toFixed(2);
+        jitterVal.innerText = `${currentJitter}s`;
 
-        // O DELAY DE SINCRONIA (Espera os 3 primeiros clicarem)
         setTimeout(() => {
+            // Regra de Omissão Pós-Green (A Regra do 3x1)
+            if (greensConsecutivos >= 3) {
+                cmd.innerText = "PULA";
+                cmd.style.color = "#ff4141";
+                btn.innerText = "REINICIANDO_CICLO_ID";
+                addLog("AVISO: 3 Greens atingidos. Omissão estratégica para limpar rastro.", "#ff4141");
+                greensConsecutivos = 0;
+                
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.innerText = "SINCRONIZAR_SEMENTE";
+                }, 5000); // Bloqueio forçado de 5 segundos
+                return;
+            }
+
+            // Simulação de Auditoria de Semente e Volume (Filtro de 3 Primeiros)
             const seedAnalise = Math.random();
             
-            // Se a semente dos 3 for "Leve" (Banca Baixa)
-            if (seedAnalise > 0.65) {
+            if (seedAnalise > 0.60) {
                 cmd.innerText = "ENTRA";
                 cmd.style.color = "#00ff41";
-                btn.innerText = "ENTRADA_PROTEGIDA_LIBERADA";
-                addLog("SEMENTE LEVE DETECTADA. JANELA DE PAGAMENTO ABERTA.", "#00ff41");
+                btn.innerText = "ALVO: 1.05x (SHADOW)";
+                addLog("SINC_OK: Semente leve. 3 Primeiros com banca mínima.", "#00ff41");
+                greensConsecutivos++;
             } else {
                 cmd.innerText = "PULA";
                 cmd.style.color = "#ff4141";
-                btn.innerText = "PULA_SEMENTE_PESADA";
-                addLog("ALERTA: 3 Primeiros com banca alta. Semente de Retenção.", "#ff4141");
+                btn.innerText = "SEMENTE_PESADA";
+                addLog("ALERTA: Volume de mesa alto. Risco de corte 1.01x detectado.", "#ff4141");
             }
 
             setTimeout(() => {
                 btn.disabled = false;
-                btn.innerText = "SINCRONIZAR_PRÓXIMA_RODADA";
-            }, 4000);
-        }, 1500); // Delay técnico de análise
+                btn.innerText = "SINCRONIZAR_SEMENTE";
+                cmd.innerText = "AGUARDE";
+                cmd.style.color = "#fff";
+            }, 3000);
+
+        }, currentJitter * 1000);
     });
 </script>
 </body>
