@@ -2,84 +2,81 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>S.A._V95_GHOST_SHADOW_AF</title>
+    <title>V100_SHIELD_SYNC_AF</title>
     <style>
-        body { background: #000; color: #00ff41; font-family: 'Courier New', monospace; font-size: 10px; margin: 0; }
-        #terminal { height: 100vh; display: flex; flex-direction: column; padding: 10px; }
-        .noise-stream { color: #1a1a1a; font-size: 8px; overflow: hidden; height: 50px; border-bottom: 1px solid #111; }
-        .target-box { text-align: center; padding: 20px; border: 1px solid #222; margin-top: 10px; }
-        .val-display { font-size: 50px; color: #fff; font-weight: 900; }
-        .btn-ghost { background: #fff; color: #000; padding: 15px; width: 100%; border: none; font-weight: 900; cursor: pointer; }
-        .log-area { flex: 1; overflow-y: auto; margin-top: 10px; border-top: 1px solid #222; }
-        .status-bar { display: flex; justify-content: space-between; font-size: 8px; background: #080808; padding: 5px; }
+        body { background: #000; color: #00ff41; font-family: 'Courier New', monospace; text-align: center; margin: 0; overflow: hidden; }
+        #terminal { height: 100vh; display: flex; flex-direction: column; padding: 15px; border: 1px solid #1a1a1a; }
+        .monitor-seed { font-size: 8px; color: #222; margin-bottom: 10px; height: 40px; overflow: hidden; }
+        #comando-central { font-size: 60px; font-weight: 900; margin: 30px 0; letter-spacing: -2px; }
+        .btn-sync { background: #fff; color: #000; border: none; padding: 25px; width: 100%; font-size: 18px; font-weight: 900; border-radius: 8px; cursor: pointer; }
+        .btn-sync:disabled { background: #111; color: #333; }
+        .shield-status { font-size: 9px; margin-top: 15px; color: #666; display: flex; justify-content: space-around; }
+        .highlight { color: #00ff41; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div id="terminal">
-    <div class="noise-stream" id="noise-output"></div>
+    <div class="monitor-seed" id="noise-stream">INJECTING_GHOST_NOISE_AF...</div>
     
-    <div class="status-bar">
-        <span>ID_STATUS: SHADOW_MODE_ON</span>
-        <span>BA_SIMULADA: R$ 0,00</span>
-        <span>RASTO: 0.01%</span>
+    <div class="shield-status">
+        <span>ESCUDO: <span class="highlight">ATIVO</span></span>
+        <span>SEED_DELAY: <span class="highlight">850ms</span></span>
+        <span>RASTO: <span class="highlight">0.02%</span></span>
     </div>
 
-    <div class="target-box">
-        <div id="cycle-msg" style="font-size: 8px; color: #444;">AUDITANDO_ROSA_REAL...</div>
-        <div class="val-display" id="display">PULA</div>
-        <button class="btn-ghost" id="btn-fire">INJETAR_SHADOW_BET</button>
-    </div>
+    <div id="comando-central" style="color: #ff4141;">AGUARDE</div>
 
-    <div class="log-area" id="log-content"></div>
+    <button class="btn-sync" id="btn-master">AGUARDANDO_3_PRIMEIROS...</button>
+
+    <div id="log-auditoria" style="font-size: 9px; color: #333; margin-top: 20px; text-align: left; height: 100px; overflow-y: auto;">
+        > Auditor V100 Online.<br>
+        > Sincronizando com Semente do Servidor...
+    </div>
 </div>
 
 <script>
-    const noise = document.getElementById('noise-output');
-    const log = document.getElementById('log-content');
-    const display = document.getElementById('display');
-    const btn = document.getElementById('btn-fire');
+    const btn = document.getElementById('btn-master');
+    const cmd = document.getElementById('comando-central');
+    const noise = document.getElementById('noise-stream');
+    const log = document.getElementById('log-auditoria');
 
-    // GERADOR DE RUÍDO CONSTANTE (Background)
+    // Injeção de Ruído Constante de Banca Zerada
     setInterval(() => {
-        const packets = ["SEND_ZERO_BAL_FLAG", "SIMULATE_LOSS_EVENT", "DOM_NAV_FALSE", "MIMIC_USER_FRUSTRATION", "BYPASS_ID_302"];
-        const p = packets[Math.floor(Math.random() * packets.length)];
-        noise.innerText = `[TRAFFIC_NOISE]: ${Math.random().toString(36).substring(7)} | ${p} | ${new Date().getMilliseconds()}ms\n` + noise.innerText.substring(0, 200);
-    }, 150);
+        noise.innerText = `[NOISE]: ${Math.random().toString(36).substring(2, 15)} | BANK_MIMIC: 0.00 | ${new Date().getMilliseconds()}ms\n` + noise.innerText.substring(0, 100);
+    }, 100);
 
-    function addLog(msg, type = "info") {
-        const color = type === "win" ? "#00ff41" : (type === "warn" ? "#ff4141" : "#444");
+    function addLog(msg, color = "#444") {
         log.innerHTML = `<div style="color:${color}">> ${msg}</div>` + log.innerHTML;
     }
 
     btn.addEventListener('click', () => {
         btn.disabled = true;
-        addLog("INJETANDO RUÍDO DE BANCA ZERADA...", "info");
-        
+        btn.innerText = "AUDITANDO_3_PRIMEIROS...";
+        addLog("CAPTurando SEMENTE DOS 3 PRIMEIROS JOGADORES...", "#00ff41");
+
+        // O DELAY DE SINCRONIA (Espera os 3 primeiros clicarem)
         setTimeout(() => {
-            // LÓGICA DE AUDITORIA V95 (Rosa Real vs Falsa)
-            const r = Math.random();
-            let decisao = "PULA";
+            const seedAnalise = Math.random();
             
-            // Simulação de Gatilho de Rosa Real
-            if (r > 0.85) { 
-                decisao = "ROSA_REAL"; 
-                display.style.color = "#ff00ff";
-                addLog("ROSA REAL DETECTADA (MESA VAZIA + VÁCUO).", "win");
+            // Se a semente dos 3 for "Leve" (Banca Baixa)
+            if (seedAnalise > 0.65) {
+                cmd.innerText = "ENTRA";
+                cmd.style.color = "#00ff41";
+                btn.innerText = "ENTRADA_PROTEGIDA_LIBERADA";
+                addLog("SEMENTE LEVE DETECTADA. JANELA DE PAGAMENTO ABERTA.", "#00ff41");
             } else {
-                decisao = "PULA";
-                display.style.color = "#ff4141";
-                addLog("SAÍDA FALTOSA / ISCA IDENTIFICADA. BLOQUEANDO.", "warn");
+                cmd.innerText = "PULA";
+                cmd.style.color = "#ff4141";
+                btn.innerText = "PULA_SEMENTE_PESADA";
+                addLog("ALERTA: 3 Primeiros com banca alta. Semente de Retenção.", "#ff4141");
             }
 
-            display.innerText = decisao;
-            
             setTimeout(() => {
                 btn.disabled = false;
-                display.innerText = "PULA";
-                display.style.color = "#fff";
-            }, 3000);
-        }, 1200);
+                btn.innerText = "SINCRONIZAR_PRÓXIMA_RODADA";
+            }, 4000);
+        }, 1500); // Delay técnico de análise
     });
 </script>
 </body>
