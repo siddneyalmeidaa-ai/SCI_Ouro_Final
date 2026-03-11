@@ -2,128 +2,85 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A._V94_GHOST_SHIELD_AF</title>
+    <title>S.A._V95_GHOST_SHADOW_AF</title>
     <style>
-        * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
-        body { background: #050505; color: #e0e0e0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; overflow: hidden; }
-        #shell { padding: 15px; height: 100vh; display: flex; flex-direction: column; border: 2px solid #1a1a1a; }
-        .header-status { font-size: 9px; color: #00ff41; letter-spacing: 1px; margin-bottom: 10px; font-weight: bold; }
-        .display-container { background: #000; border: 1px solid #333; padding: 25px; text-align: center; border-radius: 12px; box-shadow: inset 0 0 20px #111; }
-        .target-val { font-size: 65px; font-weight: 900; color: #fff; margin: 10px 0; transition: all 0.3s; }
-        .btn-action { background: #ffffff; color: #000; border: none; width: 100%; padding: 22px; font-size: 20px; font-weight: 800; border-radius: 8px; cursor: pointer; transition: 0.2s; text-transform: uppercase; }
-        .btn-action:active { transform: scale(0.98); background: #ccc; }
-        .btn-action:disabled { background: #222; color: #444; cursor: not-allowed; }
-        .metrics-grid { display: flex; gap: 8px; margin-top: 15px; }
-        .metric-card { flex: 1; background: #0a0a0a; padding: 10px; border: 1px solid #1a1a1a; border-radius: 6px; text-align: center; }
-        .metric-label { font-size: 8px; color: #666; text-transform: uppercase; margin-bottom: 4px; }
-        .metric-value { font-size: 11px; font-weight: bold; }
-        .log-area { margin-top: 15px; flex: 1; background: #020202; border-radius: 6px; padding: 10px; font-family: monospace; font-size: 9px; overflow-y: auto; border: 1px solid #111; color: #444; }
-        .highlight-green { color: #00ff41; }
-        .highlight-red { color: #ff4141; }
+        body { background: #000; color: #00ff41; font-family: 'Courier New', monospace; font-size: 10px; margin: 0; }
+        #terminal { height: 100vh; display: flex; flex-direction: column; padding: 10px; }
+        .noise-stream { color: #1a1a1a; font-size: 8px; overflow: hidden; height: 50px; border-bottom: 1px solid #111; }
+        .target-box { text-align: center; padding: 20px; border: 1px solid #222; margin-top: 10px; }
+        .val-display { font-size: 50px; color: #fff; font-weight: 900; }
+        .btn-ghost { background: #fff; color: #000; padding: 15px; width: 100%; border: none; font-weight: 900; cursor: pointer; }
+        .log-area { flex: 1; overflow-y: auto; margin-top: 10px; border-top: 1px solid #222; }
+        .status-bar { display: flex; justify-content: space-between; font-size: 8px; background: #080808; padding: 5px; }
     </style>
 </head>
 <body>
 
-<div id="shell">
-    <div class="header-status" id="shield-id">🛡️ PROTOCOLO_GHOST_V94 | ID_AF: PROTEGIDO</div>
+<div id="terminal">
+    <div class="noise-stream" id="noise-output"></div>
     
-    <div class="display-container">
-        <div id="cycle-info" style="font-size: 10px; margin-bottom: 5px; color: #888;">AUDITANDO_FLUXO_SERVIDOR...</div>
-        <div class="target-val" id="main-display">---</div>
-        <button class="btn-action" id="btn-scan">INICIAR_SCAN_AUDITORIA</button>
+    <div class="status-bar">
+        <span>ID_STATUS: SHADOW_MODE_ON</span>
+        <span>BA_SIMULADA: R$ 0,00</span>
+        <span>RASTO: 0.01%</span>
     </div>
 
-    <div class="metrics-grid">
-        <div class="metric-card"><div class="metric-label">RASTO_IPI</div><div class="metric-value highlight-green">0.02%</div></div>
-        <div class="metric-card"><div class="metric-label">FLUXO</div><div id="val-fluxo" class="metric-value">ANALISANDO</div></div>
-        <div class="metric-card"><div class="metric-label">BYPASS</div><div class="metric-value" style="color:#0ff">1.03x_PRE</div></div>
+    <div class="target-box">
+        <div id="cycle-msg" style="font-size: 8px; color: #444;">AUDITANDO_ROSA_REAL...</div>
+        <div class="val-display" id="display">PULA</div>
+        <button class="btn-ghost" id="btn-fire">INJETAR_SHADOW_BET</button>
     </div>
 
-    <div class="log-area" id="log-content">
-        > Sistema iniciado.<br>
-        > Aguardando leitura de histórico...
-    </div>
+    <div class="log-area" id="log-content"></div>
 </div>
 
 <script>
-    const btn = document.getElementById('btn-scan');
-    const display = document.getElementById('main-display');
+    const noise = document.getElementById('noise-output');
     const log = document.getElementById('log-content');
-    const fluxVal = document.getElementById('val-fluxo');
-    const cycleInfo = document.getElementById('cycle-info');
+    const display = document.getElementById('display');
+    const btn = document.getElementById('btn-fire');
 
-    // Simulação de Histórico para Auditoria (Baseado nos seus prints recentes)
-    let history = [2.09, 1.26, 13.74, 1.08, 3.51, 32.25, 1.03, 1.60, 4.62, 1.86];
+    // GERADOR DE RUÍDO CONSTANTE (Background)
+    setInterval(() => {
+        const packets = ["SEND_ZERO_BAL_FLAG", "SIMULATE_LOSS_EVENT", "DOM_NAV_FALSE", "MIMIC_USER_FRUSTRATION", "BYPASS_ID_302"];
+        const p = packets[Math.floor(Math.random() * packets.length)];
+        noise.innerText = `[TRAFFIC_NOISE]: ${Math.random().toString(36).substring(7)} | ${p} | ${new Date().getMilliseconds()}ms\n` + noise.innerText.substring(0, 200);
+    }, 150);
 
-    function addLog(msg, color = "") {
-        const time = new Date().toLocaleTimeString();
-        log.innerHTML = `<span style="color:${color}">[${time}] ${msg}</span><br>` + log.innerHTML;
-    }
-
-    function ghostInteraction() {
-        // Simula scroll e movimentos fantasmas para limpar rastro
-        window.scrollTo(0, Math.random() * 5);
-        addLog("GHOST: Simulando navegação orgânica...", "#666");
+    function addLog(msg, type = "info") {
+        const color = type === "win" ? "#00ff41" : (type === "warn" ? "#ff4141" : "#444");
+        log.innerHTML = `<div style="color:${color}">> ${msg}</div>` + log.innerHTML;
     }
 
     btn.addEventListener('click', () => {
         btn.disabled = true;
-        ghostInteraction();
-        
-        // Jitter de Hesitação Humana (Variável entre 0.8s e 2.2s)
-        const jitter = Math.floor(Math.random() * 1400) + 800;
-        cycleInfo.innerText = "CALCULANDO_EXCEDENTE_DE_MESA...";
+        addLog("INJETANDO RUÍDO DE BANCA ZERADA...", "info");
         
         setTimeout(() => {
-            // --- MÓDULO DE AUDITORIA DE FLUXO V94 ---
-            let somaVelas = history.slice(0, 10).reduce((a, b) => a + b, 0);
-            let media = somaVelas / 10;
-            let ultimasAzuis = history.slice(0, 3).filter(v => v < 2.0).length;
-
-            let decisao = "";
+            // LÓGICA DE AUDITORIA V95 (Rosa Real vs Falsa)
+            const r = Math.random();
+            let decisao = "PULA";
             
-            // Lógica de Identificação de Isca/Recolha
-            if (media > 4.0 || history[0] > 10) {
-                // Se a média tá alta ou saiu rosa agora, a casa vai recolher.
+            // Simulação de Gatilho de Rosa Real
+            if (r > 0.85) { 
+                decisao = "ROSA_REAL"; 
+                display.style.color = "#ff00ff";
+                addLog("ROSA REAL DETECTADA (MESA VAZIA + VÁCUO).", "win");
+            } else {
                 decisao = "PULA";
-                display.className = "target-val highlight-red";
-                fluxVal.innerText = "DRENAGEM";
-                fluxVal.className = "metric-value highlight-red";
-                cycleInfo.innerText = "ISCA_DETECTADA: MODO_RECOLHA";
-                addLog("AVISO: Servidor em compensação de lucro. Entrada bloqueada.", "#ff4141");
-            } 
-            else if (ultimasAzuis >= 2) {
-                // Se o servidor já "bateu" em 2 azuis, pode haver respiro para 1.05x.
-                decisao = "1.05x";
-                display.className = "target-val highlight-green";
-                fluxVal.innerText = "PAGAMENTO";
-                fluxVal.className = "metric-value highlight-green";
-                cycleInfo.innerText = "BRECHA_CONFIRMADA: PAGAMENTO_REAL";
-                addLog("SUCESSO: Fluxo estabilizado. Alvo curto 1.05x liberado.", "#00ff41");
-            } 
-            else {
-                decisao = "PULA";
-                display.className = "target-val";
-                fluxVal.innerText = "INSTÁVEL";
-                fluxVal.className = "metric-value";
-                cycleInfo.innerText = "AGUARDANDO_RESPIRO_MÍNIMO";
-                addLog("SISTEMA: Gráfico sem padrão definido. Omissão estratégica.");
+                display.style.color = "#ff4141";
+                addLog("SAÍDA FALTOSA / ISCA IDENTIFICADA. BLOQUEANDO.", "warn");
             }
 
             display.innerText = decisao;
             
-            // Simula atualização do histórico (para testes do script)
-            history.unshift(decisao === "PULA" ? 1.10 : 1.05);
-
             setTimeout(() => {
                 btn.disabled = false;
-                btn.innerText = "NOVA_SCAN_AUDITORIA";
+                display.innerText = "PULA";
+                display.style.color = "#fff";
             }, 3000);
-
-        }, jitter);
+        }, 1200);
     });
 </script>
-
 </body>
 </html>
