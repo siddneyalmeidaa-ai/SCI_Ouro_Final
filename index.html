@@ -2,41 +2,54 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>S.A._V102_GHOST_PASSAPORTE_COMPLETO</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S.A._V102_PASSAPORTE_FIXED</title>
     <style>
         body { background: #000; color: #00ff41; font-family: 'Courier New', monospace; text-align: center; margin: 0; overflow: hidden; }
-        #terminal { height: 100vh; display: flex; flex-direction: column; padding: 10px; border: 2px solid #111; }
-        .noise-header { font-size: 8px; color: #1a1a1a; height: 35px; overflow: hidden; margin-bottom: 5px; text-transform: uppercase; }
-        .status-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; font-size: 10px; color: #444; margin-bottom: 10px; border-bottom: 1px solid #111; padding-bottom: 5px; }
-        #comando-display { font-size: 65px; font-weight: 900; margin: 30px 0; transition: 0.2s; text-shadow: 0 0 15px rgba(0,255,65,0.6); }
-        .btn-master { background: #ffffff; color: #000; border: none; padding: 25px; width: 100%; font-size: 22px; font-weight: 900; border-radius: 8px; cursor: pointer; transition: 0.3s; }
-        .btn-master:active { transform: scale(0.98); background: #00ff41; }
-        .btn-master:disabled { background: #111; color: #333; cursor: not-allowed; }
+        #terminal { height: 100vh; display: flex; flex-direction: column; padding: 10px; }
+        .noise-header { font-size: 8px; color: #1a1a1a; height: 35px; overflow: hidden; margin-bottom: 5px; }
+        .status-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; font-size: 10px; color: #444; border-bottom: 1px solid #111; padding-bottom: 5px; }
+        #comando-display { font-size: 50px; font-weight: 900; margin: 30px 0; text-shadow: 0 0 15px rgba(0,255,65,0.6); }
+        
+        /* BOTÃO REFORÇADO */
+        .btn-master { 
+            background: #ffffff !important; 
+            color: #000 !important; 
+            border: none; 
+            padding: 25px; 
+            width: 100%; 
+            font-size: 20px; 
+            font-weight: 900; 
+            border-radius: 8px; 
+            cursor: pointer;
+            display: block;
+            -webkit-appearance: none; /* Remove estilo padrão do iOS/Android */
+        }
+        .btn-master:active { background: #00ff41 !important; transform: scale(0.95); }
+        .btn-master:disabled { background: #111 !important; color: #333 !important; }
+
         #log-auditoria { flex: 1; font-size: 9px; text-align: left; overflow-y: auto; margin-top: 10px; color: #333; border-top: 1px solid #111; padding-top: 10px; }
         .hl-green { color: #00ff41; }
         .hl-red { color: #ff4141; }
-        .hl-blue { color: #0044ff; }
     </style>
 </head>
 <body>
 
 <div id="terminal">
-    <div class="noise-header" id="noise">INICIALIZANDO_CAMADA_PASSAPORTE_10M_SIMULATION...</div>
-    
+    <div class="noise-header" id="noise">INICIALIZANDO_CORREÇÃO_VÉSPER...</div>
     <div class="status-grid">
-        <div>ORION: <span class="hl-green">ONLINE</span></div>
-        <div>IP_GHOST: <span class="hl-blue" id="ip-mask">ACTIVE</span></div>
+        <div>ORION: <span class="hl-green">FIXED</span></div>
+        <div>PASSAPORTE: <span class="hl-green">ON</span></div>
         <div>RASTO: <span class="hl-green">0.01%</span></div>
     </div>
 
     <div id="comando-display">AGUARDE</div>
 
-    <button class="btn-master" id="btn-sync">SINCRONIZAR_PASSAPORTE</button>
+    <button class="btn-master" id="btn-sync" onclick="executarSincronia()">SINCRONIZAR_PASSAPORTE</button>
 
     <div id="log-auditoria">
-        > Auditor V102 (Projeto Frajola) Online.<br>
-        > Camada VÉSPER (Blindagem) Injetada.<br>
-        > Mestra do Tempo KRONA Sincronizada.
+        > [VÉSPER] Botão recalibrado para Mobile.<br>
+        > [ORION] Pronto para 10M de entradas.
     </div>
 </div>
 
@@ -45,16 +58,58 @@
     const cmd = document.getElementById('comando-display');
     const log = document.getElementById('log-auditoria');
     const noise = document.getElementById('noise');
-    const ipMask = document.getElementById('ip-mask');
-
     let greensConsecutivos = 0;
 
-    // SIMULAÇÃO DE 10 MILHÕES DE ENTRADAS (Ruído de Massa)
+    // Ruído de Massa (Krona)
     setInterval(() => {
-        const protocols = ["SYNC_10M", "VOID_ID", "MIMIC_LOSS", "GHOST_SYNC", "BYPASS_REC", "MASK_IP"];
-        const hex = Math.random().toString(16).substring(2, 8).toUpperCase();
-        noise.innerText = `[TRAFFIC]: ${hex} | ${protocols[Math.floor(Math.random()*protocols.length)]} | ${Math.random().toFixed(4)}% LOSS\n` + noise.innerText.substring(0, 150);
+        noise.innerText = `[TRAFFIC]: ${Math.random().toString(16).substring(2,8).toUpperCase()} | SYNC_10M | ${new Date().getMilliseconds()}ms\n` + noise.innerText.substring(0, 100);
+    }, 150);
+
+    function addLog(msg, color = "#333") {
+        log.innerHTML = `<div style="color:${color}">[${new Date().toLocaleTimeString()}] > ${msg}</div>` + log.innerHTML;
+    }
+
+    function executarSincronia() {
+        if (btn.disabled) return;
         
-        if(Math.random() > 0.95) ipMask.innerText = (Math.random()*255).toFixed(0) + "." + (Math.random()*255).toFixed(0) + ".X.X";
-    }, 100);
-    
+        btn.disabled = true;
+        btn.innerText = "CALCULANDO...";
+        
+        // Jitter de hesitação (Krona)
+        const jitter = Math.random() * 1500 + 1000;
+
+        setTimeout(() => {
+            if (greensConsecutivos >= 3) {
+                cmd.innerText = "PULA";
+                cmd.style.color = "#ff4141";
+                btn.innerText = "LIMPANDO RASTRO...";
+                addLog("AURORA: Omissão estratégica (3x1).", "#ff4141");
+                greensConsecutivos = 0;
+                setTimeout(() => { btn.disabled = false; btn.innerText = "SINCRONIZAR_PASSAPORTE"; }, 4000);
+                return;
+            }
+
+            const semente = Math.random();
+            if (semente > 0.60) {
+                cmd.innerText = "ENTRA";
+                cmd.style.color = "#00ff41";
+                addLog("ORION: Semente Leve.", "#00ff41");
+                greensConsecutivos++;
+            } else {
+                cmd.innerText = "PULA";
+                cmd.style.color = "#ff4141";
+                addLog("VÉSPER: Semente Pesada.", "#ff4141");
+                greensConsecutivos = 0;
+            }
+
+            setTimeout(() => {
+                btn.disabled = false;
+                btn.innerText = "SINCRONIZAR_PASSAPORTE";
+                cmd.innerText = "AGUARDE";
+                cmd.style.color = "#fff";
+            }, 2500);
+        }, jitter);
+    }
+</script>
+</body>
+</html>
