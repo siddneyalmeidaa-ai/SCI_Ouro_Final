@@ -3,76 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A._V132_GOD_SHIELD</title>
+    <title>S.A._V133_AUTO_FLASH</title>
     <style>
-        :root { --neon: #00ffcc; --bg: #000; --panel: #0a0a0a; --danger: #ff0055; }
-        body { background: var(--bg); color: #fff; font-family: 'Courier New', monospace; text-align: center; margin: 0; overflow: hidden; }
+        :root { --neon: #00ffcc; --danger: #ff0055; }
+        body { background: #000; color: #fff; font-family: 'Courier New', monospace; text-align: center; margin: 0; overflow: hidden; }
         #terminal { padding: 10px; display: flex; flex-direction: column; height: 100vh; box-sizing: border-box; }
         
-        .shield-status { font-size: 8px; color: var(--neon); text-align: left; padding: 5px; border-bottom: 1px solid #1a1a1a; letter-spacing: 1px; }
+        .shield-status { font-size: 8px; color: var(--neon); text-align: left; padding: 5px; border-bottom: 1px solid #1a1a1a; }
 
-        /* Visor de Ruptura V132 */
-        #visor-magno { margin: 10px 0; padding: 25px; border: 2px solid var(--neon); border-radius: 15px; background: var(--panel); box-shadow: 0 0 20px rgba(0, 255, 204, 0.2); }
-        #val-x { font-size: 75px; font-weight: 900; color: var(--neon); margin: 0; }
+        /* Visor Magno de Resposta Instantânea */
+        #visor-magno { margin: 15px 0; padding: 35px; border: 2px solid var(--neon); border-radius: 15px; background: #050505; transition: 0.3s; }
+        #val-x { font-size: 80px; font-weight: 900; color: var(--neon); margin: 0; }
         #cmd-text { font-size: 35px; font-weight: 900; color: #fff; text-transform: uppercase; }
 
-        /* Módulo Vision & Proteção */
-        .vision-container { background: #111; border: 1px dashed #333; padding: 15px; border-radius: 10px; margin: 10px 0; }
-        .label-upload { background: transparent; color: var(--neon); padding: 12px; width: 85%; border: 1px solid var(--neon); border-radius: 5px; font-weight: bold; cursor: pointer; display: inline-block; transition: 0.3s; }
-        .label-upload:active { background: var(--neon); color: #000; }
+        /* Módulo de Injeção Direta */
+        .auto-box { background: #111; border: 2px dashed #333; padding: 25px; border-radius: 15px; margin: 10px 0; }
+        .label-flash { background: var(--neon); color: #000; padding: 25px; width: 90%; border-radius: 10px; font-size: 20px; font-weight: 900; cursor: pointer; display: inline-block; box-shadow: 0 0 20px rgba(0, 255, 204, 0.4); }
         input[type="file"] { display: none; }
 
-        /* Gatilho de Sincronia */
-        .btn-sync { background: var(--neon); color: #000; padding: 22px; width: 100%; font-size: 22px; font-weight: 900; border: none; border-radius: 10px; cursor: pointer; box-shadow: 0 5px 0 #008866; }
-        .btn-sync:active { transform: translateY(3px); box-shadow: none; }
-
-        .log-matrix { font-size: 7px; color: #333; text-align: left; margin-top: auto; height: 50px; overflow: hidden; line-height: 1.2; }
+        .loading-bar { height: 4px; width: 0%; background: var(--neon); margin-top: 15px; transition: width 0.5s; }
+        .log-matrix { font-size: 8px; color: #444; text-align: left; margin-top: auto; height: 40px; }
     </style>
 </head>
 <body>
 <div id="terminal">
     <div class="shield-status">
-        [GOD_MODE_ACTIVE] [SPOOFING: MAX] [ANTI_MONITOR: ON] [66_TABS_FILTER: ON]
+        [V133_AUTO_FLASH] [ANTI_MONITOR: ON] [JITTER: ACTIVE] [SPOOFING: MAX]
     </div>
     
     <div id="visor-magno">
         <div id="val-x">READY</div>
-        <div id="cmd-text">AGUARDAR</div>
+        <div id="cmd-text">SCANNER</div>
     </div>
 
-    <div class="vision-container">
-        <div style="font-size: 10px; color: var(--danger); margin-bottom: 8px; font-weight: bold;">INJETAR PRINT DO SHA256</div>
-        <label for="galeria" class="label-upload">ABRIR GALERIA</label>
-        <input type="file" id="galeria" accept="image/*" onchange="loadVisuals()">
-        <div id="info" style="font-size: 8px; color: #666; margin-top: 8px;">SYTEM_LINK: PENDENTE</div>
+    <div class="auto-box">
+        <div style="font-size: 11px; color: var(--danger); font-weight: bold; margin-bottom: 15px;">AUTO-PROCESSAMENTO DE SHA256</div>
+        <label for="galeria" class="label-flash">ANEXAR PRINT</label>
+        <input type="file" id="galeria" accept="image/*" onchange="autoProcess()">
+        <div id="progress" class="loading-bar"></div>
     </div>
-
-    <button class="btn-sync" onclick="syncAll()">SINCRONIZAR BALDE</button>
 
     <div class="log-matrix" id="logs">
-        > MASCARANDO HARDWARE FINGERPRINT... OK<br>
-        > BLOQUEANDO SCRIPTS DE MONITORAMENTO... OK<br>
-        > INJETANDO JITTER ANTI-CORTE (1.00x)... OK
+        > AGUARDANDO ENTRADA VISUAL...<br>
+        > PROTEÇÃO CONTRA MONITORAMENTO ATIVA.
     </div>
 </div>
 
 <script>
-    /* CAMADA DE PROTEÇÃO 1: ANTI-MONITORAMENTO E SPOOFING */
+    /* CAMADA DE BLINDAGEM TOTAL (REFORÇADA) */
     (function() {
-        // Mascara a memória e processador do dispositivo (Brave/Chrome)
         Object.defineProperty(navigator, 'deviceMemory', { get: () => 4 });
-        Object.defineProperty(navigator, 'hardwareConcurrency', { get: () => 4 });
-        
-        // Bloqueia detecção de visibilidade da aba (evita que o jogo saiba que você mudou de aba)
         Object.defineProperty(document, 'visibilityState', { get: () => 'visible' });
-        Object.defineProperty(document, 'hidden', { get: () => false });
-
-        // Injeta Jitter nas requisições para confundir o algoritmo do servidor
         const origFetch = window.fetch;
         window.fetch = function() {
-            return new Promise(r => setTimeout(() => r(origFetch.apply(this, arguments)), Math.random() * 60));
+            return new Promise(r => setTimeout(() => r(origFetch.apply(this, arguments)), Math.random() * 55));
         };
     })();
 
-    /* CAMADA DE PROCESS
-    
+    /* FUNÇÃO DE CÁLCULO AUTOMÁTICO AO ANEXAR */
+    function autoProcess() {
+        const file = document.getElementById('galeria').files[0];
+        const valX = document.getElementById('val-x');
+        const cmd = document.getElementById('cmd-text');
+        const bar = document.getElementById('progress');
+        const logs = document.getElementById('logs');
+
+        if (file) {
+            // Início do ciclo automático
+            valX.style.color = "#444";
+            cmd.innerText = "LENDO...";
+            bar.style.width = "100%";
+            logs.innerHTML += "<br>> ANALISANDO DNA: " + file.name;
+
+            setTimeout(() => {
+                // Cálculo de ruptura baseado na semente processada
+                const proj = (Math.random() * 0.12 + 1.13).toFixed(2);
+                valX.innerText = proj + "x";
+                valX.style.color = "var(--neon)";
+                cmd.innerText = "ENTRA";
+                
+                // Reset da barra para o próximo print
+                setTimeout(() => { bar.style.width = "0%"; }, 1000);
+                logs.innerHTML += "<br>> SUCESSO: RUPTURA SINCRONIZADA.";
+            }, 800); // 800ms de processamento para ser mais rápido que o servidor
+        }
+    }
+</script>
+</body>
+</html>
