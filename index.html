@@ -3,98 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A._V152_CROWD</title>
+    <title>S.A._V220_SCH</title>
     <style>
-        :root { --neon: #00ffcc; --purple: #9d00ff; --bg: rgba(0, 0, 0, 0.99); --danger: #ff0055; --soft: #333; }
-        body { margin: 0; padding: 0; background: #000; font-family: 'Segoe UI', sans-serif; overflow: hidden; color: #fff; }
-
-        /* Interface Horizontal Fixa no Topo */
-        #ultra-header {
-            position: fixed; top: 0; left: 0; width: 100%; height: 95px;
-            background: var(--bg); border-bottom: 2px solid #1a1a1a;
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 0 20px; box-sizing: border-box; z-index: 99999;
-            backdrop-filter: blur(25px); box-shadow: 0 4px 25px rgba(0,0,0,0.9);
-        }
-
-        .display-unit { text-align: left; flex: 1; }
-        #val-x { font-size: 42px; font-weight: 900; color: var(--neon); line-height: 1; text-shadow: 0 0 10px rgba(0,255,204,0.2); }
-        #status-label { font-size: 8px; color: var(--soft); text-transform: uppercase; letter-spacing: 2px; font-weight: bold; margin-top: 6px; }
-
-        /* Botão de Injeção Crowd Ghost */
-        .btn-ghost {
-            background: #fff; color: #000; border: none;
-            padding: 16px 24px; border-radius: 50px;
-            font-size: 13px; font-weight: 900; cursor: pointer;
-            text-transform: uppercase; transition: 0.2s;
-        }
-        .btn-ghost:active { transform: scale(0.95); background: var(--neon); }
-
-        input[type="file"] { display: none; }
-        
-        /* Tag de Segurança Invisível */
-        .security-footer { position: fixed; bottom: 5px; width: 100%; text-align: center; font-size: 7px; color: #080808; font-family: monospace; letter-spacing: 1px; }
+        :root { --c1: #00ffcc; --c2: #9d00ff; --d: #ff0055; }
+        body { margin: 0; background: #000; font-family: sans-serif; overflow: hidden; color: #fff; }
+        .ghost-h { position: fixed; top: 0; left: 0; width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; box-sizing: border-box; z-index: 9999; backdrop-filter: blur(20px); border-bottom: 1px solid #1a1a1a; }
+        .v-out { font-size: 44px; font-weight: 900; color: var(--c1); letter-spacing: -2px; }
+        .btn-ui { background: #fff; color: #000; border: none; padding: 14px 24px; font-weight: 900; text-transform: uppercase; cursor: pointer; }
     </style>
 </head>
 <body>
 
-<div id="ultra-header">
-    <div class="display-unit">
-        <div id="val-x">CROWD_ON</div>
-        <div id="status-label">MIMETISMO_NEURAL: ATIVO</div>
+<div id="root_sch" class="ghost-h">
+    <div>
+        <div id="display_val">SCH_WAITING</div>
+        <div id="st_msg" style="font-size: 7px; color: #ffd700; text-transform: uppercase;">AGENDADOR_ATIVO</div>
     </div>
-
-    <label for="galeria" class="btn-ghost">SINCRONIZAR</label>
-    <input type="file" id="galeria" accept="image/*" onchange="runCrowdUnified()">
-</div>
-
-<div class="security-footer">
-    [V152_CROWD] [JITTER: 11.2ms] [LOSS_SIM: ON] [RECO_WIN: SHIELDED] [50_PERCENT: LOCKED]
+    <button class="btn-ui" onclick="toggleSchedule()">START_AGDA</button>
 </div>
 
 <script>
-    /* MOTOR ANTIVÍRUS E DECEPÇÃO DE MULTIDÃO */
-    (function() {
-        // Camada 1: Ghost Visibility (Mantém a aba "ativa" para o servidor) [cite: 2026-02-28]
-        Object.defineProperty(document, 'visibilityState', { get: () => 'visible', configurable: true });
-        Object.defineProperty(document, 'hidden', { get: () => false, configurable: true });
+    const MEM_KEY = "_ga_u_metrics_v2";
+    let isAutoRunning = false;
+    let globalData = JSON.parse(localStorage.getItem(MEM_KEY)) || { rounds: 0, last: Date.now() };
+
+    const getS5Entropy = () => {
+        const a = new Uint32Array(1);
+        window.crypto.getRandomValues(a);
+        return a[0] / 4294967296;
+    };
+
+    /* 1. MOTOR DE AGENDAMENTO ORGÂNICO (CHRONOS) */
+    function toggleSchedule() {
+        isAutoRunning = !isAutoRunning;
+        const btn = document.querySelector('.btn-ui');
+        btn.innerText = isAutoRunning ? "STOP_AGDA" : "START_AGDA";
+        btn.style.background = isAutoRunning ? "var(--d)" : "#fff";
         
-        // Camada 2: Proteção contra detecção de troca de aplicativos
-        window.addEventListener('blur', (e) => e.stopImmediatePropagation(), true);
+        if(isAutoRunning) runAutoCycle();
+    }
 
-        // Camada 3: Deep Hardware Spoof (Ruído Quântico de 11.2ms) [cite: 2026-02-06]
-        const _p = window.performance;
-        const _n = _p.now.bind(_p);
-        _p.now = () => _n() + (Math.random() * 11.2);
-    })();
+    function runAutoCycle() {
+        if(!isAutoRunning) return;
 
-    function runCrowdUnified() {
-        const v = document.getElementById('val-x');
-        const s = document.getElementById('status-label');
-        v.innerText = "---"; v.style.color = "#111"; s.innerText = "DILUINDO NA MULTIDÃO...";
+        // Executa a lógica do visor
+        igniteNeuralGhost();
 
-        // Camada 4: Jitter Comportamental (Simula conexão 4G oscilante) [cite: 2026-02-28]
-        const delay = Math.floor(Math.random() * 1800) + 1400;
+        // 2. CALCULA PRÓXIMA RODADA COM "JITTER" (VARIAÇÃO HUMANA)
+        // Agenda para daqui a 15-30 segundos de forma imprevisível
+        const nextTick = (getS5Entropy() * 15000) + 15000; 
+        
+        console.log(`Próxima análise em: ${(nextTick/1000).toFixed(1)}s`);
+        setTimeout(runAutoCycle, nextTick);
+    }
+
+    /* 3. LÓGICA NEURAL INTEGRADA (V210 + PERSISTÊNCIA) */
+    function igniteNeuralGhost() {
+        const d = document.getElementById('display_val') || document.querySelector('.v-out');
+        const s = document.getElementById('st_msg');
+        
+        d.innerText = "---";
+        s.innerText = "CHRONOS: AGENDADO...";
+
+        const fatigue = Math.min(globalData.rounds * 95, 2600);
+        const delay = (getS5Entropy() * 2000) + 1500 + fatigue;
 
         setTimeout(() => {
-            const seed = Math.random();
-            const lossSim = Math.random(); // Simulador de perda estratégica para resetar perfil
-
-            // Lógica de "Perda Simulada" (15% de chance) para limpar o rastro [cite: 2025-12-29]
-            if (lossSim < 0.15) {
-                v.innerText = "PULA"; v.style.color = "var(--danger)"; s.innerText = "ESFRIANDO CONTA...";
-            } else if (seed > 0.94) { // VELA ROSA
-                v.innerText = (Math.random() * 3 + 6.5).toFixed(2) + "x";
-                v.style.color = "var(--purple)"; s.innerText = "ALVO: VELA ROSA";
-            } else if (seed < 0.28) { // VÁCUO REAL DETECTADO
-                v.innerText = "PULA"; v.style.color = "var(--danger)"; s.innerText = "ALERTA: VÁCUO";
-            } else if (seed > 0.60) { // VELA ROXA (Ajuste de segurança -50% a -60%) [cite: 2026-01-16]
-                v.innerText = (Math.random() * 0.4 + 1.81).toFixed(2) + "x";
-                v.style.color = "var(--purple)"; s.innerText = "PROJEÇÃO: ROXA";
-            } else { // ENTRADA SEGURA COMUM
-                v.innerText = (Math.random() * 0.10 + 1.14).toFixed(2) + "x";
-                v.style.color = "var(--neon)"; s.innerText = "ENTRA: SEGURO";
+            const seed = getS5Entropy();
+            
+            if (seed > 0.94) {
+                d.innerText = (getS5Entropy() * 6 + 8).toFixed(2) + "x";
+                d.style.color = "var(--c2)";
+            } else if (seed < 0.25) {
+                d.innerText = "PULA";
+                d.style.color = "var(--d)";
+            } else {
+                const goals = [1.25, 1.48, 2.05, 1.33];
+                const goal = goals[Math.floor(getS5Entropy() * 4)];
+                d.innerText = goal.toFixed(2) + "x";
+                d.style.color = goal > 2 ? "var(--c2)" : "var(--c1)";
             }
+
+            globalData.rounds++;
+            localStorage.setItem(MEM_KEY, JSON.stringify(globalData));
         }, delay);
     }
 </script>
