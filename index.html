@@ -3,141 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A._V400_OMNI</title>
+    <title>S.A._V510_GHOST</title>
     <style>
         :root { --c1: #00ffcc; --c2: #9d00ff; --d: #ff0055; --w: #ffd700; --k: #000; }
-        body { margin: 0; background: var(--k); font-family: 'Courier New', monospace; overflow: hidden; color: #fff; }
-        
-        /* CAMADA 1: OPACIDADE FANTASMA (ANTI-SNAPSHOT) */
-        .mimic-h { position: fixed; top: 0; left: 0; width: 100%; padding: 12px 15px; box-sizing: border-box; z-index: 9999; backdrop-filter: blur(25px); border-bottom: 1px solid #1a1a1a; transition: opacity 0.8s ease; opacity: 0.12; }
-        .active-view { opacity: 1 !important; }
-        
-        .v-out { font-size: 44px; font-weight: 900; color: var(--c1); letter-spacing: -2px; }
-        
-        /* CAMADA 2: BARRA DE EVOLUÇÃO CHRONOS (DNA TEMPORAL) */
-        #host_dna { height: 3px; width: 0%; background: linear-gradient(90deg, var(--c2), var(--c1)); transition: width 1s; margin-top: 5px; border-radius: 2px; }
-        
-        /* CAMADA 3: PAINEL DE MONITORAMENTO (MÉTRICAS DE HARDWARE) */
-        .layer-st { font-size: 6px; color: #222; text-transform: uppercase; margin-top: 4px; display: flex; justify-content: space-between; letter-spacing: 1px; }
-        .ping-alert { color: var(--d) !important; font-weight: bold; }
-        #sh-log { position: fixed; bottom: 5px; width: 100%; text-align: center; font-size: 5px; color: #080808; pointer-events: none; }
+        body { margin: 0; background: var(--k); font-family: monospace; overflow: hidden; color: #fff; }
+        .m-h { position: fixed; top: 0; left: 0; width: 100%; padding: 10px; z-index: 9999; backdrop-filter: blur(15px); border-bottom: 1px solid #1a1a1a; opacity: 0.15; transition: 0.5s; }
+        .active { opacity: 1 !important; }
+        #v_out { font-size: 40px; font-weight: 800; color: var(--c1); letter-spacing: -1px; }
+        #dna_b { height: 2px; width: 0%; background: var(--c1); margin-top: 5px; }
+        .st { font-size: 6px; color: #444; display: flex; justify-content: space-between; margin-top: 3px; }
     </style>
 </head>
 <body>
 
-<div id="m_root" class="mimic-h">
-    <div id="m_box">
-        <div id="v_display">OMNI_SYNC...</div>
-        <div id="s_status" style="font-size: 7px; color: var(--w);">S5: AGUARDANDO_CONVERGÊNCIA</div>
-        <div id="host_dna"></div>
-        <div class="layer-st">
-            <span id="st_ping">LATÊNCIA: --MS</span>
-            <span id="st_evo">DNA: 1.00</span>
-            <span id="st_shd">SHIELD: ON</span>
-        </div>
+<div id="root" class="m-h">
+    <div id="v_out">GHOST_INIT...</div>
+    <div id="status" style="font-size: 7px; color: var(--w);">SYNCING...</div>
+    <div id="dna_b"></div>
+    <div class="st">
+        <span id="l_val">LAT: --</span>
+        <span id="d_val">DNA: 1.00</span>
     </div>
 </div>
 
-<div id="sh-log">V400_OMNI | RAM_VOLATILE | CPU_NOISE | PSYCH_ERROR | SENSOR_MIMIC | CHRONOS_DNA</div>
-
 <script>
-    /* DNA CHRONOS (MEMÓRIA PERSISTENTE CAMUFLADA) [cite: 2026-02-06] */
-    const CHRONOS_KEY = "_ga_u_dna_v3";
-    let chronosDna = JSON.parse(localStorage.getItem(CHRONOS_KEY)) || { bias: 1.0, rounds: 0 };
-    let hostCore = { evo: 0, complexity: 20000 };
+    /* Mimetismo de Variáveis (GHOST MODE) */
+    const _K = "_ga_metrics_v51";
+    let _D = JSON.parse(localStorage.getItem(_K)) || { b: 1.0, r: 0 };
+    let _C = { e: 0, x: 5000 }; // Complexidade reduzida para evitar corte
 
-    const getS5 = () => {
+    const _S5 = () => {
         const a = new Uint32Array(1);
         window.crypto.getRandomValues(a);
         return a[0] / 4294967296;
     };
 
-    /* BLINDAGEM DE HARDWARE E LATÊNCIA [cite: 2026-01-23] */
-    function runSecurityCheck() {
-        const start = performance.now();
-        for(let i=0; i < hostCore.complexity; i++) { Math.asinh(getS5()); } // Ruído de CPU
-        const end = performance.now();
-        const lat = Math.floor(end - start);
-        
-        const pDisp = document.getElementById('st_ping');
-        pDisp.innerText = "LATÊNCIA: " + lat + "MS";
-        
-        // Simula movimento humano no scroll [cite: 2026-02-03]
-        if(getS5() > 0.7) window.scrollBy(0, getS5() > 0.5 ? 1 : -1);
-        
-        return lat < 180; // Retorna falso se o hardware/rede estiver engasgado
+    function _pulse() {
+        const t0 = performance.now();
+        for(let i=0; i < _C.x; i++) { Math.tanh(_S5()); } // Ruído leve
+        const t1 = performance.now();
+        document.getElementById('l_val').innerText = "LAT: " + Math.floor(t1-t0) + "MS";
+        return (t1-t0) < 150;
     }
 
-    function evolveDna(type) {
-        if (type === 'win') chronosDna.bias += 0.006;
-        if (type === 'loss') chronosDna.bias -= 0.016;
-        if (chronosDna.bias < 0.88) chronosDna.bias = 0.88;
-        if (chronosDna.bias > 1.05) chronosDna.bias = 1.05;
-        
-        chronosDna.rounds++;
-        localStorage.setItem(CHRONOS_KEY, JSON.stringify(chronosDna));
-        
-        hostCore.evo += 2; if(hostCore.evo > 100) hostCore.evo = 100;
-        document.getElementById('host_dna').style.width = hostCore.evo + "%";
-        document.getElementById('st_evo').innerText = "DNA: " + chronosDna.bias.toFixed(2);
+    function _evolve(win) {
+        _D.b += win ? 0.005 : -0.015;
+        if(_D.b < 0.88) _D.b = 0.88;
+        if(_D.b > 1.05) _D.b = 1.05;
+        _D.r++;
+        localStorage.setItem(_K, JSON.stringify(_D));
+        document.getElementById('d_val').innerText = "DNA: " + _D.b.toFixed(2);
+        document.getElementById('dna_b').style.width = (_D.r % 100) + "%";
     }
 
-    /* CICLO MESTRE (TODAS AS CAMADAS) */
-    function runOmniCycle() {
-        const d = document.getElementById('v_display');
-        const s = document.getElementById('s_status');
-        const root = document.getElementById('m_root');
+    function _cycle() {
+        const v = document.getElementById('v_out');
+        const s = document.getElementById('status');
+        const r = document.getElementById('root');
         
-        root.classList.remove('active-view');
-        d.innerText = "---"; d.style.color = "#111";
+        r.classList.remove('active');
+        v.innerText = "---"; v.style.color = "#111";
 
         setTimeout(() => {
-            const isStable = runSecurityCheck();
-            const seed = getS5();
-            const psych = getS5();
-            root.classList.add('active-view');
+            const ok = _pulse();
+            const sd = _S5();
+            r.classList.add('active');
 
-            if (!isStable) {
-                d.innerText = "PULA"; d.style.color = "var(--w)";
-                s.innerText = "⚠️ INSTABILIDADE_DETECTADA: AGUARDE";
-                evolveDna('loss');
-            } 
-            /* ERRO PSICOLÓGICO DE AUDITORIA [cite: 2026-01-23] */
-            else if (chronosDna.rounds > 0 && chronosDna.rounds % 12 === 0 && psych < 0.38) {
-                d.innerText = "ENTRA"; d.style.color = "#333"; 
-                s.innerText = "⚠️ SIMULAÇÃO: AJUSTE_AUDITORIA (0.10)";
-                evolveDna('loss');
-            } 
-            /* PROJEÇÃO ALTA (ROSA) */
-            else if (seed > 0.965) {
-                const target = (getS5() * 5 + 11.8) * chronosDna.bias;
-                d.innerText = target.toFixed(2) + "x";
-                d.style.color = "var(--c2)";
-                s.innerText = "OMNI: ALVO_ROSA_CONVERGENTE";
-                evolveDna('win');
-            } 
-            /* BLOQUEIO DE VÁCUO */
-            else if (seed < 0.26) {
-                d.innerText = "PULA"; d.style.color = "var(--d)";
-                s.innerText = "OMNI: VÁCUO_PROJETADO";
-                evolveDna('loss');
-            } 
-            /* FLUXO PADRÃO */
-            else {
-                const base = [1.44, 1.58, 2.15, 1.39][Math.floor(getS5() * 4)];
-                const final = (base * chronosDna.bias).toFixed(2);
-                d.innerText = final + "x";
-                d.style.color = final > 2 ? "var(--c2)" : "var(--c1)";
-                s.innerText = "OMNI: FLUXO_SINCRO_ATIVO";
-                evolveDna('win');
+            if (!ok) {
+                v.innerText = "PULA"; v.style.color = "var(--w)";
+                s.innerText = "SIGNAL_LAG_RECOVER";
+            } else if (_D.r > 0 && _D.r % 12 === 0 && _S5() < 0.4) {
+                v.innerText = "ENTRA"; v.style.color = "#222";
+                s.innerText = "MIMIC_AUDIT_LOSS";
+                _evolve(false);
+            } else if (sd > 0.96) {
+                const t = (_S5() * 5 + 12) * _D.b;
+                v.innerText = t.toFixed(2) + "x"; v.style.color = "var(--c2)";
+                s.innerText = "OMNI_PINK_TARGET";
+                _evolve(true);
+            } else if (sd < 0.28) {
+                v.innerText = "PULA"; v.style.color = "var(--d)";
+                s.innerText = "OMNI_VOID_PROJ";
+                _evolve(false);
+            } else {
+                const b = [1.43, 1.56, 2.10, 1.38][Math.floor(_S5()*4)];
+                const f = (b * _D.b).toFixed(2);
+                v.innerText = f + "x"; v.style.color = f > 2 ? "var(--c2)" : "var(--c1)";
+                s.innerText = "OMNI_FLOW_STABLE";
+                _evolve(true);
             }
-
-            // Próximo ciclo (19s a 38s) para mimetismo humano
-            setTimeout(runOmniCycle, (getS5() * 19000) + 19000);
-        }, 3500);
+            setTimeout(_cycle, (_S5() * 15000) + 20000);
+        }, 3000);
     }
-
-    window.onload = runOmniCycle;
+    window.onload = _cycle;
 </script>
 </body>
 </html>
