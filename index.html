@@ -2,85 +2,26 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S.A._V102_FULL_SYNC</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>S.A._METAL_PROTOCOL_AF</title>
     <style>
-        body { background: #000; color: #00ff41; font-family: 'Courier New', monospace; text-align: center; margin: 0; overflow: hidden; }
-        #terminal { height: 100vh; display: flex; flex-direction: column; padding: 10px; border: 2px solid #111; }
-        .noise-header { font-size: 8px; color: #1a1a1a; height: 35px; overflow: hidden; margin-bottom: 5px; opacity: 0.5; }
-        .status-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; font-size: 9px; color: #444; border-bottom: 1px solid #111; padding-bottom: 5px; }
-        #comando-display { font-size: 55px; font-weight: 900; margin: 15px 0; text-shadow: 0 0 15px rgba(0,255,65,0.6); }
-        #projecao-x { font-size: 22px; color: #0044ff; margin-bottom: 15px; font-weight: bold; }
-        .btn-master { background: #ffffff; color: #000; border: none; padding: 25px; width: 100%; font-size: 20px; font-weight: 900; border-radius: 8px; cursor: pointer; display: block; -webkit-appearance: none; }
-        .btn-master:active { background: #00ff41; transform: scale(0.96); }
-        .btn-master:disabled { background: #111; color: #333; }
-        #log-auditoria { flex: 1; font-size: 9px; text-align: left; overflow-y: auto; margin-top: 10px; color: #222; border-top: 1px solid #111; padding-top: 10px; }
-        .hl-green { color: #00ff41; }
-        .hl-red { color: #ff4141; }
-        .hl-blue { color: #0044ff; }
-    </style>
-</head>
-<body>
-
-<div id="terminal">
-    <div class="noise-header" id="noise">INICIALIZANDO_PASSAPORTE_GHOST_SYNC_10M_ENTRIES...</div>
-    
-    <div class="status-grid">
-        <div>LATÊNCIA: <span id="ms-val" class="hl-green">--</span></div>
-        <div>BALDE: <span id="bucket-val" class="hl-blue">MONITORING</span></div>
-        <div>RASTO: <span class="hl-green">0.01%</span></div>
-    </div>
-
-    <div id="comando-display">AGUARDE</div>
-    <div id="projecao-x">PROJEÇÃO: --</div>
-
-    <button class="btn-master" id="btn-sync" onclick="executarProtocoloOuro()">SINCRONIZAR_COMPLETO</button>
-
-    <div id="log-auditoria">
-        > [VÉSPER] Blindagem Passaporte Ativa.<br>
-        > [ORION] Monitorando combinação de semente...<br>
-        > [KRONA] Sincronia de balde ganhador iniciada.
-    </div>
-</div>
-
-<script>
-    const btn = document.getElementById('btn-sync');
-    const cmd = document.getElementById('comando-display');
-    const log = document.getElementById('log-auditoria');
-    const noise = document.getElementById('noise');
-    const msVal = document.getElementById('ms-val');
-    const bucketVal = document.getElementById('bucket-val');
-    const xDisp = document.getElementById('projecao-x');
-
-    let greensConsecutivos = 0;
-
-    // SIMULAÇÃO DE 10 MILHÕES DE ENTRADAS (Ruído VÉSPER)
-    setInterval(() => {
-        const fake = ["GHOST_ID", "SYNC_10M", "VOID_PASS", "MIMIC_WIN", "BYPASS_RECOLHA"];
-        noise.innerText = `[TRAFFIC]: ${Math.random().toString(16).substring(2,8).toUpperCase()} | ${fake[Math.floor(Math.random()*fake.length)]} | ${new Date().getMilliseconds()}ms\n` + noise.innerText.substring(0, 100);
-        msVal.innerText = (Math.random() * 35 + 10).toFixed(0) + "ms";
-    }, 120);
-
-    function addLog(msg, color = "#222") {
-        log.innerHTML = `<div style="color:${color}">[${new Date().toLocaleTimeString()}] > ${msg}</div>` + log.innerHTML;
-    }
-
-    function executarProtocoloOuro() {
-        if (btn.disabled) return;
-        btn.disabled = true;
-        btn.innerText = "FORÇANDO_BALDE_GANHADOR...";
+        body { background: #050505; color: #00ff41; font-family: 'Courier New', monospace; text-align: center; margin: 0; overflow: hidden; }
+        #terminal { height: 100vh; display: flex; flex-direction: column; padding: 15px; box-sizing: border-box; border: 2px solid #1a1a1a; }
+        .metal-header { font-size: 8px; color: #222; height: 40px; overflow: hidden; margin-bottom: 5px; text-transform: uppercase; border-bottom: 1px solid #111; }
+        .status-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; font-size: 10px; color: #444; padding: 10px 0; }
+        #comando-display { font-size: 55px; font-weight: 900; margin: 20px 0; transition: 0.1s; text-shadow: 0 0 20px rgba(0,255,65,0.4); }
+        #projecao-metal { font-size: 24px; color: #0044ff; margin-bottom: 20px; font-weight: bold; background: rgba(0,68,255,0.05); padding: 12px; border: 1px solid #001a4d; border-radius: 4px; }
         
-        // JITTER BIO-HUMANO (KRONA)
-        const timing = Math.random() * 1800 + 1200;
-
-        setTimeout(() => {
-            // REGRA DE OMISSÃO 3x1 (AURORA)
-            if (greensConsecutivos >= 3) {
-                cmd.innerText = "PULA";
-                cmd.style.color = "#ff4141";
-                btn.innerText = "LIMPANDO RASTRO ID...";
-                addLog("AURORA: Omissão estratégica para limpar rastro.", "#ff4141");
-                greensConsecutivos = 0;
-                setTimeout(() => { btn.disabled = false; btn.innerText = "SINCRONIZAR_COMPLETO"; }, 5000);
-                return;
-    
+        /* BOTÃO METAL - ALTA SENSIBILIDADE */
+        .btn-metal { 
+            background: #ffffff !important; 
+            color: #000 !important; 
+            border: none; 
+            padding: 28px; 
+            width: 100%; 
+            font-size: 22px; 
+            font-weight: 900; 
+            border-radius: 6px; 
+            cursor: pointer;
+            box
+            
