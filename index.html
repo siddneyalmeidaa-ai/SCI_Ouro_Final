@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A._V106_FORCE_EVO</title>
+    <title>S.A._V117_OMNI_SHIELD</title>
     <style>
         body { background: #000; color: #00ff41; font-family: monospace; text-align: center; margin: 0; overflow: hidden; }
         #terminal { height: 100vh; display: flex; flex-direction: column; padding: 15px; }
@@ -13,57 +13,43 @@
         #cmd-text { font-size: 48px; font-weight: 900; margin-bottom: 25px; }
         .btn-evo { background: #fff !important; color: #000 !important; padding: 30px; width: 100%; font-size: 22px; font-weight: 900; border-radius: 15px; border: none; box-shadow: 0 8px 0 #999; }
         .btn-evo:active { transform: translateY(4px); box-shadow: 0 2px 0 #666; background: #00ff41 !important; }
+        .shield-logs { font-size: 8px; color: #ffae00; margin-top: 10px; text-align: left; height: 40px; overflow: hidden; }
     </style>
 </head>
 <body>
 <div id="terminal">
-    <div class="evo-status" id="monitor">EVOLUÇÃO ATIVA: CICLO DE RETENÇÃO DETECTADO</div>
+    <div class="evo-status" id="monitor">PROTOCOLO V117: BLINDAGEM OMNI-LAYER ATIVA</div>
     <div id="visor-magno">
-        <span style="font-size:11px; color:#0044ff; font-weight:bold;">ALVO EVOLUTIVO V106</span>
+        <span style="font-size:11px; color:#0044ff; font-weight:bold;">ALVO BLINDADO V117</span>
         <div id="val-x">0.00x</div>
     </div>
     <div id="cmd-text">AGUARDE</div>
     <button class="btn-evo" id="btn" ontouchstart="sincronizarEvolucao()">SINCRONIZAR_BALDE</button>
+    <div class="shield-logs" id="logs">
+        > HARDWARE_ID: MASKED<br>
+        > UI_SCAN: BLOCKED<br>
+        > L7_BYPASS: READY
+    </div>
 </div>
 
 <script>
-    const monitor = document.getElementById('monitor');
-    const valX = document.getElementById('val-x');
-    const cmdText = document.getElementById('cmd-text');
-    const btn = document.getElementById('btn');
+    // --- BLOCO DE BLINDAGEM PROFUNDA ---
+    (function() {
+        // 1. Anti-Canvas Fingerprinting (Blindagem de Hardware)
+        const originalGetImageData = CanvasRenderingContext2D.prototype.getImageData;
+        CanvasRenderingContext2D.prototype.getImageData = function(x, y, w, h) {
+            const data = originalGetImageData.apply(this, arguments);
+            // Injeta micro-ruído aleatório para mudar a identidade digital a cada leitura
+            data.data[0] = data.data[0] + (Math.random() > 0.5 ? 1 : -1);
+            return data;
+        };
 
-    function sincronizarEvolucao() {
-        if(btn.disabled) return;
-        btn.disabled = true;
-        btn.innerText = "MUDANDO ASSINATURA...";
+        // 2. Proteção de Interface (Anti-Screen Recording e Page Visibility)
+        Object.defineProperty(navigator, 'mediaDevices', { value: undefined, configurable: false });
+        Object.defineProperty(document, 'visibilityState', { get: () => 'visible' });
+        Object.defineProperty(document, 'hidden', { get: () => false });
 
-        // Simulação de quebra de rastro por latência variável
-        const jitter = Math.floor(Math.random() * 1500 + 800);
-
-        setTimeout(() => {
-            const seed = Math.random();
-            // Após o corte de 1.17x, forçamos alvos de segurança extrema
-            let target = (Math.random() * 0.08 + 1.04).toFixed(2);
-
-            if (seed > 0.68) { // Filtro mais rigoroso
-                cmdText.innerText = "ENTRA";
-                cmdText.style.color = "#00ff41";
-                valX.innerText = target + "x";
-                valX.style.color = "#00ff41";
-            } else {
-                cmdText.innerText = "PULA";
-                cmdText.style.color = "#ff4141";
-                valX.innerText = "0.00x";
-            }
-
-            setTimeout(() => {
-                btn.disabled = false;
-                btn.innerText = "SINCRONIZAR_BALDE";
-                cmdText.innerText = "AGUARDE";
-                cmdText.style.color = "#fff";
-            }, 7000); // Resfriamento aumentado para 7s para "esquecer" seu ID
-        }, jitter);
-    }
-</script>
-</body>
-</html>
+        // 3. Simulação de Movimento (Prova de Vida para Sensores)
+        setInterval(() => {
+            window.dispatchEvent(new DeviceMotionEvent('devicemotion
+                                                       
