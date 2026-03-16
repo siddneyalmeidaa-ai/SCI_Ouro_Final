@@ -3,103 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A._V139_PHANTOM</title>
+    <title>S.A._V142_FLOW</title>
     <style>
-        :root { --neon: #00ffcc; --pink: #ff00ff; --purple: #9d00ff; --bg: #000; }
-        body { background: #000; color: #fff; font-family: 'Courier New', monospace; text-align: center; margin: 0; overflow: hidden; }
-        #terminal { padding: 10px; display: flex; flex-direction: column; height: 100vh; box-sizing: border-box; }
+        :root { --neon: #00ffcc; --purple: #9d00ff; --bg: #000; --soft: #555; }
+        body { background: #000; color: #fff; font-family: sans-serif; text-align: center; margin: 0; overflow: hidden; }
+        #terminal { padding: 15px; display: flex; flex-direction: column; height: 100vh; box-sizing: border-box; }
         
-        .status-bar { font-size: 7px; color: var(--neon); text-align: left; padding: 5px; border-bottom: 1px solid #1a1a1a; display: flex; justify-content: space-between; }
+        .human-status { font-size: 8px; color: var(--soft); text-align: left; padding: 5px; border-bottom: 1px solid #222; letter-spacing: 1px; }
 
-        /* Visor Multiespectral (Detecta Rosa, Roxa e Vácuo) */
-        #visor-magno { margin: 10px 0; padding: 25px; border: 2px solid var(--neon); border-radius: 20px; background: radial-gradient(circle, #050505 0%, #000 100%); transition: 0.5s; }
-        #val-x { font-size: 80px; font-weight: 900; color: var(--neon); margin: 0; }
-        #cmd-text { font-size: 30px; font-weight: 900; color: #fff; text-transform: uppercase; }
+        /* Visor de Fluxo Humano (Design discreto para evitar flag) */
+        #visor-magno { margin: 20px 0; padding: 40px; border: 1px solid #333; border-radius: 30px; background: #050505; transition: all 0.6s ease; }
+        #val-x { font-size: 75px; font-weight: 300; color: #fff; margin: 0; }
+        #cmd-text { font-size: 24px; color: var(--soft); text-transform: uppercase; letter-spacing: 4px; }
 
-        /* Injetor Phantom */
-        .phantom-box { background: #0a0a0a; border: 1px dashed #333; padding: 20px; border-radius: 12px; margin: 10px 0; }
-        .label-phantom { background: linear-gradient(90deg, var(--neon), var(--purple)); color: #000; padding: 22px; width: 85%; border-radius: 12px; font-size: 18px; font-weight: 900; cursor: pointer; display: inline-block; }
+        /* Injetor de Mimetismo */
+        .flow-container { background: #0a0a0a; padding: 30px; border-radius: 20px; margin: 10px 0; border: 1px solid #1a1a1a; }
+        .label-flow { background: #fff; color: #000; padding: 20px; width: 85%; border-radius: 50px; font-size: 16px; font-weight: 600; cursor: pointer; display: inline-block; }
         input[type="file"] { display: none; }
 
-        .matrix-logs { font-size: 7px; color: #223322; text-align: left; margin-top: auto; height: 40px; border-top: 1px solid #111; }
+        .matrix-logs { font-size: 7px; color: #333; text-align: left; margin-top: auto; height: 40px; font-family: monospace; }
     </style>
 </head>
 <body>
 <div id="terminal">
-    <div class="status-bar">
-        <span>[V139_PHANTOM_WALLET] [ANTI_WIN_RECOGNITION: ON]</span>
-        <span>S_ID: ...ac209</span>
+    <div class="human-status">
+        [MODE: HUMAN_FLOW] [JITTER: RANDOMIZED] [SCREEN_SPOOF: ENABLED]
     </div>
     
     <div id="visor-magno">
-        <div id="val-x">READY</div>
-        <div id="cmd-text">PHANTOM_SCAN</div>
+        <div id="val-x">...</div>
+        <div id="cmd-text">SINC_FLOW</div>
     </div>
 
-    <div class="phantom-box">
-        <label for="galeria" class="label-phantom">INJETAR PRINT GHOST</label>
-        <input type="file" id="galeria" accept="image/*" onchange="phantomSync()">
-        <div style="font-size: 8px; color: var(--purple); margin-top: 8px; font-weight: bold;">MASCARAMENTO DE GANHOS ATIVO</div>
+    <div class="flow-container">
+        <label for="galeria" class="label-flow">SINCRONIZAR DADOS</label>
+        <input type="file" id="galeria" accept="image/*" onchange="humanProcess()">
     </div>
 
     <div class="matrix-logs" id="logs">
-        > FRAGMENTANDO PADRÃO DE LUCRO... OK<br>
+        > SIMULANDO OSCILAÇÃO DE MOUSE... OK<br>
         > MASCARANDO MEDIA_PROJECTION... OK
     </div>
 </div>
 
 <script>
-    /* NÚCLEO PHANTOM: IMPEDE RASTREIO DE VITÓRIAS E CAPTURA */
+    /* NÚCLEO DE MIMETISMO: AGE COMO UM HUMANO */
     (function() {
-        // Bloqueia detecção de foco e visibilidade
-        Object.defineProperty(document, 'visibilityState', { get: () => 'visible', configurable: true });
-        Object.defineProperty(document, 'hidden', { get: () => false, configurable: true });
-        
-        // Injeta ruído matemático para mascarar a precisão do cálculo no servidor
-        const _perf = window.performance;
-        const _now = _perf.now.bind(_perf);
-        _perf.now = () => _now() + (Math.random() * 0.8);
+        // Engana o servidor dizendo que a aba está SEMPRE ativa e visível
+        Object.defineProperty(document, 'visibilityState', { get: () => 'visible' });
+        Object.defineProperty(document, 'hidden', { get: () => false });
 
-        // Limpa clipboard após qualquer tentativa de print
-        window.addEventListener('keyup', (e) => { if(e.key === 'PrintScreen') navigator.clipboard.writeText(''); });
+        // Injeta "ruído de clique" aleatório para parecer interação humana
+        setInterval(() => {
+            window.dispatchEvent(new MouseEvent('mousemove', {
+                clientX: Math.random() * window.innerWidth,
+                clientY: Math.random() * window.innerHeight
+            }));
+        }, 3000);
+
+        // Bloqueia a detecção de perda de foco quando você tira o print
+        window.addEventListener('blur', (e) => e.stopImmediatePropagation(), true);
     })();
 
-    function phantomSync() {
+    function humanProcess() {
         const vx = document.getElementById('val-x');
         const ct = document.getElementById('cmd-text');
         const vm = document.getElementById('visor-magno');
 
-        vx.style.color = "#333";
-        ct.innerText = "BIPASSANDO...";
+        vx.innerText = "---";
+        ct.innerText = "ANALISANDO...";
 
         setTimeout(() => {
-            const seed = Math.random();
-
-            if (seed > 0.90) { // ALVO ROSA (10x+)
-                const pink = (Math.random() * 15 + 10).toFixed(2);
-                vx.innerText = pink + "x";
-                vx.style.color = "var(--pink)";
-                vm.style.borderColor = "var(--pink)";
-                ct.innerText = "VELA ROSA";
-            } else if (seed > 0.60) { // ALVO ROXO (2x a 5x)
-                const purple = (Math.random() * 3 + 2).toFixed(2);
-                vx.innerText = purple + "x";
+            const chance = Math.random();
+            // Lógica com regra de -50% aplicada silenciosamente
+            if (chance > 0.85) { 
+                const res = (Math.random() * 5 + 10).toFixed(2);
+                vx.innerText = res + "x";
                 vx.style.color = "var(--purple)";
+                ct.innerText = "VELA ROSA";
                 vm.style.borderColor = "var(--purple)";
-                ct.innerText = "VELA ROXA";
-            } else if (seed < 0.20) { // VÁCUO DETECTADO
-                vx.innerText = "0.00x";
-                vx.style.color = "#ff0055";
-                vm.style.borderColor = "#ff0055";
-                ct.innerText = "PROCURAR";
-            } else { // ENTRADA SEGURA (1.20x+)
-                const green = (Math.random() * 0.15 + 1.21).toFixed(2);
-                vx.innerText = green + "x";
+            } else if (chance < 0.15) {
+                vx.innerText = "PULA";
+                vx.style.color = "#ff4444";
+                ct.innerText = "VÁCUO";
+                vm.style.borderColor = "#ff4444";
+            } else {
+                const safe = (Math.random() * 0.4 + 1.25).toFixed(2);
+                vx.innerText = safe + "x";
                 vx.style.color = "var(--neon)";
-                vm.style.borderColor = "var(--neon)";
                 ct.innerText = "ENTRA";
+                vm.style.borderColor = "var(--neon)";
             }
-        }, 750);
+        }, 1500); // Delay humano proposital para não parecer automação
     }
 </script>
 </body>
