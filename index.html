@@ -5,51 +5,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>S.A._V510_GHOST_OMNI</title>
     <style>
-        :root { --c1: #00ffcc; --c2: #9d00ff; --d: #ff0055; --w: #ffd700; --k: #000; }
-        body { margin: 0; background: var(--k); font-family: monospace; overflow: hidden; color: #fff; }
+        :root { --c1: #00ffcc; --c2: #9d00ff; --d: #ff0055; --w: #ffd700; --k: rgba(0,0,0,0.85); }
         
-        /* Interface Principal */
-        .m-h { position: fixed; top: 0; left: 0; width: 100%; padding: 12px; z-index: 9999; backdrop-filter: blur(15px); border-bottom: 1px solid #1a1a1a; opacity: 0.15; transition: 0.5s; }
-        .active { opacity: 1 !important; }
+        /* Fundo transparente para ver o jogo atrás se for usado como overlay */
+        body { margin: 0; background: transparent; font-family: 'Courier New', monospace; overflow: hidden; color: #fff; }
         
-        #v_out { font-size: 40px; font-weight: 800; color: var(--c1); letter-spacing: -1px; }
-        #dna_b { height: 2px; width: 0%; background: var(--c1); margin-top: 5px; transition: 0.4s; }
+        /* Painel principal com visibilidade melhorada */
+        .m-h { 
+            position: fixed; top: 0; left: 0; width: 100%; padding: 15px; 
+            z-index: 9999; background: var(--k); 
+            border-bottom: 1px dotted var(--c1);
+            transition: 0.3s;
+        }
+
+        #v_out { font-size: 45px; font-weight: 900; color: var(--c1); letter-spacing: -2px; margin-bottom: 5px; }
         
-        /* Grid de Sub-Status */
-        .st { font-size: 7px; color: #444; display: flex; justify-content: space-between; margin-top: 5px; text-transform: uppercase; }
-        .mod-val { color: var(--c1); font-weight: bold; }
+        #fluxo_panel { 
+            padding: 8px; font-size: 12px; text-align: center; 
+            font-weight: bold; border-radius: 4px; border: 1px solid #333;
+            margin-bottom: 10px;
+        }
+
+        .pay { color: var(--c1); border-color: var(--c1) !important; background: rgba(0, 255, 204, 0.1); }
+        .recol { color: var(--w); border-color: var(--w) !important; background: rgba(255, 215, 0, 0.1); }
+
+        #dna_b { height: 3px; width: 0%; background: var(--c1); box-shadow: 0 0 10px var(--c1); transition: 0.5s; }
         
-        /* Painel de Fluxo Dinâmico */
-        #fluxo_panel { margin-top: 8px; padding: 6px; font-size: 11px; text-align: center; font-weight: bold; border-radius: 2px; border: 1px solid #222; }
-        .pay { color: var(--c1); border-color: var(--c1) !important; background: rgba(0, 255, 204, 0.05); }
-        .recol { color: var(--w); border-color: var(--w) !important; background: rgba(255, 215, 0, 0.05); }
-        .danger { color: var(--d); animation: blink 0.8s infinite; }
-        @keyframes blink { 50% { opacity: 0; } }
+        .st { 
+            font-size: 9px; color: #888; display: flex; 
+            justify-content: space-between; margin-top: 8px; 
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+        
+        .mod-val { color: #fff; }
+        .danger { color: var(--d); animation: blink 0.6s infinite; }
+        @keyframes blink { 50% { opacity: 0.2; } }
     </style>
 </head>
 <body>
 
 <div id="root" class="m-h">
-    <div id="v_out">GHOST_INIT...</div>
-    <div id="fluxo_panel" class="pay">STATUS: <span id="fluxo_txt">SYNCING</span></div>
+    <div id="v_out">GHOST_INIT</div>
+    
+    <div id="fluxo_panel" class="pay">
+        STATUS: <span id="fluxo_txt">CONECTANDO...</span>
+    </div>
+
     <div id="dna_b"></div>
     
     <div class="st">
-        <span>MONITOR: <span id="m_val" class="mod-val">SECURE</span></span>
-        <span>TIMER: <span id="t_val" class="mod-val">--S</span></span>
+        <span>MONITOR: <span id="m_val" class="mod-val">BUSCANDO</span></span>
+        <span>TIMER: <span id="t_val" class="mod-val">00S</span></span>
         <span>LAT: <span id="l_val" class="mod-val">--</span></span>
     </div>
 </div>
 
 <script>
-    /* V510_GHOST_OMNI 
-       Data: Segunda-feira, 16 de março de 2026, 13:17
-       Sincronizado: S. A. 
-    */
-
-    const _K = "_ga_metrics_v51";
-    let _D = JSON.parse(localStorage.getItem(_K)) || { b: 1.0, r: 0 };
-    let _T = 45; // Cronômetro de Convergência
+    /* S.A._V510_GHOST_OMNI_FIXED */
+    let _T = 45; 
+    let _DNA = 1.00;
 
     const _S5 = () => {
         const a = new Uint32Array(1);
@@ -57,25 +71,66 @@
         return a[0] / 4294967296;
     };
 
-    // Função de Monitoramento e Pulso
-    function _pulse() {
-        const t0 = performance.now();
-        for(let i=0; i < 4000; i++) { Math.tanh(_S5()); } // Mimetismo de carga
-        const t1 = performance.now();
-        const lat = Math.floor(t1-t0);
-        document.getElementById('l_val').innerText = lat + "MS";
+    function _update_interface() {
+        // Atualiza Cronômetro
+        _T--;
+        if(_T < 0) _T = Math.floor(_S5() * 15) + 35;
+        document.getElementById('t_val').innerText = _T + "S";
+
+        // Lógica de Fluxo
+        const fP = document.getElementById('fluxo_panel');
+        const fT = document.getElementById('fluxo_txt');
+        const isPay = _T > 10;
         
-        // Termômetro de Segurança (Detecta Resolução/Ferramentas)
-        const isD = window.outerWidth - window.innerWidth > 100;
+        fT.innerText = isPay ? "PAGAMENTO" : "RECOLHIMENTO";
+        fP.className = isPay ? "pay" : "recol";
+
+        // Monitor de Segurança (Simulação de integridade)
         const mV = document.getElementById('m_val');
+        const isD = window.innerWidth < 300; // Exemplo de detecção de redimensionamento
         mV.innerText = isD ? "DANGER" : "SECURE";
         mV.className = isD ? "mod-val danger" : "mod-val";
-        
-        return lat < 150;
     }
 
-    function _evolve(win) {
-        _D.b += win ? 0.005 : -0.015;
-        if(_D.b < 0.88) _D.b = 0.88;
-        if(_D.b > 1.05) _D.b = 1.05;
-        
+    function _run_engine() {
+        const v = document.getElementById('v_out');
+        const bar = document.getElementById('dna_b');
+        const l = document.getElementById('l_val');
+
+        v.style.opacity = "0.3";
+        bar.style.width = "0%";
+
+        setTimeout(() => {
+            const sd = _S5();
+            const tStart = performance.now();
+            
+            // Simulação de processamento
+            for(let i=0; i<3000; i++){ Math.sqrt(sd); }
+            
+            l.innerText = Math.floor(performance.now() - tStart) + "MS";
+            v.style.opacity = "1";
+            bar.style.width = "100%";
+
+            if (sd > 0.93) {
+                v.innerText = (sd * 8 + 10).toFixed(2) + "x";
+                v.style.color = "var(--c2)"; // Rosa
+            } else if (sd < 0.28) {
+                v.innerText = "PULA";
+                v.style.color = "var(--d)";
+            } else {
+                const res = (sd * 2 + 1.1).toFixed(2);
+                v.innerText = res + "x";
+                v.style.color = "var(--c1)";
+            }
+
+            setTimeout(_run_engine, (_S5() * 8000) + 12000);
+        }, 2000);
+    }
+
+    window.onload = () => {
+        setInterval(_update_interface, 1000);
+        _run_engine();
+    };
+</script>
+</body>
+</html>
