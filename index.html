@@ -3,30 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A._V102_ALVO_X</title>
+    <title>S.A._V102_FINAL_SYSTEM</title>
     <style>
         body { background: #000; color: #00ff41; font-family: 'Courier New', monospace; text-align: center; margin: 0; overflow: hidden; }
         #terminal { height: 100vh; display: flex; flex-direction: column; padding: 15px; box-sizing: border-box; }
+        .ghost-header { font-size: 10px; color: #333; margin-bottom: 10px; border-bottom: 1px solid #111; padding-bottom: 5px; text-transform: uppercase; }
         
-        /* VISOR DE ALVO X - PRIORITÁRIO */
-        #visor-alvo { 
+        /* VISOR DE PROJEÇÃO - ALTA PRIORIDADE */
+        #visor-x { 
             margin: 20px 0; 
             padding: 25px; 
-            background: rgba(0, 68, 255, 0.1); 
+            background: rgba(0, 68, 255, 0.05); 
             border: 2px solid #0044ff; 
             border-radius: 15px;
             box-shadow: 0 0 20px rgba(0, 68, 255, 0.3);
         }
-        .label { font-size: 14px; color: #0044ff; font-weight: bold; text-transform: uppercase; }
-        #valor-x { font-size: 55px; font-weight: 900; color: #fff; margin: 10px 0; }
+        .label-x { font-size: 11px; color: #0044ff; font-weight: bold; display: block; margin-bottom: 8px; }
+        #val-x { font-size: 58px; font-weight: 900; color: #fff; text-shadow: 0 0 15px #0044ff; }
 
-        #comando { font-size: 45px; font-weight: 900; margin-bottom: 25px; }
+        #comando-txt { font-size: 45px; font-weight: 900; margin-bottom: 30px; transition: 0.1s; }
         
         .btn-sync { 
             background: #ffffff !important; 
             color: #000 !important; 
             border: none; 
-            padding: 30px; 
+            padding: 28px; 
             width: 100%; 
             font-size: 20px; 
             font-weight: 900; 
@@ -35,64 +36,33 @@
             -webkit-tap-highlight-color: transparent;
         }
         .btn-sync:active { transform: translateY(4px); box-shadow: 0 2px 0 #666; background: #00ff41 !important; }
+        .btn-sync:disabled { background: #111 !important; color: #444 !important; box-shadow: none; }
     </style>
 </head>
 <body>
 
 <div id="terminal">
-    <div id="visor-alvo">
-        <span class="label">Alvo de Saída (Seguro -50%)</span>
-        <div id="valor-x">0.00x</div>
+    <div class="ghost-header">MODO FANTASMA ATIVO // IP_GHOST: ENABLED</div>
+    
+    <div id="visor-x">
+        <span class="label-x">PROJEÇÃO ALVO X (SEGURO -50%)</span>
+        <div id="val-x">0.00x</div>
     </div>
 
-    <div id="comando">AGUARDE</div>
+    <div id="comando-txt">AGUARDE</div>
 
-    <button class="btn-sync" id="btn" ontouchstart="sincronizarX()">
-        SINCRONIZAR_SEMENTE
+    <button class="btn-sync" id="btn-main" ontouchstart="ativarSincroniaFinal()">
+        SINCRONIZAR_BALDE
     </button>
 </div>
 
 <script>
-    const btn = document.getElementById('btn');
-    const cmd = document.getElementById('comando');
-    const displayX = document.getElementById('valor-x');
+    const btn = document.getElementById('btn-main');
+    const cmd = document.getElementById('comando-txt');
+    const displayX = document.getElementById('val-x');
 
-    function sincronizarX() {
+    function ativarSincroniaFinal() {
         if(btn.disabled) return;
         btn.disabled = true;
-        btn.innerText = "CALCULANDO X...";
+        btn.innerText = "LIMPANDO RASTRO...";
         
-        // Reset imediato
-        displayX.innerText = "0.00x";
-        displayX.style.color = "#fff";
-
-        setTimeout(() => {
-            const semente = Math.random();
-            
-            // Lógica Aurora: Pega um X possível e corta pela metade
-            let xBruto = (Math.random() * 2.2 + 1.2); 
-            let xProjetado = (xBruto * 0.50).toFixed(2);
-
-            if (semente > 0.54) {
-                cmd.innerText = "ENTRA";
-                cmd.style.color = "#00ff41";
-                // Exibe o X calculado com destaque
-                displayX.innerText = (xProjetado > 1.05 ? xProjetado : 1.05) + "x";
-                displayX.style.color = "#00ff41";
-            } else {
-                cmd.innerText = "PULA";
-                cmd.style.color = "#ff4141";
-                displayX.innerText = "0.00x";
-            }
-
-            setTimeout(() => {
-                btn.disabled = false;
-                btn.innerText = "SINCRONIZAR_SEMENTE";
-                cmd.innerText = "AGUARDE";
-                cmd.style.color = "#fff";
-            }, 3500);
-        }, 800);
-    }
-</script>
-</body>
-</html>
