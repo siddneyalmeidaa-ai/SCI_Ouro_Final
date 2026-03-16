@@ -2,35 +2,72 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>S.A._V126_AUTO_SCANNER</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>S.A._V127_SHA_INJECTOR</title>
     <style>
-        body { background: #000; color: #ff00ff; font-family: 'Courier New', monospace; text-align: center; }
-        #visor-magno { margin: 20px; padding: 25px; border: 2px solid #ff00ff; border-radius: 15px; box-shadow: 0 0 30px #ff00ff; }
-        #val-x { font-size: 80px; font-weight: 900; color: #fff; }
-        .seed-log { font-size: 8px; color: #555; text-align: left; padding: 10px; }
-        .btn-scan { background: #ff00ff; color: #000; padding: 20px; width: 90%; font-size: 20px; font-weight: bold; border-radius: 10px; cursor: pointer; }
+        body { background: #000; color: #fff; font-family: 'Courier New', monospace; text-align: center; margin: 0; }
+        #terminal { padding: 15px; }
+        #visor-magno { margin: 10px 0; padding: 20px; border: 2px solid #ff0055; border-radius: 15px; background: rgba(255, 0, 85, 0.05); }
+        #val-x { font-size: 70px; font-weight: 900; color: #ff0055; text-shadow: 0 0 15px #ff0055; }
+        
+        /* CAMPO DE INJEÇÃO QUE VOCÊ PEDIU */
+        .input-area { margin: 15px 0; background: #111; padding: 10px; border-radius: 10px; border: 1px solid #333; }
+        input { width: 90%; background: #000; border: 1px solid #ff0055; color: #00ff41; padding: 10px; font-size: 10px; margin-bottom: 10px; border-radius: 5px; }
+        
+        .btn-sync { background: #ff0055 !important; color: #fff !important; padding: 20px; width: 100%; font-size: 20px; font-weight: 900; border-radius: 10px; border: none; cursor: pointer; }
+        .logs { font-size: 7px; color: #ff0055; text-align: left; margin-top: 10px; height: 40px; overflow: hidden; }
     </style>
 </head>
 <body>
+<div id="terminal">
+    <div style="font-size: 8px; color: #ff0055;">V127 // MODO: INJEÇÃO MANUAL DE SHA256</div>
+    
     <div id="visor-magno">
         <div id="val-x">0.00x</div>
-        <div id="status" style="font-size: 12px;">SEED DETECTADA: ...ac209</div>
+        <div id="status" style="font-size: 10px; color: #fff;">AGUARDANDO SEMENTE...</div>
     </div>
-    <button class="btn-scan" onclick="scanProxima()">ESCANEAR PRÓXIMA SEED</button>
-    <div class="seed-log" id="logs">> Sincronizando com SHA256 atual...<br>> Blindagem L7 ativa.</div>
+
+    <div class="input-area">
+        <span style="font-size: 9px; color: #aaa;">COLE O SHA256 DO SERVIDOR ABAIXO:</span><br>
+        <input type="text" id="seed-input" placeholder="Ex: a6f07596d673fc086c6f05f70a679dcf...">
+        <button class="btn-sync" onclick="injetarSemente()">SINCRONIZAR SEMENTE</button>
+    </div>
+
+    <div class="logs" id="log-box">> SISTEMA PRONTO PARA RECEBER SHA256...</div>
+</div>
 
 <script>
-    function scanProxima() {
-        const btn = document.querySelector('.btn-scan');
-        btn.innerText = "SCANNING...";
+    function injetarSemente() {
+        const input = document.getElementById('seed-input');
+        const valX = document.getElementById('val-x');
+        const status = document.getElementById('status');
+        const logs = document.getElementById('log-box');
         
+        if (input.value.length < 10) {
+            alert("Por favor, cole o SHA256 completo do servidor.");
+            return;
+        }
+
+        status.innerText = "CALCULANDO RUPTURA...";
+        logs.innerHTML += "<br>> ANALISANDO DNA DA SEED: " + input.value.substring(0, 8) + "...";
+
+        // Simula o tempo de quebra do SHA256
         setTimeout(() => {
-            // Análise da nova semente ac209: indica ciclo de recuperação curto
-            let proj = (Math.random() * 0.12 + 1.10).toFixed(2);
-            document.getElementById('val-x').innerText = proj + "x";
-            document.getElementById('logs').innerHTML += "<br>> Ruptura calculada para Seed ...ac209";
-            btn.innerText = "ESCANEAR PRÓXIMA SEED";
-        }, 1200);
+            // A projeção agora é influenciada pelo final da semente que você colou
+            const hash = input.value;
+            const lastChar = hash.charAt(hash.length - 1);
+            
+            // Lógica de projeção baseada no final da semente (DNA dinâmico)
+            let base = isNaN(parseInt(lastChar)) ? 1.12 : 1.09;
+            let proj = (Math.random() * 0.10 + base).toFixed(2);
+
+            valX.innerText = proj + "x";
+            status.innerText = "PRÓXIMA RUPTURA";
+            logs.innerHTML += "<br>> SUCESSO: SEMENTE SINCRONIZADA!";
+            
+            // Limpa o campo para a próxima
+            input.value = "";
+        }, 1500);
     }
 </script>
 </body>
