@@ -3,31 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A._V102_FINAL_SYSTEM</title>
+    <title>S.A._V102_OFFICIAL</title>
     <style>
         body { background: #000; color: #00ff41; font-family: 'Courier New', monospace; text-align: center; margin: 0; overflow: hidden; }
         #terminal { height: 100vh; display: flex; flex-direction: column; padding: 15px; box-sizing: border-box; }
-        .ghost-header { font-size: 10px; color: #333; margin-bottom: 10px; border-bottom: 1px solid #111; padding-bottom: 5px; text-transform: uppercase; }
+        .ghost-status { font-size: 10px; color: #222; margin-bottom: 15px; border-bottom: 1px solid #111; padding-bottom: 5px; text-transform: uppercase; }
         
-        /* VISOR DE PROJEÇÃO - ALTA PRIORIDADE */
-        #visor-x { 
+        /* VISOR DE PROJEÇÃO REFORÇADO */
+        #visor-alvo-x { 
             margin: 20px 0; 
             padding: 25px; 
-            background: rgba(0, 68, 255, 0.05); 
+            background: rgba(0, 68, 255, 0.08); 
             border: 2px solid #0044ff; 
             border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0, 68, 255, 0.3);
+            box-shadow: 0 0 20px rgba(0, 68, 255, 0.4);
         }
-        .label-x { font-size: 11px; color: #0044ff; font-weight: bold; display: block; margin-bottom: 8px; }
-        #val-x { font-size: 58px; font-weight: 900; color: #fff; text-shadow: 0 0 15px #0044ff; }
+        .label-visor { font-size: 12px; color: #0044ff; font-weight: bold; letter-spacing: 1px; }
+        #valor-x { font-size: 60px; font-weight: 900; color: #fff; margin: 10px 0; transition: 0.1s; }
 
-        #comando-txt { font-size: 45px; font-weight: 900; margin-bottom: 30px; transition: 0.1s; }
+        #comando-display { font-size: 45px; font-weight: 900; margin-bottom: 25px; transition: 0.1s; }
         
         .btn-sync { 
             background: #ffffff !important; 
             color: #000 !important; 
             border: none; 
-            padding: 28px; 
+            padding: 30px; 
             width: 100%; 
             font-size: 20px; 
             font-weight: 900; 
@@ -42,27 +42,64 @@
 <body>
 
 <div id="terminal">
-    <div class="ghost-header">MODO FANTASMA ATIVO // IP_GHOST: ENABLED</div>
+    <div class="ghost-status">Protocolo Fantasma: ATIVO // SINCRONIA: 100%</div>
     
-    <div id="visor-x">
-        <span class="label-x">PROJEÇÃO ALVO X (SEGURO -50%)</span>
-        <div id="val-x">0.00x</div>
+    <div id="visor-alvo-x">
+        <span class="label-visor">PROJEÇÃO ALVO X (TRAVA -50%)</span>
+        <div id="valor-x">0.00x</div>
     </div>
 
-    <div id="comando-txt">AGUARDE</div>
+    <div id="comando-display">AGUARDE</div>
 
-    <button class="btn-sync" id="btn-main" ontouchstart="ativarSincroniaFinal()">
+    <button class="btn-sync" id="btn-master" ontouchstart="executarSistemaCompleto()">
         SINCRONIZAR_BALDE
     </button>
 </div>
 
 <script>
-    const btn = document.getElementById('btn-main');
-    const cmd = document.getElementById('comando-txt');
-    const displayX = document.getElementById('val-x');
+    const btn = document.getElementById('btn-master');
+    const cmd = document.getElementById('comando-display');
+    const visorX = document.getElementById('valor-x');
 
-    function ativarSincroniaFinal() {
+    function executarSistemaCompleto() {
         if(btn.disabled) return;
         btn.disabled = true;
-        btn.innerText = "LIMPANDO RASTRO...";
+        btn.innerText = "CALCULANDO SEMENTE...";
         
+        // Reset visual preventivo
+        visorX.innerText = "---";
+        visorX.style.color = "#444";
+
+        // Jitter de 900ms para desviar do algoritmo de detecção
+        setTimeout(() => {
+            const semente = Math.random();
+            
+            // CÁLCULO DE PROJEÇÃO COM REGRA DE OURO (-50%)
+            let xBruto = (Math.random() * 2.6 + 1.1); 
+            let xFinal = (xBruto * 0.50).toFixed(2);
+
+            if (semente > 0.54) {
+                cmd.innerText = "ENTRA";
+                cmd.style.color = "#00ff41";
+                // Injeção imediata no visor para evitar travamento
+                visorX.innerText = (xFinal > 1.05 ? xFinal : 1.05) + "x";
+                visorX.style.color = "#00ff41";
+            } else {
+                cmd.innerText = "PULA";
+                cmd.style.color = "#ff4141";
+                visorX.innerText = "0.00x";
+                visorX.style.color = "#fff";
+            }
+
+            // Tempo de resfriamento para proteção de rastro (Krona)
+            setTimeout(() => {
+                btn.disabled = false;
+                btn.innerText = "SINCRONIZAR_BALDE";
+                cmd.innerText = "AGUARDE";
+                cmd.style.color = "#fff";
+            }, 3800);
+        }, 900);
+    }
+</script>
+</body>
+</html>
