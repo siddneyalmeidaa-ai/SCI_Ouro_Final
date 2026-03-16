@@ -1,83 +1,88 @@
 <!DOCTYPE html>
-<html lang="pt-pt">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A._CORE_FINAL</title>
+    <title>S.A._V102_ALVO_X</title>
     <style>
-        body { background: #000; color: #00ff41; font-family: monospace; text-align: center; margin: 0; overflow: hidden; }
-        #terminal { height: 100vh; display: flex; flex-direction: column; padding: 20px; box-sizing: border-box; }
-        .status-row { display: flex; justify-content: space-between; font-size: 10px; color: #444; margin-bottom: 20px; border-bottom: 1px solid #111; padding-bottom: 5px; }
-        #comando-display { font-size: 60px; font-weight: 900; margin: 40px 0; }
-        #alvo-x { font-size: 24px; color: #0044ff; margin-bottom: 40px; font-weight: bold; }
+        body { background: #000; color: #00ff41; font-family: 'Courier New', monospace; text-align: center; margin: 0; overflow: hidden; }
+        #terminal { height: 100vh; display: flex; flex-direction: column; padding: 15px; box-sizing: border-box; }
         
-        /* BOTÃO DE RESPOSTA IMEDIATA */
-        .btn-final { 
-            background: #fff !important; 
+        /* VISOR DE ALVO X - PRIORITÁRIO */
+        #visor-alvo { 
+            margin: 20px 0; 
+            padding: 25px; 
+            background: rgba(0, 68, 255, 0.1); 
+            border: 2px solid #0044ff; 
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 68, 255, 0.3);
+        }
+        .label { font-size: 14px; color: #0044ff; font-weight: bold; text-transform: uppercase; }
+        #valor-x { font-size: 55px; font-weight: 900; color: #fff; margin: 10px 0; }
+
+        #comando { font-size: 45px; font-weight: 900; margin-bottom: 25px; }
+        
+        .btn-sync { 
+            background: #ffffff !important; 
             color: #000 !important; 
             border: none; 
             padding: 30px; 
             width: 100%; 
-            font-size: 22px; 
+            font-size: 20px; 
             font-weight: 900; 
             border-radius: 12px;
             box-shadow: 0 6px 0 #999;
             -webkit-tap-highlight-color: transparent;
         }
-        .btn-final:active { transform: translateY(4px); box-shadow: 0 2px 0 #666; background: #00ff41 !important; }
-        .btn-final:disabled { background: #111 !important; color: #333 !important; box-shadow: none; }
+        .btn-sync:active { transform: translateY(4px); box-shadow: 0 2px 0 #666; background: #00ff41 !important; }
     </style>
 </head>
 <body>
 
 <div id="terminal">
-    <div class="status-row">
-        <div>PING: <span id="ping">--</span></div>
-        <div>BALDE: <span id="bucket" style="color:#0044ff">SYNC</span></div>
+    <div id="visor-alvo">
+        <span class="label">Alvo de Saída (Seguro -50%)</span>
+        <div id="valor-x">0.00x</div>
     </div>
 
-    <div id="comando-display">AGUARDE</div>
-    <div id="alvo-x">ALVO X: --</div>
+    <div id="comando">AGUARDE</div>
 
-    <button class="btn-final" id="btn" ontouchstart="sincronizar()">
+    <button class="btn-sync" id="btn" ontouchstart="sincronizarX()">
         SINCRONIZAR_SEMENTE
     </button>
 </div>
 
 <script>
     const btn = document.getElementById('btn');
-    const cmd = document.getElementById('comando-display');
-    const xDisp = document.getElementById('alvo-x');
-    const bkt = document.getElementById('bucket');
+    const cmd = document.getElementById('comando');
+    const displayX = document.getElementById('valor-x');
 
-    // Monitor de Latência Leve
-    setInterval(() => {
-        document.getElementById('ping').innerText = Math.floor(Math.random() * 20 + 10) + "ms";
-    }, 2000);
-
-    function sincronizar() {
+    function sincronizarX() {
         if(btn.disabled) return;
         btn.disabled = true;
-        btn.innerText = "SINC_WINNER_SEED...";
+        btn.innerText = "CALCULANDO X...";
+        
+        // Reset imediato
+        displayX.innerText = "0.00x";
+        displayX.style.color = "#fff";
 
-        // Jitter de Posicionamento de Balde
         setTimeout(() => {
-            const seed = Math.random();
-            // Projeção com trava de segurança -50%
-            let xSeguro = ( (Math.random() * 2.2 + 1.2) * 0.50 ).toFixed(2);
+            const semente = Math.random();
+            
+            // Lógica Aurora: Pega um X possível e corta pela metade
+            let xBruto = (Math.random() * 2.2 + 1.2); 
+            let xProjetado = (xBruto * 0.50).toFixed(2);
 
-            if (seed > 0.55) {
+            if (semente > 0.54) {
                 cmd.innerText = "ENTRA";
                 cmd.style.color = "#00ff41";
-                xDisp.innerText = `ALVO X: ${xSeguro > 1.05 ? xSeguro : 1.05}x`;
-                bkt.innerText = "WINNER";
-                bkt.style.color = "#00ff41";
+                // Exibe o X calculado com destaque
+                displayX.innerText = (xProjetado > 1.05 ? xProjetado : 1.05) + "x";
+                displayX.style.color = "#00ff41";
             } else {
                 cmd.innerText = "PULA";
                 cmd.style.color = "#ff4141";
-                xDisp.innerText = "ALVO X: --";
-                bkt.innerText = "RECOLHA";
-                bkt.style.color = "#ff4141";
+                displayX.innerText = "0.00x";
             }
 
             setTimeout(() => {
@@ -85,10 +90,8 @@
                 btn.innerText = "SINCRONIZAR_SEMENTE";
                 cmd.innerText = "AGUARDE";
                 cmd.style.color = "#fff";
-                bkt.innerText = "SYNC";
-                bkt.style.color = "#0044ff";
-            }, 3000);
-        }, 1000);
+            }, 3500);
+        }, 800);
     }
 </script>
 </body>
