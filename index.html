@@ -1,101 +1,74 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A._V510_GHOST</title>
-    <style>
+// --- V510_GHOST_OMNI: FULL BLINDAGE & FLUXO ---
+// Segunda-feira, 16 de março de 2026, 13:13
+// Autor: S. A.
+
+(function() {
+    'use strict';
+
+    // 1. CAMADA FANTASMA (Shadow DOM 'closed') - Invisível para varreduras do site
+    const host = document.createElement('div');
+    host.id = 'v510-ghost-root';
+    document.documentElement.appendChild(host);
+    const shadow = host.attachShadow({mode: 'closed'});
+
+    // 2. ESTILIZAÇÃO NEON MINT (Sincronizada com o projeto V85)
+    const style = document.createElement('style');
+    style.textContent = `
         :root { --c1: #00ffcc; --c2: #9d00ff; --d: #ff0055; --w: #ffd700; --k: #000; }
-        body { margin: 0; background: var(--k); font-family: monospace; overflow: hidden; color: #fff; }
-        .m-h { position: fixed; top: 0; left: 0; width: 100%; padding: 10px; z-index: 9999; backdrop-filter: blur(15px); border-bottom: 1px solid #1a1a1a; opacity: 0.15; transition: 0.5s; }
-        .active { opacity: 1 !important; }
-        #v_out { font-size: 40px; font-weight: 800; color: var(--c1); letter-spacing: -1px; }
-        #dna_b { height: 2px; width: 0%; background: var(--c1); margin-top: 5px; }
-        .st { font-size: 6px; color: #444; display: flex; justify-content: space-between; margin-top: 3px; }
-    </style>
-</head>
-<body>
+        #panel {
+            position: fixed; top: 0; left: 0; width: 100%; padding: 12px;
+            background: rgba(0, 0, 0, 0.9); border-bottom: 1px solid #1a1a1a;
+            color: #fff; font-family: monospace; z-index: 2147483647;
+            backdrop-filter: blur(12px); pointer-events: none;
+        }
+        .h { display: flex; justify-content: space-between; font-size: 8px; color: #444; margin-bottom: 4px; }
+        #v_out { font-size: 38px; font-weight: 800; color: var(--c1); letter-spacing: -1px; line-height: 1; }
+        #dna_b { height: 2px; width: 0%; background: var(--c1); margin: 6px 0; transition: 0.4s; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr 1fr; font-size: 9px; gap: 5px; }
+        .mod { border-left: 1px solid #222; padding-left: 4px; }
+        .status-box { margin-top: 8px; padding: 6px; text-align: center; font-weight: bold; border-radius: 2px; font-size: 13px; }
+        .pay { background: rgba(0, 255, 204, 0.15); color: #00ffcc; border: 1px solid #00ffcc; }
+        .recol { background: rgba(255, 215, 0, 0.15); color: #ffd700; border: 1px solid #ffd700; }
+        .alert { color: var(--d); animation: b 0.8s infinite; }
+        @keyframes b { 50% { opacity: 0; } }
+    `;
+    shadow.appendChild(style);
 
-<div id="root" class="m-h">
-    <div id="v_out">GHOST_INIT...</div>
-    <div id="status" style="font-size: 7px; color: var(--w);">SYNCING...</div>
-    <div id="dna_b"></div>
-    <div class="st">
-        <span id="l_val">LAT: --</span>
-        <span id="d_val">DNA: 1.00</span>
-    </div>
-</div>
+    // 3. ESTRUTURA DA INTERFACE (Inspirada no layout original)
+    const panel = document.createElement('div');
+    panel.id = 'panel';
+    panel.innerHTML = `
+        <div class="h">
+            <span>S.A._V510_GHOST_OMNI</span>
+            <span id="g-clock">13:13:34</span>
+        </div>
+        <div id="v_out">GHOST_INIT...</div>
+        <div id="dna_b"></div>
+        <div class="grid">
+            <div class="mod">MONITOR: <span id="g-monit" style="color:var(--c1)">SECURE</span></div>
+            <div class="mod">TIMER: <span id="g-timer">--s</span></div>
+            <div class="mod">LAT: <span id="g-lat">--</span></div>
+        </div>
+        <div id="fluxo-box" class="status-box pay">
+            FLUXO: <span id="fluxo-val">PAGAMENTO</span>
+        </div>
+    `;
+    shadow.appendChild(panel);
 
-<script>
-    /* Mimetismo de Variáveis (GHOST MODE) */
-    const _K = "_ga_metrics_v51";
-    let _D = JSON.parse(localStorage.getItem(_K)) || { b: 1.0, r: 0 };
-    let _C = { e: 0, x: 5000 }; // Complexidade reduzida para evitar corte
-
+    // 4. LÓGICA DE INTELIGÊNCIA E SEGURANÇA
+    let timer = 45;
+    let _D = { b: 1.0, r: 0 };
+    
     const _S5 = () => {
         const a = new Uint32Array(1);
         window.crypto.getRandomValues(a);
         return a[0] / 4294967296;
     };
 
-    function _pulse() {
-        const t0 = performance.now();
-        for(let i=0; i < _C.x; i++) { Math.tanh(_S5()); } // Ruído leve
-        const t1 = performance.now();
-        document.getElementById('l_val').innerText = "LAT: " + Math.floor(t1-t0) + "MS";
-        return (t1-t0) < 150;
-    }
-
-    function _evolve(win) {
-        _D.b += win ? 0.005 : -0.015;
-        if(_D.b < 0.88) _D.b = 0.88;
-        if(_D.b > 1.05) _D.b = 1.05;
-        _D.r++;
-        localStorage.setItem(_K, JSON.stringify(_D));
-        document.getElementById('d_val').innerText = "DNA: " + _D.b.toFixed(2);
-        document.getElementById('dna_b').style.width = (_D.r % 100) + "%";
-    }
-
-    function _cycle() {
-        const v = document.getElementById('v_out');
-        const s = document.getElementById('status');
-        const r = document.getElementById('root');
+    function updateSystem() {
+        // Atualiza Relógio e Cronômetro
+        timer--;
+        if (timer < 0) timer = Math.floor(_S5() * 25) + 30; // Ciclo randômico
         
-        r.classList.remove('active');
-        v.innerText = "---"; v.style.color = "#111";
-
-        setTimeout(() => {
-            const ok = _pulse();
-            const sd = _S5();
-            r.classList.add('active');
-
-            if (!ok) {
-                v.innerText = "PULA"; v.style.color = "var(--w)";
-                s.innerText = "SIGNAL_LAG_RECOVER";
-            } else if (_D.r > 0 && _D.r % 12 === 0 && _S5() < 0.4) {
-                v.innerText = "ENTRA"; v.style.color = "#222";
-                s.innerText = "MIMIC_AUDIT_LOSS";
-                _evolve(false);
-            } else if (sd > 0.96) {
-                const t = (_S5() * 5 + 12) * _D.b;
-                v.innerText = t.toFixed(2) + "x"; v.style.color = "var(--c2)";
-                s.innerText = "OMNI_PINK_TARGET";
-                _evolve(true);
-            } else if (sd < 0.28) {
-                v.innerText = "PULA"; v.style.color = "var(--d)";
-                s.innerText = "OMNI_VOID_PROJ";
-                _evolve(false);
-            } else {
-                const b = [1.43, 1.56, 2.10, 1.38][Math.floor(_S5()*4)];
-                const f = (b * _D.b).toFixed(2);
-                v.innerText = f + "x"; v.style.color = f > 2 ? "var(--c2)" : "var(--c1)";
-                s.innerText = "OMNI_FLOW_STABLE";
-                _evolve(true);
-            }
-            setTimeout(_cycle, (_S5() * 15000) + 20000);
-        }, 3000);
-    }
-    window.onload = _cycle;
-</script>
-</body>
-</html>
+        shadow.getElementById('g-clock').innerText = new Date().toLocale
+            
