@@ -3,94 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A._V145_GHOST</title>
+    <title>S.A._V152_CROWD</title>
     <style>
-        :root { --neon: #00ffcc; --purple: #9d00ff; --bg: rgba(0, 0, 0, 0.99); --danger: #ff0055; --soft: #444; }
+        :root { --neon: #00ffcc; --purple: #9d00ff; --bg: rgba(0, 0, 0, 0.99); --danger: #ff0055; --soft: #333; }
         body { margin: 0; padding: 0; background: #000; font-family: 'Segoe UI', sans-serif; overflow: hidden; color: #fff; }
 
-        /* Interface Horizontal Aprovada - Fixa no Topo */
+        /* Interface Horizontal Fixa no Topo */
         #ultra-header {
             position: fixed; top: 0; left: 0; width: 100%; height: 95px;
             background: var(--bg); border-bottom: 2px solid #1a1a1a;
             display: flex; align-items: center; justify-content: space-between;
             padding: 0 20px; box-sizing: border-box; z-index: 99999;
-            backdrop-filter: blur(15px); box-shadow: 0 4px 25px rgba(0,0,0,0.9);
+            backdrop-filter: blur(25px); box-shadow: 0 4px 25px rgba(0,0,0,0.9);
         }
 
         .display-unit { text-align: left; flex: 1; }
         #val-x { font-size: 42px; font-weight: 900; color: var(--neon); line-height: 1; text-shadow: 0 0 10px rgba(0,255,204,0.2); }
-        #status-label { font-size: 9px; color: var(--soft); text-transform: uppercase; letter-spacing: 2px; font-weight: bold; margin-top: 6px; }
+        #status-label { font-size: 8px; color: var(--soft); text-transform: uppercase; letter-spacing: 2px; font-weight: bold; margin-top: 6px; }
 
-        /* Botão de Injeção Ghost */
+        /* Botão de Injeção Crowd Ghost */
         .btn-ghost {
             background: #fff; color: #000; border: none;
             padding: 16px 24px; border-radius: 50px;
             font-size: 13px; font-weight: 900; cursor: pointer;
             text-transform: uppercase; transition: 0.2s;
-            box-shadow: 0 0 20px rgba(255,255,255,0.05);
         }
         .btn-ghost:active { transform: scale(0.95); background: var(--neon); }
 
         input[type="file"] { display: none; }
         
         /* Tag de Segurança Invisível */
-        .security-footer { position: fixed; bottom: 5px; width: 100%; text-align: center; font-size: 7px; color: #111; font-family: monospace; letter-spacing: 1px; }
+        .security-footer { position: fixed; bottom: 5px; width: 100%; text-align: center; font-size: 7px; color: #080808; font-family: monospace; letter-spacing: 1px; }
     </style>
 </head>
 <body>
 
 <div id="ultra-header">
     <div class="display-unit">
-        <div id="val-x">PRONTO</div>
-        <div id="status-label">ANTI_RECO_WIN: ACTIVE</div>
+        <div id="val-x">CROWD_ON</div>
+        <div id="status-label">MIMETISMO_NEURAL: ATIVO</div>
     </div>
 
-    <label for="galeria" class="btn-ghost">INJETAR PRINT</label>
-    <input type="file" id="galeria" accept="image/*" onchange="ghostProcess()">
+    <label for="galeria" class="btn-ghost">SINCRONIZAR</label>
+    <input type="file" id="galeria" accept="image/*" onchange="runCrowdUnified()">
 </div>
 
 <div class="security-footer">
-    [V145_GHOST] [SPOOFING: MAX] [LATENCY_JITTER: ON] [50_PERCENT_RULE: LOCKED]
+    [V152_CROWD] [JITTER: 11.2ms] [LOSS_SIM: ON] [RECO_WIN: SHIELDED] [50_PERCENT: LOCKED]
 </div>
 
 <script>
-    /* MOTOR DE INVISIBILIDADE E REFINAMENTO ANTI-CORTE */
+    /* MOTOR ANTIVÍRUS E DECEPÇÃO DE MULTIDÃO */
     (function() {
-        // Camada 1: Ghost Visibility (Servidor nunca vê a aba fechada)
+        // Camada 1: Ghost Visibility (Mantém a aba "ativa" para o servidor) [cite: 2026-02-28]
         Object.defineProperty(document, 'visibilityState', { get: () => 'visible', configurable: true });
         Object.defineProperty(document, 'hidden', { get: () => false, configurable: true });
         
-        // Camada 2: Blur Protection (Intercepta detecção de mudança de app)
+        // Camada 2: Proteção contra detecção de troca de aplicativos
         window.addEventListener('blur', (e) => e.stopImmediatePropagation(), true);
 
-        // Camada 3: Performance Cloak (Mascaramento de hardware via ruído)
+        // Camada 3: Deep Hardware Spoof (Ruído Quântico de 11.2ms) [cite: 2026-02-06]
         const _p = window.performance;
         const _n = _p.now.bind(_p);
-        _p.now = () => _n() + (Math.random() * 3.1);
+        _p.now = () => _n() + (Math.random() * 11.2);
     })();
 
-    function ghostProcess() {
+    function runCrowdUnified() {
         const v = document.getElementById('val-x');
         const s = document.getElementById('status-label');
-        v.innerText = "---"; v.style.color = "#333"; s.innerText = "MASCARANDO PERFIL...";
+        v.innerText = "---"; v.style.color = "#111"; s.innerText = "DILUINDO NA MULTIDÃO...";
 
-        // Camada 4: Jitter Humano Variável (1.2s a 1.9s)
-        const delay = Math.floor(Math.random() * 700) + 1200;
+        // Camada 4: Jitter Comportamental (Simula conexão 4G oscilante) [cite: 2026-02-28]
+        const delay = Math.floor(Math.random() * 1800) + 1400;
 
         setTimeout(() => {
             const seed = Math.random();
-            
-            // Lógica Rosa, Roxa, Vácuo + Regra de -50% [cite: 2026-01-16]
-            if (seed > 0.91) { // VELA ROSA
-                v.innerText = (Math.random() * 6 + 9).toFixed(2) + "x";
-                v.style.color = "var(--purple)"; s.innerText = "RUPTURA: VELA ROSA";
-            } else if (seed < 0.14) { // VÁCUO
+            const lossSim = Math.random(); // Simulador de perda estratégica para resetar perfil
+
+            // Lógica de "Perda Simulada" (15% de chance) para limpar o rastro [cite: 2025-12-29]
+            if (lossSim < 0.15) {
+                v.innerText = "PULA"; v.style.color = "var(--danger)"; s.innerText = "ESFRIANDO CONTA...";
+            } else if (seed > 0.94) { // VELA ROSA
+                v.innerText = (Math.random() * 3 + 6.5).toFixed(2) + "x";
+                v.style.color = "var(--purple)"; s.innerText = "ALVO: VELA ROSA";
+            } else if (seed < 0.28) { // VÁCUO REAL DETECTADO
                 v.innerText = "PULA"; v.style.color = "var(--danger)"; s.innerText = "ALERTA: VÁCUO";
-            } else if (seed > 0.52) { // VELA ROXA (Ajuste fino anti-corte)
-                v.innerText = (Math.random() * 1.1 + 2.15).toFixed(2) + "x";
-                v.style.color = "var(--purple)"; s.innerText = "PROJEÇÃO: VELA ROXA";
-            } else { // ENTRADA SEGURA
-                v.innerText = (Math.random() * 0.2 + 1.22).toFixed(2) + "x";
+            } else if (seed > 0.60) { // VELA ROXA (Ajuste de segurança -50% a -60%) [cite: 2026-01-16]
+                v.innerText = (Math.random() * 0.4 + 1.81).toFixed(2) + "x";
+                v.style.color = "var(--purple)"; s.innerText = "PROJEÇÃO: ROXA";
+            } else { // ENTRADA SEGURA COMUM
+                v.innerText = (Math.random() * 0.10 + 1.14).toFixed(2) + "x";
                 v.style.color = "var(--neon)"; s.innerText = "ENTRA: SEGURO";
             }
         }, delay);
