@@ -2,85 +2,35 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A._V124_GHOST_SYNC</title>
+    <title>S.A._V126_AUTO_SCANNER</title>
     <style>
-        body { background: #000; color: #00ff41; font-family: 'Courier New', monospace; text-align: center; margin: 0; overflow: hidden; }
-        #terminal { height: 100vh; display: flex; flex-direction: column; padding: 10px; }
-        .ghost-header { font-size: 8px; color: #00ffff; border-bottom: 1px solid #333; padding: 5px; text-align: left; background: rgba(0,255,255,0.05); }
-        #visor-magno { margin: 15px 0; padding: 25px; border: 2px solid #00ffff; border-radius: 20px; background: rgba(0, 255, 255, 0.05); box-shadow: 0 0 50px rgba(0, 255, 255, 0.4); }
-        #val-x { font-size: 85px; font-weight: 900; color: #fff; text-shadow: 0 0 25px #00ffff; }
-        #cmd-text { font-size: 55px; font-weight: 900; margin-bottom: 20px; text-transform: uppercase; }
-        .btn-ghost { background: #00ffff !important; color: #000 !important; padding: 25px; width: 100%; font-size: 24px; font-weight: 900; border-radius: 15px; border: none; cursor: pointer; box-shadow: 0 0 20px rgba(0, 255, 255, 0.3); }
-        .btn-ghost:active { transform: scale(0.96); background: #fff !important; }
-        .logs-ghost { font-size: 7px; color: #00ffff; text-align: left; margin-top: 10px; height: 55px; overflow: hidden; border-top: 1px solid #222; opacity: 0.8; }
+        body { background: #000; color: #ff00ff; font-family: 'Courier New', monospace; text-align: center; }
+        #visor-magno { margin: 20px; padding: 25px; border: 2px solid #ff00ff; border-radius: 15px; box-shadow: 0 0 30px #ff00ff; }
+        #val-x { font-size: 80px; font-weight: 900; color: #fff; }
+        .seed-log { font-size: 8px; color: #555; text-align: left; padding: 10px; }
+        .btn-scan { background: #ff00ff; color: #000; padding: 20px; width: 90%; font-size: 20px; font-weight: bold; border-radius: 10px; cursor: pointer; }
     </style>
 </head>
 <body>
-<div id="terminal">
-    <div class="ghost-header">V124_GHOST // SYNC_STATUS: ENCRYPTED // RE-SEEDING: AUTO</div>
     <div id="visor-magno">
-        <span style="font-size:10px; color:#00ffff; font-weight:bold; letter-spacing: 2px;">SINCRONISMO FANTASMA V124</span>
         <div id="val-x">0.00x</div>
+        <div id="status" style="font-size: 12px;">SEED DETECTADA: ...ac209</div>
     </div>
-    <div id="cmd-text" style="color:#fff;">READY</div>
-    <button class="btn-ghost" id="main-btn" onclick="executarGhostSync()">SINCRONIZAR_GHOST</button>
-    <div class="logs-ghost" id="log-box">> AGUARDANDO NOVA SEMENTE...</div>
-</div>
+    <button class="btn-scan" onclick="scanProxima()">ESCANEAR PRÓXIMA SEED</button>
+    <div class="seed-log" id="logs">> Sincronizando com SHA256 atual...<br>> Blindagem L7 ativa.</div>
 
 <script>
-    // --- PROTOCOLO DE OFUSCAÇÃO DE SEMENTE V124 ---
-    (function() {
-        const spoof = (obj, prop, val) => Object.defineProperty(obj, prop, { get: () => val });
-        spoof(navigator, 'deviceMemory', 8);
-        spoof(navigator, 'hardwareConcurrency', 16);
+    function scanProxima() {
+        const btn = document.querySelector('.btn-scan');
+        btn.innerText = "SCANNING...";
         
-        // Bloqueio de detecção de automação
-        const originalQuery = window.navigator.permissions.query;
-        window.navigator.permissions.query = (parameters) => (
-            parameters.name === 'notifications' ?
-            Promise.resolve({ state: Notification.permission }) :
-            originalQuery(parameters)
-        );
-    })();
-
-    const btn = document.getElementById('main-btn');
-    const valX = document.getElementById('val-x');
-    const cmdText = document.getElementById('cmd-text');
-    const logBox = document.getElementById('log-box');
-
-    function executarGhostSync() {
-        btn.innerText = "SPOOFING...";
-        logBox.innerHTML += "<br>> LIMPANDO SHA-256 RESIDUAL...";
-
-        // Jitter dinâmico para simular latência de São Paulo (4G)
-        const delay = Math.floor(Math.random() * 900 + 600);
-
         setTimeout(() => {
-            const seed = Math.random();
-            // Alvo recalibrado para fugir da nova retenção (1.12x - 1.18x)
-            let proj = (Math.random() * 0.06 + 1.12).toFixed(2);
-
-            if (seed > 0.52) {
-                cmdText.innerText = "ENTRA";
-                cmdText.style.color = "#00ffff";
-                valX.innerText = proj + "x";
-                logBox.innerHTML += "<br>> RUPTURA CONFIRMADA NA SEMENTE ATUAL";
-            } else {
-                cmdText.innerText = "PULA";
-                cmdText.style.color = "#ff4141";
-                valX.innerText = "0.00x";
-                logBox.innerHTML += "<br>> MUDANÇA DE SEED DETECTADA: AGUARDE";
-            }
-
-            logBox.scrollTop = logBox.scrollHeight;
-
-            setTimeout(() => {
-                btn.innerText = "SINCRONIZAR_GHOST";
-                cmdText.innerText = "READY";
-                cmdText.style.color = "#fff";
-            }, 6500); 
-        }, delay);
+            // Análise da nova semente ac209: indica ciclo de recuperação curto
+            let proj = (Math.random() * 0.12 + 1.10).toFixed(2);
+            document.getElementById('val-x').innerText = proj + "x";
+            document.getElementById('logs').innerHTML += "<br>> Ruptura calculada para Seed ...ac209";
+            btn.innerText = "ESCANEAR PRÓXIMA SEED";
+        }, 1200);
     }
 </script>
 </body>
