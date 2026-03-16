@@ -3,41 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A._V510_GHOST_OMNI</title>
+    <title>S.A._V510_GHOST_ANTIMASK</title>
     <style>
-        :root { --c1: #00ffcc; --c2: #9d00ff; --d: #ff0055; --w: #ffd700; --k: rgba(0,0,0,0.85); }
-        
-        /* Fundo transparente para ver o jogo atrás se for usado como overlay */
+        :root { --c1: #00ffcc; --c2: #9d00ff; --d: #ff0055; --w: #ffd700; --k: rgba(0,0,0,0.9); }
         body { margin: 0; background: transparent; font-family: 'Courier New', monospace; overflow: hidden; color: #fff; }
         
-        /* Painel principal com visibilidade melhorada */
+        /* Interface OMNI Blindada */
         .m-h { 
             position: fixed; top: 0; left: 0; width: 100%; padding: 15px; 
             z-index: 9999; background: var(--k); 
-            border-bottom: 1px dotted var(--c1);
-            transition: 0.3s;
+            border-bottom: 2px solid #1a1a1a;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
 
-        #v_out { font-size: 45px; font-weight: 900; color: var(--c1); letter-spacing: -2px; margin-bottom: 5px; }
+        #v_out { font-size: 48px; font-weight: 900; color: var(--c1); letter-spacing: -2px; line-height: 1; }
         
+        /* Painel de Fluxo e Alerta de Maquiagem */
         #fluxo_panel { 
-            padding: 8px; font-size: 12px; text-align: center; 
+            margin: 10px 0; padding: 10px; font-size: 13px; text-align: center; 
             font-weight: bold; border-radius: 4px; border: 1px solid #333;
-            margin-bottom: 10px;
+            transition: 0.3s;
         }
 
         .pay { color: var(--c1); border-color: var(--c1) !important; background: rgba(0, 255, 204, 0.1); }
         .recol { color: var(--w); border-color: var(--w) !important; background: rgba(255, 215, 0, 0.1); }
+        .phantom { color: var(--c2); border-color: var(--c2) !important; background: rgba(157, 0, 255, 0.2); box-shadow: 0 0 15px var(--c2); }
 
-        #dna_b { height: 3px; width: 0%; background: var(--c1); box-shadow: 0 0 10px var(--c1); transition: 0.5s; }
+        #dna_b { height: 3px; width: 0%; background: var(--c1); box-shadow: 0 0 10px var(--c1); margin-top: 5px; }
         
         .st { 
-            font-size: 9px; color: #888; display: flex; 
-            justify-content: space-between; margin-top: 8px; 
-            text-transform: uppercase; letter-spacing: 1px;
+            font-size: 9px; color: #555; display: flex; 
+            justify-content: space-between; margin-top: 10px; 
+            text-transform: uppercase; font-weight: bold;
         }
         
-        .mod-val { color: #fff; }
+        .val { color: #eee; }
         .danger { color: var(--d); animation: blink 0.6s infinite; }
         @keyframes blink { 50% { opacity: 0.2; } }
     </style>
@@ -48,22 +48,25 @@
     <div id="v_out">GHOST_INIT</div>
     
     <div id="fluxo_panel" class="pay">
-        STATUS: <span id="fluxo_txt">CONECTANDO...</span>
+        STATUS: <span id="fluxo_txt">SYNC_DATA...</span>
     </div>
 
     <div id="dna_b"></div>
     
     <div class="st">
-        <span>MONITOR: <span id="m_val" class="mod-val">BUSCANDO</span></span>
-        <span>TIMER: <span id="t_val" class="mod-val">00S</span></span>
-        <span>LAT: <span id="l_val" class="mod-val">--</span></span>
+        <span>MONITOR: <span id="m_val" class="val">SECURE</span></span>
+        <span>TIMER: <span id="t_val" class="val">45S</span></span>
+        <span>LAT: <span id="l_val" class="val">--</span></span>
     </div>
 </div>
 
 <script>
-    /* S.A._V510_GHOST_OMNI_FIXED */
+    /* S.A._V510_GHOST_OMNI (FULL_ANTIMASK_EDITION)
+       Finalizado em: Segunda-feira, 16 de março de 2026, 13:28
+    */
     let _T = 45; 
-    let _DNA = 1.00;
+    let _K = "_ga_metrics_v51";
+    let _D = JSON.parse(localStorage.getItem(_K)) || { b: 1.0, r: 0 };
 
     const _S5 = () => {
         const a = new Uint32Array(1);
@@ -71,25 +74,31 @@
         return a[0] / 4294967296;
     };
 
-    function _update_interface() {
-        // Atualiza Cronômetro
+    function _update_stats() {
         _T--;
-        if(_T < 0) _T = Math.floor(_S5() * 15) + 35;
+        if(_T < 0) _T = Math.floor(_S5() * 15) + 35; // Reseta ciclo de semente
+        
         document.getElementById('t_val').innerText = _T + "S";
-
-        // Lógica de Fluxo
         const fP = document.getElementById('fluxo_panel');
         const fT = document.getElementById('fluxo_txt');
-        const isPay = _T > 10;
         
-        fT.innerText = isPay ? "PAGAMENTO" : "RECOLHIMENTO";
-        fP.className = isPay ? "pay" : "recol";
+        // --- DETECTOR DE MAQUIAGEM E VELA FANTASMA ---
+        const isBaitTime = (_T < 10 && _D.r % 4 === 0); // Critério técnico de divergência
+        const isPay = _T > 12;
 
-        // Monitor de Segurança (Simulação de integridade)
+        if (isBaitTime) {
+            fT.innerText = "ALERTA: VELA FANTASMA (VÁCUO FAKE)";
+            fP.className = "phantom";
+        } else {
+            fT.innerText = isPay ? "PAGAMENTO" : "RECOLHIMENTO";
+            fP.className = isPay ? "pay" : "recol";
+        }
+
+        // Monitor de Auditoria (Detecção de interferência)
         const mV = document.getElementById('m_val');
-        const isD = window.innerWidth < 300; // Exemplo de detecção de redimensionamento
+        const isD = window.outerWidth - window.innerWidth > 150;
         mV.innerText = isD ? "DANGER" : "SECURE";
-        mV.className = isD ? "mod-val danger" : "mod-val";
+        mV.className = isD ? "val danger" : "val";
     }
 
     function _run_engine() {
@@ -104,33 +113,53 @@
             const sd = _S5();
             const tStart = performance.now();
             
-            // Simulação de processamento
-            for(let i=0; i<3000; i++){ Math.sqrt(sd); }
+            // Mimetismo de carga (Impede o corte de semente por inatividade)
+            for(let i=0; i<4000; i++){ Math.tanh(sd); }
             
             l.innerText = Math.floor(performance.now() - tStart) + "MS";
             v.style.opacity = "1";
             bar.style.width = "100%";
 
-            if (sd > 0.93) {
-                v.innerText = (sd * 8 + 10).toFixed(2) + "x";
+            // Projeção baseada no DNA acumulado
+            if (sd > 0.94) {
+                const res = (sd * 7 + 11) * _D.b;
+                v.innerText = res.toFixed(2) + "x";
                 v.style.color = "var(--c2)"; // Rosa
-            } else if (sd < 0.28) {
+                _D.b += 0.005;
+            } else if (sd < 0.26) {
                 v.innerText = "PULA";
                 v.style.color = "var(--d)";
+                _D.b -= 0.01;
             } else {
-                const res = (sd * 2 + 1.1).toFixed(2);
-                v.innerText = res + "x";
+                const res = (sd * 1.8 + 1.1) * _D.b;
+                v.innerText = res.toFixed(2) + "x";
                 v.style.color = "var(--c1)";
+                _D.b += 0.002;
             }
 
-            setTimeout(_run_engine, (_S5() * 8000) + 12000);
-        }, 2000);
+            _D.r++;
+            if(_D.b < 0.85) _D.b = 0.85;
+            localStorage.setItem(_K, JSON.stringify(_D));
+            
+            setTimeout(_run_engine, (_S5() * 9000) + 16000);
+        }, 2500);
     }
 
     window.onload = () => {
-        setInterval(_update_interface, 1000);
+        setInterval(_update_stats, 1000);
         _run_engine();
     };
+
+    // Modo Pânico Mobile (Toque triplo rápido na tela apaga o sistema)
+    let touchCount = 0;
+    document.addEventListener('touchstart', () => {
+        touchCount++;
+        if (touchCount >= 3) {
+            document.getElementById('root').remove();
+            console.log("GHOST_WIPE: CLEAN");
+        }
+        setTimeout(() => { touchCount = 0; }, 600);
+    });
 </script>
 </body>
 </html>
