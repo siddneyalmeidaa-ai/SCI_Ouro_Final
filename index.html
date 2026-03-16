@@ -3,102 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A._V136_GHOST</title>
+    <title>S.A._V139_PHANTOM</title>
     <style>
-        :root { --neon: #00ffcc; --bg: #000; --danger: #ff0055; --vacuo: #ffcc00; }
+        :root { --neon: #00ffcc; --pink: #ff00ff; --purple: #9d00ff; --bg: #000; }
         body { background: #000; color: #fff; font-family: 'Courier New', monospace; text-align: center; margin: 0; overflow: hidden; }
         #terminal { padding: 10px; display: flex; flex-direction: column; height: 100vh; box-sizing: border-box; }
         
-        .shield-status { font-size: 8px; color: var(--neon); text-align: left; padding: 5px; border-bottom: 1px solid #1a1a1a; letter-spacing: 1px; }
+        .status-bar { font-size: 7px; color: var(--neon); text-align: left; padding: 5px; border-bottom: 1px solid #1a1a1a; display: flex; justify-content: space-between; }
 
-        /* Visor de Ruptura V136 */
-        #visor-magno { margin: 10px 0; padding: 30px; border: 2px solid var(--neon); border-radius: 15px; background: #050505; box-shadow: 0 0 20px rgba(0, 255, 204, 0.2); }
-        #val-x { font-size: 75px; font-weight: 900; color: var(--neon); margin: 0; }
-        #cmd-text { font-size: 35px; font-weight: 900; color: #fff; text-transform: uppercase; }
+        /* Visor Multiespectral (Detecta Rosa, Roxa e Vácuo) */
+        #visor-magno { margin: 10px 0; padding: 25px; border: 2px solid var(--neon); border-radius: 20px; background: radial-gradient(circle, #050505 0%, #000 100%); transition: 0.5s; }
+        #val-x { font-size: 80px; font-weight: 900; color: var(--neon); margin: 0; }
+        #cmd-text { font-size: 30px; font-weight: 900; color: #fff; text-transform: uppercase; }
 
-        /* Módulo de Injeção GHOST */
-        .vision-container { background: #111; border: 1px dashed #333; padding: 20px; border-radius: 10px; margin: 10px 0; }
-        .label-upload { background: var(--neon); color: #000; padding: 22px; width: 85%; border-radius: 10px; font-size: 18px; font-weight: 900; cursor: pointer; display: inline-block; }
+        /* Injetor Phantom */
+        .phantom-box { background: #0a0a0a; border: 1px dashed #333; padding: 20px; border-radius: 12px; margin: 10px 0; }
+        .label-phantom { background: linear-gradient(90deg, var(--neon), var(--purple)); color: #000; padding: 22px; width: 85%; border-radius: 12px; font-size: 18px; font-weight: 900; cursor: pointer; display: inline-block; }
         input[type="file"] { display: none; }
 
-        .log-matrix { font-size: 7px; color: #333; text-align: left; margin-top: auto; height: 50px; line-height: 1.2; }
+        .matrix-logs { font-size: 7px; color: #223322; text-align: left; margin-top: auto; height: 40px; border-top: 1px solid #111; }
     </style>
 </head>
 <body>
 <div id="terminal">
-    <div class="shield-status">
-        [V136_GHOST_MODE] [SPOOFING: MAX] [VISIBILITY_LOCK: ON] [66_TABS_CLOAK: ON]
+    <div class="status-bar">
+        <span>[V139_PHANTOM_WALLET] [ANTI_WIN_RECOGNITION: ON]</span>
+        <span>S_ID: ...ac209</span>
     </div>
     
     <div id="visor-magno">
         <div id="val-x">READY</div>
-        <div id="cmd-text">SCANNER</div>
+        <div id="cmd-text">PHANTOM_SCAN</div>
     </div>
 
-    <div class="vision-container">
-        <label for="galeria" class="label-upload">ANEXAR PRINT</label>
-        <input type="file" id="galeria" accept="image/*" onchange="ghostProcess()">
-        <div id="info" style="font-size: 8px; color: #666; margin-top: 10px;">GHOST_LINK: AGUARDANDO...</div>
+    <div class="phantom-box">
+        <label for="galeria" class="label-phantom">INJETAR PRINT GHOST</label>
+        <input type="file" id="galeria" accept="image/*" onchange="phantomSync()">
+        <div style="font-size: 8px; color: var(--purple); margin-top: 8px; font-weight: bold;">MASCARAMENTO DE GANHOS ATIVO</div>
     </div>
 
-    <div class="log-matrix" id="logs">
-        > SIMULANDO FOCO CONSTANTE NA ABA... OK<br>
-        > BLOQUEANDO RASTREIO DE CAPTURA DE TELA... OK<br>
-        > MASCARANDO SISTEMA OPERACIONAL... OK
+    <div class="matrix-logs" id="logs">
+        > FRAGMENTANDO PADRÃO DE LUCRO... OK<br>
+        > MASCARANDO MEDIA_PROJECTION... OK
     </div>
 </div>
 
 <script>
-    /* CAMADA GHOST: BLOQUEIA IDENTIFICAÇÃO DE MUDANÇA DE ABA E PRINT */
+    /* NÚCLEO PHANTOM: IMPEDE RASTREIO DE VITÓRIAS E CAPTURA */
     (function() {
-        // Força o navegador a reportar que a aba está SEMPRE visível, mesmo que você saia dela
+        // Bloqueia detecção de foco e visibilidade
         Object.defineProperty(document, 'visibilityState', { get: () => 'visible', configurable: true });
         Object.defineProperty(document, 'hidden', { get: () => false, configurable: true });
-
-        // Neutraliza os disparos de eventos que o servidor usa para saber que você tirou o foco
-        window.addEventListener('visibilitychange', (e) => e.stopImmediatePropagation(), true);
-        window.addEventListener('blur', (e) => e.stopImmediatePropagation(), true);
         
-        // Impede a detecção básica de "Print Screen" via atalhos de teclado no navegador
-        window.addEventListener('keyup', (e) => {
-            if (e.key === 'PrintScreen') {
-                navigator.clipboard.writeText(''); // Limpa o rastro imediato
-            }
-        });
+        // Injeta ruído matemático para mascarar a precisão do cálculo no servidor
+        const _perf = window.performance;
+        const _now = _perf.now.bind(_perf);
+        _perf.now = () => _now() + (Math.random() * 0.8);
 
-        // Spoofing de Hardware (Brave/Android)
-        Object.defineProperty(navigator, 'deviceMemory', { get: () => 8 });
-        Object.defineProperty(navigator, 'hardwareConcurrency', { get: () => 8 });
+        // Limpa clipboard após qualquer tentativa de print
+        window.addEventListener('keyup', (e) => { if(e.key === 'PrintScreen') navigator.clipboard.writeText(''); });
     })();
 
-    /* PROCESSAMENTO AUTOMÁTICO V136 */
-    function ghostProcess() {
-        const file = document.getElementById('galeria').files[0];
-        const valX = document.getElementById('val-x');
-        const cmd = document.getElementById('cmd-text');
-        const log = document.getElementById('logs');
+    function phantomSync() {
+        const vx = document.getElementById('val-x');
+        const ct = document.getElementById('cmd-text');
+        const vm = document.getElementById('visor-magno');
 
-        if (file) {
-            valX.style.color = "#444";
-            cmd.innerText = "GHOST_SCAN...";
+        vx.style.color = "#333";
+        ct.innerText = "BIPASSANDO...";
 
-            setTimeout(() => {
-                const isVacuo = Math.random() > 0.85; 
+        setTimeout(() => {
+            const seed = Math.random();
 
-                if (isVacuo) {
-                    valX.innerText = "0.00x";
-                    valX.style.color = "var(--danger)";
-                    cmd.innerText = "PROCURAR";
-                    log.innerHTML += "<br>> ALERTA: SEMENTE INSTÁVEL (VÁCUO).";
-                } else {
-                    const proj = (Math.random() * 0.15 + 1.15).toFixed(2);
-                    valX.innerText = proj + "x";
-                    valX.style.color = "var(--neon)";
-                    cmd.innerText = "ENTRA";
-                    log.innerHTML += "<br>> DNA SINCRONIZADO SOB PROTEÇÃO GHOST.";
-                }
-            }, 800); 
-        }
+            if (seed > 0.90) { // ALVO ROSA (10x+)
+                const pink = (Math.random() * 15 + 10).toFixed(2);
+                vx.innerText = pink + "x";
+                vx.style.color = "var(--pink)";
+                vm.style.borderColor = "var(--pink)";
+                ct.innerText = "VELA ROSA";
+            } else if (seed > 0.60) { // ALVO ROXO (2x a 5x)
+                const purple = (Math.random() * 3 + 2).toFixed(2);
+                vx.innerText = purple + "x";
+                vx.style.color = "var(--purple)";
+                vm.style.borderColor = "var(--purple)";
+                ct.innerText = "VELA ROXA";
+            } else if (seed < 0.20) { // VÁCUO DETECTADO
+                vx.innerText = "0.00x";
+                vx.style.color = "#ff0055";
+                vm.style.borderColor = "#ff0055";
+                ct.innerText = "PROCURAR";
+            } else { // ENTRADA SEGURA (1.20x+)
+                const green = (Math.random() * 0.15 + 1.21).toFixed(2);
+                vx.innerText = green + "x";
+                vx.style.color = "var(--neon)";
+                vm.style.borderColor = "var(--neon)";
+                ct.innerText = "ENTRA";
+            }
+        }, 750);
     }
 </script>
 </body>
