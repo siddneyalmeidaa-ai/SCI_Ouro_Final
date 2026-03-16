@@ -3,28 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A._V251_FIX</title>
+    <title>S.A._V252_TOUCH</title>
     <style>
         :root { --c1: #00ffcc; --c2: #9d00ff; --d: #ff0055; --w: #ffd700; }
-        body { margin: 0; background: #000; font-family: sans-serif; overflow: hidden; color: #fff; }
-        .mimic-h { position: fixed; top: 0; left: 0; width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; box-sizing: border-box; z-index: 9999; backdrop-filter: blur(25px); border-bottom: 1px solid #1a1a1a; transition: all 0.4s; }
-        .v-out { font-size: 42px; font-weight: 900; color: var(--c1); letter-spacing: -2px; }
-        .btn-ui { background: #fff; color: #000; border: none; padding: 12px 22px; font-weight: 900; text-transform: uppercase; cursor: pointer; }
+        body { margin: 0; background: #000; font-family: sans-serif; overflow: hidden; color: #fff; height: 100vh; width: 100vw; }
+        .mimic-h { position: fixed; top: 0; left: 0; width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; box-sizing: border-box; z-index: 9999; backdrop-filter: blur(25px); border-bottom: 1px solid #1a1a1a; pointer-events: none; }
+        .v-out { font-size: 44px; font-weight: 900; color: var(--c1); letter-spacing: -2px; }
+        #touch_area { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 50; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .hint { position: absolute; bottom: 20px; font-size: 8px; color: #333; text-transform: uppercase; }
     </style>
 </head>
-<body>
+<body onclick="igniteNeuralGhost()">
 
 <div id="m_root" class="mimic-h">
     <div id="m_box">
-        <div id="v_display">READY_V251</div>
-        <div id="s_status" style="font-size: 7px; color: var(--w); text-transform: uppercase;">S5_NEURAL: PROJEÇÃO_LIVRE</div>
+        <div id="v_display">TOQUE_PARA_PROJETAR</div>
+        <div id="s_status" style="font-size: 7px; color: var(--w); text-transform: uppercase;">MODO: GATILHO_MANUAL</div>
     </div>
-    <button class="btn-ui" onclick="toggleMimic()">START_V251</button>
+</div>
+
+<div id="touch_area">
+    <div class="hint">CLIQUE EM QUALQUER LUGAR DA ÁREA PRETA</div>
 </div>
 
 <script>
     const MEM_KEY = "_ga_u_metrics_v2";
-    let isAutoRunning = false;
+    let isAnalyzing = false;
     let globalData = JSON.parse(localStorage.getItem(MEM_KEY)) || { rounds: 0, wins: 0 };
 
     const getS5Entropy = () => {
@@ -33,82 +37,65 @@
         return a[0] / 4294967296;
     };
 
-    /* 1. TREMOR ORGÂNICO MANTIDO */
+    /* 1. TREMOR ORGÂNICO AO TOQUE [cite: 2026-02-03] */
     function applyOrganicTremor() {
-        if(!isAutoRunning) return;
-        window.scrollBy(0, (getS5Entropy() * 2) - 1);
+        window.scrollBy(0, (getS5Entropy() * 4) - 2);
     }
 
-    /* 2. INTERFACE MUTANTE MANTIDA */
-    function mutateUI() {
-        const h = document.querySelector('.mimic-h');
-        if(h) h.style.paddingTop = (Math.floor(getS5Entropy() * 8) + 12) + 'px';
-    }
-
-    function toggleMimic() {
-        isAutoRunning = !isAutoRunning;
-        const btn = document.querySelector('.btn-ui');
-        btn.innerText = isAutoRunning ? "STOP_V251" : "START_V251";
-        btn.style.background = isAutoRunning ? "var(--d)" : "#fff";
-        if(isAutoRunning) {
-            runAutoCycle();
-            setInterval(applyOrganicTremor, 2500);
-        }
-    }
-
-    /* 3. CICLO DE AGENDAMENTO (CHRONOS) - TRAVA DE FOCO REMOVIDA */
-    function runAutoCycle() {
-        if(!isAutoRunning) return;
-        igniteNeuralGhost();
-        // Próxima projeção entre 15s e 35s
-        const nextTick = (getS5Entropy() * 20000) + 15000; 
-        setTimeout(runAutoCycle, nextTick);
-    }
-
+    /* 2. LÓGICA DE PROJEÇÃO INSTANTÂNEA */
     function igniteNeuralGhost() {
+        if(isAnalyzing) return; // Evita múltiplos cliques seguidos
+        isAnalyzing = true;
+
         const d = document.getElementById('v_display');
         const s = document.getElementById('s_status');
         
-        d.innerText = "---"; d.style.color = "#111";
-        s.innerText = "S5: CALCULANDO...";
+        d.innerText = "---"; d.style.color = "#222";
+        s.innerText = "S5: PROCESSANDO TOQUE...";
 
-        const fatigue = Math.min(globalData.rounds * 90, 3000);
-        const delay = (getS5Entropy() * 2000) + 1500 + fatigue;
+        applyOrganicTremor();
+
+        // Delay humano curto para parecer análise (1.2s a 2.5s)
+        const delay = (getS5Entropy() * 1300) + 1200;
 
         setTimeout(() => {
-            if(!isAutoRunning) return;
             const seed = getS5Entropy();
             
-            // PERDA TÁTICA MANTIDA
+            // PERDA TÁTICA [cite: 2026-01-23]
             if (globalData.wins >= 8 && getS5Entropy() < 0.35) {
                 d.innerText = "ENTRA"; d.style.color = "#ffa500"; 
                 s.innerText = "⚠️ PERDA TÁTICA: MÍNIMA (0.10)";
                 globalData.wins = 0;
-                return;
-            }
-
-            if (seed > 0.94) {
-                d.innerText = (getS5Entropy() * 5 + 10.2).toFixed(2) + "x";
+            } else if (seed > 0.94) {
+                d.innerText = (getS5Entropy() * 5 + 10.5).toFixed(2) + "x";
                 d.style.color = "var(--c2)"; s.innerText = "ATHENA: VELA_ROSA";
                 globalData.wins++;
-            } else if (seed < 0.28) {
+            } else if (seed < 0.30) {
                 d.innerText = "PULA"; d.style.color = "var(--d)";
-                s.innerText = "NYX: PULA_RODADA";
+                s.innerText = "NYX: RODADA_RISCO";
             } else {
-                const targets = [1.38, 1.45, 2.05, 1.33];
+                const targets = [1.38, 1.45, 2.08, 1.34];
                 const g = targets[Math.floor(getS5Entropy() * 4)];
                 d.innerText = (g + (getS5Entropy() * 0.05)).toFixed(2) + "x";
                 d.style.color = g > 2 ? "var(--c2)" : "var(--c1)";
-                s.innerText = "GHOST: ENTRADA_LIMPA";
+                s.innerText = "GHOST: ANALISADO";
                 globalData.wins++;
             }
 
             globalData.rounds++;
             localStorage.setItem(MEM_KEY, JSON.stringify(globalData));
-            mutateUI();
+            isAnalyzing = false;
         }, delay);
     }
 
+    // Ofuscação de Identidade [cite: 2026-01-27]
     (function(){
-        const ids = ['
-                     
+        const ids = ['m_root', 'v_display', 's_status', 'm_box'];
+        ids.forEach(id => {
+            const el = document.getElementById(id);
+            if(el) el.id = 'sh_' + Math.floor(getS5Entropy() * 99999);
+        });
+    })();
+</script>
+</body>
+</html>
