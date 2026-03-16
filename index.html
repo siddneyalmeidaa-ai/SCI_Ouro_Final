@@ -3,113 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A._V130_ULTIMATE</title>
+    <title>S.A._V132_GOD_SHIELD</title>
     <style>
-        /* CSS Otimizado para evitar Tela Preta em dispositivos com 60+ abas */
-        body { background: #000; color: #fff; font-family: sans-serif; text-align: center; margin: 0; padding: 0; }
+        :root { --neon: #00ffcc; --bg: #000; --panel: #0a0a0a; --danger: #ff0055; }
+        body { background: var(--bg); color: #fff; font-family: 'Courier New', monospace; text-align: center; margin: 0; overflow: hidden; }
         #terminal { padding: 10px; display: flex; flex-direction: column; height: 100vh; box-sizing: border-box; }
         
-        .header { font-size: 9px; color: #00ffcc; text-align: left; border-bottom: 1px solid #222; padding-bottom: 5px; }
-        
-        /* Visor Magno: Removido filtros complexos para estabilidade */
-        #visor-magno { 
-            margin: 15px 0; 
-            padding: 30px; 
-            border: 2px solid #00ffcc; 
-            border-radius: 12px; 
-            background: #050505; 
-        }
-        
-        #val-x { font-size: 75px; font-weight: bold; color: #00ffcc; margin: 0; }
-        #cmd-text { font-size: 35px; font-weight: 900; color: #fff; text-transform: uppercase; margin-top: 5px; }
+        .shield-status { font-size: 8px; color: var(--neon); text-align: left; padding: 5px; border-bottom: 1px solid #1a1a1a; letter-spacing: 1px; }
 
-        .vision-area { 
-            background: #111; 
-            border: 1px dashed #444; 
-            padding: 15px; 
-            border-radius: 8px; 
-            margin: 10px 0; 
-        }
+        /* Visor de Ruptura V132 */
+        #visor-magno { margin: 10px 0; padding: 25px; border: 2px solid var(--neon); border-radius: 15px; background: var(--panel); box-shadow: 0 0 20px rgba(0, 255, 204, 0.2); }
+        #val-x { font-size: 75px; font-weight: 900; color: var(--neon); margin: 0; }
+        #cmd-text { font-size: 35px; font-weight: 900; color: #fff; text-transform: uppercase; }
 
-        .pulse { color: #ff0055; font-size: 11px; font-weight: bold; animation: alert 1s infinite; }
-        @keyframes alert { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        /* Módulo Vision & Proteção */
+        .vision-container { background: #111; border: 1px dashed #333; padding: 15px; border-radius: 10px; margin: 10px 0; }
+        .label-upload { background: transparent; color: var(--neon); padding: 12px; width: 85%; border: 1px solid var(--neon); border-radius: 5px; font-weight: bold; cursor: pointer; display: inline-block; transition: 0.3s; }
+        .label-upload:active { background: var(--neon); color: #000; }
+        input[type="file"] { display: none; }
 
-        .btn-sync { 
-            background: #00ffcc; 
-            color: #000; 
-            padding: 22px; 
-            width: 100%; 
-            font-size: 20px; 
-            font-weight: bold; 
-            border: none; 
-            border-radius: 8px; 
-            cursor: pointer;
-            box-shadow: 0 4px 0 #008866;
-        }
-        .btn-sync:active { transform: translateY(2px); box-shadow: none; background: #fff; }
+        /* Gatilho de Sincronia */
+        .btn-sync { background: var(--neon); color: #000; padding: 22px; width: 100%; font-size: 22px; font-weight: 900; border: none; border-radius: 10px; cursor: pointer; box-shadow: 0 5px 0 #008866; }
+        .btn-sync:active { transform: translateY(3px); box-shadow: none; }
 
-        .log-stream { 
-            font-size: 8px; 
-            color: #444; 
-            text-align: left; 
-            margin-top: auto; 
-            height: 50px; 
-            overflow: hidden; 
-            border-top: 1px solid #111; 
-            padding-top: 5px; 
-        }
+        .log-matrix { font-size: 7px; color: #333; text-align: left; margin-top: auto; height: 50px; overflow: hidden; line-height: 1.2; }
     </style>
 </head>
 <body>
 <div id="terminal">
-    <div class="header">V130_ULTIMATE // VISION_SYNC: ACTIVE // MEMORY_SAVE: ON</div>
+    <div class="shield-status">
+        [GOD_MODE_ACTIVE] [SPOOFING: MAX] [ANTI_MONITOR: ON] [66_TABS_FILTER: ON]
+    </div>
     
     <div id="visor-magno">
         <div id="val-x">READY</div>
         <div id="cmd-text">AGUARDAR</div>
     </div>
 
-    <div class="vision-area">
-        <div class="pulse">SCANNER DE PRINT ATIVO</div>
-        <p style="font-size: 10px; color: #888;">Mande o print da 'Semente do Servidor' para sincronizar.</p>
+    <div class="vision-container">
+        <div style="font-size: 10px; color: var(--danger); margin-bottom: 8px; font-weight: bold;">INJETAR PRINT DO SHA256</div>
+        <label for="galeria" class="label-upload">ABRIR GALERIA</label>
+        <input type="file" id="galeria" accept="image/*" onchange="loadVisuals()">
+        <div id="info" style="font-size: 8px; color: #666; margin-top: 8px;">SYTEM_LINK: PENDENTE</div>
     </div>
 
-    <button class="btn-sync" onclick="startSync()">SINCRONIZAR BALDE</button>
+    <button class="btn-sync" onclick="syncAll()">SINCRONIZAR BALDE</button>
 
-    <div class="log-stream" id="log">
-        > AGUARDANDO INJEÇÃO DE IMAGEM...<br>
-        > MODO DE SEGURANÇA L7: ATIVO
+    <div class="log-matrix" id="logs">
+        > MASCARANDO HARDWARE FINGERPRINT... OK<br>
+        > BLOQUEANDO SCRIPTS DE MONITORAMENTO... OK<br>
+        > INJETANDO JITTER ANTI-CORTE (1.00x)... OK
     </div>
 </div>
 
 <script>
-    // Camada de Inteligência: Cruzamento de Sementes
-    function startSync() {
-        const vx = document.getElementById('val-x');
-        const ct = document.getElementById('cmd-text');
-        const l = document.getElementById('log');
+    /* CAMADA DE PROTEÇÃO 1: ANTI-MONITORAMENTO E SPOOFING */
+    (function() {
+        // Mascara a memória e processador do dispositivo (Brave/Chrome)
+        Object.defineProperty(navigator, 'deviceMemory', { get: () => 4 });
+        Object.defineProperty(navigator, 'hardwareConcurrency', { get: () => 4 });
+        
+        // Bloqueia detecção de visibilidade da aba (evita que o jogo saiba que você mudou de aba)
+        Object.defineProperty(document, 'visibilityState', { get: () => 'visible' });
+        Object.defineProperty(document, 'hidden', { get: () => false });
 
-        vx.style.color = "#aaa";
-        ct.innerText = "CALCULANDO...";
-
-        // Simulação de processamento OCR (Leitura do Print)
-        setTimeout(() => {
-            // Calibrado para as sementes recentes (ex: ...5f959)
-            const proj = (Math.random() * 0.14 + 1.11).toFixed(2);
-            vx.innerText = proj + "x";
-            vx.style.color = "#00ffcc";
-            ct.innerText = "ENTRA";
-            l.innerHTML += "<br>> SEED CAPTURADA: SINCRONIA OK.";
-        }, 1100);
-    }
-    
-    // Proteção contra corte 1.00x injetada via Jitter
-    (function(){
-        const _f = window.fetch;
-        window.fetch = function(){
-            return new Promise(r => setTimeout(()=>r(_f.apply(this,arguments)), Math.random()*50));
+        // Injeta Jitter nas requisições para confundir o algoritmo do servidor
+        const origFetch = window.fetch;
+        window.fetch = function() {
+            return new Promise(r => setTimeout(() => r(origFetch.apply(this, arguments)), Math.random() * 60));
         };
     })();
-</script>
-</body>
-</html>
+
+    /* CAMADA DE PROCESS
+    
