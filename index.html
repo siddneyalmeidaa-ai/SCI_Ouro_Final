@@ -3,35 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A._V250_FINAL</title>
+    <title>S.A._V251_FIX</title>
     <style>
         :root { --c1: #00ffcc; --c2: #9d00ff; --d: #ff0055; --w: #ffd700; }
         body { margin: 0; background: #000; font-family: sans-serif; overflow: hidden; color: #fff; }
-        
-        /* 1. INTERFACE MUTANTE (ANTI-HEATMAP) [cite: 2026-02-03] */
-        .mimic-h { position: fixed; top: 0; left: 0; width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; box-sizing: border-box; z-index: 9999; backdrop-filter: blur(25px); border-bottom: 1px solid #1a1a1a; transition: all 0.4s ease-in-out; }
-        .v-out { font-size: 42px; font-weight: 900; color: var(--c1); letter-spacing: -2px; text-shadow: 0 0 10px rgba(0,255,204,0.3); }
-        .btn-ui { background: #fff; color: #000; border: none; padding: 12px 22px; font-weight: 900; text-transform: uppercase; cursor: pointer; transition: transform 0.2s; }
-        #n-logs { position: fixed; bottom: 8px; width: 100%; text-align: center; font-size: 5px; color: #222; opacity: 0.4; pointer-events: none; }
+        .mimic-h { position: fixed; top: 0; left: 0; width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; box-sizing: border-box; z-index: 9999; backdrop-filter: blur(25px); border-bottom: 1px solid #1a1a1a; transition: all 0.4s; }
+        .v-out { font-size: 42px; font-weight: 900; color: var(--c1); letter-spacing: -2px; }
+        .btn-ui { background: #fff; color: #000; border: none; padding: 12px 22px; font-weight: 900; text-transform: uppercase; cursor: pointer; }
     </style>
 </head>
 <body>
 
 <div id="m_root" class="mimic-h">
     <div id="m_box">
-        <div id="v_display">SYSTEM_READY</div>
-        <div id="s_status" style="font-size: 7px; color: var(--w); text-transform: uppercase; letter-spacing: 1px;">S5_NEURAL: V250_ACTIVE</div>
+        <div id="v_display">READY_V251</div>
+        <div id="s_status" style="font-size: 7px; color: var(--w); text-transform: uppercase;">S5_NEURAL: PROJEÇÃO_LIVRE</div>
     </div>
-    <button class="btn-ui" onclick="toggleMimic()">START_SESSION</button>
+    <button class="btn-ui" onclick="toggleMimic()">START_V251</button>
 </div>
 
-<div id="n-logs">FOCUS_LOCK | ORGANIC_TREMOR | LOSS_TACTIC | TRAFFIC_NOISE | CHRONOS_JITTER</div>
-
 <script>
-    /* 1. MEMÓRIA CAMUFLADA (GAIA) [cite: 2026-01-27] */
-    const MEM_KEY = "_ga_u_metrics_v2"; // Nome que engana auditoria
+    const MEM_KEY = "_ga_u_metrics_v2";
     let isAutoRunning = false;
-    let globalData = JSON.parse(localStorage.getItem(MEM_KEY)) || { rounds: 0, wins: 0, skips: 0 };
+    let globalData = JSON.parse(localStorage.getItem(MEM_KEY)) || { rounds: 0, wins: 0 };
 
     const getS5Entropy = () => {
         const a = new Uint32Array(1);
@@ -39,86 +33,71 @@
         return a[0] / 4294967296;
     };
 
-    /* 2. MOTOR DE ATENÇÃO E TREMOR (FOCUS & SELENE) [cite: 2026-02-13] */
+    /* 1. TREMOR ORGÂNICO MANTIDO */
     function applyOrganicTremor() {
-        if(!isAutoRunning || document.hidden) return;
-        window.scrollBy(0, (getS5Entropy() * 3) - 1.5);
+        if(!isAutoRunning) return;
+        window.scrollBy(0, (getS5Entropy() * 2) - 1);
     }
 
-    document.addEventListener("visibilitychange", () => {
-        const s = document.getElementById('s_status');
-        if (document.hidden && isAutoRunning) {
-            s.innerText = "PAUSADO: ABA_EM_OCULTO";
-        } else if (!document.hidden && isAutoRunning) {
-            s.innerText = "S5: FOCO_REESTABELECIDO";
-        }
-    });
-
-    /* 3. MOTOR DE INTERFACE MUTANTE [cite: 2026-02-03] */
+    /* 2. INTERFACE MUTANTE MANTIDA */
     function mutateUI() {
         const h = document.querySelector('.mimic-h');
-        h.style.paddingTop = (Math.floor(getS5Entropy() * 10) + 10) + 'px';
-        h.style.paddingBottom = (Math.floor(getS5Entropy() * 10) + 10) + 'px';
+        if(h) h.style.paddingTop = (Math.floor(getS5Entropy() * 8) + 12) + 'px';
     }
 
     function toggleMimic() {
         isAutoRunning = !isAutoRunning;
         const btn = document.querySelector('.btn-ui');
-        btn.innerText = isAutoRunning ? "STOP_V250" : "START_V250";
+        btn.innerText = isAutoRunning ? "STOP_V251" : "START_V251";
         btn.style.background = isAutoRunning ? "var(--d)" : "#fff";
         if(isAutoRunning) {
             runAutoCycle();
-            setInterval(applyOrganicTremor, 1800);
+            setInterval(applyOrganicTremor, 2500);
         }
     }
 
-    /* 4. MOTOR DE AGENDAMENTO COM JITTER (CHRONOS) [cite: 2026-02-28] */
+    /* 3. CICLO DE AGENDAMENTO (CHRONOS) - TRAVA DE FOCO REMOVIDA */
     function runAutoCycle() {
         if(!isAutoRunning) return;
-        if(document.hidden) {
-            setTimeout(runAutoCycle, 5000);
-            return;
-        }
         igniteNeuralGhost();
-        const nextTick = (getS5Entropy() * 25000) + 18000; // Intervalo imprevisível
+        // Próxima projeção entre 15s e 35s
+        const nextTick = (getS5Entropy() * 20000) + 15000; 
         setTimeout(runAutoCycle, nextTick);
     }
 
-    /* 5. LÓGICA DE GUERRA (PERDA TÁTICA & FADIGA) [cite: 2026-01-23, 2026-01-19] */
     function igniteNeuralGhost() {
         const d = document.getElementById('v_display');
         const s = document.getElementById('s_status');
         
         d.innerText = "---"; d.style.color = "#111";
-        s.innerText = "S5: CALCULANDO_VETORES...";
+        s.innerText = "S5: CALCULANDO...";
 
-        // Fadiga Acumulada: O script "fica cansado" [cite: 2026-02-28]
-        const fatigue = Math.min(globalData.rounds * 110, 3800);
-        const delay = (getS5Entropy() * 2500) + 1500 + fatigue;
+        const fatigue = Math.min(globalData.rounds * 90, 3000);
+        const delay = (getS5Entropy() * 2000) + 1500 + fatigue;
 
         setTimeout(() => {
-            if (document.hidden) return;
+            if(!isAutoRunning) return;
             const seed = getS5Entropy();
             
-            // PERDA TÁTICA: Suja o histórico para evitar ban [cite: 2026-01-23]
-            if (globalData.wins >= 8 && getS5Entropy() < 0.38) {
+            // PERDA TÁTICA MANTIDA
+            if (globalData.wins >= 8 && getS5Entropy() < 0.35) {
                 d.innerText = "ENTRA"; d.style.color = "#ffa500"; 
-                s.innerText = "⚠️ PERDA CONTROLADA: MÍNIMA (0.10)";
+                s.innerText = "⚠️ PERDA TÁTICA: MÍNIMA (0.10)";
                 globalData.wins = 0;
                 return;
             }
 
-            if (seed > 0.93) {
-                d.innerText = (getS5Entropy() * 5 + 10).toFixed(2) + "x";
+            if (seed > 0.94) {
+                d.innerText = (getS5Entropy() * 5 + 10.2).toFixed(2) + "x";
                 d.style.color = "var(--c2)"; s.innerText = "ATHENA: VELA_ROSA";
                 globalData.wins++;
             } else if (seed < 0.28) {
                 d.innerText = "PULA"; d.style.color = "var(--d)";
-                s.innerText = "NYX: VÁCUO_DETECTADO";
+                s.innerText = "NYX: PULA_RODADA";
             } else {
-                const targets = [1.32, 1.48, 2.10, 1.39, 1.88];
-                const g = targets[Math.floor(getS5Entropy() * targets.length)];
-                d.innerText = (g + (getS5Entropy() * 0.1)).toFixed(2) + "x";
+                const targets = [1.38, 1.45, 2.05, 1.33];
+                const g = targets[Math.floor(getS5Entropy() * 4)];
+                d.innerText = (g + (getS5Entropy() * 0.05)).toFixed(2) + "x";
                 d.style.color = g > 2 ? "var(--c2)" : "var(--c1)";
                 s.innerText = "GHOST: ENTRADA_LIMPA";
                 globalData.wins++;
@@ -130,14 +109,6 @@
         }, delay);
     }
 
-    // Ofuscação de Identidade Inicial (HERA) [cite: 2026-01-27]
     (function(){
-        const ids = ['m_root', 'v_display', 's_status', 'm_box'];
-        ids.forEach(id => {
-            const el = document.getElementById(id);
-            if(el) el.id = 'sh_' + Math.floor(getS5Entropy() * 99999);
-        });
-    })();
-</script>
-</body>
-</html>
+        const ids = ['
+                     
