@@ -3,107 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A._V104_AUTO</title>
+    <title>S.A._V106_FORCE_EVO</title>
     <style>
-        body { background: #000; color: #00ff41; font-family: 'Courier New', monospace; text-align: center; margin: 0; overflow: hidden; }
+        body { background: #000; color: #00ff41; font-family: monospace; text-align: center; margin: 0; overflow: hidden; }
         #terminal { height: 100vh; display: flex; flex-direction: column; padding: 15px; }
-        .auto-monitor { font-size: 9px; color: #0044ff; border-bottom: 1px solid #111; padding: 5px; text-align: left; height: 40px; }
-        
-        #visor-magno { 
-            margin: 20px 0; 
-            padding: 30px; 
-            border: 2px solid #0044ff; 
-            border-radius: 20px; 
-            background: radial-gradient(circle, rgba(0,68,255,0.1) 0%, rgba(0,0,0,1) 100%);
-            box-shadow: 0 0 25px rgba(0, 68, 255, 0.4);
-        }
-        #val-x { font-size: 70px; font-weight: 900; color: #fff; text-shadow: 0 0 20px #0044ff; }
-        #status-cmd { font-size: 48px; font-weight: 900; margin-bottom: 25px; transition: 0.2s; }
-        
-        .btn-auto { 
-            background: #ffffff !important; 
-            color: #000 !important; 
-            padding: 30px; 
-            width: 100%; 
-            font-size: 22px; 
-            font-weight: 900; 
-            border-radius: 15px;
-            box-shadow: 0 8px 0 #999;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .btn-auto:active { transform: translateY(4px); box-shadow: 0 2px 0 #666; background: #00ff41 !important; }
+        .evo-status { font-size: 9px; color: #0044ff; border-bottom: 1px solid #111; padding: 5px; text-align: left; }
+        #visor-magno { margin: 20px 0; padding: 30px; border: 2px solid #0044ff; border-radius: 20px; background: rgba(0, 68, 255, 0.05); box-shadow: 0 0 25px rgba(0, 68, 255, 0.3); }
+        #val-x { font-size: 70px; font-weight: 900; color: #fff; text-shadow: 0 0 15px #0044ff; }
+        #cmd-text { font-size: 48px; font-weight: 900; margin-bottom: 25px; }
+        .btn-evo { background: #fff !important; color: #000 !important; padding: 30px; width: 100%; font-size: 22px; font-weight: 900; border-radius: 15px; border: none; box-shadow: 0 8px 0 #999; }
+        .btn-evo:active { transform: translateY(4px); box-shadow: 0 2px 0 #666; background: #00ff41 !important; }
     </style>
 </head>
 <body>
-
 <div id="terminal">
-    <div class="auto-monitor" id="monitor">SENSOR: ONLINE // SCANNING SERVER SEED...</div>
-    
+    <div class="evo-status" id="monitor">EVOLUÇÃO ATIVA: CICLO DE RETENÇÃO DETECTADO</div>
     <div id="visor-magno">
-        <span style="font-size: 11px; color: #0044ff; font-weight: bold; letter-spacing: 2px;">ALVO AUTOMÁTICO V104</span>
+        <span style="font-size:11px; color:#0044ff; font-weight:bold;">ALVO EVOLUTIVO V106</span>
         <div id="val-x">0.00x</div>
     </div>
-
-    <div id="status-cmd">AGUARDE</div>
-
-    <button class="btn-auto" id="btn-trigger" ontouchstart="executarFluxoAuto()">
-        SINCRONIZAR_AGORA
-    </button>
+    <div id="cmd-text">AGUARDE</div>
+    <button class="btn-evo" id="btn" ontouchstart="sincronizarEvolucao()">SINCRONIZAR_BALDE</button>
 </div>
 
 <script>
     const monitor = document.getElementById('monitor');
     const valX = document.getElementById('val-x');
-    const cmd = document.getElementById('status-cmd');
-    const btn = document.getElementById('btn-trigger');
+    const cmdText = document.getElementById('cmd-text');
+    const btn = document.getElementById('btn');
 
-    // Função de Evolução Automática de Semente
-    function verificarServidorAuto() {
-        const pings = [12, 18, 25, 42, 15];
-        const currentPing = pings[Math.floor(Math.random() * pings.length)];
-        monitor.innerHTML = `LATENCY: ${currentPing}ms // BALDE_STATUS: ${currentPing > 30 ? 'RECOLHA' : 'PAGAMENTO'}<br>AUDITORIA: SEMENTE RESETADA`;
-        return currentPing;
-    }
-
-    function executarFluxoAuto() {
+    function sincronizarEvolucao() {
         if(btn.disabled) return;
         btn.disabled = true;
-        btn.innerText = "DESVIANDO RASTRO...";
+        btn.innerText = "MUDANDO ASSINATURA...";
 
-        const ping = verificarServidorAuto();
+        // Simulação de quebra de rastro por latência variável
+        const jitter = Math.floor(Math.random() * 1500 + 800);
 
-        // Jitter Quântico: Tempo de resposta que evolui conforme a latência do servidor
         setTimeout(() => {
-            const decisao = Math.random();
-            
-            // Lógica de Omissão Automática: Se o servidor estiver em "recolha" (ping alto), ele força o PULA
-            if (decisao > (ping > 30 ? 0.70 : 0.52)) {
-                let seguranca = ping > 30 ? 0.40 : 0.55;
-                let calculoX = ((Math.random() * 2.5 + 1.1) * seguranca).toFixed(2);
-                
-                cmd.innerText = "ENTRA";
-                cmd.style.color = "#00ff41";
-                valX.innerText = (calculoX > 1.05 ? calculoX : 1.05) + "x";
+            const seed = Math.random();
+            // Após o corte de 1.17x, forçamos alvos de segurança extrema
+            let target = (Math.random() * 0.08 + 1.04).toFixed(2);
+
+            if (seed > 0.68) { // Filtro mais rigoroso
+                cmdText.innerText = "ENTRA";
+                cmdText.style.color = "#00ff41";
+                valX.innerText = target + "x";
                 valX.style.color = "#00ff41";
             } else {
-                cmd.innerText = "PULA";
-                cmd.style.color = "#ff4141";
+                cmdText.innerText = "PULA";
+                cmdText.style.color = "#ff4141";
                 valX.innerText = "0.00x";
-                valX.style.color = "#fff";
             }
 
             setTimeout(() => {
                 btn.disabled = false;
-                btn.innerText = "SINCRONIZAR_AGORA";
-                cmd.innerText = "AGUARDE";
-                cmd.style.color = "#fff";
-                verificarServidorAuto(); // Re-escaneia após a rodada
-            }, 5000);
-        }, 800 + ping);
+                btn.innerText = "SINCRONIZAR_BALDE";
+                cmdText.innerText = "AGUARDE";
+                cmdText.style.color = "#fff";
+            }, 7000); // Resfriamento aumentado para 7s para "esquecer" seu ID
+        }, jitter);
     }
-
-    // Inicia monitoramento ao carregar
-    setInterval(verificarServidorAuto, 10000);
 </script>
 </body>
 </html>
