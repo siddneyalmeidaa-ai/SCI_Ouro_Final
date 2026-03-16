@@ -3,29 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A._V220_SCH</title>
+    <title>S.A._V230_MIMIC</title>
     <style>
         :root { --c1: #00ffcc; --c2: #9d00ff; --d: #ff0055; }
         body { margin: 0; background: #000; font-family: sans-serif; overflow: hidden; color: #fff; }
-        .ghost-h { position: fixed; top: 0; left: 0; width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; box-sizing: border-box; z-index: 9999; backdrop-filter: blur(20px); border-bottom: 1px solid #1a1a1a; }
-        .v-out { font-size: 44px; font-weight: 900; color: var(--c1); letter-spacing: -2px; }
-        .btn-ui { background: #fff; color: #000; border: none; padding: 14px 24px; font-weight: 900; text-transform: uppercase; cursor: pointer; }
+        
+        /* Interface Mutante: Posição dinâmica via JS */
+        .mimic-h { position: fixed; top: 0; left: 0; width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 10px 20px; box-sizing: border-box; z-index: 9999; backdrop-filter: blur(25px); border-bottom: 1px solid #1a1a1a; transition: all 0.5s ease-in-out; }
+        .v-out { font-size: 42px; font-weight: 900; color: var(--c1); letter-spacing: -2px; }
+        .btn-ui { background: #fff; color: #000; border: none; padding: 12px 22px; font-weight: 900; text-transform: uppercase; cursor: pointer; transition: transform 0.2s; }
+        
+        #n-logs { position: fixed; bottom: 10px; width: 100%; text-align: center; font-size: 5px; color: #222; opacity: 0.5; }
     </style>
 </head>
 <body>
 
-<div id="root_sch" class="ghost-h">
-    <div>
-        <div id="display_val">SCH_WAITING</div>
-        <div id="st_msg" style="font-size: 7px; color: #ffd700; text-transform: uppercase;">AGENDADOR_ATIVO</div>
+<div id="m_root" class="mimic-h">
+    <div id="m_box">
+        <div id="v_display">MIMIC_READY</div>
+        <div id="s_status" style="font-size: 7px; color: #ffd700; text-transform: uppercase;">HERA_MIMIC: ON</div>
     </div>
-    <button class="btn-ui" onclick="toggleSchedule()">START_AGDA</button>
+    <button class="btn-ui" onclick="toggleMimic()">START_V230</button>
 </div>
 
+<div id="n-logs">HEATMAP_SHIELD | DISTRACTION_ENGINE | PANDORA_JITTER</div>
+
 <script>
+    /* 1. MEMÓRIA E ENTROPIA */
     const MEM_KEY = "_ga_u_metrics_v2";
     let isAutoRunning = false;
-    let globalData = JSON.parse(localStorage.getItem(MEM_KEY)) || { rounds: 0, last: Date.now() };
+    let globalData = JSON.parse(localStorage.getItem(MEM_KEY)) || { rounds: 0, consecutive_skips: 0 };
 
     const getS5Entropy = () => {
         const a = new Uint32Array(1);
@@ -33,61 +40,24 @@
         return a[0] / 4294967296;
     };
 
-    /* 1. MOTOR DE AGENDAMENTO ORGÂNICO (CHRONOS) */
-    function toggleSchedule() {
-        isAutoRunning = !isAutoRunning;
-        const btn = document.querySelector('.btn-ui');
-        btn.innerText = isAutoRunning ? "STOP_AGDA" : "START_AGDA";
-        btn.style.background = isAutoRunning ? "var(--d)" : "#fff";
-        
-        if(isAutoRunning) runAutoCycle();
-    }
-
-    function runAutoCycle() {
+    /* 2. MOTOR DE DISTRAÇÃO ERRÁTICA (HERA & SELENE) */
+    function organicDistraction() {
         if(!isAutoRunning) return;
-
-        // Executa a lógica do visor
-        igniteNeuralGhost();
-
-        // 2. CALCULA PRÓXIMA RODADA COM "JITTER" (VARIAÇÃO HUMANA)
-        // Agenda para daqui a 15-30 segundos de forma imprevisível
-        const nextTick = (getS5Entropy() * 15000) + 15000; 
-        
-        console.log(`Próxima análise em: ${(nextTick/1000).toFixed(1)}s`);
-        setTimeout(runAutoCycle, nextTick);
+        // Simula scroll leve (ajuste de tela)
+        window.scrollBy(0, getS5Entropy() > 0.5 ? 3 : -3);
+        // Simula micro-movimentos de mouse em áreas vazias
+        const move = new MouseEvent('mousemove', {
+            clientX: getS5Entropy() * 100,
+            clientY: getS5Entropy() * 100,
+            bubbles: true
+        });
+        document.dispatchEvent(move);
     }
 
-    /* 3. LÓGICA NEURAL INTEGRADA (V210 + PERSISTÊNCIA) */
-    function igniteNeuralGhost() {
-        const d = document.getElementById('display_val') || document.querySelector('.v-out');
-        const s = document.getElementById('st_msg');
+    /* 3. INTERFACE MUTANTE (ANTI-HEATMAP) */
+    function mutateUI() {
+        const header = document.querySelector('.mimic-h') || document.querySelector('div[id^="sh_"]');
+        const box = document.querySelector('#m_box') || document.querySelector('div[id^="sh_"] div');
         
-        d.innerText = "---";
-        s.innerText = "CHRONOS: AGENDADO...";
-
-        const fatigue = Math.min(globalData.rounds * 95, 2600);
-        const delay = (getS5Entropy() * 2000) + 1500 + fatigue;
-
-        setTimeout(() => {
-            const seed = getS5Entropy();
-            
-            if (seed > 0.94) {
-                d.innerText = (getS5Entropy() * 6 + 8).toFixed(2) + "x";
-                d.style.color = "var(--c2)";
-            } else if (seed < 0.25) {
-                d.innerText = "PULA";
-                d.style.color = "var(--d)";
-            } else {
-                const goals = [1.25, 1.48, 2.05, 1.33];
-                const goal = goals[Math.floor(getS5Entropy() * 4)];
-                d.innerText = goal.toFixed(2) + "x";
-                d.style.color = goal > 2 ? "var(--c2)" : "var(--c1)";
-            }
-
-            globalData.rounds++;
-            localStorage.setItem(MEM_KEY, JSON.stringify(globalData));
-        }, delay);
-    }
-</script>
-</body>
-</html>
+        // Altera aleatoriamente o padding e a altura para
+    
