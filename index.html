@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>S.A. DUAL_STRIKE_V15</title>
+    <title>S.A. DUAL_STRIKE_V16_FERRARI</title>
     <style>
         body { background: #000; color: #00ffcc; font-family: monospace; padding: 10px; font-size: 11px; margin: 0; }
         .terminal { height: 160px; overflow-y: auto; border: 1px solid #ff0055; padding: 5px; margin-top: 5px; background: rgba(10,0,0,0.9); }
@@ -14,19 +14,22 @@
         .header { display: flex; justify-content: space-between; background: #222; padding: 5px; border-bottom: 2px solid #ff0055; }
         @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.2; } 100% { opacity: 1; } }
         .reset-alert { color: #ff0055; font-weight: bold; animation: blink 0.8s infinite; text-align: center; font-size: 10px; }
+        .favelinha-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 9px; border: 1px solid #444; }
+        .favelinha-table th { background: #111; color: #ff0055; border: 1px solid #444; }
+        .favelinha-table td { border: 1px solid #444; text-align: center; }
     </style>
 </head>
 <body onclick="processSync()">
     <div class="header">
-        <span>S.A. DUAL_STRIKE_V15</span>
-        <span id="clock">07:38</span>
+        <span>S.A. DUAL_STRIKE_V16 | HIGHWAY</span>
+        <span id="clock">20:10</span>
     </div>
 
     <div class="reset-alert">⚠️ RESETAR SEMENTE APÓS VELA ROSA ⚠️</div>
 
     <div class="dual-display">
         <div class="box">
-            <span class="label">Mão 1: Segurança</span>
+            <span class="label">Mão 1: Segurança (-50%)</span>
             <span class="value" id="safe-val">READY</span>
         </div>
         <div class="box rosa">
@@ -36,9 +39,40 @@
     </div>
 
     <div class="terminal" id="term">
-        > AGUARDANDO SINCRONIA...<br>
-        > SEED: xT5jN0sY2vG4bH1vF9mR7-0-0 [cite: 2026-01-27]
+        > AGUARDANDO SINCRONIA DO ORGANISMO...<br>
+        > SEED ATIVA: MP8dQ1tS5vR9wF3kL0zN2-0 [cite: 2026-01-27]
     </div>
+
+    <table class="favelinha-table">
+        <thead>
+            <tr>
+                <th>RISCO</th>
+                <th>STAKE</th>
+                <th>AÇÃO</th>
+                <th>STATUS</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>BAIXO</td>
+                <td>R$ 1,00</td>
+                <td>ENTRA</td>
+                <td>LIBERADO 100%</td>
+            </tr>
+            <tr>
+                <td>MÉDIO</td>
+                <td>R$ 0,20</td>
+                <td>ENTRA</td>
+                <td>LIBERADO 100%</td>
+            </tr>
+            <tr>
+                <td>ALTO</td>
+                <td>R$ 0,10</td>
+                <td>PULA</td>
+                <td>PENDENTE 0%</td>
+            </tr>
+        </tbody>
+    </table>
 
 <script>
     const term = document.getElementById('term');
@@ -47,13 +81,15 @@
         const entropy = window.crypto.getRandomValues(new Uint32Array(1))[0] / 4294967296;
         
         // CÁLCULO MÃO 1 (Pagar a conta) - Regra -50% [cite: 2026-01-16]
-        const safeTarget = (entropy * 0.8 + 1.20).toFixed(2);
+        // Projeção base reduzida pela metade para garantir segurança absoluta
+        const projecaoBase = (entropy * 0.8 + 2.00);
+        const safeTarget = (projecaoBase * 0.50).toFixed(2);
         document.getElementById('safe-val').innerText = safeTarget + "x";
 
-        // CÁLCULO MÃO 2 (Vela Rosa) - Projeção de Ciclo [cite: 2025-12-29]
+        // CÁLCULO MÃO 2 (Vela Rosa) - Semente Manual Ativa [cite: 2025-12-29]
         let pinkTarget;
-        if (entropy > 0.88) { // Janela de oportunidade para Rosa
-            pinkTarget = (entropy * 40 + 10.00).toFixed(2);
+        if (entropy > 0.85) { 
+            pinkTarget = (entropy * 45 + 15.00).toFixed(2);
             document.getElementById('pink-val').style.color = "#ff0055";
         } else {
             pinkTarget = "---";
@@ -61,14 +97,14 @@
         }
         document.getElementById('pink-val').innerText = pinkTarget + (pinkTarget !== "---" ? "x" : "");
 
-        logEvent(`SYNC_OK | SAFE: ${safeTarget}x | PINK_SCAN: ${pinkTarget}x`);
+        logEvent(`SYNC_OK | SAFE (-50%): ${safeTarget}x | PINK: ${pinkTarget}x`);
     }
 
     function logEvent(msg) {
         const div = document.createElement('div');
         div.innerHTML = `[${new Date().toLocaleTimeString()}] > ${msg}`;
         term.prepend(div);
-        if(term.childNodes.length > 8) term.removeChild(term.lastChild);
+        if(term.childNodes.length > 6) term.removeChild(term.lastChild);
     }
 
     setInterval(() => {
@@ -76,4 +112,4 @@
     }, 1000);
 </script>
 </body>
-</html
+</html>
