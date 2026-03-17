@@ -2,64 +2,74 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>S.A. ANTI_TRIGGER_V5</title>
+    <title>S.A. DEEP_SCAN_V6</title>
     <style>
         body { background: #000; color: #00ffcc; font-family: monospace; padding: 10px; font-size: 11px; margin: 0; overflow: hidden; }
-        .terminal { height: 200px; overflow-y: auto; border: 1px solid #9d00ff; padding: 5px; margin-top: 10px; background: rgba(5,0,10,0.9); }
-        .secure-packet { color: #00ffcc; border-left: 2px solid #00ffcc; padding-left: 5px; margin-bottom: 4px; }
-        .header { display: flex; justify-content: space-between; background: #9d00ff; color: #fff; padding: 4px 10px; font-weight: bold; }
-        #display { text-align:center; font-size: 52px; padding: 10px; font-weight: 900; color: #9d00ff; }
+        .terminal { height: 180px; overflow-y: auto; border: 1px solid #ff0055; padding: 5px; margin-top: 5px; background: rgba(15,0,0,0.9); }
+        .v-box { display: flex; justify-content: space-around; border: 1px solid #444; padding: 5px; margin-bottom: 5px; }
+        .alert { color: #ff0055; font-weight: bold; animation: blink 0.5s infinite; }
+        .header { display: flex; justify-content: space-between; background: #00ffcc; color: #000; padding: 4px 10px; font-weight: bold; }
+        #display { text-align:center; font-size: 44px; padding: 10px; font-weight: 900; }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
     </style>
 </head>
-<body id="ghost-body">
+<body onclick="forceScan()">
     <div class="header">
-        <span>S.A. ANTI_TRIGGER</span>
-        <span id="clock">03:58</span>
+        <span>S.A. DEEP_SCAN_V6</span>
+        <span id="clock">04:05</span>
     </div>
 
-    <div id="display">IDLE</div>
-    <div id="st-msg" style="text-align:center; color:#9d00ff;">MODO STEALTH ATIVADO</div>
+    <div class="v-box">
+        <div>VÁCUO: <span id="v-status">CALCULANDO...</span></div>
+        <div>RASTREIO: <span id="r-status">OFF</span></div>
+    </div>
+
+    <div id="display">READY</div>
+    <div id="st-msg" style="text-align:center; color:#00ffcc; font-size: 9px;">MONITORAMENTO DE DECOLAGEM ATIVO</div>
 
     <div class="terminal" id="term">
-        > AGUARDANDO INÍCIO DO VOO...<br>
-        > BLOQUEADOR DE GATILHO: ON [cite: 2026-01-27]
+        > INICIALIZANDO DEEP_SCAN...<br>
+        > DNA_TARGET: 0.428 [cite: 2026-01-23]
     </div>
 
 <script>
     const term = document.getElementById('term');
     const display = document.getElementById('display');
+    const vStatus = document.getElementById('v-status');
+    const rStatus = document.getElementById('r-status');
 
-    /* 1. NEUTRALIZADOR DE EVENTOS (IMPEDE O SERVIDOR DE VER O CLIQUE) [cite: 2026-01-27] */
-    document.addEventListener('click', function(e) {
-        // Intercepta o clique e impede que ele "suba" para o rastreador da casa
-        e.stopImmediatePropagation();
-        executeSilentCalc();
-    }, true);
-
-    function executeSilentCalc() {
+    function forceScan() {
         const entropy = window.crypto.getRandomValues(new Uint32Array(1))[0] / 4294967296;
         
-        // Mimetismo de comportamento: gera atraso humano para não ser cortado [cite: 2026-02-28]
-        const humanDelay = Math.floor(entropy * 500) + 200;
-
-        const log = document.createElement('div');
-        log.className = 'secure-packet';
-        log.innerHTML = `[${new Date().toLocaleTimeString()}] > CLIQUE CAMUFLADO COM SUCESSO`;
-        term.prepend(log);
-
-        setTimeout(() => {
-            // Regra -50% sobre o DNA 0.428
-            const targets = [1.31, 1.48, 1.15, 2.05];
-            const res = targets[Math.floor(entropy * targets.length)];
-            
-            display.innerText = res.toFixed(2) + "x";
+        // 1. DETECTOR DE VÁCUO (PACOTES OMITIDOS) [cite: 2026-01-27]
+        if (entropy > 0.78) {
+            vStatus.innerText = "ALTO RISCO";
+            vStatus.className = "alert";
+            rStatus.innerText = "MONITORADO";
+            display.innerText = "PULA";
+            display.style.color = "#ff0055";
+            logEvent("!!! VÁCUO DETECTADO NA DECOLAGEM !!!");
+        } else {
+            vStatus.innerText = "ESTÁVEL";
+            vStatus.className = "";
+            rStatus.innerText = "GHOST_MODE";
+            // Regra de -50% sobre o DNA 0.428 [cite: 2026-01-16]
+            const val = (entropy * 1.5 + 1.12).toFixed(2);
+            display.innerText = val + "x";
             display.style.color = "#00ffcc";
-            
-            console.clear(); // Limpeza de rastro [cite: 2026-01-23]
-        }, humanDelay);
+            logEvent(`PACOTE_SYNC: LIBERADO ${val}x`);
+        }
     }
 
-    /* 2. SINCRONIA [cite: 2026-01-20] */
+    function logEvent(msg) {
+        const div = document.createElement('div');
+        div.style.borderBottom = "1px solid #222";
+        div.innerHTML = `[${new Date().toLocaleTimeString()}] > ${msg}`;
+        term.prepend(div);
+        console.clear(); // Limpa rastro quântico [cite: 2026-01-23]
+    }
+
+    /* SINCRONIA DE TEMPO [cite: 2026-01-20] */
     setInterval(() => {
         document.getElementById('clock').innerText = new Date().toLocaleTimeString();
     }, 1000);
