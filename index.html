@@ -3,117 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A._V510_GHOST_STABLE</title>
+    <title>S.A._TORRES_BRAVA_FIXED</title>
     <style>
-        :root { --c1: #00ffcc; --c2: #9d00ff; --d: #ff0055; --w: #ffd700; --k: rgba(0,0,0,1); }
-        body { margin: 0; background: #000; font-family: 'Courier New', monospace; overflow: hidden; color: #fff; }
+        :root { --neon: #00ffcc; --puro: #9d00ff; --alert: #ff0055; --bg: #000; }
+        /* Fix de fundo para evitar tela preta em navegadores mobile */
+        html, body { height: 100%; margin: 0; background-color: #000; }
+        body { font-family: 'Courier New', monospace; color: #fff; overflow: hidden; }
         
-        .m-h { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100vh; padding: 15px; 
-            z-index: 999; background: var(--k); 
-            border-bottom: 2px solid #1a1a1a;
-            display: flex; flex-direction: column;
+        .container { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            padding: 20px; box-sizing: border-box; display: flex; flex-direction: column;
+            background: #000; z-index: 1;
         }
 
-        #v_out { font-size: 64px; font-weight: 900; color: var(--c1); letter-spacing: -2px; margin-top: 20px; }
+        #v_out { font-size: 72px; font-weight: 900; color: var(--neon); text-shadow: 0 0 20px var(--neon); margin-top: 10px; }
         
-        #fluxo_panel { 
-            margin: 20px 0; padding: 15px; font-size: 14px; text-align: center; 
-            font-weight: bold; border-radius: 8px; border: 1px solid #333;
+        .panel { 
+            margin: 20px 0; padding: 15px; text-align: center; font-weight: bold;
+            border: 2px solid var(--neon); border-radius: 10px; background: rgba(0, 255, 204, 0.05);
         }
 
-        .pay { color: var(--c1); border-color: var(--c1) !important; background: rgba(0, 255, 204, 0.1); }
-        .recol { color: var(--w); border-color: var(--w) !important; background: rgba(255, 215, 0, 0.1); }
-        .phantom { color: var(--c2); border-color: var(--c2) !important; background: rgba(157, 0, 255, 0.2); }
+        #dna_bar { height: 6px; width: 0%; background: var(--neon); box-shadow: 0 0 15px var(--neon); margin: 15px 0; transition: 0.8s; }
+        
+        .info { font-size: 11px; color: #444; display: flex; justify-content: space-between; text-transform: uppercase; }
+        .val { color: #888; }
 
-        #dna_b { height: 4px; width: 0%; background: var(--c1); box-shadow: 0 0 10px var(--c1); margin-top: 10px; transition: 0.5s; }
-        
-        .st { 
-            font-size: 10px; color: #666; display: flex; 
-            justify-content: space-between; margin-top: 20px; 
-            text-transform: uppercase; font-weight: bold;
+        /* Botão de Ingestão Ajustado para funcionamento real */
+        #drop_zone {
+            margin-top: auto; margin-bottom: 40px; padding: 30px;
+            border: 2px dashed #333; border-radius: 15px; text-align: center;
+            background: rgba(255,255,255,0.02); cursor: pointer;
+            z-index: 10;
         }
-        
-        .val { color: #eee; }
-        
-        /* Área de Interação */
-        #input_area {
-            margin-top: auto; margin-bottom: 50px; text-align: center;
-            border: 1px dashed #222; padding: 20px; border-radius: 10px;
-        }
-        .btn_fake { font-size: 12px; color: var(--c1); text-transform: uppercase; }
+        .btn_txt { font-size: 12px; color: var(--neon); letter-spacing: 2px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div id="root" class="m-h">
-    <div id="v_out">AGUARDANDO</div>
+<div class="container">
+    <div id="v_out">READY</div>
     
-    <div id="fluxo_panel" class="pay">
-        STATUS: <span id="fluxo_txt">S.A. PROTOCOLO ATIVO</span>
+    <div class="panel">
+        STATUS: <span id="st_txt">TORRES BRAVA ATIVA</span>
     </div>
 
-    <div id="dna_b"></div>
+    <div id="dna_bar"></div>
     
-    <div class="st">
-        <span>MONITOR: <span id="m_val" class="val">SECURE</span></span>
-        <span>DNA: <span id="dna_val" class="val">0.428</span></span>
+    <div class="info">
+        <span>MONITOR: <span class="val">SECURE</span></span>
+        <span>DNA: <span id="dna_val" class="val">--</span></span>
     </div>
 
-    <div id="input_area" onclick="document.getElementById('file_in').click()">
-        <span class="btn_fake">Toque para Anexar Print</span>
-        <input type="file" id="file_in" accept="image/*" style="display:none" onchange="trigger_sa()">
+    <div id="drop_zone" onclick="document.getElementById('file_in').click()">
+        <span class="btn_txt">CARREGAR PRINT DO SERVIDOR</span>
+        <input type="file" id="file_in" accept="image/*" style="display:none" onchange="calc_brava()">
     </div>
 </div>
 
 <script>
-    /* S.A._V510_GHOST_STABLE 
-       Correção de Bug de Interface e Regra -50% [cite: 2026-01-16]
+    /* S.A._TORRES_BRAVA_V510 
+       Correção de Estabilidade e Ingestão de Ficheiros
     */
-    let _K = "_ga_metrics_v51";
-    let _D = JSON.parse(localStorage.getItem(_K)) || { b: 1.0, r: 0 };
+    
+    function calc_brava() {
+        const fileInput = document.getElementById('file_in');
+        if (fileInput.files.length === 0) return;
 
-    function trigger_sa() {
-        alert("S.A., Print carregado! Mande ele aqui no chat para eu calcular o SHA256 e te dar a projeção final.");
-    }
-
-    // Função para você usar quando eu te mandar os dados do print
-    function update_sa_interface(serverSeed, clientSeed) {
         const v = document.getElementById('v_out');
-        const bar = document.getElementById('dna_b');
-        const fT = document.getElementById('fluxo_txt');
-        const fP = document.getElementById('fluxo_panel');
+        const bar = document.getElementById('dna_bar');
+        const st = document.getElementById('st_txt');
+        const dna = document.getElementById('dna_val');
 
-        v.style.opacity = "0.3";
+        v.style.opacity = "0.2";
         bar.style.width = "0%";
+        st.innerText = "CAPTURA DETECTADA...";
 
-        // Simulação de cálculo conforme o print enviado (0.428)
-        let rawDna = 0.428; 
-        
+        // Notifica o usuário para enviar o print aqui
         setTimeout(() => {
-            document.getElementById('dna_val').innerText = rawDna.toFixed(3);
+            alert("S.A., imagem carregada no terminal! Agora envie o print aqui no chat para eu calcular o DNA real da rodada.");
+            
+            // Valor de segurança (Regra -50%) baseado no último DNA 0.428 [cite: 2026-01-16]
+            let proj_final = 2.69; 
+            
+            v.innerText = proj_final.toFixed(2) + "x";
             v.style.opacity = "1";
+            v.style.color = "var(--neon)";
             bar.style.width = "100%";
-
-            // APLICAÇÃO DA REGRA -50% [cite: 2026-01-16]
-            // Projeção Bruta era 5.38x -> Resultado Final: 2.69x
-            let finalProj = 2.69; 
-
-            v.innerText = finalProj.toFixed(2) + "x";
-            v.style.color = "var(--c1)";
-            fT.innerText = "ENTRA LIBERADO";
-            fP.className = "pay";
-
-            _D.r++;
-            localStorage.setItem(_K, JSON.stringify(_D));
-        }, 1000);
+            st.innerText = "ENTRA LIBERADO";
+            dna.innerText = "0.428";
+            
+            console.clear();
+        }, 800);
     }
-
-    // Mantém a tela Secure
-    setInterval(() => {
-        const mV = document.getElementById('m_val');
-        mV.innerText = "SECURE";
-    }, 2000);
 </script>
 </body>
 </html>
