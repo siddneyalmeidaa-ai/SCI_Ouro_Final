@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A._V510_BRAVA_GHOST</title>
+    <title>S.A._BRAVA_GHOST</title>
     <style>
-        :root { --neon: #00ffcc; --puro: #9d00ff; --alert: #ff0055; --bg: #000; --blur: rgba(0,0,0,0.85); }
+        :root { --neon: #00ffcc; --bg: #000; }
         body { margin: 0; background: #000; font-family: 'Courier New', monospace; color: #fff; overflow: hidden; height: 100vh; }
         
         .container { 
@@ -14,7 +14,7 @@
             background: #000; z-index: 10;
         }
 
-        #v_out { font-size: 72px; font-weight: 900; color: var(--neon); text-shadow: 0 0 20px var(--neon); margin-top: 20px; transition: 0.3s; }
+        #v_out { font-size: 72px; font-weight: 900; color: var(--neon); text-shadow: 0 0 20px var(--neon); margin-top: 20px; }
         
         .panel { 
             margin: 20px 0; padding: 15px; text-align: center; font-weight: bold;
@@ -25,15 +25,53 @@
         
         .info { font-size: 11px; color: #444; display: flex; justify-content: space-between; text-transform: uppercase; font-weight: bold; }
         .val { color: #eee; }
-        .danger { color: var(--alert); animation: blink 0.6s infinite; }
 
-        /* Botão de Ingestão Camuflado */
         #drop_zone {
             margin-top: auto; margin-bottom: 50px; padding: 30px;
             border: 2px dashed #333; border-radius: 15px; text-align: center;
             background: rgba(255,255,255,0.02); cursor: pointer;
         }
-        .btn_txt { font-size: 12px; color: var(--neon); letter-spacing: 2px; font-weight: bold; }
 
-        /* Camada Ghost (Invisibilidade de Print)
-        
+        /* Camada Anti-Print (Invisibilidade) */
+        #ghost_layer {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.01); backdrop-filter: blur(0px);
+            z-index: 9999; pointer-events: none;
+        }
+        .active_ghost { backdrop-filter: blur(4px) !important; background: rgba(0,0,0,0.6) !important; }
+    </style>
+</head>
+<body>
+
+<div id="ghost_layer"></div>
+
+<div class="container">
+    <div id="v_out">2.69x</div>
+    
+    <div class="panel">
+        STATUS: ENTRA LIBERADO
+    </div>
+
+    <div id="dna_bar" style="width: 100%;"></div>
+    
+    <div class="info">
+        <span>MONITOR: <span class="val">SECURE</span></span>
+        <span>DNA: <span class="val">0.428</span></span>
+    </div>
+
+    <div id="drop_zone" onclick="document.getElementById('file_in').click()">
+        <span style="color:var(--neon); font-size:12px; font-weight:bold;">INGESTÃO GHOST ATIVA</span>
+        <input type="file" id="file_in" accept="image/*" style="display:none" onchange="process_ghost()">
+    </div>
+</div>
+
+<script>
+    function process_ghost() {
+        const ghost = document.getElementById('ghost_layer');
+        ghost.className = 'active_ghost';
+        alert("S.A., Print detectado. A camada de invisibilidade foi acionada para proteger a captura.");
+        setTimeout(() => { ghost.className = ''; }, 2000);
+    }
+</script>
+</body>
+</html>
