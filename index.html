@@ -3,17 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A._V510_GHOST_OMNI_TOTAL</title>
+    <title>S.A._V510_GHOST_FULL_STABLE</title>
     <style>
-        :root { --c1: #00ffcc; --c2: #9d00ff; --d: #ff0055; --w: #ffd700; --k: rgba(0,0,0,0.9); }
+        :root { --c1: #00ffcc; --c2: #9d00ff; --d: #ff0055; --w: #ffd700; --k: rgba(0,0,0,0.95); }
         body { margin: 0; background: #000; font-family: 'Courier New', monospace; overflow: hidden; color: #fff; }
         
         /* Interface OMNI Blindada */
         .m-h { 
             position: fixed; top: 0; left: 0; width: 100%; padding: 15px; 
-            z-index: 9999; background: var(--k); 
+            z-index: 999; background: var(--k); 
             border-bottom: 2px solid #1a1a1a;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
 
         #v_out { font-size: 48px; font-weight: 900; color: var(--c1); letter-spacing: -2px; line-height: 1; }
@@ -21,12 +20,11 @@
         #fluxo_panel { 
             margin: 10px 0; padding: 10px; font-size: 13px; text-align: center; 
             font-weight: bold; border-radius: 4px; border: 1px solid #333;
-            transition: 0.3s;
         }
 
         .pay { color: var(--c1); border-color: var(--c1) !important; background: rgba(0, 255, 204, 0.1); }
         .recol { color: var(--w); border-color: var(--w) !important; background: rgba(255, 215, 0, 0.1); }
-        .phantom { color: var(--c2); border-color: var(--c2) !important; background: rgba(157, 0, 255, 0.2); box-shadow: 0 0 15px var(--c2); }
+        .phantom { color: var(--c2); border-color: var(--c2) !important; background: rgba(157, 0, 255, 0.2); }
 
         #dna_b { height: 3px; width: 0%; background: var(--c1); box-shadow: 0 0 10px var(--c1); margin-top: 5px; }
         
@@ -38,17 +36,19 @@
         
         .val { color: #eee; }
         .danger { color: var(--d); animation: blink 0.6s infinite; }
-        
-        /* Botão de Ingestão de Print */
-        .btn_area { margin-top: 140px; text-align: center; }
-        .btn_upload {
-            background: transparent; border: 1px solid #222; color: #333;
-            padding: 8px 15px; font-size: 10px; border-radius: 20px;
-            text-transform: uppercase; cursor: pointer; transition: 0.3s;
-        }
-        .btn_upload:active { background: var(--c1); color: #000; border-color: var(--c1); }
-
         @keyframes blink { 50% { opacity: 0.2; } }
+
+        /* Área de Ingestão de Print Blindada */
+        #upload_trigger {
+            position: fixed; bottom: 0; left: 0; width: 100%; height: 35%; 
+            z-index: 1000; display: flex; align-items: center; justify-content: center;
+            background: rgba(10,10,10,0.5); border-top: 1px dashed #222;
+        }
+        .upload_label {
+            width: 80%; padding: 25px; border: 1px solid #333; color: #444;
+            text-align: center; border-radius: 15px; font-size: 11px;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
     </style>
 </head>
 <body>
@@ -57,7 +57,7 @@
     <div id="v_out">GHOST_WAIT</div>
     
     <div id="fluxo_panel" class="pay">
-        STATUS: <span id="fluxo_txt">AGUARDANDO PRINT...</span>
+        STATUS: <span id="fluxo_txt">SISTEMA PRONTO</span>
     </div>
 
     <div id="dna_b"></div>
@@ -69,14 +69,16 @@
     </div>
 </div>
 
-<div class="btn_area">
-    <label for="file_in" class="btn_upload">Capturar Semente do Print</label>
-    <input type="file" id="file_in" accept="image/*" style="display:none" onchange="trigger_sa()">
+<div id="upload_trigger">
+    <label for="file_in" class="upload_label">
+        Clique aqui para anexar o print
+    </label>
+    <input type="file" id="file_in" accept="image/*" style="opacity: 0; position: absolute; width: 100%; height: 100%; cursor: pointer;" onchange="trigger_sa()">
 </div>
 
 <script>
-    /* S.A._V510_GHOST_OMNI_TOTAL 
-       Regra: -50% Projeção | Limpeza Ghost Ativa
+    /* S.A._V510_GHOST_TOTAL_STABLE
+       Sincronizado: Segunda-feira, 16 de março de 2026, 21:54
     */
     let _K = "_ga_metrics_v51";
     let _D = JSON.parse(localStorage.getItem(_K)) || { b: 1.0, r: 0 };
@@ -87,10 +89,10 @@
     }
 
     function trigger_sa() {
-        alert("S.A., imagem selecionada! Agora anexe ela aqui no chat para eu calcular o SHA256 automaticamente.");
+        alert("S.A., imagem carregada no terminal! Envie o print aqui no chat agora para eu validar o SHA256 e projetar o valor.");
     }
 
-    // Função que eu chamo para atualizar sua tela após ler seu print
+    // Função de Injeção de Dados (Chamar após enviar o print no chat)
     function update_sa_interface(serverSeed, clientSeed) {
         const v = document.getElementById('v_out');
         const bar = document.getElementById('dna_b');
@@ -101,7 +103,6 @@
         bar.style.width = "0%";
         const tStart = performance.now();
 
-        // Cálculo de DNA S.A.
         let combined = serverSeed + clientSeed + _D.r;
         let hash = 0;
         for (let i = 0; i < combined.length; i++) {
@@ -117,13 +118,13 @@
             v.style.opacity = "1";
             bar.style.width = "100%";
 
-            // Aplicação da Regra de -50% [cite: 2026-01-16]
+            // Regra Crítica: -50% na Projeção [cite: 2026-01-16]
             let finalProj = ((rawDna * 10 + 1.1) * _D.b) * 0.5;
 
             if (rawDna < 0.30) {
                 v.innerText = "PULA";
                 v.style.color = "var(--d)";
-                fT.innerText = "VELA FANTASMA";
+                fT.innerText = "ALERTA: VELA FANTASMA";
             } else {
                 v.innerText = finalProj.toFixed(2) + "x";
                 v.style.color = rawDna > 0.90 ? "var(--c2)" : "var(--c1)";
@@ -133,10 +134,10 @@
             _D.r++;
             localStorage.setItem(_K, JSON.stringify(_D));
             _ghost_wipe();
-        }, 800);
+        }, 1000);
     }
 
-    // Monitor de Auditoria
+    // Auditoria de Monitoramento
     setInterval(() => {
         const mV = document.getElementById('m_val');
         const isD = window.outerWidth - window.innerWidth > 150;
@@ -144,7 +145,7 @@
         mV.className = isD ? "val danger" : "val";
     }, 1000);
 
-    // Modo Pânico
+    // Modo Pânico (Toque Triplo)
     document.addEventListener('touchstart', (e) => {
         if (e.touches.length >= 3) {
             document.body.innerHTML = "";
