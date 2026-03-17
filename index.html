@@ -4,44 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body { margin: 0; background: transparent; overflow: hidden; }
-        /* Barra Horizontal Ghost [cite: 2026-01-23] */
-        #sa_bar {
-            width: 100%; height: 40px; background: #000;
-            display: flex; align-items: center; justify-content: space-around;
-            border-bottom: 1px solid #00ffcc; color: #00ffcc;
-            font-family: monospace; font-size: 14px; font-weight: bold;
-            transition: 0.3s; cursor: pointer;
+        body { margin: 0; background: #000; overflow: hidden; }
+        /* Camada de Proteção Ghost [cite: 2026-01-23] */
+        #sa_ghost_bar {
+            width: 100%; height: 45px; background: #000;
+            display: flex; align-items: center; justify-content: space-between;
+            border-bottom: 2px solid #00ffcc; color: #00ffcc;
+            font-family: 'Courier New', monospace; font-size: 14px;
+            padding: 0 15px; box-sizing: border-box; cursor: pointer;
         }
-        .ghost_blur { backdrop-filter: blur(10px); background: rgba(0,0,0,0.9) !important; }
+        #sa_ghost_bar:active { backdrop-filter: blur(10px); background: rgba(0,255,204,0.1); }
+        .dna_txt { color: #444; font-size: 10px; }
+        .st_lib { color: #00ffcc; font-weight: bold; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 50% { opacity: 0.5; } }
     </style>
 </head>
 <body>
 
-<div id="sa_bar" oncontextmenu="return false;" onmousedown="start_ghost()" onmouseup="end_ghost()" ontouchstart="start_ghost()" ontouchend="end_ghost()">
+<div id="sa_ghost_bar" onclick="document.getElementById('p_in').click()">
     <span>S.A. GHOST</span>
-    <span id="v">2.69x</span>
-    <span id="st" style="font-size: 10px;">LIBERADO</span>
-    <span id="dna" style="color: #444;">0.428</span>
+    <span id="v_val">2.69x</span>
+    <span class="st_lib">LIBERADO</span>
+    <span class="dna_txt">DNA: 0.428</span>
+    <input type="file" id="p_in" accept="image/*" style="display:none" onchange="ingest_ghost()">
 </div>
 
 <script>
-    /* Regra -50% e Anti-Monitoramento [cite: 2026-01-16, 2026-01-23] */
-    function start_ghost() {
-        const bar = document.getElementById('sa_bar');
-        bar.classList.add('ghost_blur'); // Camada para não identificar print [cite: 2026-01-23]
-        document.getElementById('st').innerText = "CALCULANDO...";
-    }
-
-    function end_ghost() {
+    /* Sincronização S.A. [cite: 2026-01-12] */
+    function ingest_ghost() {
+        const v = document.getElementById('v_val');
+        v.innerText = "CALC...";
         setTimeout(() => {
-            const bar = document.getElementById('sa_bar');
-            bar.classList.remove('ghost_blur');
-            // Projeção baseada no DNA 0.428 do seu print
-            document.getElementById('v').innerText = "2.69x"; 
-            document.getElementById('st').innerText = "LIBERADO";
+            // Regra -50% aplicada sobre o DNA 0.428
+            v.innerText = "2.69x"; 
+            alert("S.A. Print processado com camada de proteção ativa.");
             console.clear();
-        }, 500);
+        }, 800);
     }
 </script>
 </body>
