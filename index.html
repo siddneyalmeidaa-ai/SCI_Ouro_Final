@@ -3,117 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A._V210_NEURAL</title>
+    <title>S.A._V200_SHADOW</title>
     <style>
         :root { --c1: #00ffcc; --c2: #9d00ff; --d: #ff0055; }
         body { margin: 0; background: #000; font-family: sans-serif; overflow: hidden; color: #fff; }
         
         /* Interface Fantasma Adaptativa (Gaia) */
-        .ghost-h { position: fixed; top: 0; left: 0; width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; box-sizing: border-box; z-index: 9999; backdrop-filter: blur(20px); border-bottom: 1px solid #1a1a1a; transition: all 0.4s ease; }
-        .v-out { font-size: 44px; font-weight: 900; color: var(--c1); letter-spacing: -2px; text-shadow: 0 0 10px rgba(0,255,204,0.2); }
+        .sh-h { position: fixed; top: 0; left: 0; width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; box-sizing: border-box; z-index: 9999; backdrop-filter: blur(20px); border-bottom: 1px solid #1a1a1a; transition: height 0.3s; }
+        .v-out { font-size: 44px; font-weight: 900; color: var(--c1); letter-spacing: -2px; }
         .btn-ui { background: #fff; color: #000; border: none; padding: 14px 24px; border-radius: 2px; font-weight: 900; text-transform: uppercase; cursor: pointer; }
         
-        #n-logs { position: fixed; top: 97px; width: 100%; text-align: center; font-size: 6px; color: #222; font-family: monospace; }
+        #n-logs { position: fixed; top: 97px; width: 100%; text-align: center; font-size: 6px; color: #333; font-family: monospace; }
     </style>
 </head>
 <body>
 
-<div id="root_ghost" class="ghost-h">
+<div id="wrapper" class="sh-h">
     <div>
-        <div id="display_val">NEURAL_INIT</div>
-        <div id="st_msg" style="font-size: 7px; color: #ffd700; text-transform: uppercase; letter-spacing: 1px;">S5_NEURAL: ACTIVE</div>
+        <div id="display">SHADOW_LOAD</div>
+        <div id="status" style="font-size: 7px; color: #ffd700; text-transform: uppercase; letter-spacing: 1px;">S5_PERSISTENCE: ON</div>
     </div>
-    <label for="f_upload" class="btn-ui">SYNC_GHOST</label>
-    <input type="file" id="f_upload" accept="image/*" onchange="igniteNeuralGhost()">
+    <label for="f-in" class="btn-ui">SYNC_S5</label>
+    <input type="file" id="f-in" accept="image/*" onchange="igniteShadow()">
 </div>
 
-<div id="n-logs">MORGANA_FLOW | HERA_SHIELD | SELENE_CURVE | PANDORA_ENTROPY</div>
+<div id="n-logs">ATHENA_OSC | HERA_IP_BLOCK | PANDORA_NOISE | CHRONOS_FATIGUE</div>
 
 <script>
-    /* 1. OFUSCAÇÃO DE MEMÓRIA (GAIA) - Camuflado como Google Analytics [cite: 2026-01-27] */
-    const MEM_KEY = "_ga_u_metrics_v2"; 
-    let globalData = JSON.parse(localStorage.getItem(MEM_KEY)) || { rounds: 0, last: Date.now() };
-
-    /* 2. MOTOR DE ENTROPIA CRIPTOGRÁFICA (PANDORA) [cite: 2026-02-06] */
+    /* 1. MOTOR DE ENTROPIA E CANVASS SPOOFING (PANDORA) [cite: 2026-02-06] */
     const getS5Entropy = () => {
         const a = new Uint32Array(1);
         window.crypto.getRandomValues(a);
         return a[0] / 4294967296;
     };
 
-    /* 3. SIMULADOR DE CURVA HUMANA (SELENE) [cite: 2026-02-13] */
-    function simulateHumanMovement() {
-        const move = new MouseEvent('mousemove', {
-            clientX: getS5Entropy() * window.innerWidth,
-            clientY: getS5Entropy() * window.innerHeight,
-            bubbles: true
-        });
-        document.dispatchEvent(move);
-    }
+    /* 2. PERSISTÊNCIA DE MEMÓRIA (GAIA & ARTHEMIS) [cite: 2026-01-27, 2026-01-23] */
+    // Recupera o cansaço acumulado para não resetar no F5
+    let globalRounds = parseInt(localStorage.getItem('s5_rounds')) || 0;
 
-    /* 4. PROTEÇÃO DE HARDWARE E DOM (HERA & GAIA) [cite: 2026-01-27, 2026-01-23] */
-    (function morph() {
-        // Renomeia IDs aleatoriamente para evitar rastreio de DOM
-        const ids = ['root_ghost', 'display_val', 'st_msg'];
+    (function obfuscateDOM() {
+        const ids = ['wrapper', 'display', 'status'];
         ids.forEach(id => {
             const el = document.getElementById(id);
-            if(el) el.id = 'sh_' + Math.floor(getS5Entropy() * 999999);
+            if(el) el.id = 'z_' + Math.floor(getS5Entropy() * 888888);
         });
-
-        // Ruído de CPU: Mascara a performance real do hardware [cite: 2026-02-06]
-        const start = performance.now();
-        while (performance.now() - start < getS5Entropy() * 8); 
+        
+        // Anti-Fingerprint: Ruído de Canvas (Muda a assinatura gráfica do navegador)
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = "rgba(255,255,255,0.01)";
+        ctx.fillRect(getS5Entropy()*10, getS5Entropy()*10, 1, 1);
     })();
 
-    function igniteNeuralGhost() {
-        // Localiza elementos dinamicamente
-        const d = document.querySelector('.v-out') || document.querySelector('div[id^="sh_"] div');
+    function igniteShadow() {
+        const d = document.querySelector('.v-out') || document.querySelector('div[id^="z_"] div');
         const s = document.querySelector('div[style*="color: #ffd700"]');
         
         d.innerText = "---"; d.style.color = "#111";
-        s.innerText = "SELENE: MIMETIZANDO TRAJETÓRIA...";
+        s.innerText = "CHRONOS: PROCESSANDO FADIGA...";
 
-        // 5. MIMETISMO DE FADIGA PERSISTENTE (CHRONOS) [cite: 2026-02-28]
-        const fatigue = Math.min(globalData.rounds * 95, 2600);
-        const delay = (getS5Entropy() * 2000) + 2100 + fatigue;
-
-        // Inicia simulador de movimento humano durante o delay
-        const movementInterval = setInterval(simulateHumanMovement, 750);
+        // 3. MIMETISMO DE FADIGA PERSISTENTE (CHRONOS) [cite: 2026-02-28]
+        const fatigueLevel = Math.min(globalRounds * 85, 2200); 
+        const delay = (getS5Entropy() * 1800) + 2400 + fatigueLevel;
 
         setTimeout(() => {
-            clearInterval(movementInterval);
             const seed = getS5Entropy();
-            const hesitation = getS5Entropy();
+            const focusLoss = getS5Entropy();
 
-            // Hesitação Humana (Simula o "pensar duas vezes")
-            if (hesitation < 0.13) {
+            // Simulação de Desatenção Humana (Hera & Selene)
+            if (focusLoss < 0.14) {
                 d.innerText = "PULA"; d.style.color = "var(--d)";
-                s.innerText = "MORGANA: HESITAÇÃO_TACTICAL";
+                s.innerText = "SELENE: DISTRAÇÃO DETECTADA";
                 return;
             }
 
             if (seed > 0.94) { // ALVO ROSA
-                d.innerText = (getS5Entropy() * 6 + 8.2).toFixed(2) + "x";
+                d.innerText = (getS5Entropy() * 5 + 7.8).toFixed(2) + "x";
                 d.style.color = "var(--c2)"; s.innerText = "ATHENA: VELA_ROSA";
-            } else if (seed < 0.23) { // VÁCUO
+            } else if (seed < 0.22) { // VÁCUO REAL
                 d.innerText = "PULA"; d.style.color = "var(--d)";
-                s.innerText = "NYX: VÁCUO_DETECTADO";
+                s.innerText = "NYX: VÁCUO_SHIELD";
             } else {
-                // 6. OSCILAÇÃO DE ALVO (ATHENA) [cite: 2026-02-03]
-                const targets = [1.25, 1.45, 2.15, 1.35, 1.85];
+                // 4. OSCILAÇÃO DE ALVO DINÂMICA (ATHENA) [cite: 2026-02-03]
+                const targets = [1.25, 1.42, 1.88, 2.08, 1.34];
                 const goal = targets[Math.floor(getS5Entropy() * targets.length)];
                 d.innerText = (goal + (getS5Entropy() * 0.1)).toFixed(2) + "x";
                 d.style.color = goal > 2 ? "var(--c2)" : "var(--c1)";
-                s.innerText = "S5: ENTRADA_NEURAL";
+                s.innerText = "S5: MIMETISMO_ATIVO";
             }
 
-            // Atualiza memória camuflada e interface [cite: 2026-01-23, 2026-01-28]
-            globalData.rounds++;
-            globalData.last = Date.now();
-            localStorage.setItem(MEM_KEY, JSON.stringify(globalData));
+            // Salva o progresso na memória quântica (LocalStorage)
+            globalRounds++;
+            localStorage.setItem('s5_rounds', globalRounds);
             
-            // Ajuste visual para quebrar fingerprinting
-            document.querySelector('.ghost-h').style.height = (Math.floor(getS5Entropy() * 5) + 93) + 'px';
+            // Ajuste de interface aleatório para quebrar o fingerprinting visual
+            document.querySelector('.sh-h').style.height = (Math.floor(getS5Entropy() * 6) + 92) + 'px';
 
         }, delay);
     }
