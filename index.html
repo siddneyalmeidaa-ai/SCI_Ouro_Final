@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A._V510_GHOST_ANTIMASK</title>
+    <title>S.A._V510_GHOST_OMNI_AUTO</title>
     <style>
         :root { --c1: #00ffcc; --c2: #9d00ff; --d: #ff0055; --w: #ffd700; --k: rgba(0,0,0,0.9); }
         body { margin: 0; background: transparent; font-family: 'Courier New', monospace; overflow: hidden; color: #fff; }
@@ -18,7 +18,6 @@
 
         #v_out { font-size: 48px; font-weight: 900; color: var(--c1); letter-spacing: -2px; line-height: 1; }
         
-        /* Painel de Fluxo e Alerta de Maquiagem */
         #fluxo_panel { 
             margin: 10px 0; padding: 10px; font-size: 13px; text-align: center; 
             font-weight: bold; border-radius: 4px; border: 1px solid #333;
@@ -45,121 +44,103 @@
 <body>
 
 <div id="root" class="m-h">
-    <div id="v_out">GHOST_INIT</div>
+    <div id="v_out">GHOST_WAIT</div>
     
     <div id="fluxo_panel" class="pay">
-        STATUS: <span id="fluxo_txt">SYNC_DATA...</span>
+        STATUS: <span id="fluxo_txt">AGUARDANDO PRINT...</span>
     </div>
 
     <div id="dna_b"></div>
     
     <div class="st">
         <span>MONITOR: <span id="m_val" class="val">SECURE</span></span>
-        <span>TIMER: <span id="t_val" class="val">45S</span></span>
+        <span>DNA: <span id="dna_val" class="val">--</span></span>
         <span>LAT: <span id="l_val" class="val">--</span></span>
     </div>
 </div>
 
 <script>
-    /* S.A._V510_GHOST_OMNI (FULL_ANTIMASK_EDITION)
-       Finalizado em: Segunda-feira, 16 de março de 2026, 13:28
+    /* S.A._V510_GHOST_OMNI_AUTO 
+       Atualizado: Segunda-feira, 16 de março de 2026, 21:28
     */
-    let _T = 45; 
     let _K = "_ga_metrics_v51";
     let _D = JSON.parse(localStorage.getItem(_K)) || { b: 1.0, r: 0 };
 
-    const _S5 = () => {
-        const a = new Uint32Array(1);
-        window.crypto.getRandomValues(a);
-        return a[0] / 4294967296;
-    };
-
-    function _update_stats() {
-        _T--;
-        if(_T < 0) _T = Math.floor(_S5() * 15) + 35; // Reseta ciclo de semente
-        
-        document.getElementById('t_val').innerText = _T + "S";
-        const fP = document.getElementById('fluxo_panel');
-        const fT = document.getElementById('fluxo_txt');
-        
-        // --- DETECTOR DE MAQUIAGEM E VELA FANTASMA ---
-        const isBaitTime = (_T < 10 && _D.r % 4 === 0); // Critério técnico de divergência
-        const isPay = _T > 12;
-
-        if (isBaitTime) {
-            fT.innerText = "ALERTA: VELA FANTASMA (VÁCUO FAKE)";
-            fP.className = "phantom";
-        } else {
-            fT.innerText = isPay ? "PAGAMENTO" : "RECOLHIMENTO";
-            fP.className = isPay ? "pay" : "recol";
-        }
-
-        // Monitor de Auditoria (Detecção de interferência)
-        const mV = document.getElementById('m_val');
-        const isD = window.outerWidth - window.innerWidth > 150;
-        mV.innerText = isD ? "DANGER" : "SECURE";
-        mV.className = isD ? "val danger" : "val";
+    // Módulo de Limpeza Ghost [cite: 2026-02-28]
+    function _ghost_wipe() {
+        if (typeof window.gc === 'function') { window.gc(); }
+        console.clear(); 
     }
 
-    function _run_engine() {
+    // Motor de Cálculo Automático Baseado em Hash SHA256 [cite: 2025-12-29]
+    function calc_from_print(serverSeed, clientSeed) {
         const v = document.getElementById('v_out');
         const bar = document.getElementById('dna_b');
+        const fP = document.getElementById('fluxo_panel');
+        const fT = document.getElementById('fluxo_txt');
         const l = document.getElementById('l_val');
 
         v.style.opacity = "0.3";
         bar.style.width = "0%";
+        
+        const tStart = performance.now();
 
+        // Derivação de semente combinada
+        let combined = serverSeed + clientSeed + _D.r;
+        let hash = 0;
+        for (let i = 0; i < combined.length; i++) {
+            hash = ((hash << 5) - hash) + combined.charCodeAt(i);
+            hash |= 0;
+        }
+        
+        let rawDna = Math.abs(hash % 1000) / 1000;
+        
         setTimeout(() => {
-            const sd = _S5();
-            const tStart = performance.now();
-            
-            // Mimetismo de carga (Impede o corte de semente por inatividade)
-            for(let i=0; i<4000; i++){ Math.tanh(sd); }
-            
             l.innerText = Math.floor(performance.now() - tStart) + "MS";
+            document.getElementById('dna_val').innerText = rawDna.toFixed(3);
             v.style.opacity = "1";
             bar.style.width = "100%";
 
-            // Projeção baseada no DNA acumulado
-            if (sd > 0.94) {
-                const res = (sd * 7 + 11) * _D.b;
-                v.innerText = res.toFixed(2) + "x";
-                v.style.color = "var(--c2)"; // Rosa
+            // Regra de Projeção com Redução de 50% [cite: 2026-01-16]
+            let baseProj = (rawDna * 10 + 1.1) * _D.b;
+            let finalProj = baseProj * 0.5; 
+
+            if (rawDna > 0.92) {
+                v.innerText = finalProj.toFixed(2) + "x";
+                v.style.color = "var(--c2)";
+                fT.innerText = "ENTRA (ALTO)";
+                fP.className = "pay";
                 _D.b += 0.005;
-            } else if (sd < 0.26) {
+            } else if (rawDna < 0.30) {
                 v.innerText = "PULA";
                 v.style.color = "var(--d)";
+                fT.innerText = "VELA FANTASMA";
+                fP.className = "phantom";
                 _D.b -= 0.01;
             } else {
-                const res = (sd * 1.8 + 1.1) * _D.b;
-                v.innerText = res.toFixed(2) + "x";
+                v.innerText = finalProj.toFixed(2) + "x";
                 v.style.color = "var(--c1)";
+                fT.innerText = "ENTRA (NORMAL)";
+                fP.className = "pay";
                 _D.b += 0.002;
             }
 
             _D.r++;
-            if(_D.b < 0.85) _D.b = 0.85;
             localStorage.setItem(_K, JSON.stringify(_D));
-            
-            setTimeout(_run_engine, (_S5() * 9000) + 16000);
-        }, 2500);
+            _ghost_wipe();
+        }, 1200);
     }
 
-    window.onload = () => {
-        setInterval(_update_stats, 1000);
-        _run_engine();
-    };
+    // Monitor de Auditoria
+    setInterval(() => {
+        const mV = document.getElementById('m_val');
+        const isD = window.outerWidth - window.innerWidth > 150;
+        mV.innerText = isD ? "DANGER" : "SECURE";
+        mV.className = isD ? "val danger" : "val";
+    }, 1000);
 
-    // Modo Pânico Mobile (Toque triplo rápido na tela apaga o sistema)
-    let touchCount = 0;
-    document.addEventListener('touchstart', () => {
-        touchCount++;
-        if (touchCount >= 3) {
-            document.getElementById('root').remove();
-            console.log("GHOST_WIPE: CLEAN");
-        }
-        setTimeout(() => { touchCount = 0; }, 600);
-    });
+    // Exemplo de uso manual para teste:
+    // calc_from_print("c71055f37056a38e7a0e0fedad3e809526ecba1b", "CBh5weTybt4VF69sPxbE");
 </script>
 </body>
 </html>
