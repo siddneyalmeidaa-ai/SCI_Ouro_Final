@@ -3,36 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A._V230_MIMIC</title>
+    <title>S.A._V220_SCH</title>
     <style>
         :root { --c1: #00ffcc; --c2: #9d00ff; --d: #ff0055; }
         body { margin: 0; background: #000; font-family: sans-serif; overflow: hidden; color: #fff; }
-        
-        /* Interface Mutante: Posição dinâmica via JS */
-        .mimic-h { position: fixed; top: 0; left: 0; width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 10px 20px; box-sizing: border-box; z-index: 9999; backdrop-filter: blur(25px); border-bottom: 1px solid #1a1a1a; transition: all 0.5s ease-in-out; }
-        .v-out { font-size: 42px; font-weight: 900; color: var(--c1); letter-spacing: -2px; }
-        .btn-ui { background: #fff; color: #000; border: none; padding: 12px 22px; font-weight: 900; text-transform: uppercase; cursor: pointer; transition: transform 0.2s; }
-        
-        #n-logs { position: fixed; bottom: 10px; width: 100%; text-align: center; font-size: 5px; color: #222; opacity: 0.5; }
+        .ghost-h { position: fixed; top: 0; left: 0; width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; box-sizing: border-box; z-index: 9999; backdrop-filter: blur(20px); border-bottom: 1px solid #1a1a1a; }
+        .v-out { font-size: 44px; font-weight: 900; color: var(--c1); letter-spacing: -2px; }
+        .btn-ui { background: #fff; color: #000; border: none; padding: 14px 24px; font-weight: 900; text-transform: uppercase; cursor: pointer; }
     </style>
 </head>
 <body>
 
-<div id="m_root" class="mimic-h">
-    <div id="m_box">
-        <div id="v_display">MIMIC_READY</div>
-        <div id="s_status" style="font-size: 7px; color: #ffd700; text-transform: uppercase;">HERA_MIMIC: ON</div>
+<div id="root_sch" class="ghost-h">
+    <div>
+        <div id="display_val">SCH_WAITING</div>
+        <div id="st_msg" style="font-size: 7px; color: #ffd700; text-transform: uppercase;">AGENDADOR_ATIVO</div>
     </div>
-    <button class="btn-ui" onclick="toggleMimic()">START_V230</button>
+    <button class="btn-ui" onclick="toggleSchedule()">START_AGDA</button>
 </div>
 
-<div id="n-logs">HEATMAP_SHIELD | DISTRACTION_ENGINE | PANDORA_JITTER</div>
-
 <script>
-    /* 1. MEMÓRIA E ENTROPIA [cite: 2026-01-27, 2026-02-06] */
     const MEM_KEY = "_ga_u_metrics_v2";
     let isAutoRunning = false;
-    let globalData = JSON.parse(localStorage.getItem(MEM_KEY)) || { rounds: 0, consecutive_skips: 0 };
+    let globalData = JSON.parse(localStorage.getItem(MEM_KEY)) || { rounds: 0, last: Date.now() };
 
     const getS5Entropy = () => {
         const a = new Uint32Array(1);
@@ -40,109 +33,61 @@
         return a[0] / 4294967296;
     };
 
-    /* 2. MOTOR DE DISTRAÇÃO ERRÁTICA (HERA & SELENE) [cite: 2026-02-13] */
-    function organicDistraction() {
-        if(!isAutoRunning) return;
-        // Simula scroll leve (ajuste de tela)
-        window.scrollBy(0, getS5Entropy() > 0.5 ? 3 : -3);
-        // Simula micro-movimentos de mouse em áreas vazias
-        const move = new MouseEvent('mousemove', {
-            clientX: getS5Entropy() * 100,
-            clientY: getS5Entropy() * 100,
-            bubbles: true
-        });
-        document.dispatchEvent(move);
-    }
-
-    /* 3. INTERFACE MUTANTE (ANTI-HEATMAP) [cite: 2026-02-03] */
-    function mutateUI() {
-        const header = document.querySelector('.mimic-h') || document.querySelector('div[id^="sh_"]');
-        const box = document.querySelector('#m_box') || document.querySelector('div[id^="sh_"] div');
-        
-        // Altera aleatoriamente o padding e a altura para que o clique nunca seja no mesmo pixel
-        header.style.paddingTop = (Math.floor(getS5Entropy() * 15) + 5) + 'px';
-        header.style.paddingBottom = (Math.floor(getS5Entropy() * 15) + 5) + 'px';
-        box.style.marginLeft = (Math.floor(getS5Entropy() * 20) - 10) + 'px';
-    }
-
-    function toggleMimic() {
+    /* 1. MOTOR DE AGENDAMENTO ORGÂNICO (CHRONOS) */
+    function toggleSchedule() {
         isAutoRunning = !isAutoRunning;
         const btn = document.querySelector('.btn-ui');
-        btn.innerText = isAutoRunning ? "STOP_MIMIC" : "START_MIMIC";
+        btn.innerText = isAutoRunning ? "STOP_AGDA" : "START_AGDA";
         btn.style.background = isAutoRunning ? "var(--d)" : "#fff";
-        if(isAutoRunning) {
-            mutateUI();
-            runAutoCycle();
-        }
+        
+        if(isAutoRunning) runAutoCycle();
     }
 
     function runAutoCycle() {
         if(!isAutoRunning) return;
-        
+
+        // Executa a lógica do visor
         igniteNeuralGhost();
+
+        // 2. CALCULA PRÓXIMA RODADA COM "JITTER" (VARIAÇÃO HUMANA)
+        // Agenda para daqui a 15-30 segundos de forma imprevisível
+        const nextTick = (getS5Entropy() * 15000) + 15000; 
         
-        // Agendamento com Jitter agressivo (15s a 45s) [cite: 2026-02-28]
-        const nextTick = (getS5Entropy() * 30000) + 15000;
-        
-        // Injeta distrações aleatórias durante a espera
-        setTimeout(organicDistraction, nextTick / 2);
-        
-        setTimeout(() => {
-            mutateUI(); // Muda a interface antes do próximo ciclo
-            runAutoCycle();
-        }, nextTick);
+        console.log(`Próxima análise em: ${(nextTick/1000).toFixed(1)}s`);
+        setTimeout(runAutoCycle, nextTick);
     }
 
-    /* 4. LÓGICA NEURAL V230 [cite: 2026-01-28, 2026-01-19] */
+    /* 3. LÓGICA NEURAL INTEGRADA (V210 + PERSISTÊNCIA) */
     function igniteNeuralGhost() {
-        const d = document.querySelector('.v-out') || document.querySelector('div[id^="sh_"] div');
-        const s = document.querySelector('div[style*="color: #ffd700"]');
+        const d = document.getElementById('display_val') || document.querySelector('.v-out');
+        const s = document.getElementById('st_msg');
         
-        d.innerText = "---"; d.style.color = "#111";
-        s.innerText = "SELENE: MIMETIZANDO...";
+        d.innerText = "---";
+        s.innerText = "CHRONOS: AGENDADO...";
 
-        const fatigue = Math.min(globalData.rounds * 100, 3000);
-        const delay = (getS5Entropy() * 2500) + 1000 + fatigue;
+        const fatigue = Math.min(globalData.rounds * 95, 2600);
+        const delay = (getS5Entropy() * 2000) + 1500 + fatigue;
 
         setTimeout(() => {
             const seed = getS5Entropy();
             
-            // Proteção de Retenção Morgana [cite: 2025-12-29]
-            if (globalData.consecutive_skips >= 2 && seed < 0.6) {
-                d.innerText = "PAUSE"; d.style.color = "var(--d)";
-                s.innerText = "MORGANA: RESET_WAIT";
-                globalData.consecutive_skips = 0;
-                return;
-            }
-
-            if (seed > 0.93) { // ALVO ROSA
-                d.innerText = (getS5Entropy() * 7 + 8.1).toFixed(2) + "x";
+            if (seed > 0.94) {
+                d.innerText = (getS5Entropy() * 6 + 8).toFixed(2) + "x";
                 d.style.color = "var(--c2)";
-                globalData.consecutive_skips = 0;
-            } else if (seed < 0.25) { // VÁCUO
-                d.innerText = "PULA"; d.style.color = "var(--d)";
-                globalData.consecutive_skips++;
+            } else if (seed < 0.25) {
+                d.innerText = "PULA";
+                d.style.color = "var(--d)";
             } else {
-                const goals = [1.28, 1.45, 2.10, 1.33, 1.95];
-                const g = goals[Math.floor(getS5Entropy() * goals.length)];
-                d.innerText = (g + (getS5Entropy() * 0.1)).toFixed(2) + "x";
-                d.style.color = g > 2 ? "var(--c2)" : "var(--c1)";
-                globalData.consecutive_skips = 0;
+                const goals = [1.25, 1.48, 2.05, 1.33];
+                const goal = goals[Math.floor(getS5Entropy() * 4)];
+                d.innerText = goal.toFixed(2) + "x";
+                d.style.color = goal > 2 ? "var(--c2)" : "var(--c1)";
             }
 
             globalData.rounds++;
             localStorage.setItem(MEM_KEY, JSON.stringify(globalData));
         }, delay);
     }
-
-    // Ofuscação de DOM inicial [cite: 2026-01-27]
-    (function(){
-        const ids = ['m_root', 'v_display', 's_status', 'm_box'];
-        ids.forEach(id => {
-            const el = document.getElementById(id);
-            if(el) el.id = 'sh_' + Math.floor(getS5Entropy() * 99999);
-        });
-    })();
 </script>
 </body>
 </html>
