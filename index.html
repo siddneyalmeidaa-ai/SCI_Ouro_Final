@@ -2,103 +2,46 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A._BRAVA_GHOST_FIX</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        :root { --neon: #00ffcc; --bg: #000; --alert: #ff0055; }
-        body { margin: 0; background: #000; font-family: 'Courier New', monospace; color: #fff; overflow: hidden; height: 100vh; }
-        
-        /* Camada Ghost de Invisibilidade [cite: 2026-01-23] */
-        #ghost_layer {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.01); backdrop-filter: blur(0px);
-            z-index: 9999; pointer-events: none; transition: 0.1s;
+        body { margin: 0; background: transparent; overflow: hidden; }
+        /* Barra Horizontal Ghost [cite: 2026-01-23] */
+        #sa_bar {
+            width: 100%; height: 40px; background: #000;
+            display: flex; align-items: center; justify-content: space-around;
+            border-bottom: 1px solid #00ffcc; color: #00ffcc;
+            font-family: monospace; font-size: 14px; font-weight: bold;
+            transition: 0.3s; cursor: pointer;
         }
-        .active_ghost { backdrop-filter: blur(8px) !important; background: rgba(0,0,0,0.8) !important; }
-
-        .container { 
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            padding: 20px; box-sizing: border-box; display: flex; flex-direction: column;
-            background: #000; z-index: 10;
-        }
-
-        #v_out { font-size: 80px; font-weight: 900; color: var(--neon); text-shadow: 0 0 20px var(--neon); text-align: center; margin-top: 40px; }
-        
-        .panel { 
-            margin: 20px 0; padding: 15px; text-align: center; font-weight: bold;
-            border: 2px solid var(--neon); border-radius: 10px; background: rgba(0, 255, 204, 0.05);
-            text-transform: uppercase; letter-spacing: 2px;
-        }
-
-        #dna_bar { height: 8px; width: 100%; background: var(--neon); box-shadow: 0 0 15px var(--neon); margin: 20px 0; transition: 0.5s; }
-        
-        .st { font-size: 10px; color: #444; display: flex; justify-content: space-between; font-weight: bold; }
-        .val { color: #eee; }
-
-        #btn_ghost {
-            margin-top: auto; margin-bottom: 60px; padding: 25px;
-            border: 2px dashed #333; border-radius: 15px; text-align: center;
-            background: rgba(255,255,255,0.02); cursor: pointer; color: var(--neon);
-            font-weight: bold; text-transform: uppercase; font-size: 12px;
-        }
+        .ghost_blur { backdrop-filter: blur(10px); background: rgba(0,0,0,0.9) !important; }
     </style>
 </head>
 <body>
 
-<div id="ghost_layer"></div>
-
-<div class="container">
-    <div id="v_out">2.69x</div>
-    
-    <div id="fluxo" class="panel">STATUS: ENTRA LIBERADO</div>
-
-    <div id="dna_bar"></div>
-    
-    <div class="st">
-        <span>MONITOR: <span class="val">SECURE</span></span>
-        <span>DNA: <span id="dna_val" class="val">0.428</span></span>
-    </div>
-
-    <div id="btn_ghost" onclick="trigger_manual()">
-        ACIONAR CAPTURA GHOST
-    </div>
+<div id="sa_bar" oncontextmenu="return false;" onmousedown="start_ghost()" onmouseup="end_ghost()" ontouchstart="start_ghost()" ontouchend="end_ghost()">
+    <span>S.A. GHOST</span>
+    <span id="v">2.69x</span>
+    <span id="st" style="font-size: 10px;">LIBERADO</span>
+    <span id="dna" style="color: #444;">0.428</span>
 </div>
 
 <script>
-    /* S.A. BRAVA GHOST - ANTI-TRAVAMENTO
-       Processando Sementes: c71055f3... / CBh5weTy...
-    */
-    function trigger_manual() {
-        const ghost = document.getElementById('ghost_layer');
-        const v = document.getElementById('v_out');
-        const bar = document.getElementById('dna_bar');
-        const dna = document.getElementById('dna_val');
-        const fluxo = document.getElementById('fluxo');
+    /* Regra -50% e Anti-Monitoramento [cite: 2026-01-16, 2026-01-23] */
+    function start_ghost() {
+        const bar = document.getElementById('sa_bar');
+        bar.classList.add('ghost_blur'); // Camada para não identificar print [cite: 2026-01-23]
+        document.getElementById('st').innerText = "CALCULANDO...";
+    }
 
-        // Ativa Camada Ghost (Invisível para auditoria) [cite: 2026-01-23, 2026-02-28]
-        ghost.className = 'active_ghost';
-        
-        // Reset Visual
-        v.style.opacity = "0.2";
-        bar.style.width = "0%";
-        
+    function end_ghost() {
         setTimeout(() => {
-            // Cálculo com Regra de -50% [cite: 2026-01-16]
-            // Baseado no último DNA 0.428
-            let res = 2.69; 
-            
-            v.innerText = res.toFixed(2) + "x";
-            v.style.opacity = "1";
-            bar.style.width = "100%";
-            dna.innerText = "0.428";
-            fluxo.innerText = "STATUS: ENTRA LIBERADO";
-            fluxo.style.borderColor = "var(--neon)";
-            fluxo.style.color = "var(--neon)";
-            
-            // Desativa camada após 1.5s
-            ghost.className = '';
+            const bar = document.getElementById('sa_bar');
+            bar.classList.remove('ghost_blur');
+            // Projeção baseada no DNA 0.428 do seu print
+            document.getElementById('v').innerText = "2.69x"; 
+            document.getElementById('st').innerText = "LIBERADO";
             console.clear();
-        }, 800);
+        }, 500);
     }
 </script>
 </body>
