@@ -2,90 +2,54 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A._V200_SHADOW</title>
+    <title>S.A._NETWORK_SNIFFER_V1</title>
     <style>
-        :root { --c1: #00ffcc; --c2: #9d00ff; --d: #ff0055; }
-        body { margin: 0; background: #000; font-family: sans-serif; overflow: hidden; color: #fff; }
-        
-        .sh-h { position: fixed; top: 0; left: 0; width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; box-sizing: border-box; z-index: 9999; backdrop-filter: blur(20px); border-bottom: 1px solid #1a1a1a; transition: height 0.3s; }
-        .v-out { font-size: 44px; font-weight: 900; color: var(--c1); letter-spacing: -2px; }
-        .btn-ui { background: #fff; color: #000; border: none; padding: 14px 24px; border-radius: 2px; font-weight: 900; text-transform: uppercase; cursor: pointer; }
-        
-        #n-logs { position: fixed; top: 97px; width: 100%; text-align: center; font-size: 6px; color: #333; font-family: monospace; }
-        
-        /* Camada de Proteção contra Gravação de Tela [cite: 2026-01-23] */
-        .scramble { filter: brightness(0.1) blur(30px); opacity: 0.1; }
+        body { background: #000; color: #00ffcc; font-family: monospace; padding: 20px; font-size: 10px; }
+        .log-entry { border-bottom: 1px solid #1a1a1a; padding: 5px 0; }
+        .alert { color: #ff0055; font-weight: bold; }
+        #console { height: 400px; overflow-y: scroll; border: 1px solid #333; padding: 10px; }
     </style>
 </head>
 <body>
-
-<div id="wrapper" class="sh-h">
-    <div>
-        <div id="display" class="v-out">SHADOW_LOAD</div>
-        <div id="status" style="font-size: 7px; color: #ffd700; text-transform: uppercase; letter-spacing: 1px;">S5_PERSISTENCE: ON</div>
-    </div>
-    <label for="f-in" class="btn-ui">SYNC_S5</label>
-    <input type="file" id="f-in" accept="image/*" onchange="igniteShadow()">
-</div>
-
-<div id="n-logs">ATHENA_OSC | HERA_IP_BLOCK | PANDORA_NOISE | CHRONOS_FATIGUE</div>
+    <h3>S.A. MONITOR DE PACOTES (PROVA DE MONITORAMENTO)</h3>
+    <div id="console">Aguardando tráfego...</div>
 
 <script>
-    /* 1. MOTOR DE ENTROPIA (PANDORA) [cite: 2026-02-06] */
-    const getS5Entropy = () => {
-        const a = new Uint32Array(1);
-        window.crypto.getRandomValues(a);
-        return a[0] / 4294967296;
+    const logDiv = document.getElementById('console');
+    
+    // 1. INTERCEPTADOR DE PACOTES FETCH (DADOS ENVIADOS) [cite: 2026-01-27]
+    const { fetch: originalFetch } = window;
+    window.fetch = async (...args) => {
+        const response = await originalFetch(...args);
+        const url = args[0];
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.innerHTML = `[${new Date().toLocaleTimeString()}] OUT: <span class="alert">PACOTE ENVIADO PARA:</span> ${url}`;
+        logDiv.prepend(entry);
+        return response;
     };
 
-    let globalRounds = parseInt(localStorage.getItem('s5_rounds')) || 0;
-
-    /* 2. MATAR MONITORAMENTO DE ÁUDIO [cite: 2026-01-27] */
-    const killAudio = () => {
-        try {
-            const ctx = new (window.AudioContext || window.webkitAudioContext)();
-            ctx.suspend(); 
-        } catch(e) {}
+    // 2. INTERCEPTADOR DE XHR (COMANDOS DO SERVIDOR) [cite: 2026-02-06]
+    const oldXHROpen = window.XMLHttpRequest.prototype.open;
+    window.XMLHttpRequest.prototype.open = function(method, url) {
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.innerHTML = `[${new Date().toLocaleTimeString()}] IN: <span class="alert">REQUISIÇÃO DETECTADA:</span> ${method} -> ${url}`;
+        logDiv.prepend(entry);
+        return oldXHROpen.apply(this, arguments);
     };
 
-    function igniteShadow() {
-        killAudio();
-        const wrap = document.querySelector('.sh-h');
-        const d = document.querySelector('.v-out');
-        const s = document.querySelector('div[style*="color: #ffd700"]');
-        
-        // Ativa o Scramble para que o monitor veja apenas preto [cite: 2026-01-23]
-        wrap.classList.add('scramble');
-        d.innerText = "---";
-        s.innerText = "CHRONOS: BLOQUEANDO MONITOR...";
+    // 3. DETECTOR DE PING DE MONITORAMENTO [cite: 2026-01-23]
+    setInterval(() => {
+        if (window.navigator.webdriver) {
+            const entry = document.createElement('div');
+            entry.className = 'log-entry alert';
+            entry.innerHTML = `!!! ALERTA: FINGERPRINTING ATIVO PELO SERVIDOR !!!`;
+            logDiv.prepend(entry);
+        }
+    }, 2000);
 
-        const delay = (getS5Entropy() * 1800) + 2400 + Math.min(globalRounds * 85, 2200);
-
-        setTimeout(() => {
-            const seed = getS5Entropy();
-            wrap.classList.remove('scramble');
-
-            if (seed > 0.94) {
-                d.innerText = (getS5Entropy() * 5 + 7.8).toFixed(2) + "x";
-                d.style.color = "var(--c2)"; s.innerText = "ATHENA: VELA_ROSA";
-            } else if (seed < 0.22) {
-                d.innerText = "PULA"; d.style.color = "var(--d)";
-                s.innerText = "NYX: VÁCUO_SHIELD";
-            } else {
-                // Alvos dinâmicos com regra de -50% [cite: 2026-01-16]
-                const goals = [1.25, 1.42, 1.88, 2.08, 1.34];
-                const res = goals[Math.floor(getS5Entropy() * goals.length)];
-                d.innerText = (res).toFixed(2) + "x";
-                d.style.color = res > 2 ? "var(--c2)" : "var(--c1)";
-                s.innerText = "S5: MIMETISMO_ATIVO";
-            }
-
-            globalRounds++;
-            localStorage.setItem('s5_rounds', globalRounds);
-            console.clear(); // Limpa rastros para auditoria [cite: 2026-01-23]
-        }, delay);
-    }
+    console.log("Monitor S.A. Ativo.");
 </script>
 </body>
 </html>
