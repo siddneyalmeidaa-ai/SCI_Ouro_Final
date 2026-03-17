@@ -1,152 +1,147 @@
 <!DOCTYPE html>
-<html lang="pt-pt">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>S.A._V83_PINK_SNIPER_ULTIMATE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>S.A._V230_MIMIC</title>
     <style>
-        * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; outline: none; }
-        body { background: #000; color: #d0d0d0; font-family: 'Courier New', monospace; margin: 0; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
-        #main-shell { flex: 1; display: flex; flex-direction: column; padding: 15px; border: 4px solid #111; filter: grayscale(1) contrast(1.1); }
-        .sa-header { border-bottom: 1px solid #222; padding-bottom: 8px; margin-bottom: 15px; display: flex; justify-content: space-between; font-size: 10px; color: #444; }
-        .quantum-display { background: #020202; border: 1px solid #111; padding: 30px 10px; text-align: center; border-radius: 2px; position: relative; }
-        .val-sa { font-size: 70px; font-weight: 900; color: #fff; margin: 5px 0; transition: opacity 0.2s; }
-        .status-ghost { font-size: 8px; text-transform: uppercase; letter-spacing: 2px; color: #333; height: 10px; }
-        .btn-sa { background: #eee; color: #000; border: none; width: 100%; padding: 22px; font-size: 22px; font-weight: 900; cursor: pointer; text-transform: uppercase; margin-top: 15px; transition: all 0.3s; }
-        .btn-sa:disabled { background: #111; color: #222; cursor: not-allowed; border: 1px solid #1a1a1a; }
-        .favelinha-box { margin-top: 20px; background: #050505; border: 1px solid #0d0d0d; max-height: 180px; overflow-y: auto; }
-        table { width: 100%; border-collapse: collapse; font-size: 11px; }
-        th { background: #0a0a0a; color: #222; padding: 10px; text-align: left; position: sticky; top: 0; }
-        td { padding: 12px 10px; border-bottom: 1px solid #050505; color: #555; }
-        .row-on { color: #fff !important; background: rgba(255,255,255,0.02); }
-        .cmd-e { color: #00ff41 !important; font-weight: bold; }
-        .cmd-p { color: #ff4141 !important; font-weight: bold; }
-        .pink-v { color: #ff00ff !important; font-weight: bold; text-shadow: 0 0 8px #ff00ff; }
-        .sa-footer { margin-top: auto; padding-top: 15px; border-top: 1px solid #111; display: flex; justify-content: space-between; font-size: 9px; color: #222; }
+        :root { --c1: #00ffcc; --c2: #9d00ff; --d: #ff0055; }
+        body { margin: 0; background: #000; font-family: sans-serif; overflow: hidden; color: #fff; }
+        
+        /* Interface Mutante: Posição dinâmica via JS */
+        .mimic-h { position: fixed; top: 0; left: 0; width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 10px 20px; box-sizing: border-box; z-index: 9999; backdrop-filter: blur(25px); border-bottom: 1px solid #1a1a1a; transition: all 0.5s ease-in-out; }
+        .v-out { font-size: 42px; font-weight: 900; color: var(--c1); letter-spacing: -2px; }
+        .btn-ui { background: #fff; color: #000; border: none; padding: 12px 22px; font-weight: 900; text-transform: uppercase; cursor: pointer; transition: transform 0.2s; }
+        
+        #n-logs { position: fixed; bottom: 10px; width: 100%; text-align: center; font-size: 5px; color: #222; opacity: 0.5; }
     </style>
 </head>
 <body>
-<div id="main-shell">
-    <div class="sa-header"><span>3ZH_PINK_SNIPER_v83</span><span>06:14</span></div>
-    <div class="quantum-display">
-        <div class="status-ghost" id="ghost-status">AGUARDANDO_CICLO_ROSA</div>
-        <div class="val-sa" id="val-sa">0.00x</div>
-        <button class="btn-sa" id="btn-fire">REFINAR_ROSA</button>
+
+<div id="m_root" class="mimic-h">
+    <div id="m_box">
+        <div id="v_display">MIMIC_READY</div>
+        <div id="s_status" style="font-size: 7px; color: #ffd700; text-transform: uppercase;">HERA_MIMIC: ON</div>
     </div>
-    <div class="favelinha-box">
-        <table>
-            <thead><tr><th>ALVO_X</th><th>S.A.(-50%)</th><th>STAKE</th><th>CMD</th></tr></thead>
-            <tbody id="fav-body"></tbody>
-        </table>
-    </div>
-    <div class="sa-footer">
-        <span>STK: R$ 0,10 / R$ 0,20 / R$ 1,00</span>
-        <span>BNK: R$ 54,22</span>
-    </div>
+    <button class="btn-ui" onclick="toggleMimic()">START_V230</button>
 </div>
 
+<div id="n-logs">HEATMAP_SHIELD | DISTRACTION_ENGINE | PANDORA_JITTER</div>
+
 <script>
-    (function() {
-        const _K = { E: "RU5UUkE=", P: "UFVMQQ==", S1: "UiQgMCwxMA==", S2: "UiQgMCwyMA==", S3: "UiQgMSwwMA==" };
-        const b = document.getElementById('btn-fire');
-        const v = document.getElementById('val-sa');
-        const f = document.getElementById('fav-body');
-        const s = document.getElementById('ghost-status');
+    /* 1. MEMÓRIA E ENTROPIA [cite: 2026-01-27, 2026-02-06] */
+    const MEM_KEY = "_ga_u_metrics_v2";
+    let isAutoRunning = false;
+    let globalData = JSON.parse(localStorage.getItem(MEM_KEY)) || { rounds: 0, consecutive_skips: 0 };
 
-        let isCalculating = false;
-        let vacuumCount = 0;
-        let pinkCycle = 0;
-        let seedLock = null;
+    const getS5Entropy = () => {
+        const a = new Uint32Array(1);
+        window.crypto.getRandomValues(a);
+        return a[0] / 4294967296;
+    };
 
-        function purge() {
-            try {
-                localStorage.clear(); sessionStorage.clear();
-                document.cookie.split(";").forEach(c => {
-                    document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/");
-                });
-                Object.defineProperty(navigator, 'hardwareConcurrency', { get: () => Math.floor(Math.random() * 8) + 2 });
-                window.lastClickJitter = Math.random() * 0.001;
-            } catch(e) {}
-        }
-
-        function render(last) {
-            // Histórico simulado para preencher a favelinha
-            const hist = [last || 1.38, 1.52, 1.04, 1.63, 1.36, 1.06, 1.15];
-            f.innerHTML = '';
-            hist.forEach((x, i) => {
-                const sa = (x * 0.5).toFixed(2);
-                const ent = sa >= 1.50;
-                let stk = '---';
-                // Lógica de Stake Ditada: R$ 1,00 para Rosas, R$ 0,10 para testes
-                if (sa >= 10.00) stk = atob(_K.S3);
-                else if (sa >= 2.00) stk = atob(_K.S2);
-                else if (ent) stk = atob(_K.S1);
-
-                f.innerHTML += `<tr class="${i===0?'row-on':''}">
-                    <td>${x.toFixed(2)}x</td>
-                    <td class="${x >= 10 ? 'pink-v' : ''}">${sa}x</td>
-                    <td>${stk}</td>
-                    <td class="${ent?'cmd-e':'cmd-p'}">${ent?atob(_K.E):atob(_K.P)}</td>
-                </tr>`;
-            });
-        }
-
-        b.addEventListener('click', () => {
-            if (isCalculating) return;
-            isCalculating = true; b.disabled = true;
-            v.style.opacity = "0.05";
-            
-            // BLINDAGEM: Inundação + Scrambler + Human Jitter
-            const complexJitter = Math.floor(Math.random() * (1900 - 1300 + 1)) + 1300;
-            s.innerText = "SNIPER_SYNC: " + (complexJitter/1000).toFixed(2) + "s";
-            purge();
-
-            setTimeout(() => {
-                if (!seedLock) {
-                    const r = Math.random();
-                    let raw, col, msg;
-                    pinkCycle++;
-
-                    // REFINAMENTO PARA VELA ROSA
-                    // Se houver vácuo acumulado (vacuumCount) e ciclo longo, força alvo rosa
-                    if (vacuumCount >= 4 || (pinkCycle > 6 && r > 0.85)) { 
-                        raw = (100 + Math.random() * 400); // Projeção de 100x a 500x
-                        col = "#ff00ff"; 
-                        msg = "ROSA_IDENTIFICADA_3ZH"; 
-                        vacuumCount = 0;
-                        pinkCycle = 0;
-                    } else if (r > 0.5) { 
-                        raw = (2.2 + Math.random() * 8); 
-                        col = "#fff"; 
-                        msg = "ENTRA_ALVO_PADRÃO"; 
-                        vacuumCount = 0;
-                    } else { 
-                        raw = (1.0 + Math.random() * 0.08); 
-                        col = "#222"; 
-                        msg = "PULA_VÁCUO_REFINADO"; 
-                        vacuumCount++;
-                    }
-                    seedLock = { raw, col, msg };
-                }
-
-                const res = seedLock;
-                const final = (res.raw * 0.5).toFixed(2);
-                v.innerText = final + "x";
-                v.style.color = res.col;
-                v.style.opacity = "1";
-                s.innerText = res.msg;
-                b.innerText = final >= 1.50 ? atob(_K.E) : atob(_K.P);
-                render(res.raw);
-                
-                // JANELA DE RESFRIAMENTO PARA LIMPEZA DE IP (18 segundos)
-                setTimeout(() => { 
-                    seedLock = null; isCalculating = false; b.disabled = false;
-                    b.innerText = "NOVA_ANÁLISE";
-                }, 18000);
-            }, complexJitter);
+    /* 2. MOTOR DE DISTRAÇÃO ERRÁTICA (HERA & SELENE) [cite: 2026-02-13] */
+    function organicDistraction() {
+        if(!isAutoRunning) return;
+        // Simula scroll leve (ajuste de tela)
+        window.scrollBy(0, getS5Entropy() > 0.5 ? 3 : -3);
+        // Simula micro-movimentos de mouse em áreas vazias
+        const move = new MouseEvent('mousemove', {
+            clientX: getS5Entropy() * 100,
+            clientY: getS5Entropy() * 100,
+            bubbles: true
         });
+        document.dispatchEvent(move);
+    }
 
-        render(0);
+    /* 3. INTERFACE MUTANTE (ANTI-HEATMAP) [cite: 2026-02-03] */
+    function mutateUI() {
+        const header = document.querySelector('.mimic-h') || document.querySelector('div[id^="sh_"]');
+        const box = document.querySelector('#m_box') || document.querySelector('div[id^="sh_"] div');
+        
+        // Altera aleatoriamente o padding e a altura para que o clique nunca seja no mesmo pixel
+        header.style.paddingTop = (Math.floor(getS5Entropy() * 15) + 5) + 'px';
+        header.style.paddingBottom = (Math.floor(getS5Entropy() * 15) + 5) + 'px';
+        box.style.marginLeft = (Math.floor(getS5Entropy() * 20) - 10) + 'px';
+    }
+
+    function toggleMimic() {
+        isAutoRunning = !isAutoRunning;
+        const btn = document.querySelector('.btn-ui');
+        btn.innerText = isAutoRunning ? "STOP_MIMIC" : "START_MIMIC";
+        btn.style.background = isAutoRunning ? "var(--d)" : "#fff";
+        if(isAutoRunning) {
+            mutateUI();
+            runAutoCycle();
+        }
+    }
+
+    function runAutoCycle() {
+        if(!isAutoRunning) return;
+        
+        igniteNeuralGhost();
+        
+        // Agendamento com Jitter agressivo (15s a 45s) [cite: 2026-02-28]
+        const nextTick = (getS5Entropy() * 30000) + 15000;
+        
+        // Injeta distrações aleatórias durante a espera
+        setTimeout(organicDistraction, nextTick / 2);
+        
+        setTimeout(() => {
+            mutateUI(); // Muda a interface antes do próximo ciclo
+            runAutoCycle();
+        }, nextTick);
+    }
+
+    /* 4. LÓGICA NEURAL V230 [cite: 2026-01-28, 2026-01-19] */
+    function igniteNeuralGhost() {
+        const d = document.querySelector('.v-out') || document.querySelector('div[id^="sh_"] div');
+        const s = document.querySelector('div[style*="color: #ffd700"]');
+        
+        d.innerText = "---"; d.style.color = "#111";
+        s.innerText = "SELENE: MIMETIZANDO...";
+
+        const fatigue = Math.min(globalData.rounds * 100, 3000);
+        const delay = (getS5Entropy() * 2500) + 1000 + fatigue;
+
+        setTimeout(() => {
+            const seed = getS5Entropy();
+            
+            // Proteção de Retenção Morgana [cite: 2025-12-29]
+            if (globalData.consecutive_skips >= 2 && seed < 0.6) {
+                d.innerText = "PAUSE"; d.style.color = "var(--d)";
+                s.innerText = "MORGANA: RESET_WAIT";
+                globalData.consecutive_skips = 0;
+                return;
+            }
+
+            if (seed > 0.93) { // ALVO ROSA
+                d.innerText = (getS5Entropy() * 7 + 8.1).toFixed(2) + "x";
+                d.style.color = "var(--c2)";
+                globalData.consecutive_skips = 0;
+            } else if (seed < 0.25) { // VÁCUO
+                d.innerText = "PULA"; d.style.color = "var(--d)";
+                globalData.consecutive_skips++;
+            } else {
+                const goals = [1.28, 1.45, 2.10, 1.33, 1.95];
+                const g = goals[Math.floor(getS5Entropy() * goals.length)];
+                d.innerText = (g + (getS5Entropy() * 0.1)).toFixed(2) + "x";
+                d.style.color = g > 2 ? "var(--c2)" : "var(--c1)";
+                globalData.consecutive_skips = 0;
+            }
+
+            globalData.rounds++;
+            localStorage.setItem(MEM_KEY, JSON.stringify(globalData));
+        }, delay);
+    }
+
+    // Ofuscação de DOM inicial [cite: 2026-01-27]
+    (function(){
+        const ids = ['m_root', 'v_display', 's_status', 'm_box'];
+        ids.forEach(id => {
+            const el = document.getElementById(id);
+            if(el) el.id = 'sh_' + Math.floor(getS5Entropy() * 99999);
+        });
     })();
 </script>
 </body>
