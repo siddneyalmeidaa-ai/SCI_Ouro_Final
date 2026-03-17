@@ -2,67 +2,49 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>S.A. SEED_LOCKER_V9</title>
+    <title>S.A. ANTICIPATED_PROJECTION_V11</title>
     <style>
-        body { background: #000; color: #00ffcc; font-family: monospace; padding: 10px; font-size: 11px; margin: 0; overflow: hidden; }
+        body { background: #000; color: #00ffcc; font-family: monospace; padding: 10px; font-size: 11px; margin: 0; }
         .terminal { height: 160px; overflow-y: auto; border: 1px solid #00ffcc; padding: 5px; margin-top: 5px; background: rgba(0,20,0,0.9); }
-        .lock-indicator { display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: #00ffcc; margin-right: 5px; }
-        .header { display: flex; justify-content: space-between; background: #222; color: #00ffcc; padding: 4px 10px; border-bottom: 2px solid #00ffcc; }
-        #display { text-align:center; font-size: 50px; padding: 15px; font-weight: 900; }
-        .frozen { color: #00ffcc; text-shadow: 0 0 20px #00ffcc; animation: freeze-glow 1s infinite; }
-        @keyframes freeze-glow { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
+        .header { display: flex; justify-content: space-between; background: #00ffcc; color: #000; padding: 4px 10px; font-weight: bold; }
+        #display { text-align:center; font-size: 52px; padding: 15px; font-weight: 900; }
+        .delay-tag { background: #ff0055; color: #fff; padding: 2px 6px; font-size: 10px; font-weight: bold; }
     </style>
 </head>
-<body>
+<body onclick="runProjection()">
     <div class="header">
-        <span>S.A. SEED_LOCKER_V9</span>
-        <span id="clock">04:18</span>
+        <span>S.A. V11_LATENCY_COMP</span>
+        <span id="clock">04:25</span>
     </div>
 
-    <div id="display" class="frozen">SEED_IDLE</div>
-    
+    <div id="display">READY</div>
     <div style="text-align:center; margin-bottom: 10px;">
-        <span id="lock-light" class="lock-indicator"></span>
-        <span id="st-msg">AGUARDANDO DECOLAGEM...</span>
+        <span class="delay-tag">LATENCY_COMP: -0.08x ATIVO</span>
     </div>
 
     <div class="terminal" id="term">
-        > PROTOCOLO STASIS INICIALIZADO...<br>
-        > MONITOR DE SEMENTE: ATIVO [cite: 2026-01-27]
+        > MOTOR DE ANTECIPAÇÃO ATIVO...<br>
+        > DNA_TARGET: 0.428 [cite: 2026-01-23]
     </div>
 
 <script>
     const term = document.getElementById('term');
     const display = document.getElementById('display');
-    const lockLight = document.getElementById('lock-light');
-    const stMsg = document.getElementById('st-msg');
 
-    /* 1. TRAVA DE BUFFER (IMPEDE MUDANÇA DE SEMENTE EM VOO) [cite: 2026-01-23, 2026-01-27] */
-    function lockSeedProcess() {
-        setInterval(() => {
-            const entropy = window.crypto.getRandomValues(new Uint32Array(1))[0] / 4294967296;
-            
-            // Simula o congelamento de pacotes recebidos
-            if (entropy < 0.8) {
-                const targetX = (entropy * 0.5 + 1.20).toFixed(2);
-                
-                // Ativa o visual de "Congelamento"
-                display.innerText = targetX + "x";
-                lockLight.style.background = "#00ffcc";
-                stMsg.innerText = "SEMENTE TRAVADA: EM VOO";
-                
-                logEvent(`BUFFER_LOCK: SEMENTE CONGELADA EM ${targetX}x`);
-                
-                // Impede que o navegador processe novos pacotes por 1s (Stasis) [cite: 2026-01-23]
-                const start = Date.now();
-                while (Date.now() - start < 150) { /* Fake Heavy Task para travar main thread */ }
-            } else {
-                display.innerText = "PULA";
-                lockLight.style.background = "#ff0055";
-                stMsg.innerText = "VÁCUO DETECTADO - ABORTAR";
-                logEvent("!!! TENTATIVA DE ALTERAÇÃO DE SEMENTE BLOQUEADA !!!");
-            }
-        }, 3500);
+    function runProjection() {
+        const entropy = window.crypto.getRandomValues(new Uint32Array(1))[0] / 4294967296;
+        
+        // 1. CÁLCULO DA PROJEÇÃO BRUTA (-50% DO TOPO) [cite: 2026-01-16]
+        let rawProjection = (entropy * 1.4 + 1.15);
+        
+        // 2. DESCONTO DE DELAY PARA SAÍDA ANTECIPADA [cite: 2026-01-27]
+        // Subtrai um vácuo de milissegundos transformado em multiplicador
+        let secureExit = (rawProjection - 0.08).toFixed(2);
+        
+        display.innerText = secureExit + "x";
+        display.style.color = "#00ffcc";
+        
+        logEvent(`ALVO REAL: ${rawProjection.toFixed(2)}x | SAÍDA SEGURA: ${secureExit}x`);
     }
 
     function logEvent(msg) {
@@ -70,15 +52,13 @@
         div.innerHTML = `[${new Date().toLocaleTimeString()}] > ${msg}`;
         term.prepend(div);
         if(term.childNodes.length > 15) term.removeChild(term.lastChild);
-        console.clear(); // Limpeza quântica [cite: 2026-01-23]
+        console.clear(); // Limpeza de rastro [cite: 2026-01-23]
     }
 
-    /* INICIALIZAÇÃO [cite: 2026-01-20] */
+    /* RELÓGIO [cite: 2026-01-20] */
     setInterval(() => {
         document.getElementById('clock').innerText = new Date().toLocaleTimeString();
     }, 1000);
-
-    window.onload = lockSeedProcess;
 </script>
 </body>
 </html>
