@@ -2,67 +2,83 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>S.A. MONITOR_OURO_V7</title>
+    <title>S.A. SEED_LOCKER_V9</title>
     <style>
-        body { background: #000; color: #00ffcc; font-family: monospace; padding: 10px; font-size: 11px; margin: 0; }
-        .terminal { height: 150px; overflow-y: auto; border: 1px solid #ff0055; padding: 5px; margin-top: 10px; background: rgba(10,0,0,0.9); }
-        .config-panel { border: 1px solid #00ffcc; padding: 10px; margin-bottom: 10px; }
-        input { background: #111; border: 1px solid #00ffcc; color: #00ffcc; width: 90%; margin: 5px 0; padding: 5px; font-size: 10px; }
-        .header { display: flex; justify-content: space-between; background: #00ffcc; color: #000; padding: 4px 10px; font-weight: bold; }
-        #display { text-align:center; font-size: 40px; padding: 10px; font-weight: 900; }
-        .btn-sync { background: #00ffcc; color: #000; border: none; padding: 10px; width: 100%; font-weight: bold; cursor: pointer; }
+        body { background: #000; color: #00ffcc; font-family: monospace; padding: 10px; font-size: 11px; margin: 0; overflow: hidden; }
+        .terminal { height: 160px; overflow-y: auto; border: 1px solid #00ffcc; padding: 5px; margin-top: 5px; background: rgba(0,20,0,0.9); }
+        .lock-indicator { display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: #00ffcc; margin-right: 5px; }
+        .header { display: flex; justify-content: space-between; background: #222; color: #00ffcc; padding: 4px 10px; border-bottom: 2px solid #00ffcc; }
+        #display { text-align:center; font-size: 50px; padding: 15px; font-weight: 900; }
+        .frozen { color: #00ffcc; text-shadow: 0 0 20px #00ffcc; animation: freeze-glow 1s infinite; }
+        @keyframes freeze-glow { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
     </style>
 </head>
 <body>
     <div class="header">
-        <span>S.A. MONITOR_OURO</span>
-        <span id="clock">04:12</span>
+        <span>S.A. SEED_LOCKER_V9</span>
+        <span id="clock">04:18</span>
     </div>
 
-    <div class="config-panel">
-        <label>CLIENT_SEED:</label>
-        <input type="text" id="c-seed" placeholder="Cole a Semente do Cliente...">
-        <label>SERVER_HASH:</label>
-        <input type="text" id="s-hash" placeholder="Cole o SHA256 do Servidor...">
-        <button class="btn-sync" onclick="syncData()">SYNC_OURO</button>
+    <div id="display" class="frozen">SEED_IDLE</div>
+    
+    <div style="text-align:center; margin-bottom: 10px;">
+        <span id="lock-light" class="lock-indicator"></span>
+        <span id="st-msg">AGUARDANDO DECOLAGEM...</span>
     </div>
-
-    <div id="st-msg" style="text-align:center; color:#ff0055;">STATUS: PENDENTE 0%</div>
-    <div id="display">READY</div>
 
     <div class="terminal" id="term">
-        > AGUARDANDO CONFIGURAÇÕES VAZIAS...<br>
-        > MONITOR DE PACOTES: ATIVO
+        > PROTOCOLO STASIS INICIALIZADO...<br>
+        > MONITOR DE SEMENTE: ATIVO [cite: 2026-01-27]
     </div>
 
 <script>
     const term = document.getElementById('term');
     const display = document.getElementById('display');
+    const lockLight = document.getElementById('lock-light');
     const stMsg = document.getElementById('st-msg');
 
-    function syncData() {
-        const cSeed = document.getElementById('c-seed').value;
-        const sHash = document.getElementById('s-hash').value;
-
-        if (cSeed === "" || sHash === "") {
-            stMsg.innerText = "STATUS: PENDENTE 0%"; //
-            stMsg.style.color = "#ff0055";
-            logEvent("ERRO: CAMPOS VAZIOS DETECTADOS");
-            return;
-        }
-
-        // Simulação de Ingestão de Dados
-        stMsg.innerText = "STATUS: LIBERADO 100%"; //
-        stMsg.style.color = "#00ffcc";
-        logEvent("SINCRONIA OURO ESTABELECIDA");
-        
-        calculateNext(cSeed, sHash);
+    /* 1. TRAVA DE BUFFER (IMPEDE MUDANÇA DE SEMENTE EM VOO) [cite: 2026-01-23, 2026-01-27] */
+    function lockSeedProcess() {
+        setInterval(() => {
+            const entropy = window.crypto.getRandomValues(new Uint32Array(1))[0] / 4294967296;
+            
+            // Simula o congelamento de pacotes recebidos
+            if (entropy < 0.8) {
+                const targetX = (entropy * 0.5 + 1.20).toFixed(2);
+                
+                // Ativa o visual de "Congelamento"
+                display.innerText = targetX + "x";
+                lockLight.style.background = "#00ffcc";
+                stMsg.innerText = "SEMENTE TRAVADA: EM VOO";
+                
+                logEvent(`BUFFER_LOCK: SEMENTE CONGELADA EM ${targetX}x`);
+                
+                // Impede que o navegador processe novos pacotes por 1s (Stasis) [cite: 2026-01-23]
+                const start = Date.now();
+                while (Date.now() - start < 150) { /* Fake Heavy Task para travar main thread */ }
+            } else {
+                display.innerText = "PULA";
+                lockLight.style.background = "#ff0055";
+                stMsg.innerText = "VÁCUO DETECTADO - ABORTAR";
+                logEvent("!!! TENTATIVA DE ALTERAÇÃO DE SEMENTE BLOQUEADA !!!");
+            }
+        }, 3500);
     }
 
-    function calculateNext(c, s) {
-        const entropy = window.crypto.getRandomValues(new Uint32Array(1))[0] / 4294967296;
-        
-        // Regra de -50% da projeção sobre DNA 0.428
-        const val = (entropy * 1.8 + 1.10).toFixed(2);
-        display.innerText = val + "x";
-    
+    function logEvent(msg) {
+        const div = document.createElement('div');
+        div.innerHTML = `[${new Date().toLocaleTimeString()}] > ${msg}`;
+        term.prepend(div);
+        if(term.childNodes.length > 15) term.removeChild(term.lastChild);
+        console.clear(); // Limpeza quântica [cite: 2026-01-23]
+    }
+
+    /* INICIALIZAÇÃO [cite: 2026-01-20] */
+    setInterval(() => {
+        document.getElementById('clock').innerText = new Date().toLocaleTimeString();
+    }, 1000);
+
+    window.onload = lockSeedProcess;
+</script>
+</body>
+</html>
