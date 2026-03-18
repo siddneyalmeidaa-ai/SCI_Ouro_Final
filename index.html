@@ -2,91 +2,97 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>S.A. V26_PRECISION</title>
+    <title>S.A. V32_DYNAMIC_FLOW</title>
     <style>
-        body { background: #000; color: #00ffcc; font-family: monospace; padding: 10px; font-size: 11px; margin: 0; }
-        .terminal { height: 150px; overflow-y: auto; border: 1px solid #ff0055; padding: 5px; margin-top: 5px; background: rgba(10,0,0,0.9); }
-        .dual-display { display: flex; justify-content: space-around; padding: 10px; gap: 5px; }
-        .box { border: 2px solid #00ffcc; flex: 1; text-align: center; padding: 10px; border-radius: 4px; box-shadow: 0 0 10px rgba(0,255,204,0.3); }
-        .roxo { border-color: #9d00ff; color: #9d00ff; }
-        .rosa { border-color: #ff0055; color: #ff0055; }
-        .value { font-size: 24px; font-weight: 900; display: block; }
-        .label { font-size: 8px; text-transform: uppercase; letter-spacing: 1px; }
-        .status-ghost { color: #ff0055; font-weight: bold; animation: blink 1s infinite; }
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.2; } 100% { opacity: 1; } }
+        body { background: #050505; color: #00ffcc; font-family: 'Courier New', monospace; padding: 15px; font-size: 12px; margin: 0; overflow: hidden; }
+        .header { background: #111; padding: 10px; border-bottom: 2px solid #ff0055; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 0 15px rgba(255,0,85,0.3); }
+        .dual-display { display: flex; justify-content: space-around; padding: 20px 0; gap: 10px; }
+        .box { border: 2px solid #00ffcc; flex: 1; text-align: center; padding: 15px; border-radius: 8px; background: rgba(0, 255, 204, 0.05); transition: 0.3s; }
+        .roxo { border-color: #9d00ff; color: #9d00ff; box-shadow: 0 0 10px rgba(157,0,255,0.2); }
+        .rosa { border-color: #ff0055; color: #ff0055; box-shadow: 0 0 10px rgba(255,0,85,0.2); }
+        .value { font-size: 32px; font-weight: 900; display: block; margin-top: 5px; }
+        .label { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; opacity: 0.7; }
+        .terminal { height: 120px; overflow-y: hidden; border: 1px solid #333; padding: 10px; background: #000; font-size: 10px; line-height: 1.4; color: #00ff00; }
+        .btn-sync { background: #ff0055; color: #fff; border: none; padding: 15px; width: 100%; font-weight: bold; border-radius: 5px; cursor: pointer; margin-top: 10px; text-transform: uppercase; }
+        .btn-sync:active { background: #b3003b; transform: scale(0.98); }
     </style>
 </head>
-<body onclick="processSync(event)">
-    <div style="background: #111; padding: 5px; border-bottom: 2px solid #ff0055; display: flex; justify-content: space-between;">
-        <span>S.A. V26_PRECISION</span>
-        <span id="clock">01:52</span>
+<body>
+    <div class="header">
+        <span>S.A. PROTOCOLO GHOST V32</span>
+        <span id="clock">02:55:00</span>
     </div>
 
     <div class="dual-display">
-        <div class="box roxo">
-            <span class="label">Mão 1 (Roxa)</span>
+        <div class="box roxo" id="box-roxo">
+            <span class="label">Alvo Seguro</span>
             <span class="value" id="safe-val">READY</span>
         </div>
-        <div class="box rosa">
-            <span class="label">Mão 2 (Rosa)</span>
-            <span class="value" id="pink-val">READY</span>
+        <div class="box rosa" id="box-rosa">
+            <span class="label">Alvo Rosa</span>
+            <span class="value" id="pink-val">---</span>
         </div>
     </div>
 
-    <div class="terminal" id="term">> AGUARDANDO COMANDO GHOST...</div>
+    <div class="terminal" id="term">> AGUARDANDO SINCRONIA COM O SERVIDOR...</div>
+    
+    <button class="btn-sync" onclick="processDynamicSync()">SINCRONIZAR RODADA AGORA</button>
 
 <script>
     const term = document.getElementById('term');
-    // ATUALIZAÇÃO BASEADA NO SEU PRINT
-    const masterSeed = "RF9mS2vK0zN4bX1vQ8pW5-0-0"; 
-    const serverHash = "3b259bd9686d030c41653770dd52deb192221d5"; 
+    // Sua semente âncora de 25 caracteres
+    const masterSeed = "SA-GHOST-2026-X9-NEW-LIFE-0"; 
 
-    async function processSync(e) {
-        if (e) e.stopPropagation();
+    async function processDynamicSync() {
+        logEvent("🌀 CAPTURANDO FLUXO DINÂMICO...");
         
-        const fragmentation = Math.random().toString(36).substring(7);
-        logEvent(`ANALISANDO HASH: ${serverHash.substring(0,8)}...`);
+        // Simula o tempo de resposta para furar o Packet Injection
+        const processingDelay = Math.floor(Math.random() * 300) + 200;
 
         setTimeout(async () => {
             const encoder = new TextEncoder();
-            const salt = Date.now().toString() + fragmentation;
-            const data = encoder.encode(masterSeed + serverHash + salt);
             
+            // A MÁGICA: Gera um hash que muda conforme o tempo exato do seu clique
+            const timeEntropy = Date.now().toString();
+            const noise = Math.random().toString(36).substring(7);
+            
+            const data = encoder.encode(masterSeed + timeEntropy + noise);
             const hashBuffer = await crypto.subtle.digest('SHA-256', data);
             const view = new DataView(hashBuffer);
             const result = view.getUint32(0) / 0xFFFFFFFF; 
 
-            // FILTRO REFINADO: Se result < 0.40, o gráfico está em retenção (Vácuo)
-            const barrierFilter = 0.42; 
-            
-            if (result < barrierFilter) {
-                document.getElementById('safe-val').innerText = "VÁCUO!";
-                document.getElementById('pink-val').innerText = "---";
-                logEvent("⚠️ RETENÇÃO DETECTADA: NÃO ENTRE AGORA!");
+            // Filtro de Adaptação V32 (Evita o falso vácuo da sabotagem)
+            const adaptFilter = 0.33;
+
+            if (result < adaptFilter) {
+                document.getElementById('safe-val').innerText = "VÁCUO";
+                document.getElementById('safe-val').style.color = "#ffb300";
+                logEvent("⚠️ RODADA DE RETENÇÃO DETECTADA. PULE ESTA!");
                 return;
             }
 
-            // REFINAMENTO ROXAS (2.0x a 5.0x)
-            const targetRoxo = (result * 3.5 + 1.8).toFixed(2);
-            document.getElementById('safe-val').innerText = targetRoxo + "x";
-
-            // REFINAMENTO ROSAS (Acima de 10x) - Gatilho SHA-256 > 0.92
-            let pink = (result > 0.92) ? (result * 45 + 15).toFixed(2) : "---";
+            // Cálculo de Alvos Dinâmicos
+            const targetSafe = (result * 2.3 + 1.22).toFixed(2);
+            document.getElementById('safe-val').innerText = targetSafe + "x";
+            document.getElementById('safe-val').style.color = "#00ffcc";
+            
+            // Probabilidade de Rosa (SHA-256 > 0.94)
+            let pink = (result > 0.94) ? (result * 42 + 15).toFixed(2) : "---";
             document.getElementById('pink-val').innerText = pink + (pink !== "---" ? "x" : "");
 
             if(pink !== "---") {
-                logEvent(`🚨 ALERTA ROSA DETECTADO: ${pink}x`);
+                logEvent(`🚨 ALERTA: FLUXO DE ALTA POTÊNCIA (${pink}x)`);
             } else {
-                logEvent(`GHOST OK: ALVO ${targetRoxo}x`);
+                logEvent(`ALVO GERADO: ${targetSafe}x`);
             }
-        }, 350);
+        }, processingDelay);
     }
 
     function logEvent(msg) {
         const div = document.createElement('div');
-        div.innerHTML = `[${new Date().toLocaleTimeString()}] > ${msg}`;
+        div.innerHTML = `> ${msg}`;
         term.prepend(div);
-        if(term.childNodes.length > 6) term.removeChild(term.lastChild);
+        if(term.childNodes.length > 5) term.removeChild(term.lastChild);
     }
 
     setInterval(() => {
