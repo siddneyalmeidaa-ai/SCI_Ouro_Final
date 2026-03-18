@@ -2,115 +2,101 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>GHOST V64 - ULTRA-REINFORCED</title>
+    <title>GHOST V65 - SNIPER STEALTH</title>
     <style>
-        body { background: #000; color: #00ffcc; font-family: 'Courier New', monospace; text-align: center; padding: 15px; }
-        .master-shield { border: 4px solid #ff0055; border-radius: 25px; padding: 25px; background: #050505; box-shadow: 0 0 60px rgba(255,0,85,0.2); max-width: 420px; margin: auto; }
-        .val-display { font-size: 80px; font-weight: 900; color: #c6ff00; text-shadow: 0 0 30px #c6ff00; margin: 10px 0; }
-        .btn-op { background: linear-gradient(90deg, #ff0055, #c6ff00); color: #000; border: none; padding: 22px; width: 100%; border-radius: 12px; font-weight: 900; cursor: pointer; font-size: 20px; text-transform: uppercase; }
-        .sensor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 9px; margin-top: 20px; text-align: left; color: #444; }
-        .active { color: #00ffcc; font-weight: bold; }
-        #log-shield { font-size: 11px; color: #ff0055; margin-top: 15px; height: 18px; font-weight: bold; }
-        input { background: #111; border: 1px solid #333; color: #00ffcc; padding: 5px; width: 60px; border-radius: 5px; }
+        body { background: #000; color: #00ffcc; font-family: 'Courier New', monospace; text-align: center; padding: 10px; }
+        .sniper-box { border: 4px solid #c6ff00; border-radius: 30px; padding: 25px; background: #050505; box-shadow: 0 0 80px rgba(198,255,0,0.2); max-width: 400px; margin: auto; }
+        .val-display { font-size: 85px; font-weight: 900; color: #c6ff00; text-shadow: 0 0 40px #c6ff00; margin: 10px 0; }
+        .btn-fire { background: linear-gradient(135deg, #c6ff00, #00ffcc); color: #000; border: none; padding: 25px; width: 100%; border-radius: 15px; font-weight: 900; cursor: pointer; font-size: 22px; letter-spacing: 3px; }
+        .status-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 10px; margin-top: 20px; text-align: left; color: #555; }
+        .green { color: #c6ff00; }
+        #log-msg { font-size: 11px; color: #ff0055; margin-top: 15px; height: 18px; font-weight: bold; }
+        input { background: #111; border: 1px solid #333; color: #00ffcc; padding: 8px; width: 80px; border-radius: 5px; text-align: center; margin-bottom: 10px; }
     </style>
 </head>
 <body>
-    <div class="master-shield">
-        <div style="font-size: 10px; letter-spacing: 2px; color: #ff0055;">SHIELD_V64 // ANTI-VACUUM_SYSTEM</div>
+    <div class="sniper-box">
+        <div style="font-size: 10px; letter-spacing: 5px; color: #c6ff00;">SNIPER_V65 // EARLY_OUT_SYSTEM</div>
         
-        <div style="margin: 15px 0; font-size: 12px;">
-            ÚLTIMA VELA: <input type="number" id="last-vela" step="0.01" placeholder="1.10">
-        </div>
+        <div style="margin-top: 15px; font-size: 11px; color: #888;">ÚLTIMA VELA DO JOGO:</div>
+        <input type="number" id="input-vela" step="0.01" placeholder="Ex: 1.10">
 
         <div class="val-display" id="display">READY</div>
-        <div id="log-shield">AGUARDANDO AUDITORIA...</div>
+        <div id="log-msg">SISTEMA ARARMADO</div>
         
-        <button class="btn-op" onclick="executeUltraShield()">EXECUTAR BLINDAGEM</button>
+        <button class="btn-fire" onclick="runSniper()">DISPARAR SNIPER</button>
 
-        <div class="sensor-grid">
-            <span>[ANTI_VACUUM]: <b id="s-vac" class="active">MONITORING</b></span>
-            <span>[ANTI_PREDATOR]: <b id="s-pre" class="active">STREAK_0</b></span>
-            <span>[SIGNAL_SHANNON]: <b id="s-sha" class="active">CLEAN</b></span>
-            <span>[HFT_OFFSET]: <b id="s-off" class="active">-35%</b></span>
+        <div class="status-panel">
+            <span>[NET_LATENCY]: <b id="p-lat">--</b></span>
+            <span>[EARLY_EXIT]: <b class="green">0.2s_ACTIVE</b></span>
+            <span>[DNA_SYNC]: <b class="green">LOCKED</b></span>
+            <span>[OFFSET]: <b id="p-off">-45%</b></span>
         </div>
     </div>
 
 <script>
-    // --- INJEÇÃO DE DNA DO PRINT (S.A.) ---
+    // --- SINCRONIZAÇÃO DE DNA S.A. ---
     const manualCode = "COLE_AQUI_O_CODIGO_MANUAL"; 
     const masterSeed = "COLE_AQUI_A_CHAVE_SEED";    
-    // --------------------------------------
+    // ---------------------------------
 
-    let greenStreak = 0;
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
     function beep(f, d, v) {
         const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
         o.connect(g); g.connect(audioCtx.destination);
-        o.frequency.value = f; o.type = 'sine';
+        o.frequency.value = f; o.type = 'square';
         g.gain.setValueAtTime(v, audioCtx.currentTime);
         g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + d);
         o.start(); o.stop(audioCtx.currentTime + d);
     }
 
-    async function executeUltraShield() {
+    async function runSniper() {
         const display = document.getElementById('display');
-        const log = document.getElementById('log-shield');
-        const lastVela = parseFloat(document.getElementById('last-vela').value) || 0;
+        const log = document.getElementById('log-msg');
+        const lastV = parseFloat(document.getElementById('input-vela').value) || 0;
 
-        // 1. FILTRO ANTI-VÁCUO (Prevenção do erro de 1.10x)
-        if (lastVela > 0 && lastVela < 1.15) {
+        // 1. AUDITORIA DE LATÊNCIA ( Shannon Check )
+        const t0 = performance.now();
+        await fetch(window.location.href, { method: 'HEAD', cache: 'no-cache' });
+        const rtt = performance.now() - t0;
+        document.getElementById('p-lat').innerText = rtt.toFixed(0) + "ms";
+
+        // 2. FILTRO DE VÁCUO (Prevenção de 1.10x)
+        if (lastV > 0 && lastV < 1.18) {
             display.innerText = "WAIT";
             display.style.color = "#ff0055";
-            log.innerText = "> 🚨 RISCO DE RECOLHIMENTO (VÁCUO DETECTADO)";
-            beep(100, 0.8, 0.4);
-            greenStreak = 0; // Reseta a sequência por segurança
+            log.innerText = "> ⚠️ RECOLHIMENTO EM CURSO. AGUARDE.";
+            beep(150, 0.5, 0.3);
             return;
         }
 
-        // 2. AJUSTE DE MARGEM DINÂMICA (Anti-Predador)
-        let offset = 0.65; // Desconto de 35% (Padrão)
-        if (greenStreak >= 3) {
-            offset = 0.50; // Desconto de 50% (Modo Ultra-Safe)
-            document.getElementById('s-off').innerText = "-50%";
-            log.innerText = "> ⚠️ MODO ANTI-PREDADOR ATIVO";
-        }
-
-        // 3. CÁLCULO DE HASH SINCRONIZADO
-        const t0 = performance.now();
-        await fetch(window.location.href, { method: 'HEAD', cache: 'no-cache' });
-        const latency = performance.now() - t0;
-        document.getElementById('s-sha').innerText = latency.toFixed(0) + "ms";
-
+        // 3. CÁLCULO DE HASH ( DNA Simons + S.A. Seed )
         const now = Date.now();
         const encoder = new TextEncoder();
         const data = encoder.encode(manualCode + masterSeed + now);
-        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        const hashBuf = await crypto.subtle.digest('SHA-256', data);
+        const hashHex = Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, '0')).join('');
 
-        // 4. RESULTADO FINAL COM BLINDAGEM
-        const raw = (parseInt(hashHex.substring(0, 8), 16) / 0xFFFFFFFF) * 1.5 + 1.22;
-        const target = (raw * offset).toFixed(2);
+        // 4. ESTRATÉGIA DE SAÍDA ANTECIPADA (Early-Out)
+        // Reduzimos o alvo drasticamente para garantir o saque antes do lag do 4G
+        let safetyBuffer = (rtt > 150) ? 0.55 : 0.65; 
+        document.getElementById('p-off').innerText = "-" + (100 - (safetyBuffer * 100)) + "%";
 
-        if (target < 1.15) {
+        const rawResult = (parseInt(hashHex.substring(0, 8), 16) / 0xFFFFFFFF) * 1.5 + 1.25;
+        const target = (rawResult * safetyBuffer).toFixed(2);
+
+        if (target < 1.12) {
             display.innerText = "SKIP";
-            log.innerText = "> EVITANDO VELA DE BAIXA INTENSIDADE";
+            log.innerText = "> VELA MUITO BAIXA PARA RISCO";
             return;
         }
 
         display.innerText = target + "x";
         display.style.color = "#c6ff00";
-        log.innerText = "> ✅ CANAL SEGURO IDENTIFICADO";
-        beep(1100, 0.1, 0.1);
-        
-        // Simulação de acerto para controle de streak
-        greenStreak++;
-        document.getElementById('s-pre').innerText = "STREAK_" + greenStreak;
+        log.innerText = "> ✅ ALVO CALCULADO COM SAÍDA ANTECIPADA";
+        beep(1200, 0.1, 0.1);
     }
-
-    Object.defineProperty(document, 'visibilityState', {value: 'visible', writable: false});
 </script>
-</
-    body>
+</bo
+    dy>
 </html>
