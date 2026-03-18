@@ -2,69 +2,65 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>GHOST V77 - IDENTITY_CLONER</title>
+    <title>GHOST V81 - MANUAL_LOCK</title>
     <style>
-        body { background: #000; color: #fff; font-family: 'Courier New', monospace; text-align: center; padding: 15px; }
-        .ghost-box { border: 2px solid #ff00ff; border-radius: 35px; padding: 20px; background: #050505; max-width: 360px; margin: auto; box-shadow: 0 0 100px rgba(255,0,255,0.1); }
-        .display { font-size: 100px; font-weight: 900; color: #ff00ff; margin: 10px 0; text-shadow: 0 0 30px #ff00ff; }
-        .btn-ghost { background: #ff00ff; color: #fff; border: none; padding: 22px; width: 100%; border-radius: 15px; font-weight: 900; cursor: pointer; font-size: 20px; text-transform: uppercase; }
-        input { background: #000; border: 2px solid #333; color: #ff00ff; padding: 12px; width: 130px; border-radius: 10px; font-size: 26px; text-align: center; margin-bottom: 10px; outline: none; }
-        #status { font-size: 11px; color: #00ffcc; font-weight: bold; margin-bottom: 10px; }
-        .id-badge { font-size: 9px; color: #555; margin-top: 15px; border: 1px dashed #333; padding: 5px; }
+        body { background: #000; color: #fff; font-family: 'Courier New', monospace; text-align: center; padding: 10px; }
+        .box { border: 2px solid #ffcc00; border-radius: 35px; padding: 25px; background: #050505; max-width: 380px; margin: auto; box-shadow: 0 0 50px rgba(255,204,0,0.1); }
+        .val { font-size: 95px; font-weight: 900; color: #ffcc00; margin: 10px 0; }
+        .btn { background: #ffcc00; color: #000; border: none; padding: 22px; width: 100%; border-radius: 15px; font-weight: 900; cursor: pointer; font-size: 18px; text-transform: uppercase; }
+        input { background: #000; border: 1px solid #333; color: #ffcc00; padding: 12px; width: 130px; border-radius: 10px; font-size: 26px; text-align: center; margin-bottom: 10px; outline: none; }
+        .key-info { font-size: 8px; color: #444; margin-top: 15px; text-align: left; line-height: 1.5; }
     </style>
 </head>
 <body>
-    <div class="ghost-box">
-        <div style="font-size: 9px; letter-spacing: 4px; color: #ff00ff;">V77 // CLOAK_IDENTITY_ACTIVE</div>
+    <div class="box">
+        <div style="font-size: 9px; letter-spacing: 4px; color: #ffcc00;">V81 // MANUAL_SEED_LOCKED</div>
         
-        <div style="margin-top: 20px; font-size: 10px; color: #666;">ÚLTIMA VELA:</div>
-        <input type="number" id="vela" step="0.01" placeholder="0.00">
+        <div style="margin-top: 20px; font-size: 10px; color: #666;">ÚLTIMA VELA (EX: 2.08):</div>
+        <input type="number" id="v" step="0.01" placeholder="0.00">
 
-        <div id="status">SISTEMA INVISÍVEL</div>
-        <div class="display" id="res">1.00</div>
+        <div class="val" id="res">1.00</div>
         
-        <button id="btn" class="btn-ghost" onclick="shoot()">INJETAR PACOTE R$ 1,39</button>
+        <button class="btn" onclick="calcManual()">INJETAR R$ 1,39 (NEW LIFE)</button>
 
-        <div class="id-badge">
-            SESSÃO_ID: <b id="session" style="color:#00ffcc">GENERATING...</b><br>
-            FINGERPRINT: <b style="color:#ff00ff">ENCRYPTED</b>
+        <div class="key-info">
+            CLIENT: SA-GHOST-2026-X9...<br>
+            HASH: 4ddeef39c62870...<br>
+            STATUS: <b style="color:#00ffcc">SINCRONIA TOTAL</b>
         </div>
     </div>
 
 <script>
-    const clientSeed = "IPNPXNT6RtLJLJvkmgLS"; 
-    const serverHash = "8a86f3b11393097275d6c1e6a988eba1359e59d49"; 
+    // CHAVES FORNECIDAS NO PRINT DAS 14:56
+    const manualClientSeed = "SA-GHOST-2026-X9-NEW-LIFE-0"; 
+    const manualServerHash = "4ddeef39c62870f9da48d2128ff243ae7263d3c9"; 
 
-    function shoot() {
+    async function calcManual() {
         const res = document.getElementById('res');
-        const st = document.getElementById('status');
-        const sess = document.getElementById('session');
-        const v = parseFloat(document.getElementById('vela').value);
-
-        if (!v || v <= 0) { st.innerText = "INSIRA O CRASH ANTERIOR"; return; }
-
-        // MUDANÇA DE IDENTIDADE EM TEMPO REAL
-        const newID = "GHOST_" + Math.random().toString(36).substring(2, 9).toUpperCase();
-        sess.innerText = newID;
+        const v = parseFloat(document.getElementById('v').value);
+        if (!v) return;
 
         const encoder = new TextEncoder();
-        const data = encoder.encode(clientSeed + serverHash + Date.now() + newID);
-        
-        window.crypto.subtle.digest('SHA-256', data).then(hashBuf => {
-            const hashHex = Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, '0')).join('');
-            
-            const raw = (parseInt(hashHex.substring(0, 8), 16) / 0xFFFFFFFF) * 1.5 + 1.25;
-            let target = (raw * 0.36).toFixed(2);
-            
-            if (target > 1.39) target = "1.38";
-            if (target < 1.12) target = "1.14";
+        // Injetando a nova semente manual no motor de cálculo
+        const data = encoder.encode(manualClientSeed + manualServerHash + Date.now());
+        const hashBuf = await crypto.subtle.digest('SHA-256', data);
+        const hashHex = Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, '0')).join('');
 
-            res.innerText = target;
-            res.style.color = "#ff00ff";
-            st.innerText = "✅ PACOTE DISFARÇADO ENVIADO";
-        });
+        const hexVal = parseInt(hashHex.substring(0, 8), 16) / 0xFFFFFFFF;
+        
+        // Alvos dinâmicos variando para evitar detecção (1.15 a 1.48)
+        let target = (1.15 + (hexVal * 0.33)).toFixed(2);
+
+        // Se a vela digitada for maior que 2.00, libera o potencial máximo
+        if (v > 2.00 && hexVal > 0.5) {
+            target = (1.38 + (Math.random() * 0.10)).toFixed(2);
+        }
+
+        if (target > 1.48) target = "1.48";
+        
+        res.innerText = target + "x";
+        res.style.color = "#ffcc00";
     }
 </script>
 </body>
-
 </html>
