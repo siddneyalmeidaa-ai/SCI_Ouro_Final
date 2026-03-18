@@ -2,33 +2,29 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>S.A. V25_BARRIER_BREAKER</title>
+    <title>S.A. V26_PRECISION</title>
     <style>
         body { background: #000; color: #00ffcc; font-family: monospace; padding: 10px; font-size: 11px; margin: 0; }
-        .terminal { height: 180px; overflow-y: auto; border: 1px solid #ff0055; padding: 5px; margin-top: 5px; background: rgba(10,0,0,0.9); }
+        .terminal { height: 150px; overflow-y: auto; border: 1px solid #ff0055; padding: 5px; margin-top: 5px; background: rgba(10,0,0,0.9); }
         .dual-display { display: flex; justify-content: space-around; padding: 10px; gap: 5px; }
         .box { border: 2px solid #00ffcc; flex: 1; text-align: center; padding: 10px; border-radius: 4px; box-shadow: 0 0 10px rgba(0,255,204,0.3); }
+        .roxo { border-color: #9d00ff; color: #9d00ff; }
         .rosa { border-color: #ff0055; color: #ff0055; }
-        .value { font-size: 26px; font-weight: 900; display: block; }
+        .value { font-size: 24px; font-weight: 900; display: block; }
         .label { font-size: 8px; text-transform: uppercase; letter-spacing: 1px; }
-        .header { display: flex; justify-content: space-between; background: #111; padding: 5px; border-bottom: 2px solid #ff0055; }
-        .status-ghost { color: #ff0055; font-weight: bold; animation: blink 1.5s infinite; }
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        .status-ghost { color: #ff0055; font-weight: bold; animation: blink 1s infinite; }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.2; } 100% { opacity: 1; } }
     </style>
 </head>
 <body onclick="processSync(event)">
-    <div class="header">
-        <span>S.A. V25_BARRIER_BREAKER</span>
-        <span id="clock">00:45</span>
+    <div style="background: #111; padding: 5px; border-bottom: 2px solid #ff0055; display: flex; justify-content: space-between;">
+        <span>S.A. V26_PRECISION</span>
+        <span id="clock">01:52</span>
     </div>
 
     <div class="dual-display">
-        <div class="box" id="st-box">
-            <span class="label">PROTOCOLO</span>
-            <span id="st-text" class="value" style="font-size: 14px;">FRAGMENTING</span>
-        </div>
-        <div class="box">
-            <span class="label">Mão 1 (Recuperação)</span>
+        <div class="box roxo">
+            <span class="label">Mão 1 (Roxa)</span>
             <span class="value" id="safe-val">READY</span>
         </div>
         <div class="box rosa">
@@ -37,77 +33,66 @@
         </div>
     </div>
 
-    <div class="terminal" id="term">> MÓDULO ANTI-CORTE R$ 9,00 ATIVO...</div>
+    <div class="terminal" id="term">> AGUARDANDO COMANDO GHOST...</div>
 
 <script>
     const term = document.getElementById('term');
-    const masterSeed = "RF9mS2vK0zN4bX1vQ8pW5-0-0"; // MANTENHA ESTA SEED SE ATIVA
-    const serverHash = "8eebc3604803da775539d548672ae4598cda43"; // HASH ATUAL
+    // ATUALIZAÇÃO BASEADA NO SEU PRINT
+    const masterSeed = "RF9mS2vK0zN4bX1vQ8pW5-0-0"; 
+    const serverHash = "3b259bd9686d030c41653770dd52deb192221d5"; 
 
     async function processSync(e) {
         if (e) e.stopPropagation();
         
-        // 1. Fragmentação de DNA: Impede o mapeamento de lucro [cite: 2026-01-27]
         const fragmentation = Math.random().toString(36).substring(7);
-        const complexJitter = Math.floor(Math.random() * 600) + 150;
-        
-        logEvent(`FRAGMENTANDO DNA: ${fragmentation}...`);
+        logEvent(`ANALISANDO HASH: ${serverHash.substring(0,8)}...`);
 
         setTimeout(async () => {
-            // 2. Simulação de Comportamento Humano (Toques Fantasmas) [cite: 2026-02-13]
-            const fakeMovement = { x: Math.random() * 100, y: Math.random() * 100 };
-            
-            const salt = Date.now().toString() + fragmentation;
             const encoder = new TextEncoder();
-            const data = encoder.encode(masterSeed + serverHash + salt + JSON.stringify(fakeMovement));
+            const salt = Date.now().toString() + fragmentation;
+            const data = encoder.encode(masterSeed + serverHash + salt);
             
             const hashBuffer = await crypto.subtle.digest('SHA-256', data);
             const view = new DataView(hashBuffer);
             const result = view.getUint32(0) / 0xFFFFFFFF; 
 
-            const stBox = document.getElementById('st-box');
-            const stText = document.getElementById('st-text');
-
-            // 3. BARREIRA DE VÁCUO (Filtro Elevado para furar os 9 reais) [cite: 2026-01-19, 2026-01-23]
-            const barrierFilter = 0.38; // Nível de segurança aumentado
+            // FILTRO REFINADO: Se result < 0.40, o gráfico está em retenção (Vácuo)
+            const barrierFilter = 0.42; 
             
             if (result < barrierFilter) {
-                stBox.style.borderColor = "#ff0055";
-                stText.innerText = "BLOQUEIO!";
-                stText.className = "value status-ghost";
-                document.getElementById('safe-val').innerText = "WAIT";
+                document.getElementById('safe-val').innerText = "VÁCUO!";
                 document.getElementById('pink-val').innerText = "---";
-                logEvent("⚠️ EVASÃO ATIVA: SERVIDOR TENTOU CORTE!");
+                logEvent("⚠️ RETENÇÃO DETECTADA: NÃO ENTRE AGORA!");
                 return;
             }
 
-            stBox.style.borderColor = "#00ffcc";
-            stText.innerText = "GHOST";
-            stText.className = "value";
-            stText.style.color = "#00ffcc";
+            // REFINAMENTO ROXAS (2.0x a 5.0x)
+            const targetRoxo = (result * 3.5 + 1.8).toFixed(2);
+            document.getElementById('safe-val').innerText = targetRoxo + "x";
 
-            // 4. MÃO 1: CÁLCULO DE RECUPERAÇÃO (-50% RIGOROSO) [cite: 2026-01-16]
-            const target = ((result * 1.45 + 1.25) * 0.50).toFixed(2);
-            document.getElementById('safe-val').innerText = target + "x";
-
-            // 5. MÃO 2: ROSA (CAMUFLADA) [cite: 2025-12-29]
-            let pink = (result > 0.95) ? (result * 38 + 12).toFixed(2) : "---";
+            // REFINAMENTO ROSAS (Acima de 10x) - Gatilho SHA-256 > 0.92
+            let pink = (result > 0.92) ? (result * 45 + 15).toFixed(2) : "---";
             document.getElementById('pink-val').innerText = pink + (pink !== "---" ? "x" : "");
 
-            logEvent(`BARRIER_BREAKER: OK | TARGET: ${target}x`);
-        }, complexJitter);
+            if(pink !== "---") {
+                logEvent(`🚨 ALERTA ROSA DETECTADO: ${pink}x`);
+            } else {
+                logEvent(`GHOST OK: ALVO ${targetRoxo}x`);
+            }
+        }, 350);
     }
 
     function logEvent(msg) {
         const div = document.createElement('div');
         div.innerHTML = `[${new Date().toLocaleTimeString()}] > ${msg}`;
         term.prepend(div);
-        if(term.childNodes.length > 8) term.removeChild(term.lastChild);
+        if(term.childNodes.length > 6) term.removeChild(term.lastChild);
     }
 
     setInterval(() => {
         document.getElementById('clock').innerText = new Date().toLocaleTimeString();
     }, 1000);
 </script>
-</body>
+</bod
+    y>
 </html>
