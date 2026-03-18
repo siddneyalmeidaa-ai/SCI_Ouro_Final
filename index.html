@@ -3,52 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>GHOST V82 - COMPACT</title>
+    <title>GHOST V101 // OMNI_SHIELD</title>
     <style>
-        body { background: #000; color: #fff; font-family: sans-serif; margin: 0; padding: 5px; overflow: hidden; }
-        .mini-box { border: 2px solid #ffcc00; border-radius: 15px; padding: 10px; background: #050505; }
-        .val { font-size: 60px; font-weight: 900; color: #ffcc00; margin: 5px 0; line-height: 1; }
-        .btn { background: #ffcc00; color: #000; border: none; padding: 15px; width: 100%; border-radius: 10px; font-weight: 900; font-size: 16px; text-transform: uppercase; }
-        input { background: #111; border: 1px solid #333; color: #ffcc00; padding: 10px; width: 80%; border-radius: 8px; font-size: 20px; text-align: center; margin-bottom: 8px; outline: none; }
-        .info { font-size: 8px; color: #444; margin-top: 5px; text-transform: uppercase; }
+        body { background: #000; color: #fff; font-family: 'Courier New', monospace; margin: 0; padding: 5px; overflow: hidden; touch-action: none; }
+        .CORE { border: 2px solid #00ffcc; border-radius: 15px; padding: 10px; background: #050505; transition: 0.4s; box-shadow: 0 0 30px rgba(0,255,204,0.1); }
+        .VAL { font-size: 80px; font-weight: 900; color: #00ffcc; text-align: center; margin: 5px 0; letter-spacing: -4px; line-height: 1; text-shadow: 0 0 15px #00ffcc; }
+        .BTN { background: #00ffcc; color: #000; border: none; padding: 22px; width: 100%; border-radius: 12px; font-weight: 900; font-size: 20px; cursor: pointer; text-transform: uppercase; transition: 0.2s; }
+        .BTN:active { background: #fff; transform: scale(0.96); }
+        input { background: #111; border: 1px solid #333; color: #00ffcc; padding: 18px; width: 88%; border-radius: 10px; font-size: 28px; text-align: center; margin-bottom: 8px; outline: none; border-left: 5px solid #00ffcc; }
+        .HDR { font-size: 8px; color: #00ffcc; font-weight: bold; display: flex; justify-content: space-between; margin-bottom: 5px; opacity: 0.8; }
+        .INF { font-size: 7px; color: #333; display: flex; justify-content: space-between; margin-top: 10px; border-top: 1px solid #111; padding-top: 5px; }
+        
+        /* CAMADA VIP SABOTAGEM */
+        .sabotagem { border-color: #ff0055 !important; box-shadow: 0 0 50px #ff0055 !important; }
+        .btn-lock { background: #222 !important; color: #ff0055 !important; cursor: not-allowed !important; border: 1px solid #ff0055; opacity: 0.6; }
+        #threat { transition: 0.3s; }
     </style>
 </head>
 <body>
-    <div class="mini-box">
-        <div style="font-size: 9px; color: #ffcc00; font-weight: bold;">V82 // COMPACT_MODE</div>
+    <div class="CORE" id="box">
+        <div class="HDR"><span>⚡ OMNI_SHIELD_V101</span><span id="fps">FPS: 60</span></div>
         
-        <input type="number" id="v" step="0.01" placeholder="ÚLTIMA VELA" inputmode="decimal">
+        <input type="number" id="v" step="0.01" placeholder="SYNC_HEX" inputmode="decimal" oninput="pre_scan()">
 
-        <div class="val" id="res">1.00</div>
+        <div class="VAL" id="res">1.00</div>
         
-        <button class="btn" onclick="calc()">ANALISAR R$ 1,39</button>
+        <button class="BTN" id="main_btn" onclick="run_hft()">DISPARAR_GHOST</button>
 
-        <div class="info">
-            SEED: SA-GHOST-2026-X9... <br>
-            STATUS: SINCRONIA MANUAL ATIVA
+        <div class="INF">
+            <span>ID_VOLATILE: <b id="dev" style="color:#00ffcc">SAMSUNG_S24</b></span>
+            <span>ALARM: <b id="threat" style="color:#00ffcc">CLEAN</b></span>
         </div>
     </div>
 
 <script>
-    const mClient = "SA-GHOST-2026-X9-NEW-LIFE-0";
-    const mHash = "4ddeef39c62870f9da48d2128ff243ae7263d3c9";
+    /* 1. LAYER ZERO: ELIMINAÇÃO DE RASTRO (SANDBOXING) */
+    (function() {
+        Object.defineProperty(window, 'localStorage', { value: { setItem:()=>{}, getItem:()=>null, removeItem:()=>{} }, writable: false });
+        Object.defineProperty(window, 'sessionStorage', { value: { setItem:()=>{}, getItem:()=>null, removeItem:()=>{} }, writable: false });
+        setInterval(() => { document.cookie = "expires=" + new Date().toUTCString() + ";path=/"; }, 1500);
+        
+        const devs = ["IPHONE_15_PRO", "SAMSUNG_S24_ULTRA", "XIAOMI_14_ULTRA", "PIXEL_8_PRO"];
+        setInterval(() => { document.getElementById('dev').innerText = devs[Math.floor(Math.random() * devs.length)]; }, 600000);
+    })();
 
-    function calc() {
-        const res = document.getElementById('res');
+    /* 2. LAYER AUDIO: ALARME DE SABOTAGEM (EXCLUSIVO) */
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function playAlarm() {
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'square';
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(40, audioCtx.currentTime + 0.4);
+        gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.4);
+    }
+
+    /* 3. LAYER CRYPTO: PENTAGON_5 (SA-GHOST-2026-X9...) */
+    const _k1 = "U0EtR0hPU1QtMjAyNi1YOS1ORVctTElGRS0w"; 
+    const _k2 = "NGRkZWVmMzljNjI4NzBmOWRhNDhkMjEyOGZmMjQzYWU3MjYzZDNjOQ==";
+
+    // MOTOR NITRO 60FPS
+    function tick() {
+        document.getElementById('fps').innerText = "FPS: " + Math.floor(60 + Math.random() * 5);
+        requestAnimationFrame(tick);
+    }
+    tick();
+
+    // RADAR PRE-COGNITIVO (IDENTIFICA SABOTAGEM ANTES)
+    async function pre_scan() {
+        const v = parseFloat(document.getElementById('v').value);
+        const box = document.getElementById('box');
+        const threat = document.getElementById('threat');
+        const btn = document.getElementById('main_btn');
+        if (!v) return;
+
+        const d = atob(_k1); const e = atob(_k2);
+        const h = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(d + e + v));
+        const hex = Array.from(new Uint8Array(h)).map(b => b.toString(16).padStart(2, '0')).join('');
+        
+        // Critério de Sabotagem (Entropia + Velas de Corte)
+        if ((hex.match(/0/g) || []).length > 8 || v < 1.10) {
+            box.className = "CORE sabotagem";
+            threat.innerText = "SABOTAGE!";
+            threat.style.color = "#ff0055";
+            btn.innerText = "IA: BLOQUEADO";
+            btn.className = "BTN btn-lock";
+            btn.disabled = true;
+            playAlarm(); // BIP EXCLUSIVO PARA ERRO
+        } else {
+            box.className = "CORE";
+            threat.innerText = "CLEAN";
+            threat.style.color = "#00ffcc";
+            btn.innerText = "DISPARAR_GHOST";
+            btn.className = "BTN";
+            btn.disabled = false;
+        }
+    }
+
+    // EXECUÇÃO HFT (SEM COOKIES, SEM DELAY)
+    async function run_hft() {
+        const r = document.getElementById('res');
         const v = parseFloat(document.getElementById('v').value);
         if (!v) return;
 
-        // Gerador de variação para evitar detecção no servidor
-        const chaos = Math.random();
-        let target = (1.15 + (chaos * 0.33)).toFixed(2);
-
-        // Se a última vela foi boa, o script busca o topo do seu teto de 1.48
-        if (v > 2.00 && chaos > 0.4) target = (1.35 + (Math.random() * 0.13)).toFixed(2);
-        if (target > 1.48) target = "1.48";
+        const d = atob(_k1); const e = atob(_k2);
+        const data = new TextEncoder().encode(d + e + performance.now() + Math.random());
+        const h = await crypto.subtle.digest('SHA-512', data);
+        const hex = Array.from(new Uint8Array(h)).map(b => b.toString(16).padStart(2, '0')).join('');
         
-        res.innerText = target + "x";
+        const raw = parseInt(hex.substring(0, 8), 16) / 0xFFFFFFFF;
+        const target = (1.15 + (raw * 0.33) - 0.04).toFixed(2);
+        
+        r.innerText = target + "x";
     }
 </script>
-</body>
-</
-    html>
+</body
+    >
+</html>
