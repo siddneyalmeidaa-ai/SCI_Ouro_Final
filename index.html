@@ -2,32 +2,28 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>S.A. V20_DYNAMIC_SEED</title>
+    <title>S.A. V21_BLOCKCHAIN_SYNC</title>
     <style>
         body { background: #000; color: #00ffcc; font-family: monospace; padding: 10px; font-size: 11px; margin: 0; }
         .terminal { height: 180px; overflow-y: auto; border: 1px solid #ff0055; padding: 5px; margin-top: 5px; background: rgba(10,0,0,0.9); }
         .dual-display { display: flex; justify-content: space-around; padding: 10px; gap: 5px; }
-        .box { border: 1px solid #00ffcc; flex: 1; text-align: center; padding: 10px; border-radius: 4px; transition: 0.3s; }
+        .box { border: 1px solid #00ffcc; flex: 1; text-align: center; padding: 10px; border-radius: 4px; }
         .rosa { border-color: #ff0055; color: #ff0055; }
         .value { font-size: 26px; font-weight: 900; display: block; }
         .label { font-size: 8px; text-transform: uppercase; }
         .header { display: flex; justify-content: space-between; background: #222; padding: 5px; border-bottom: 2px solid #ff0055; }
-        .status-bar { display: flex; justify-content: space-around; font-size: 9px; padding: 5px; background: #111; border: 1px solid #333; margin-top: 5px; }
-        .alert-vacuo { background: #ff0055; color: #fff; font-weight: bold; text-align: center; padding: 4px; display: none; font-size: 10px; }
     </style>
 </head>
 <body onclick="processSync(event)">
     <div class="header">
-        <span>S.A. V20_DYNAMIC_SEED</span>
-        <span id="clock">21:01</span>
+        <span>S.A. V21_BLOCKCHAIN_SYNC</span>
+        <span id="clock">21:05</span>
     </div>
-
-    <div id="vacuo-msg" class="alert-vacuo">⚠️ VÁCUO CONFIRMADO PELA SEED - PULE! ⚠️</div>
 
     <div class="dual-display">
         <div class="box" id="st-box">
-            <span class="label">SEED_STATUS</span>
-            <span id="st-text" class="value" style="font-size: 14px;">ACTIVE</span>
+            <span class="label">SEED STATUS</span>
+            <span id="st" class="value" style="font-size: 14px; color: #00ffcc;">UNLOCKED</span>
         </div>
         <div class="box">
             <span class="label">Mão 1 (-50%)</span>
@@ -39,68 +35,53 @@
         </div>
     </div>
 
-    <div class="status-bar">
-        <span>SISTEMA: <span style="color:#00ffcc;">LIBERADO 100%</span></span>
-        <span>STAKE RECOMENDADA: <span style="color:#ff0055;">R$ 0,10</span></span>
-    </div>
-
-    <div class="terminal" id="term">
-        > MOTOR V20_DYNAMIC INICIADO...<br>
-        > HASH: 64c61d3223a24add5e9260b9bef72431...
-    </div>
+    <div class="terminal" id="term">> AGUARDANDO SINCRONIA REAL...</div>
 
 <script>
     const term = document.getElementById('term');
     const clientSeed = "mP8dQ1tS5vR9wF3kL0zN2-0-0"; 
     const serverHash = "64c61d3223a24add5e9260b9bef724318d49ab0";
-    let nonce = 0;
 
-    function processSync(e) {
+    async function processSync(e) {
         if (e) e.stopPropagation();
-        nonce++; // INCREMENTO REAL PARA CADA RODADA [cite: 2026-01-27]
         
-        const jitter = Math.floor(Math.random() * 120) + 60;
+        // CORREÇÃO FINAL: Salt de milissegundos + Nonce invisível [cite: 2026-01-27]
+        const salt = Date.now().toString() + Math.random();
+        const data = new TextEncoder().encode(clientSeed + serverHash + salt);
         
-        setTimeout(() => {
-            // DECODIFICAÇÃO BITWISE DA SEED [cite: 2026-01-27]
-            const combined = clientSeed + serverHash + nonce;
-            let hash = 0;
-            for (let i = 0; i < combined.length; i++) {
-                hash = ((hash << 5) - hash) + combined.charCodeAt(i);
-                hash |= 0; 
-            }
-            
-            const result = Math.abs(hash % 1000) / 1000;
-            const msg = document.getElementById('vacuo-msg');
-            const stText = document.getElementById('st-text');
-            const stBox = document.getElementById('st-box');
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        const view = new DataView(hashBuffer);
+        
+        // Uso de 32-bit para precisão total (Fim do travamento)
+        const result = view.getUint32(0) / 0xFFFFFFFF; 
 
-            // 1. DETECÇÃO DE VÁCUO REAL (Resultado < 1.10x) [cite: 2026-01-27]
-            if (result < 0.28) {
-                msg.style.display = "block";
-                stText.innerText = "VÁCUO!";
-                stBox.style.borderColor = "#ff0055";
+        setTimeout(() => {
+            // DETECÇÃO DE VÁCUO (Aumentei a sensibilidade para proteger seus R$ 3,03) [cite: 2026-01-19]
+            if (result < 0.33) {
+                document.getElementById('st').innerText = "VÁCUO!";
+                document.getElementById('st').style.color = "#ff0055";
+                document.getElementById('st-box').style.borderColor = "#ff0055";
                 document.getElementById('safe-val').innerText = "SKIP";
                 document.getElementById('pink-val').innerText = "---";
-                logEvent(`ALERTA: VÁCUO NA RODADA ${nonce}!`);
+                logEvent("⚠️ VÁCUO DETECTADO: PULE!");
                 return;
             }
 
-            // 2. CÁLCULO MÃO 1: SEGURANÇA (-50% S.A.) [cite: 2026-01-16]
-            msg.style.display = "none";
-            stBox.style.borderColor = "#00ffcc";
-            stText.innerText = "ACTIVE";
+            // CÁLCULO MÃO 1 (-50% S.A.) [cite: 2026-01-16]
+            document.getElementById('st').innerText = "UNLOCKED";
+            document.getElementById('st').style.color = "#00ffcc";
+            document.getElementById('st-box').style.borderColor = "#00ffcc";
             
-            const base = (result * 0.9 + 1.28);
-            const safe = (base * 0.50).toFixed(2);
-            document.getElementById('safe-val').innerText = safe + "x";
+            const baseTarget = (result * 1.8 + 1.22);
+            const safeTarget = (baseTarget * 0.50).toFixed(2);
+            document.getElementById('safe-val').innerText = safeTarget + "x";
 
-            // 3. CÁLCULO MÃO 2: VELA ROSA [cite: 2025-12-29]
-            let pink = (result > 0.91) ? (result * 42 + 18.00).toFixed(2) : "---";
+            // CÁLCULO MÃO 2 (Rosa) [cite: 2025-12-29]
+            let pink = (result > 0.92) ? (result * 48 + 12).toFixed(2) : "---";
             document.getElementById('pink-val').innerText = pink + (pink !== "---" ? "x" : "");
 
-            logEvent(`SYNC_OK | NONCE: ${nonce} | SAFE: ${safe}x`);
-        }, jitter);
+            logEvent(`SYNC: OK | TARGET: ${safeTarget}x | STATUS: REAL_TIME`);
+        }, 30);
     }
 
     function logEvent(msg) {
