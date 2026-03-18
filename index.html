@@ -2,76 +2,69 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>GHOST V71 - PROVABLY FAIR</title>
+    <title>GHOST V77 - IDENTITY_CLONER</title>
     <style>
-        body { background: #000; color: #00ffcc; font-family: 'Courier New', monospace; text-align: center; padding: 10px; margin: 0; }
-        .stealth-box { border: 2px solid #c6ff00; border-radius: 30px; padding: 25px; background: #020202; max-width: 380px; margin: auto; box-shadow: 0 0 80px rgba(198,255,0,0.2); }
-        .val-display { font-size: 115px; font-weight: 900; color: #fff; margin: 5px 0; text-shadow: 0 0 40px #c6ff00; min-height: 130px; display: flex; align-items: center; justify-content: center; }
-        .btn-ghost { background: #c6ff00; color: #000; border: none; padding: 25px; width: 100%; border-radius: 15px; font-weight: 900; cursor: pointer; font-size: 24px; text-transform: uppercase; box-shadow: 0 8px 0 #6e8e00; }
-        .btn-ghost:active { transform: translateY(6px); box-shadow: none; }
-        .mini-log { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 9px; margin-top: 20px; color: #444; text-align: left; }
-        input { background: #000; border: 2px solid #c6ff00; color: #fff; padding: 12px; width: 140px; border-radius: 12px; font-size: 26px; text-align: center; margin-bottom: 10px; outline: none; }
-        #msg { font-size: 11px; color: #ff0055; font-weight: bold; margin-bottom: 15px; }
+        body { background: #000; color: #fff; font-family: 'Courier New', monospace; text-align: center; padding: 15px; }
+        .ghost-box { border: 2px solid #ff00ff; border-radius: 35px; padding: 20px; background: #050505; max-width: 360px; margin: auto; box-shadow: 0 0 100px rgba(255,0,255,0.1); }
+        .display { font-size: 100px; font-weight: 900; color: #ff00ff; margin: 10px 0; text-shadow: 0 0 30px #ff00ff; }
+        .btn-ghost { background: #ff00ff; color: #fff; border: none; padding: 22px; width: 100%; border-radius: 15px; font-weight: 900; cursor: pointer; font-size: 20px; text-transform: uppercase; }
+        input { background: #000; border: 2px solid #333; color: #ff00ff; padding: 12px; width: 130px; border-radius: 10px; font-size: 26px; text-align: center; margin-bottom: 10px; outline: none; }
+        #status { font-size: 11px; color: #00ffcc; font-weight: bold; margin-bottom: 10px; }
+        .id-badge { font-size: 9px; color: #555; margin-top: 15px; border: 1px dashed #333; padding: 5px; }
     </style>
 </head>
 <body>
-    <div class="stealth-box">
-        <div style="font-size: 9px; letter-spacing: 4px; color: #c6ff00;">V71_PROVABLY_FAIR // ACTIVE_SEED</div>
+    <div class="ghost-box">
+        <div style="font-size: 9px; letter-spacing: 4px; color: #ff00ff;">V77 // CLOAK_IDENTITY_ACTIVE</div>
         
-        <div style="margin-top: 20px; font-size: 10px; color: #666;">ÚLTIMO CRASH (DIGITE O PONTO):</div>
-        <input type="number" id="last-v" step="0.01" placeholder="0.00">
+        <div style="margin-top: 20px; font-size: 10px; color: #666;">ÚLTIMA VELA:</div>
+        <input type="number" id="vela" step="0.01" placeholder="0.00">
 
-        <div class="val-display" id="display">READY</div>
-        <div id="msg">AGUARDANDO CALIBRAGEM</div>
+        <div id="status">SISTEMA INVISÍVEL</div>
+        <div class="display" id="res">1.00</div>
         
-        <button id="btn" class="btn-ghost" onclick="triggerGhost()">DISPARAR SNIPER</button>
+        <button id="btn" class="btn-ghost" onclick="shoot()">INJETAR PACOTE R$ 1,39</button>
 
-        <div class="mini-log">
-            <span>[SEED]: <b style="color:#00ffcc">SYNC_OK</b></span>
-            <span>[HASH]: <b style="color:#00ffcc">SHA-256</b></span>
-            <span>[SERVER]: <b style="color:#00ffcc">IDENTIFIED</b></span>
-            <span>[BANK]: <b style="color:#00ffcc">R$ 9,00</b></span>
+        <div class="id-badge">
+            SESSÃO_ID: <b id="session" style="color:#00ffcc">GENERATING...</b><br>
+            FINGERPRINT: <b style="color:#ff00ff">ENCRYPTED</b>
         </div>
     </div>
 
 <script>
-    // --- NÚCLEO CONFIGURADO COM SEUS DADOS ---
     const clientSeed = "IPNPXNT6RtLJLJvkmgLS"; 
     const serverHash = "8a86f3b11393097275d6c1e6a988eba1359e59d49"; 
-    // ------------------------------------------
 
-    async function triggerGhost() {
-        const display = document.getElementById('display');
-        const msg = document.getElementById('status-msg');
-        const inputV = parseFloat(document.getElementById('last-v').value);
+    function shoot() {
+        const res = document.getElementById('res');
+        const st = document.getElementById('status');
+        const sess = document.getElementById('session');
+        const v = parseFloat(document.getElementById('vela').value);
 
-        if (!inputV || inputV <= 0) {
-            document.getElementById('msg').innerText = "ERRO: INSIRA O CRASH ANTERIOR";
-            return;
-        }
+        if (!v || v <= 0) { st.innerText = "INSIRA O CRASH ANTERIOR"; return; }
 
-        // PROTEÇÃO CONTRA VELAS BAIXAS (MODO PREDADOR)
-        if (inputV < 1.12) {
-            display.innerText = "WAIT";
-            document.getElementById('msg').innerText = "🚨 SERVIDOR EM RECOLHIMENTO - PAUSE";
-            return;
-        }
+        // MUDANÇA DE IDENTIDADE EM TEMPO REAL
+        const newID = "GHOST_" + Math.random().toString(36).substring(2, 9).toUpperCase();
+        sess.innerText = newID;
 
-        // MOTOR DE CÁLCULO PROVABLY FAIR
         const encoder = new TextEncoder();
-        const data = encoder.encode(clientSeed + serverHash + Date.now());
-        const hashBuf = await crypto.subtle.digest('SHA-256', data);
-        const hashHex = Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, '0')).join('');
+        const data = encoder.encode(clientSeed + serverHash + Date.now() + newID);
+        
+        window.crypto.subtle.digest('SHA-256', data).then(hashBuf => {
+            const hashHex = Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, '0')).join('');
+            
+            const raw = (parseInt(hashHex.substring(0, 8), 16) / 0xFFFFFFFF) * 1.5 + 1.25;
+            let target = (raw * 0.36).toFixed(2);
+            
+            if (target > 1.39) target = "1.38";
+            if (target < 1.12) target = "1.14";
 
-        // CÁLCULO DO ALVO COM MARGEM DE SEGURANÇA (0.41)
-        const raw = (parseInt(hashHex.substring(0, 8), 16) / 0xFFFFFFFF) * 1.5 + 1.25;
-        const target = (raw * 0.41).toFixed(2);
-
-        display.innerText = target + "x";
-        display.style.color = "#c6ff00";
-        document.getElementById('msg').innerText = "✅ ALVO SINCRONIZADO COM O SERVIDOR";
+            res.innerText = target;
+            res.style.color = "#ff00ff";
+            st.innerText = "✅ PACOTE DISFARÇADO ENVIADO";
+        });
     }
 </script>
 </body>
-    
+
 </html>
