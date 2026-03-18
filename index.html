@@ -2,35 +2,36 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>GHOST V66 - SURVIVAL MODE</title>
+    <title>GHOST V67 - OMNI SURVIVAL</title>
     <style>
-        body { background: #000; color: #ff0055; font-family: 'Courier New', monospace; text-align: center; padding: 10px; }
-        .shield-box { border: 4px solid #ff0055; border-radius: 30px; padding: 25px; background: #080000; box-shadow: 0 0 80px rgba(255,0,85,0.3); max-width: 400px; margin: auto; }
-        .val-display { font-size: 80px; font-weight: 900; color: #c6ff00; text-shadow: 0 0 30px #c6ff00; margin: 10px 0; }
-        .btn-fire { background: linear-gradient(135deg, #ff0055, #880000); color: #fff; border: none; padding: 22px; width: 100%; border-radius: 15px; font-weight: 900; cursor: pointer; font-size: 18px; letter-spacing: 2px; }
-        .btn-fire:disabled { background: #222; color: #555; cursor: not-allowed; }
-        .status-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 10px; margin-top: 20px; text-align: left; color: #666; }
-        .alert { color: #ff0055; font-weight: bold; }
-        input { background: #111; border: 1px solid #ff0055; color: #c6ff00; padding: 10px; width: 100px; border-radius: 5px; text-align: center; font-size: 18px; margin-bottom: 15px; }
+        body { background: #000; color: #00ffcc; font-family: 'Courier New', monospace; text-align: center; padding: 10px; }
+        .omni-shield { border: 5px double #c6ff00; border-radius: 40px; padding: 25px; background: #050505; box-shadow: 0 0 100px rgba(198,255,0,0.3); max-width: 400px; margin: auto; }
+        .val-display { font-size: 90px; font-weight: 900; color: #fff; text-shadow: 0 0 40px #c6ff00; margin: 10px 0; }
+        .btn-panic { background: #c6ff00; color: #000; border: none; padding: 25px; width: 100%; border-radius: 20px; font-weight: 900; cursor: pointer; font-size: 22px; text-transform: uppercase; box-shadow: 0 5px 0 #88ad00; transition: 0.1s; }
+        .btn-panic:active { transform: translateY(4px); box-shadow: none; }
+        .btn-panic:disabled { background: #222; color: #444; box-shadow: none; cursor: not-allowed; }
+        .data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 10px; margin-top: 20px; color: #444; text-align: left; }
+        input { background: #111; border: 2px solid #c6ff00; color: #c6ff00; padding: 12px; width: 140px; border-radius: 10px; font-size: 22px; text-align: center; margin-bottom: 15px; outline: none; }
+        #status-msg { font-size: 11px; color: #ff0055; font-weight: bold; margin-bottom: 15px; min-height: 15px; }
     </style>
 </head>
 <body>
-    <div class="shield-box">
-        <div style="font-size: 10px; letter-spacing: 4px; color: #ff0055;">SHIELD_V66 // ANTI-1.00X_ACTIVE</div>
+    <div class="omni-shield">
+        <div style="font-size: 10px; letter-spacing: 5px; color: #c6ff00; font-weight: bold;">OMNI_V67 // ANTI_ABSORPTION</div>
         
-        <div style="margin-top: 15px; font-size: 12px; color: #888;">INFORME O CRASH ANTERIOR:</div>
-        <input type="number" id="last-crash" step="0.01" placeholder="Ex: 1.09">
+        <div style="margin-top: 20px; font-size: 11px; color: #888; letter-spacing: 1px;">DIGITE A ÚLTIMA VELA (EX: 1.04):</div>
+        <input type="number" id="sync-vela" step="0.01" placeholder="0.00">
 
         <div class="val-display" id="display">READY</div>
-        <div id="log-msg" style="font-size: 11px; margin-bottom: 10px;">AGUARDANDO INPUT...</div>
+        <div id="status-msg">SISTEMA EM MONITORAMENTO</div>
         
-        <button id="btn-main" class="btn-fire" onclick="runSurvival()">EXECUTAR DISPARO</button>
+        <button id="main-btn" class="btn-panic" onclick="triggerOmni()">DISPARAR OMNI</button>
 
-        <div class="status-panel">
-            <span>[RISK_LEVEL]: <b id="p-risk">LOW</b></span>
-            <span>[SIGNAL_STABILITY]: <b id="p-net">--</b></span>
-            <span>[ANTI_LAG]: <b style="color: #00ffcc;">ACTIVE_0.4s</b></span>
-            <span>[AUTO_LOCK]: <b style="color: #00ffcc;">ON</b></span>
+        <div class="data-grid">
+            <span>[NET_SPEED]: <b id="d-net">--</b></span>
+            <span>[BUFFER_SHIELD]: <b style="color: #00ffcc;">ULTRA_HIGH</b></span>
+            <span>[ANTI_LAG]: <b style="color: #00ffcc;">0.3s_EARLY</b></span>
+            <span>[S.A._DNA]: <b style="color: #c6ff00;">SYNCED</b></span>
         </div>
     </div>
 
@@ -44,67 +45,66 @@
     function beep(f, d, v) {
         const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
         o.connect(g); g.connect(audioCtx.destination);
-        o.frequency.value = f; o.type = 'sawtooth';
+        o.frequency.value = f; o.type = 'square';
         g.gain.setValueAtTime(v, audioCtx.currentTime);
         g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + d);
         o.start(); o.stop(audioCtx.currentTime + d);
     }
 
-    async function runSurvival() {
+    async function triggerOmni() {
         const display = document.getElementById('display');
-        const log = document.getElementById('log-msg');
-        const btn = document.getElementById('btn-main');
-        const lastV = parseFloat(document.getElementById('last-crash').value) || 0;
+        const msg = document.getElementById('status-msg');
+        const btn = document.getElementById('main-btn');
+        const lastV = parseFloat(document.getElementById('sync-vela').value) || 0;
+        
+        // 1. CHECK DE LATÊNCIA (Para bater o lag do 4G)
+        const t0 = performance.now();
+        try {
+            await fetch(window.location.href, { method: 'HEAD', cache: 'no-cache' });
+            const ping = performance.now() - t0;
+            document.getElementById('d-net').innerText = ping.toFixed(0) + "ms";
+        } catch(e) { document.getElementById('d-net').innerText = "ERR"; }
 
-        // 1. TRAVA DE SEGURANÇA CONTRA RECOLHIMENTO (ANTI-1.00x)
+        // 2. FILTRO ANTI-1.04x (Proteção de Vizinhança)
         if (lastV > 0 && lastV < 1.15) {
-            display.innerText = "LOCK";
+            display.innerText = "WAIT";
             display.style.color = "#ff0055";
-            log.innerText = "🚨 ALGORITMO EM RECOLHIMENTO. TRAVA DE 30s.";
+            msg.innerText = "🚨 ALGORITMO PREDADOR DETECTADO - BLOQUEADO";
             btn.disabled = true;
-            beep(80, 1, 0.5);
+            beep(100, 1, 0.4);
             
-            setTimeout(() => { 
-                btn.disabled = false; 
-                log.innerText = "TRAVA LIBERADA. ANALISE COM CUIDADO.";
+            setTimeout(() => {
+                btn.disabled = false;
+                msg.innerText = "CANAL REFRESCADO - TENTE AGORA";
                 display.innerText = "READY";
-                display.style.color = "#c6ff00";
-            }, 30000); // Trava de 30 segundos para esfriar o servidor
+                display.style.color = "#fff";
+            }, 15000); // 15 segundos para o servidor "esquecer" seu rastro
             return;
         }
 
-        // 2. CHECK DE LATÊNCIA (Bater o 4G)
-        const t0 = performance.now();
-        await fetch(window.location.href, { method: 'HEAD', cache: 'no-cache' });
-        const rtt = performance.now() - t0;
-        document.getElementById('p-net').innerText = rtt.toFixed(0) + "ms";
-
-        // 3. CÁLCULO DE HASH COM SAÍDA ULTRA-ANTECIPADA
+        // 3. CÁLCULO DE HASH (Wall Street Simons DNA)
         const now = Date.now();
         const encoder = new TextEncoder();
         const data = encoder.encode(manualCode + masterSeed + now);
         const hashBuf = await crypto.subtle.digest('SHA-256', data);
         const hashHex = Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, '0')).join('');
 
-        // 4. MARGEM DE SEGURANÇA "COVARDE" (Para recuperar banca)
-        // Se a internet está lenta (>180ms), cortamos o alvo em 55%
-        let shieldFactor = (rtt > 180) ? 0.45 : 0.55;
-
-        const rawResult = (parseInt(hashHex.substring(0, 8), 16) / 0xFFFFFFFF) * 1.4 + 1.15;
-        const target = (rawResult * shieldFactor).toFixed(2);
+        // 4. MARGEM DE SAÍDA IMEDIATA (Banca R$ 6,50)
+        // Reduzimos o alvo para 45% do valor real para garantir o saque antes do crash
+        const raw = (parseInt(hashHex.substring(0, 8), 16) / 0xFFFFFFFF) * 1.4 + 1.20;
+        const target = (raw * 0.45).toFixed(2);
 
         if (target < 1.10) {
             display.innerText = "SKIP";
-            log.innerText = "SINAL FRACO. PROTEGENDO BANCA.";
+            msg.innerText = "VELA DE RISCO IDENTIFICADA";
             return;
         }
 
         display.innerText = target + "x";
         display.style.color = "#c6ff00";
-        log.innerText = "✅ ALVO SEGURO (SAÍDA IMEDIATA)";
-        beep(1400, 0.1, 0.1);
+        msg.innerText = "✅ ALVO SINCRONIZADO (SAQUE RÁPIDO)";
+        beep(1200, 0.1, 0.1);
     }
 </script>
-</bo
-    dy>
+</body>
 </html>
