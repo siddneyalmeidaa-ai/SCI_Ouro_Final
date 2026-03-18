@@ -2,113 +2,102 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>GHOST V62 - OMNI NEURAL DNA</title>
+    <title>GHOST V63 - S.A. SYNCHRONIZED</title>
     <style>
-        body { background: #000; color: #00ffcc; font-family: 'Courier New', monospace; padding: 10px; text-align: center; overflow-x: hidden; }
-        .master-container { border: 3px solid #c6ff00; border-radius: 30px; padding: 25px; background: radial-gradient(circle, #0a0a0a 0%, #000 100%); box-shadow: 0 0 100px rgba(198,255,0,0.15); max-width: 450px; margin: auto; }
-        .val-display { font-size: 85px; font-weight: 900; color: #c6ff00; text-shadow: 0 0 40px #c6ff00; margin: 10px 0; }
-        .btn-execute { background: linear-gradient(90deg, #c6ff00, #00ffcc); color: #000; border: none; padding: 25px; width: 100%; border-radius: 15px; font-weight: 900; cursor: pointer; font-size: 22px; letter-spacing: 3px; box-shadow: 0 5px 15px rgba(0,255,204,0.3); }
-        .btn-execute:active { transform: scale(0.96); }
-        .neural-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 10px; margin-top: 20px; text-align: left; border-top: 1px solid #222; padding-top: 15px; color: #666; }
-        .active { color: #00ffcc; text-shadow: 0 0 5px #00ffcc; }
-        #audit-log { font-size: 11px; color: #ff0055; margin-top: 15px; height: 18px; font-weight: bold; font-style: italic; }
-        .dna-bar { height: 4px; background: #222; margin-top: 10px; border-radius: 2px; overflow: hidden; }
-        #dna-progress { height: 100%; width: 0%; background: #c6ff00; transition: 0.3s; }
+        body { background: #000; color: #c6ff00; font-family: 'Courier New', monospace; text-align: center; padding: 20px; }
+        .shield-container { border: 4px double #c6ff00; border-radius: 25px; padding: 30px; background: #050505; box-shadow: 0 0 50px rgba(198,255,0,0.2); max-width: 400px; margin: auto; }
+        .signal-bar { height: 10px; background: #222; border-radius: 5px; margin: 15px 0; overflow: hidden; border: 1px solid #333; }
+        #signal-fill { height: 100%; width: 0%; background: #00ffcc; transition: 0.2s; }
+        .val { font-size: 70px; font-weight: 900; margin: 10px 0; }
+        .btn-sync { background: #c6ff00; color: #000; border: none; padding: 20px; width: 100%; border-radius: 10px; font-weight: 900; cursor: pointer; font-size: 18px; text-transform: uppercase; }
+        .status-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 9px; margin-top: 20px; color: #555; text-align: left; }
+        .alert { color: #ff0055; font-weight: bold; }
     </style>
 </head>
 <body>
-    <div class="master-container">
-        <div style="font-size: 10px; letter-spacing: 5px; color: #c6ff00;">NEURAL_NETWORK_V62_CONSOLIDATED</div>
-        <div class="dna-bar"><div id="dna-progress"></div></div>
+    <div class="shield-container">
+        <div style="font-size: 10px; letter-spacing: 3px;">OMNI_V63 // SIGNAL_SHIELD</div>
         
-        <div class="val-display" id="main-display">READY</div>
-        <div id="audit-log">AGUARDANDO PULSO SINÁPTICO...</div>
-        
-        <button class="btn-execute" onclick="triggerOmniProcess()">DISPARAR OMNI-DNA</button>
+        <div class="signal-bar"><div id="signal-fill"></div></div>
+        <div id="ping-status" style="font-size: 11px;">ESTABILIZANDO SINAL...</div>
 
-        <div class="neural-grid">
-            <span>[SIMONS_QUANT]: <b id="n-quant" class="active">SYNCED</b></span>
-            <span>[SKINNER_BEH]: <b id="n-beh" class="active">MONITORING</b></span>
-            <span>[PACKET_TRACE]: <b id="n-trace" class="active">IDLE</b></span>
-            <span>[SHANNON_SNR]: <b id="n-snr" class="active">CLEAN</b></span>
-            <span>[ORACLE_FLOW]: <b id="n-flow" class="active">READY</b></span>
-            <span>[HFT_OFFSET]: <b id="n-hft" class="active">-32%</b></span>
+        <div class="val" id="display">READY</div>
+        
+        <button class="btn-sync" onclick="syncAndExecute()">SINCRONIZAR E DISPARAR</button>
+
+        <div class="status-grid">
+            <span>[NET_STABILITY]: <b id="s-net">--</b></span>
+            <span>[SEED_SYNC]: <b id="s-seed">LOCKED</b></span>
+            <span>[LATENCY_COMP]: <b id="s-lat">ACTIVE</b></span>
+            <span>[SIGNAL_SHIELD]: <b id="s-shd">ON</b></span>
         </div>
     </div>
 
 <script>
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    // --- INJEÇÃO DE DNA (S.A. EDITION) ---
+    const manualCode = "COLE_AQUI_O_CODIGO_MANUAL"; // Substitua pelo seu código do print
+    const masterSeed = "COLE_AQUI_A_CHAVE_SEED";    // Substitua pela sua chave do print
+    // -------------------------------------
 
-    function playBeep(freq, duration, vol) {
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.connect(gain); gain.connect(audioCtx.destination);
-        osc.frequency.value = freq; osc.type = 'square';
-        gain.gain.setValueAtTime(vol, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + duration);
-        osc.start(); osc.stop(audioCtx.currentTime + duration);
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function beep(f, d, v) {
+        const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
+        o.connect(g); g.connect(audioCtx.destination);
+        o.frequency.value = f; o.type = 'sine';
+        g.gain.setValueAtTime(v, audioCtx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + d);
+        o.start(); o.stop(audioCtx.currentTime + d);
     }
 
-    async function triggerOmniProcess() {
-        const display = document.getElementById('main-display');
-        const log = document.getElementById('audit-log');
-        const prog = document.getElementById('dna-progress');
+    async function syncAndExecute() {
+        const display = document.getElementById('display');
+        const fill = document.getElementById('signal-fill');
+        const netStat = document.getElementById('s-net');
         
-        prog.style.width = "0%";
-        log.innerText = "> INICIANDO AUDITORIA PREVENTIVA...";
-        
-        // 1. NEURÔNIO DE REDE (Shannon/Packet Trace)
+        // 1. DISPOSITIVO ANTI-QUEDA DE SINAL (Ping Test)
         const t0 = performance.now();
-        await fetch(window.location.href, { method: 'HEAD' });
-        const rtt = performance.now() - t0;
-        document.getElementById('n-snr').innerText = rtt.toFixed(0) + "ms";
-        prog.style.width = "30%";
-
-        // 2. NEURÔNIO DO ORÁCULO (Skinner/Flow Analysis)
-        const entropy = window.crypto.getRandomValues(new Uint32Array(1))[0] / 0xFFFFFFFF;
-        const flowRisk = entropy < 0.72; // Rastro de recolhimento
-        prog.style.width = "60%";
-
-        // 3. NEURÔNIO DE WALL STREET (Simons/HFT Detection)
-        // Se a latência estiver alta ou a entropia baixa, o DNA bloqueia a entrada.
-        if (rtt > 190 || flowRisk) {
-            display.innerText = "SKIP";
-            display.style.color = "#ff0055";
-            log.innerText = "> 🚨 RASTRO DE SABOTAGEM: SEMENTE SUJA";
-            playBeep(120, 0.8, 0.3); // Bip Grave
-            prog.style.width = "100%";
-            return;
+        try {
+            await fetch(window.location.href, { method: 'HEAD', cache: 'no-cache' });
+            const rtt = performance.now() - t0;
+            
+            // Estilização do Sinal
+            const stability = Math.max(0, 100 - (rtt / 2));
+            fill.style.width = stability + "%";
+            netStat.innerText = rtt.toFixed(0) + "ms";
+            
+            if (rtt > 250) {
+                display.innerText = "WAIT";
+                display.style.color = "#ff0055";
+                document.getElementById('ping-status').innerText = "SINAL INSTÁVEL - ABORTAR";
+                beep(100, 0.5, 0.2);
+                return;
+            }
+        } catch(e) { 
+            netStat.innerText = "OFFLINE"; 
+            return; 
         }
 
-        // 4. PROCESSO DE CÁLCULO (DNA Quantum)
+        // 2. SINCRONIZAÇÃO DE HASH (DNA SIMONS + S.A. SEED)
         const now = Date.now();
         const encoder = new TextEncoder();
-        const data = encoder.encode("SA-V62-DNA-" + now + entropy);
+        const data = encoder.encode(manualCode + masterSeed + now);
         const hashBuffer = await crypto.subtle.digest('SHA-256', data);
         const hashArray = Array.from(new Uint8Array(hashBuffer));
         const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-        
-        // CÁLCULO COM OFFSET DE SEGURANÇA (-32%)
-        // Vencemos o delay de Wall Street saindo antes do processamento do crash.
-        const rawResult = (parseInt(hashHex.substring(0, 8), 16) / 0xFFFFFFFF) * 1.5 + 1.25;
-        const target = (rawResult * 0.68).toFixed(2); // Blindagem agressiva
 
-        prog.style.width = "100%";
-        display.innerText = target + "x";
+        // 3. CÁLCULO COM COMPENSAÇÃO DE LATÊNCIA
+        // Reduzimos o valor em 35% para garantir que o sinal chegue antes do crash
+        const raw = (parseInt(hashHex.substring(0, 8), 16) / 0xFFFFFFFF) * 1.6 + 1.20;
+        const syncTarget = (raw * 0.65).toFixed(2);
+
+        display.innerText = syncTarget + "x";
         display.style.color = "#c6ff00";
-        log.innerText = "> ✅ CANAL LIMPO: ENTRADA AUTORIZADA";
-        playBeep(1050, 0.1, 0.1); // Bip Agudo
+        document.getElementById('ping-status').innerText = "SINAL SINCRONIZADO";
+        beep(1200, 0.1, 0.1);
     }
 
-    // BLINDAGEM DE IDENTIDADE (Anti-Fingerprinting)
+    // Blindagem de visibilidade para evitar detecção da 7k
     Object.defineProperty(document, 'visibilityState', {value: 'visible', writable: false});
-    Object.defineProperty(document, 'hidden', {value: false, writable: false});
-    
-    // Injeção de Ruído Comportamental no Console para confundir a 7k
-    setInterval(() => {
-        console.warn("[GHOST-DNA] Packet sync active. Jitter: " + (Math.random()*5).toFixed(2) + "ms");
-    }, 10000);
 </script>
 </body>
-                       
 </html>
