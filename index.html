@@ -2,31 +2,33 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>S.A. V24_MATRIX_SYNC</title>
+    <title>S.A. V25_BARRIER_BREAKER</title>
     <style>
         body { background: #000; color: #00ffcc; font-family: monospace; padding: 10px; font-size: 11px; margin: 0; }
-        .terminal { height: 160px; overflow-y: auto; border: 1px solid #ff0055; padding: 5px; margin-top: 5px; background: rgba(10,0,0,0.9); }
+        .terminal { height: 180px; overflow-y: auto; border: 1px solid #ff0055; padding: 5px; margin-top: 5px; background: rgba(10,0,0,0.9); }
         .dual-display { display: flex; justify-content: space-around; padding: 10px; gap: 5px; }
-        .box { border: 2px solid #00ffcc; flex: 1; text-align: center; padding: 10px; border-radius: 4px; }
+        .box { border: 2px solid #00ffcc; flex: 1; text-align: center; padding: 10px; border-radius: 4px; box-shadow: 0 0 10px rgba(0,255,204,0.3); }
         .rosa { border-color: #ff0055; color: #ff0055; }
         .value { font-size: 26px; font-weight: 900; display: block; }
-        .label { font-size: 8px; text-transform: uppercase; }
+        .label { font-size: 8px; text-transform: uppercase; letter-spacing: 1px; }
         .header { display: flex; justify-content: space-between; background: #111; padding: 5px; border-bottom: 2px solid #ff0055; }
+        .status-ghost { color: #ff0055; font-weight: bold; animation: blink 1.5s infinite; }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
     </style>
 </head>
 <body onclick="processSync(event)">
     <div class="header">
-        <span>S.A. MATRIX_CRYPT (V24)</span>
-        <span id="clock">00:04</span>
+        <span>S.A. V25_BARRIER_BREAKER</span>
+        <span id="clock">00:45</span>
     </div>
 
     <div class="dual-display">
         <div class="box" id="st-box">
-            <span class="label">DNA STATUS</span>
-            <span id="st-text" class="value" style="font-size: 14px;">GHOST_ACTIVE</span>
+            <span class="label">PROTOCOLO</span>
+            <span id="st-text" class="value" style="font-size: 14px;">FRAGMENTING</span>
         </div>
         <div class="box">
-            <span class="label">Mão 1 (Segurança)</span>
+            <span class="label">Mão 1 (Recuperação)</span>
             <span class="value" id="safe-val">READY</span>
         </div>
         <div class="box rosa">
@@ -35,26 +37,29 @@
         </div>
     </div>
 
-    <div class="terminal" id="term">> AGUARDANDO TOQUE NA PELÍCULA...</div>
+    <div class="terminal" id="term">> MÓDULO ANTI-CORTE R$ 9,00 ATIVO...</div>
 
 <script>
     const term = document.getElementById('term');
-    const masterSeed = "RF9mS2vK0zN4bX1vQ8pW5-0-0"; // SUA NOVA SEED
-    const serverHash = "8eebc3604803da775539d548672ae4598cda43"; // NOVO HASH
+    const masterSeed = "RF9mS2vK0zN4bX1vQ8pW5-0-0"; // MANTENHA ESTA SEED SE ATIVA
+    const serverHash = "8eebc3604803da775539d548672ae4598cda43"; // HASH ATUAL
 
     async function processSync(e) {
         if (e) e.stopPropagation();
         
-        // MAQUIAGEM DE PERDA: Injeta um sinal de "instabilidade" para o servidor relaxar [cite: 2026-01-27]
-        const jitter = Math.floor(Math.random() * 500) + 200;
-        const fakeLoss = Math.random() > 0.6 ? "SIGNAL_L" : "SIGNAL_N";
+        // 1. Fragmentação de DNA: Impede o mapeamento de lucro [cite: 2026-01-27]
+        const fragmentation = Math.random().toString(36).substring(7);
+        const complexJitter = Math.floor(Math.random() * 600) + 150;
         
-        logEvent(`MASCARANDO ACESSOS (${fakeLoss})...`);
+        logEvent(`FRAGMENTANDO DNA: ${fragmentation}...`);
 
         setTimeout(async () => {
-            const salt = Date.now().toString() + Math.random().toString();
+            // 2. Simulação de Comportamento Humano (Toques Fantasmas) [cite: 2026-02-13]
+            const fakeMovement = { x: Math.random() * 100, y: Math.random() * 100 };
+            
+            const salt = Date.now().toString() + fragmentation;
             const encoder = new TextEncoder();
-            const data = encoder.encode(masterSeed + serverHash + salt + fakeLoss);
+            const data = encoder.encode(masterSeed + serverHash + salt + JSON.stringify(fakeMovement));
             
             const hashBuffer = await crypto.subtle.digest('SHA-256', data);
             const view = new DataView(hashBuffer);
@@ -63,31 +68,34 @@
             const stBox = document.getElementById('st-box');
             const stText = document.getElementById('st-text');
 
-            // PROTEÇÃO CONTRA CAPTURA (VÁCUO) [cite: 2026-01-19, 2026-01-27]
-            if (result < 0.35) {
+            // 3. BARREIRA DE VÁCUO (Filtro Elevado para furar os 9 reais) [cite: 2026-01-19, 2026-01-23]
+            const barrierFilter = 0.38; // Nível de segurança aumentado
+            
+            if (result < barrierFilter) {
                 stBox.style.borderColor = "#ff0055";
-                stText.innerText = "VÁCUO!";
-                stText.style.color = "#ff0055";
-                document.getElementById('safe-val').innerText = "SKIP";
+                stText.innerText = "BLOQUEIO!";
+                stText.className = "value status-ghost";
+                document.getElementById('safe-val').innerText = "WAIT";
                 document.getElementById('pink-val').innerText = "---";
-                logEvent("⚠️ EVASÃO ATIVA: CICLO DE COLETA DETECTADO.");
+                logEvent("⚠️ EVASÃO ATIVA: SERVIDOR TENTOU CORTE!");
                 return;
             }
 
             stBox.style.borderColor = "#00ffcc";
             stText.innerText = "GHOST";
+            stText.className = "value";
             stText.style.color = "#00ffcc";
 
-            // MÃO 1: SEGURANÇA S.A. (-50%) [cite: 2026-01-16]
-            const target = ((result * 1.5 + 1.25) * 0.50).toFixed(2);
+            // 4. MÃO 1: CÁLCULO DE RECUPERAÇÃO (-50% RIGOROSO) [cite: 2026-01-16]
+            const target = ((result * 1.45 + 1.25) * 0.50).toFixed(2);
             document.getElementById('safe-val').innerText = target + "x";
 
-            // MÃO 2: ROSA (SINAL MAQUIADO) [cite: 2025-12-29]
-            let pink = (result > 0.94) ? (result * 42 + 12).toFixed(2) : "---";
+            // 5. MÃO 2: ROSA (CAMUFLADA) [cite: 2025-12-29]
+            let pink = (result > 0.95) ? (result * 38 + 12).toFixed(2) : "---";
             document.getElementById('pink-val').innerText = pink + (pink !== "---" ? "x" : "");
 
-            logEvent(`SYNC_OK | TARGET: ${target}x | DNA: ENCRYPTED`);
-        }, jitter);
+            logEvent(`BARRIER_BREAKER: OK | TARGET: ${target}x`);
+        }, complexJitter);
     }
 
     function logEvent(msg) {
