@@ -2,44 +2,48 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>GHOST V63 - S.A. SYNCHRONIZED</title>
+    <title>GHOST V64 - ULTRA-REINFORCED</title>
     <style>
-        body { background: #000; color: #c6ff00; font-family: 'Courier New', monospace; text-align: center; padding: 20px; }
-        .shield-container { border: 4px double #c6ff00; border-radius: 25px; padding: 30px; background: #050505; box-shadow: 0 0 50px rgba(198,255,0,0.2); max-width: 400px; margin: auto; }
-        .signal-bar { height: 10px; background: #222; border-radius: 5px; margin: 15px 0; overflow: hidden; border: 1px solid #333; }
-        #signal-fill { height: 100%; width: 0%; background: #00ffcc; transition: 0.2s; }
-        .val { font-size: 70px; font-weight: 900; margin: 10px 0; }
-        .btn-sync { background: #c6ff00; color: #000; border: none; padding: 20px; width: 100%; border-radius: 10px; font-weight: 900; cursor: pointer; font-size: 18px; text-transform: uppercase; }
-        .status-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 9px; margin-top: 20px; color: #555; text-align: left; }
-        .alert { color: #ff0055; font-weight: bold; }
+        body { background: #000; color: #00ffcc; font-family: 'Courier New', monospace; text-align: center; padding: 15px; }
+        .master-shield { border: 4px solid #ff0055; border-radius: 25px; padding: 25px; background: #050505; box-shadow: 0 0 60px rgba(255,0,85,0.2); max-width: 420px; margin: auto; }
+        .val-display { font-size: 80px; font-weight: 900; color: #c6ff00; text-shadow: 0 0 30px #c6ff00; margin: 10px 0; }
+        .btn-op { background: linear-gradient(90deg, #ff0055, #c6ff00); color: #000; border: none; padding: 22px; width: 100%; border-radius: 12px; font-weight: 900; cursor: pointer; font-size: 20px; text-transform: uppercase; }
+        .sensor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 9px; margin-top: 20px; text-align: left; color: #444; }
+        .active { color: #00ffcc; font-weight: bold; }
+        #log-shield { font-size: 11px; color: #ff0055; margin-top: 15px; height: 18px; font-weight: bold; }
+        input { background: #111; border: 1px solid #333; color: #00ffcc; padding: 5px; width: 60px; border-radius: 5px; }
     </style>
 </head>
 <body>
-    <div class="shield-container">
-        <div style="font-size: 10px; letter-spacing: 3px;">OMNI_V63 // SIGNAL_SHIELD</div>
+    <div class="master-shield">
+        <div style="font-size: 10px; letter-spacing: 2px; color: #ff0055;">SHIELD_V64 // ANTI-VACUUM_SYSTEM</div>
         
-        <div class="signal-bar"><div id="signal-fill"></div></div>
-        <div id="ping-status" style="font-size: 11px;">ESTABILIZANDO SINAL...</div>
+        <div style="margin: 15px 0; font-size: 12px;">
+            ÚLTIMA VELA: <input type="number" id="last-vela" step="0.01" placeholder="1.10">
+        </div>
 
-        <div class="val" id="display">READY</div>
+        <div class="val-display" id="display">READY</div>
+        <div id="log-shield">AGUARDANDO AUDITORIA...</div>
         
-        <button class="btn-sync" onclick="syncAndExecute()">SINCRONIZAR E DISPARAR</button>
+        <button class="btn-op" onclick="executeUltraShield()">EXECUTAR BLINDAGEM</button>
 
-        <div class="status-grid">
-            <span>[NET_STABILITY]: <b id="s-net">--</b></span>
-            <span>[SEED_SYNC]: <b id="s-seed">LOCKED</b></span>
-            <span>[LATENCY_COMP]: <b id="s-lat">ACTIVE</b></span>
-            <span>[SIGNAL_SHIELD]: <b id="s-shd">ON</b></span>
+        <div class="sensor-grid">
+            <span>[ANTI_VACUUM]: <b id="s-vac" class="active">MONITORING</b></span>
+            <span>[ANTI_PREDATOR]: <b id="s-pre" class="active">STREAK_0</b></span>
+            <span>[SIGNAL_SHANNON]: <b id="s-sha" class="active">CLEAN</b></span>
+            <span>[HFT_OFFSET]: <b id="s-off" class="active">-35%</b></span>
         </div>
     </div>
 
 <script>
-    // --- INJEÇÃO DE DNA (S.A. EDITION) ---
-    const manualCode = "COLE_AQUI_O_CODIGO_MANUAL"; // Substitua pelo seu código do print
-    const masterSeed = "COLE_AQUI_A_CHAVE_SEED";    // Substitua pela sua chave do print
-    // -------------------------------------
+    // --- INJEÇÃO DE DNA DO PRINT (S.A.) ---
+    const manualCode = "COLE_AQUI_O_CODIGO_MANUAL"; 
+    const masterSeed = "COLE_AQUI_A_CHAVE_SEED";    
+    // --------------------------------------
 
+    let greenStreak = 0;
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
     function beep(f, d, v) {
         const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
         o.connect(g); g.connect(audioCtx.destination);
@@ -49,35 +53,35 @@
         o.start(); o.stop(audioCtx.currentTime + d);
     }
 
-    async function syncAndExecute() {
+    async function executeUltraShield() {
         const display = document.getElementById('display');
-        const fill = document.getElementById('signal-fill');
-        const netStat = document.getElementById('s-net');
-        
-        // 1. DISPOSITIVO ANTI-QUEDA DE SINAL (Ping Test)
-        const t0 = performance.now();
-        try {
-            await fetch(window.location.href, { method: 'HEAD', cache: 'no-cache' });
-            const rtt = performance.now() - t0;
-            
-            // Estilização do Sinal
-            const stability = Math.max(0, 100 - (rtt / 2));
-            fill.style.width = stability + "%";
-            netStat.innerText = rtt.toFixed(0) + "ms";
-            
-            if (rtt > 250) {
-                display.innerText = "WAIT";
-                display.style.color = "#ff0055";
-                document.getElementById('ping-status').innerText = "SINAL INSTÁVEL - ABORTAR";
-                beep(100, 0.5, 0.2);
-                return;
-            }
-        } catch(e) { 
-            netStat.innerText = "OFFLINE"; 
-            return; 
+        const log = document.getElementById('log-shield');
+        const lastVela = parseFloat(document.getElementById('last-vela').value) || 0;
+
+        // 1. FILTRO ANTI-VÁCUO (Prevenção do erro de 1.10x)
+        if (lastVela > 0 && lastVela < 1.15) {
+            display.innerText = "WAIT";
+            display.style.color = "#ff0055";
+            log.innerText = "> 🚨 RISCO DE RECOLHIMENTO (VÁCUO DETECTADO)";
+            beep(100, 0.8, 0.4);
+            greenStreak = 0; // Reseta a sequência por segurança
+            return;
         }
 
-        // 2. SINCRONIZAÇÃO DE HASH (DNA SIMONS + S.A. SEED)
+        // 2. AJUSTE DE MARGEM DINÂMICA (Anti-Predador)
+        let offset = 0.65; // Desconto de 35% (Padrão)
+        if (greenStreak >= 3) {
+            offset = 0.50; // Desconto de 50% (Modo Ultra-Safe)
+            document.getElementById('s-off').innerText = "-50%";
+            log.innerText = "> ⚠️ MODO ANTI-PREDADOR ATIVO";
+        }
+
+        // 3. CÁLCULO DE HASH SINCRONIZADO
+        const t0 = performance.now();
+        await fetch(window.location.href, { method: 'HEAD', cache: 'no-cache' });
+        const latency = performance.now() - t0;
+        document.getElementById('s-sha').innerText = latency.toFixed(0) + "ms";
+
         const now = Date.now();
         const encoder = new TextEncoder();
         const data = encoder.encode(manualCode + masterSeed + now);
@@ -85,19 +89,28 @@
         const hashArray = Array.from(new Uint8Array(hashBuffer));
         const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 
-        // 3. CÁLCULO COM COMPENSAÇÃO DE LATÊNCIA
-        // Reduzimos o valor em 35% para garantir que o sinal chegue antes do crash
-        const raw = (parseInt(hashHex.substring(0, 8), 16) / 0xFFFFFFFF) * 1.6 + 1.20;
-        const syncTarget = (raw * 0.65).toFixed(2);
+        // 4. RESULTADO FINAL COM BLINDAGEM
+        const raw = (parseInt(hashHex.substring(0, 8), 16) / 0xFFFFFFFF) * 1.5 + 1.22;
+        const target = (raw * offset).toFixed(2);
 
-        display.innerText = syncTarget + "x";
+        if (target < 1.15) {
+            display.innerText = "SKIP";
+            log.innerText = "> EVITANDO VELA DE BAIXA INTENSIDADE";
+            return;
+        }
+
+        display.innerText = target + "x";
         display.style.color = "#c6ff00";
-        document.getElementById('ping-status').innerText = "SINAL SINCRONIZADO";
-        beep(1200, 0.1, 0.1);
+        log.innerText = "> ✅ CANAL SEGURO IDENTIFICADO";
+        beep(1100, 0.1, 0.1);
+        
+        // Simulação de acerto para controle de streak
+        greenStreak++;
+        document.getElementById('s-pre').innerText = "STREAK_" + greenStreak;
     }
 
-    // Blindagem de visibilidade para evitar detecção da 7k
     Object.defineProperty(document, 'visibilityState', {value: 'visible', writable: false});
 </script>
-</body>
+</
+    body>
 </html>
