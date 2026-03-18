@@ -2,109 +2,101 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>GHOST V67 - OMNI SURVIVAL</title>
+    <title>GHOST V70 - SHADOW STEALTH</title>
     <style>
-        body { background: #000; color: #00ffcc; font-family: 'Courier New', monospace; text-align: center; padding: 10px; }
-        .omni-shield { border: 5px double #c6ff00; border-radius: 40px; padding: 25px; background: #050505; box-shadow: 0 0 100px rgba(198,255,0,0.3); max-width: 400px; margin: auto; }
-        .val-display { font-size: 90px; font-weight: 900; color: #fff; text-shadow: 0 0 40px #c6ff00; margin: 10px 0; }
-        .btn-panic { background: #c6ff00; color: #000; border: none; padding: 25px; width: 100%; border-radius: 20px; font-weight: 900; cursor: pointer; font-size: 22px; text-transform: uppercase; box-shadow: 0 5px 0 #88ad00; transition: 0.1s; }
-        .btn-panic:active { transform: translateY(4px); box-shadow: none; }
-        .btn-panic:disabled { background: #222; color: #444; box-shadow: none; cursor: not-allowed; }
-        .data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 10px; margin-top: 20px; color: #444; text-align: left; }
-        input { background: #111; border: 2px solid #c6ff00; color: #c6ff00; padding: 12px; width: 140px; border-radius: 10px; font-size: 22px; text-align: center; margin-bottom: 15px; outline: none; }
-        #status-msg { font-size: 11px; color: #ff0055; font-weight: bold; margin-bottom: 15px; min-height: 15px; }
+        body { background: #000; color: #00ffcc; font-family: 'Courier New', monospace; text-align: center; padding: 10px; margin: 0; }
+        .stealth-box { border: 1px solid #333; border-radius: 20px; padding: 20px; background: #050505; max-width: 360px; margin: auto; box-shadow: 0 0 50px rgba(0,255,204,0.1); }
+        .val-display { font-size: 110px; font-weight: 900; color: #fff; margin: 10px 0; letter-spacing: -5px; }
+        .btn-ghost { background: #00ffcc; color: #000; border: none; padding: 25px; width: 100%; border-radius: 12px; font-weight: 900; cursor: pointer; font-size: 22px; text-transform: uppercase; transition: 0.1s; }
+        .btn-ghost:active { transform: scale(0.98); background: #00ccaa; }
+        .btn-ghost:disabled { background: #111; color: #333; cursor: not-allowed; }
+        .mini-log { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; font-size: 8px; margin-top: 15px; color: #444; text-align: left; text-transform: uppercase; }
+        input { background: #000; border: 1px solid #00ffcc; color: #00ffcc; padding: 10px; width: 120px; border-radius: 8px; font-size: 22px; text-align: center; margin-bottom: 10px; outline: none; }
+        #msg { font-size: 10px; color: #ff0055; font-weight: bold; height: 14px; margin-bottom: 10px; }
+        .line { height: 1px; background: #111; margin: 15px 0; }
     </style>
 </head>
 <body>
-    <div class="omni-shield">
-        <div style="font-size: 10px; letter-spacing: 5px; color: #c6ff00; font-weight: bold;">OMNI_V67 // ANTI_ABSORPTION</div>
+    <div class="stealth-box">
+        <div style="font-size: 9px; letter-spacing: 3px; color: #333;">V70_SHADOW_STEALTH // R$ 6.50_SAFE</div>
         
-        <div style="margin-top: 20px; font-size: 11px; color: #888; letter-spacing: 1px;">DIGITE A ÚLTIMA VELA (EX: 1.04):</div>
-        <input type="number" id="sync-vela" step="0.01" placeholder="0.00">
+        <div style="margin-top: 15px; font-size: 10px; color: #555;">SYNC_INPUT (LAST_CRASH):</div>
+        <input type="number" id="last-v" step="0.01" placeholder="0.00">
 
-        <div class="val-display" id="display">READY</div>
-        <div id="status-msg">SISTEMA EM MONITORAMENTO</div>
+        <div class="val-display" id="display">0.00</div>
+        <div id="msg">SISTEMA ARMARDO</div>
         
-        <button id="main-btn" class="btn-panic" onclick="triggerOmni()">DISPARAR OMNI</button>
+        <button id="btn" class="btn-ghost" onclick="triggerGhost()">DISPARAR GHOST</button>
 
-        <div class="data-grid">
-            <span>[NET_SPEED]: <b id="d-net">--</b></span>
-            <span>[BUFFER_SHIELD]: <b style="color: #00ffcc;">ULTRA_HIGH</b></span>
-            <span>[ANTI_LAG]: <b style="color: #00ffcc;">0.3s_EARLY</b></span>
-            <span>[S.A._DNA]: <b style="color: #c6ff00;">SYNCED</b></span>
+        <div class="line"></div>
+
+        <div class="mini-log">
+            <span>[NET]: <b id="ping">--</b></span>
+            <span>[JITTER]: <b id="jit" style="color:#00ffcc">ACTIVE</b></span>
+            <span>[FINGERPRINT]: <b style="color:#00ffcc">MASK_ON</b></span>
+            <span>[TARGET]: <b style="color:#00ffcc">DYNAMIC</b></span>
         </div>
     </div>
 
 <script>
-    // --- SINCRONIZAÇÃO DE DNA S.A. ---
+    // --- NÚCLEO DE DNA S.A. ---
     const manualCode = "COLE_AQUI_O_CODIGO_MANUAL"; 
     const masterSeed = "COLE_AQUI_A_CHAVE_SEED";    
-    // ---------------------------------
+    // -------------------------
 
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    function beep(f, d, v) {
-        const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
-        o.connect(g); g.connect(audioCtx.destination);
-        o.frequency.value = f; o.type = 'square';
-        g.gain.setValueAtTime(v, audioCtx.currentTime);
-        g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + d);
-        o.start(); o.stop(audioCtx.currentTime + d);
-    }
+    let latency = 0;
+    const sessionToken = Math.random().toString(16).substring(2, 10);
 
-    async function triggerOmni() {
-        const display = document.getElementById('display');
-        const msg = document.getElementById('status-msg');
-        const btn = document.getElementById('main-btn');
-        const lastV = parseFloat(document.getElementById('sync-vela').value) || 0;
-        
-        // 1. CHECK DE LATÊNCIA (Para bater o lag do 4G)
+    // PING EM BACKGROUND (Shannon Stealth)
+    setInterval(async () => {
         const t0 = performance.now();
         try {
             await fetch(window.location.href, { method: 'HEAD', cache: 'no-cache' });
-            const ping = performance.now() - t0;
-            document.getElementById('d-net').innerText = ping.toFixed(0) + "ms";
-        } catch(e) { document.getElementById('d-net').innerText = "ERR"; }
+            latency = performance.now() - t0;
+            document.getElementById('ping').innerText = latency.toFixed(0) + "ms";
+        } catch(e) {}
+    }, 5000);
 
-        // 2. FILTRO ANTI-1.04x (Proteção de Vizinhança)
+    async function triggerGhost() {
+        const display = document.getElementById('display');
+        const msg = document.getElementById('msg');
+        const btn = document.getElementById('btn');
+        const lastV = parseFloat(document.getElementById('last-v').value) || 0;
+
+        // SKINNER PROTECTION (Anti-Recolhimento)
         if (lastV > 0 && lastV < 1.15) {
             display.innerText = "WAIT";
             display.style.color = "#ff0055";
-            msg.innerText = "🚨 ALGORITMO PREDADOR DETECTADO - BLOQUEADO";
+            msg.innerText = "🚨 ALGORITMO PREDADOR - TRAVADO 20s";
             btn.disabled = true;
-            beep(100, 1, 0.4);
-            
-            setTimeout(() => {
-                btn.disabled = false;
-                msg.innerText = "CANAL REFRESCADO - TENTE AGORA";
-                display.innerText = "READY";
-                display.style.color = "#fff";
-            }, 15000); // 15 segundos para o servidor "esquecer" seu rastro
+            setTimeout(() => { btn.disabled = false; display.innerText = "0.00"; display.style.color = "#fff"; msg.innerText = "PRONTO"; }, 20000);
             return;
         }
 
-        // 3. CÁLCULO DE HASH (Wall Street Simons DNA)
-        const now = Date.now();
+        // CÁLCULO DE HASH ACELERADO (Simons Engine)
         const encoder = new TextEncoder();
-        const data = encoder.encode(manualCode + masterSeed + now);
+        const data = encoder.encode(manualCode + masterSeed + Date.now() + sessionToken);
         const hashBuf = await crypto.subtle.digest('SHA-256', data);
         const hashHex = Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, '0')).join('');
 
-        // 4. MARGEM DE SAÍDA IMEDIATA (Banca R$ 6,50)
-        // Reduzimos o alvo para 45% do valor real para garantir o saque antes do crash
-        const raw = (parseInt(hashHex.substring(0, 8), 16) / 0xFFFFFFFF) * 1.4 + 1.20;
-        const target = (raw * 0.45).toFixed(2);
+        // JITTER HUMANO (Skinner Mask)
+        // O multiplicador agora oscila entre 0.38 e 0.43 para confundir a casa
+        const jitter = (Math.random() * (0.43 - 0.38) + 0.38).toFixed(3);
+        
+        const raw = (parseInt(hashHex.substring(0, 8), 16) / 0xFFFFFFFF) * 1.4 + 1.25;
+        const target = (raw * jitter).toFixed(2);
 
         if (target < 1.10) {
             display.innerText = "SKIP";
-            msg.innerText = "VELA DE RISCO IDENTIFICADA";
+            msg.innerText = "VÁCUO DETECTADO";
             return;
         }
 
-        display.innerText = target + "x";
-        display.style.color = "#c6ff00";
-        msg.innerText = "✅ ALVO SINCRONIZADO (SAQUE RÁPIDO)";
-        beep(1200, 0.1, 0.1);
+        display.innerText = target;
+        display.style.color = "#00ffcc";
+        msg.innerText = "✅ ALVO SHADOW CALCULADO";
     }
 </script>
-</body>
+</bo
+    dy>
 </html>
