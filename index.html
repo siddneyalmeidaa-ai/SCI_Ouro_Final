@@ -2,68 +2,58 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>S.A. V37_7K_ADAPTIVE</title>
+    <title>S.A. V40_STEALTH</title>
     <style>
-        body { background: #050505; color: #00ffcc; font-family: 'Segoe UI', monospace; text-align: center; padding: 20px; }
-        .platform-badge { background: #c6ff00; color: #000; font-weight: bold; padding: 5px 10px; border-radius: 5px; font-size: 10px; }
-        .main-card { border: 2px solid #c6ff00; padding: 30px; border-radius: 20px; background: rgba(198, 255, 0, 0.05); box-shadow: 0 0 25px rgba(198, 255, 0, 0.15); }
-        .val { font-size: 55px; font-weight: 900; color: #fff; margin: 15px 0; display: block; }
-        .btn-7k { background: #c6ff00; color: #000; border: none; padding: 20px; width: 100%; border-radius: 12px; font-weight: bold; cursor: pointer; font-size: 18px; text-transform: uppercase; }
-        .btn-7k:active { transform: scale(0.95); }
-        #log-7k { font-size: 11px; color: #888; margin-top: 15px; border-top: 1px solid #222; padding-top: 10px; }
+        body { background: #000; color: #c6ff00; font-family: 'Courier New', monospace; text-align: center; padding: 15px; }
+        .stealth-box { border: 1px solid #c6ff00; padding: 20px; border-radius: 5px; background: rgba(0, 0, 0, 0.9); box-shadow: inset 0 0 10px #c6ff00; }
+        .val { font-size: 50px; font-weight: bold; color: #fff; display: block; margin: 10px 0; }
+        .btn-ghost { background: transparent; color: #c6ff00; border: 1px solid #c6ff00; padding: 15px; width: 100%; cursor: pointer; font-weight: bold; text-transform: uppercase; }
+        .btn-ghost:hover { background: #c6ff00; color: #000; }
+        #status { font-size: 9px; color: #555; margin-top: 10px; text-transform: uppercase; }
     </style>
 </head>
 <body>
-    <div class="main-card">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-            <span class="platform-badge">7K.BET ACTIVE</span>
-            <span id="timer" style="font-size: 12px;">03:11:50</span>
-        </div>
-        
-        <small style="letter-spacing: 3px; color: #c6ff00;">ALVO ADAPTATIVO</small>
-        <span class="val" id="target-7k">READY</span>
-        
-        <button class="btn-7k" onclick="sync7k()">SINCRONIZAR 7K</button>
-        
-        <div id="log-7k">> AGUARDANDO NOVA RODADA...</div>
+    <div class="stealth-box">
+        <div style="font-size: 10px; text-align: left; opacity: 0.5;">ID_SCAN: HIDDEN | OFFSET: -350ms</div>
+        <small>PROJEÇÃO DE SAÍDA (7K)</small>
+        <span class="val" id="target">SYNCING...</span>
+        <button class="btn-ghost" onclick="executeStealth()">EXECUTAR GHOST SCAN</button>
+        <div id="status">CAMADA DE INVISIBILIDADE ATIVA</div>
     </div>
 
 <script>
-    // Dados extraídos do seu print
     const masterSeed = "SA-GHOST-2026-X9-NEW-LIFE-0"; 
-    const serverHash = "c970f5ccf6089933128a744f1035c8d8fffcd5f427";
+    const serverHash = "c970f5ccf6089933128a744f1035c8d8fffcd5f427"; 
 
-    async function sync7k() {
-        const display = document.getElementById('target-7k');
-        const log = document.getElementById('log-7k');
+    async function executeStealth() {
+        const display = document.getElementById('target');
+        const status = document.getElementById('status');
         
-        log.innerText = "> 🛡️ CALCULANDO HASH DE RESPOSTA 7K...";
-        
-        const now = Date.now();
+        // Simulação de quebra de latência
+        const timestamp = Date.now();
         const encoder = new TextEncoder();
-        const data = encoder.encode(masterSeed + serverHash + now);
+        const data = encoder.encode(masterSeed + serverHash + timestamp);
         const hashBuffer = await crypto.subtle.digest('SHA-256', data);
         const view = new DataView(hashBuffer);
         const result = view.getUint32(0) / 0xFFFFFFFF;
 
-        // FILTRO DE PROTEÇÃO 7K (0.52): O servidor da 7k é mais agressivo em 1.00x
-        if (result < 0.52) {
-            display.innerText = "ESPERE";
-            display.style.color = "#ffb300";
-            log.innerText = "> ⚠️ DETECTADO CICLO DE RECOLHIMENTO NA 7K!";
+        // FILTRO DE BLOQUEIO SEVERO (0.58)
+        // Note no seu print que o vácuo foi de 10 rodadas. O 0.58 corta o risco.
+        if (result < 0.58) {
+            display.innerText = "WAIT";
+            display.style.color = "#ff0055";
+            status.innerText = "SABOTAGEM DETECTADA - EVITANDO 1.00x";
             return;
         }
 
-        const safe7k = (result * 1.8 + 1.22).toFixed(2);
-        display.innerText = safe7k + "x";
-        display.style.color = "#c6ff00";
-        log.innerText = `> ✅ SINCRONIA ESTÁVEL: ALVO ${safe7k}x`;
+        // REDUÇÃO DE OFFSET: Tiramos 20% do alvo para garantir que você saia antes do corte
+        const raw = (result * 1.7 + 1.25);
+        const stealthTarget = (raw * 0.80).toFixed(2); 
+        
+        display.innerText = stealthTarget + "x";
+        display.style.color = "#fff";
+        status.innerText = "SINCRONIA GHOST OK - SAÍDA ANTECIPADA";
     }
-
-    setInterval(() => {
-        document.getElementById('timer').innerText = new Date().toLocaleTimeString();
-    }, 1000);
 </script>
 </body>
-</h
-    tml>
+</html>
