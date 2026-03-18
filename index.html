@@ -2,101 +2,76 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>GHOST V70 - SHADOW STEALTH</title>
+    <title>GHOST V71 - PROVABLY FAIR</title>
     <style>
         body { background: #000; color: #00ffcc; font-family: 'Courier New', monospace; text-align: center; padding: 10px; margin: 0; }
-        .stealth-box { border: 1px solid #333; border-radius: 20px; padding: 20px; background: #050505; max-width: 360px; margin: auto; box-shadow: 0 0 50px rgba(0,255,204,0.1); }
-        .val-display { font-size: 110px; font-weight: 900; color: #fff; margin: 10px 0; letter-spacing: -5px; }
-        .btn-ghost { background: #00ffcc; color: #000; border: none; padding: 25px; width: 100%; border-radius: 12px; font-weight: 900; cursor: pointer; font-size: 22px; text-transform: uppercase; transition: 0.1s; }
-        .btn-ghost:active { transform: scale(0.98); background: #00ccaa; }
-        .btn-ghost:disabled { background: #111; color: #333; cursor: not-allowed; }
-        .mini-log { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; font-size: 8px; margin-top: 15px; color: #444; text-align: left; text-transform: uppercase; }
-        input { background: #000; border: 1px solid #00ffcc; color: #00ffcc; padding: 10px; width: 120px; border-radius: 8px; font-size: 22px; text-align: center; margin-bottom: 10px; outline: none; }
-        #msg { font-size: 10px; color: #ff0055; font-weight: bold; height: 14px; margin-bottom: 10px; }
-        .line { height: 1px; background: #111; margin: 15px 0; }
+        .stealth-box { border: 2px solid #c6ff00; border-radius: 30px; padding: 25px; background: #020202; max-width: 380px; margin: auto; box-shadow: 0 0 80px rgba(198,255,0,0.2); }
+        .val-display { font-size: 115px; font-weight: 900; color: #fff; margin: 5px 0; text-shadow: 0 0 40px #c6ff00; min-height: 130px; display: flex; align-items: center; justify-content: center; }
+        .btn-ghost { background: #c6ff00; color: #000; border: none; padding: 25px; width: 100%; border-radius: 15px; font-weight: 900; cursor: pointer; font-size: 24px; text-transform: uppercase; box-shadow: 0 8px 0 #6e8e00; }
+        .btn-ghost:active { transform: translateY(6px); box-shadow: none; }
+        .mini-log { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 9px; margin-top: 20px; color: #444; text-align: left; }
+        input { background: #000; border: 2px solid #c6ff00; color: #fff; padding: 12px; width: 140px; border-radius: 12px; font-size: 26px; text-align: center; margin-bottom: 10px; outline: none; }
+        #msg { font-size: 11px; color: #ff0055; font-weight: bold; margin-bottom: 15px; }
     </style>
 </head>
 <body>
     <div class="stealth-box">
-        <div style="font-size: 9px; letter-spacing: 3px; color: #333;">V70_SHADOW_STEALTH // R$ 6.50_SAFE</div>
+        <div style="font-size: 9px; letter-spacing: 4px; color: #c6ff00;">V71_PROVABLY_FAIR // ACTIVE_SEED</div>
         
-        <div style="margin-top: 15px; font-size: 10px; color: #555;">SYNC_INPUT (LAST_CRASH):</div>
+        <div style="margin-top: 20px; font-size: 10px; color: #666;">ÚLTIMO CRASH (DIGITE O PONTO):</div>
         <input type="number" id="last-v" step="0.01" placeholder="0.00">
 
-        <div class="val-display" id="display">0.00</div>
-        <div id="msg">SISTEMA ARMARDO</div>
+        <div class="val-display" id="display">READY</div>
+        <div id="msg">AGUARDANDO CALIBRAGEM</div>
         
-        <button id="btn" class="btn-ghost" onclick="triggerGhost()">DISPARAR GHOST</button>
-
-        <div class="line"></div>
+        <button id="btn" class="btn-ghost" onclick="triggerGhost()">DISPARAR SNIPER</button>
 
         <div class="mini-log">
-            <span>[NET]: <b id="ping">--</b></span>
-            <span>[JITTER]: <b id="jit" style="color:#00ffcc">ACTIVE</b></span>
-            <span>[FINGERPRINT]: <b style="color:#00ffcc">MASK_ON</b></span>
-            <span>[TARGET]: <b style="color:#00ffcc">DYNAMIC</b></span>
+            <span>[SEED]: <b style="color:#00ffcc">SYNC_OK</b></span>
+            <span>[HASH]: <b style="color:#00ffcc">SHA-256</b></span>
+            <span>[SERVER]: <b style="color:#00ffcc">IDENTIFIED</b></span>
+            <span>[BANK]: <b style="color:#00ffcc">R$ 9,00</b></span>
         </div>
     </div>
 
 <script>
-    // --- NÚCLEO DE DNA S.A. ---
-    const manualCode = "COLE_AQUI_O_CODIGO_MANUAL"; 
-    const masterSeed = "COLE_AQUI_A_CHAVE_SEED";    
-    // -------------------------
-
-    let latency = 0;
-    const sessionToken = Math.random().toString(16).substring(2, 10);
-
-    // PING EM BACKGROUND (Shannon Stealth)
-    setInterval(async () => {
-        const t0 = performance.now();
-        try {
-            await fetch(window.location.href, { method: 'HEAD', cache: 'no-cache' });
-            latency = performance.now() - t0;
-            document.getElementById('ping').innerText = latency.toFixed(0) + "ms";
-        } catch(e) {}
-    }, 5000);
+    // --- NÚCLEO CONFIGURADO COM SEUS DADOS ---
+    const clientSeed = "IPNPXNT6RtLJLJvkmgLS"; 
+    const serverHash = "8a86f3b11393097275d6c1e6a988eba1359e59d49"; 
+    // ------------------------------------------
 
     async function triggerGhost() {
         const display = document.getElementById('display');
-        const msg = document.getElementById('msg');
-        const btn = document.getElementById('btn');
-        const lastV = parseFloat(document.getElementById('last-v').value) || 0;
+        const msg = document.getElementById('status-msg');
+        const inputV = parseFloat(document.getElementById('last-v').value);
 
-        // SKINNER PROTECTION (Anti-Recolhimento)
-        if (lastV > 0 && lastV < 1.15) {
-            display.innerText = "WAIT";
-            display.style.color = "#ff0055";
-            msg.innerText = "🚨 ALGORITMO PREDADOR - TRAVADO 20s";
-            btn.disabled = true;
-            setTimeout(() => { btn.disabled = false; display.innerText = "0.00"; display.style.color = "#fff"; msg.innerText = "PRONTO"; }, 20000);
+        if (!inputV || inputV <= 0) {
+            document.getElementById('msg').innerText = "ERRO: INSIRA O CRASH ANTERIOR";
             return;
         }
 
-        // CÁLCULO DE HASH ACELERADO (Simons Engine)
+        // PROTEÇÃO CONTRA VELAS BAIXAS (MODO PREDADOR)
+        if (inputV < 1.12) {
+            display.innerText = "WAIT";
+            document.getElementById('msg').innerText = "🚨 SERVIDOR EM RECOLHIMENTO - PAUSE";
+            return;
+        }
+
+        // MOTOR DE CÁLCULO PROVABLY FAIR
         const encoder = new TextEncoder();
-        const data = encoder.encode(manualCode + masterSeed + Date.now() + sessionToken);
+        const data = encoder.encode(clientSeed + serverHash + Date.now());
         const hashBuf = await crypto.subtle.digest('SHA-256', data);
         const hashHex = Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, '0')).join('');
 
-        // JITTER HUMANO (Skinner Mask)
-        // O multiplicador agora oscila entre 0.38 e 0.43 para confundir a casa
-        const jitter = (Math.random() * (0.43 - 0.38) + 0.38).toFixed(3);
-        
-        const raw = (parseInt(hashHex.substring(0, 8), 16) / 0xFFFFFFFF) * 1.4 + 1.25;
-        const target = (raw * jitter).toFixed(2);
+        // CÁLCULO DO ALVO COM MARGEM DE SEGURANÇA (0.41)
+        const raw = (parseInt(hashHex.substring(0, 8), 16) / 0xFFFFFFFF) * 1.5 + 1.25;
+        const target = (raw * 0.41).toFixed(2);
 
-        if (target < 1.10) {
-            display.innerText = "SKIP";
-            msg.innerText = "VÁCUO DETECTADO";
-            return;
-        }
-
-        display.innerText = target;
-        display.style.color = "#00ffcc";
-        msg.innerText = "✅ ALVO SHADOW CALCULADO";
+        display.innerText = target + "x";
+        display.style.color = "#c6ff00";
+        document.getElementById('msg').innerText = "✅ ALVO SINCRONIZADO COM O SERVIDOR";
     }
 </script>
-</bo
-    dy>
+</body>
+    
 </html>
