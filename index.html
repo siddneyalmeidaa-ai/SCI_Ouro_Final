@@ -2,75 +2,68 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>S.A. V34_FINAL_SHELTER</title>
+    <title>S.A. V37_7K_ADAPTIVE</title>
     <style>
-        body { background: #000; color: #00ffcc; font-family: 'Courier New', monospace; padding: 20px; text-align: center; margin: 0; }
-        .main-box { border: 2px solid #ff0055; padding: 25px; border-radius: 20px; background: rgba(255,0,85,0.05); box-shadow: 0 0 20px rgba(255,0,85,0.2); max-width: 400px; margin: auto; }
-        .val-display { font-size: 50px; font-weight: 900; display: block; margin: 20px 0; text-shadow: 0 0 10px rgba(0,255,204,0.5); }
-        .btn-sync { background: #00ffcc; color: #000; border: none; padding: 20px; width: 100%; border-radius: 12px; font-weight: bold; cursor: pointer; font-size: 18px; text-transform: uppercase; transition: 0.2s; }
-        .btn-sync:active { transform: scale(0.96); opacity: 0.8; }
-        #status-log { color: #ffb300; font-size: 11px; margin-top: 15px; border-top: 1px solid #333; padding-top: 10px; min-height: 30px; }
-        .header-sa { font-size: 14px; margin-bottom: 10px; display: flex; justify-content: space-between; opacity: 0.8; }
+        body { background: #050505; color: #00ffcc; font-family: 'Segoe UI', monospace; text-align: center; padding: 20px; }
+        .platform-badge { background: #c6ff00; color: #000; font-weight: bold; padding: 5px 10px; border-radius: 5px; font-size: 10px; }
+        .main-card { border: 2px solid #c6ff00; padding: 30px; border-radius: 20px; background: rgba(198, 255, 0, 0.05); box-shadow: 0 0 25px rgba(198, 255, 0, 0.15); }
+        .val { font-size: 55px; font-weight: 900; color: #fff; margin: 15px 0; display: block; }
+        .btn-7k { background: #c6ff00; color: #000; border: none; padding: 20px; width: 100%; border-radius: 12px; font-weight: bold; cursor: pointer; font-size: 18px; text-transform: uppercase; }
+        .btn-7k:active { transform: scale(0.95); }
+        #log-7k { font-size: 11px; color: #888; margin-top: 15px; border-top: 1px solid #222; padding-top: 10px; }
     </style>
 </head>
 <body>
-    <div class="main-box">
-        <div class="header-sa">
-            <span>V34_SHELTER</span>
-            <span id="live-clock">02:35:00</span>
+    <div class="main-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <span class="platform-badge">7K.BET ACTIVE</span>
+            <span id="timer" style="font-size: 12px;">03:11:50</span>
         </div>
         
-        <small style="letter-spacing: 2px;">ALVO DE RESGATE</small>
-        <span class="val-display" id="target-val">READY</span>
+        <small style="letter-spacing: 3px; color: #c6ff00;">ALVO ADAPTATIVO</small>
+        <span class="val" id="target-7k">READY</span>
         
-        <button class="btn-sync" onclick="syncFinalProtection()">SINCRONIZAR AGORA</button>
+        <button class="btn-7k" onclick="sync7k()">SINCRONIZAR 7K</button>
         
-        <div id="status-log">> SISTEMA DE BLINDAGEM ATIVO...</div>
+        <div id="log-7k">> AGUARDANDO NOVA RODADA...</div>
     </div>
 
 <script>
-    // Semente fixa de 25 caracteres para camuflagem perfeita
+    // Dados extraídos do seu print
     const masterSeed = "SA-GHOST-2026-X9-NEW-LIFE-0"; 
+    const serverHash = "c970f5ccf6089933128a744f1035c8d8fffcd5f427";
 
-    async function syncFinalProtection() {
-        const log = document.getElementById('status-log');
-        const display = document.getElementById('target-val');
+    async function sync7k() {
+        const display = document.getElementById('target-7k');
+        const log = document.getElementById('log-7k');
         
-        log.innerHTML = "> 🛡️ ANALISANDO FILTRO DE SABOTAGEM...";
+        log.innerText = "> 🛡️ CALCULANDO HASH DE RESPOSTA 7K...";
         
-        // Simulação de latência para bater com o servidor real
-        const processingTime = Math.floor(Math.random() * 400) + 200;
+        const now = Date.now();
+        const encoder = new TextEncoder();
+        const data = encoder.encode(masterSeed + serverHash + now);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        const view = new DataView(hashBuffer);
+        const result = view.getUint32(0) / 0xFFFFFFFF;
 
-        setTimeout(async () => {
-            const now = Date.now();
-            const encoder = new TextEncoder();
-            
-            // Camada Dupla: Tempo + Entropia Randômica
-            const data = encoder.encode(masterSeed + now + Math.random().toString());
-            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-            const view = new DataView(hashBuffer);
-            const result = view.getUint32(0) / 0xFFFFFFFF;
+        // FILTRO DE PROTEÇÃO 7K (0.52): O servidor da 7k é mais agressivo em 1.00x
+        if (result < 0.52) {
+            display.innerText = "ESPERE";
+            display.style.color = "#ffb300";
+            log.innerText = "> ⚠️ DETECTADO CICLO DE RECOLHIMENTO NA 7K!";
+            return;
+        }
 
-            // FILTRO DE CORTE EXTREMO (0.48): Proteção contra o "vácuo" de 1.11x
-            if (result < 0.48) {
-                display.innerText = "ESPERE";
-                display.style.color = "#ffb300";
-                log.innerHTML = "> ⚠️ RISCO DE CORTE IDENTIFICADO NO SERVIDOR!";
-                return;
-            }
-
-            // Cálculo de Alvo Curto para bater meta (1.30x a 2.40x)
-            const safeResult = (result * 1.9 + 1.25).toFixed(2);
-            display.innerText = safeResult + "x";
-            display.style.color = "#00ffcc";
-            log.innerHTML = `> ✅ SINCRONIA LIMPA. ALVO: ${safeResult}x`;
-            
-        }, processingTime);
+        const safe7k = (result * 1.8 + 1.22).toFixed(2);
+        display.innerText = safe7k + "x";
+        display.style.color = "#c6ff00";
+        log.innerText = `> ✅ SINCRONIA ESTÁVEL: ALVO ${safe7k}x`;
     }
 
     setInterval(() => {
-        document.getElementById('live-clock').innerText = new Date().toLocaleTimeString();
+        document.getElementById('timer').innerText = new Date().toLocaleTimeString();
     }, 1000);
 </script>
 </body>
-</html>
+</h
+    tml>
