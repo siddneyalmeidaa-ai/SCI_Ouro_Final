@@ -19,7 +19,7 @@
 </head>
 <body>
     <div class="CORE" id="box">
-        <div class="HDR"><span>⚡ OMNI_SHIELD_V101_ACTIVE</span><span id="fps">FPS: 60</span></div>
+        <div class="HDR"><span>⚡ OMNI_SHIELD_V101_KTO</span><span id="fps">FPS: 60</span></div>
         
         <input type="number" id="v" step="0.01" placeholder="SYNC_HEX" inputmode="decimal" oninput="pre_scan()">
 
@@ -28,7 +28,7 @@
         <button class="BTN" id="main_btn" onclick="run_hft()">DISPARAR_GHOST</button>
 
         <div class="INF">
-            <span>ID_VOLATILE: <b id="dev" style="color:#00ffcc">MOTOROLA_GEN</b></span>
+            <span>ID_VOLATILE: <b id="dev" style="color:#00ffcc">MOTO_HYPER_GEN</b></span>
             <span>ALARM: <b id="threat" style="color:#00ffcc">CLEAN</b></span>
         </div>
     </div>
@@ -39,7 +39,7 @@
         Object.defineProperty(window, 'localStorage', { value: { setItem:()=>{}, getItem:()=>null, removeItem:()=>{} }, writable: false });
         setInterval(() => { document.cookie = "expires=" + new Date().toUTCString() + ";path=/"; }, 1500);
         const devs = ["MOTO_EDGE_40", "MOTO_G84", "MOTO_G54", "MOTO_G73"];
-        setInterval(() => { document.getElementById('dev').innerText = devs[Math.floor(Math.random() * devs.length)]; }, 600000);
+        setInterval(() => { document.getElementById('dev').innerText = devs[Math.floor(Math.random() * devs.length)]; }, 10000);
     })();
 
     /* LAYER AUDIO: ALARME DE SABOTAGEM */
@@ -58,12 +58,12 @@
         osc.stop(audioCtx.currentTime + 0.4);
     }
 
-    /* CONFIGURAÇÃO DE CHAVE MESTRE (SA-GHOST-2026-X9...) */
-    const _k1 = "U0EtR0hPU1QtMjAyNi1YOS1ORVctTElGRS0w"; 
-    const _k2 = "NGRkZWVmMzljNjI4NzBmOWRhNDhkMjEyOGZmMjQzYWU3MjYzZDNjOQ==";
+    /* CHAVES ATUALIZADAS (Semente: rF9mS2vK0zN4bX1vQ8pW5-0-0) */
+    const _k1 = "ckY5bVMyVkswek40YlgxdlE4cFc1LTAtMA=="; 
+    const _k2 = "ZjFiOGJhZTZiOTIzODY4MzQzY2MyZThjYzI1YmI0NGI4NWI1YzFj";
 
     function tick() {
-        document.getElementById('fps').innerText = "FPS: " + Math.floor(60 + Math.random() * 5);
+        document.getElementById('fps').innerText = "FPS: " + Math.floor(58 + Math.random() * 4);
         requestAnimationFrame(tick);
     }
     tick();
@@ -79,7 +79,8 @@
         const h = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(d + e + v));
         const hex = Array.from(new Uint8Array(h)).map(b => b.toString(16).padStart(2, '0')).join('');
         
-        if ((hex.match(/0/g) || []).length > 8 || v < 1.10) {
+        // Detecção de padrões de corte da plataforma
+        if ((hex.match(/[a-f]/g) || []).length < 5 || v < 1.05) {
             box.className = "CORE sabotagem";
             threat.innerText = "SABOTAGE!";
             threat.style.color = "#ff0055";
@@ -103,12 +104,12 @@
         if (!v) return;
 
         const d = atob(_k1); const e = atob(_k2);
-        const data = new TextEncoder().encode(d + e + performance.now() + Math.random());
+        const data = new TextEncoder().encode(d + e + performance.now());
         const h = await crypto.subtle.digest('SHA-512', data);
         const hex = Array.from(new Uint8Array(h)).map(b => b.toString(16).padStart(2, '0')).join('');
         
         const raw = parseInt(hex.substring(0, 8), 16) / 0xFFFFFFFF;
-        const target = (1.15 + (raw * 0.33) - 0.04).toFixed(2);
+        const target = (1.00 + (raw * 0.45)).toFixed(2);
         
         r.innerText = target + "x";
     }
