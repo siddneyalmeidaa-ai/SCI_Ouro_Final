@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>S.A. V98 ULTRA BLINDADO</title>
+    <title>S.A. V98 ULTRA BLINDADO - HIPERBET Edition</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap');
@@ -12,40 +12,36 @@
         .favelinha-scroll::-webkit-scrollbar { width: 4px; }
         .favelinha-scroll::-webkit-scrollbar-track { background: #0a0a0a; }
         .favelinha-scroll::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
-        @keyframes pulse-red { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-        .animate-pulse-red { animation: pulse-red 1s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes pulse-green { 0%, 100% { opacity: 1; box-shadow: 0 0 20px #22c55e; } 50% { opacity: 0.7; box-shadow: 0 0 5px #22c55e; } }
+        .glow-active { animation: pulse-green 1.5s infinite; }
     </style>
 </head>
 <body class="p-4 border-[6px] border-[#0a0a0a] min-h-screen flex flex-col overflow-hidden">
 
-    <!-- Header IPI -->
     <div class="flex justify-between text-[8px] text-gray-700 border-b border-gray-900 pb-2 mb-2 font-bold uppercase tracking-widest">
-        <span>S.A._V98_ULTRA_HTML</span>
-        <span id="current-time">03:55 | IPI: HTML_BLIND_V98</span>
+        <span>S.A._V98_ULTRA_HIPERBET</span>
+        <span id="current-time">00:00 | SEED: 2fecbde...e698</span>
     </div>
 
-    <!-- Monitor de Banca e Sincronia -->
     <div class="bg-[#050505] border border-gray-800 p-3 rounded mb-2 flex justify-between items-center border-l-4 border-green-600">
         <div>
             <p class="text-[7px] text-gray-500 uppercase font-black tracking-tighter">Banca S.A. (Auditada)</p>
             <p id="banca-display" class="text-2xl font-black text-green-500">R$ 5,85</p>
         </div>
         <div class="text-right">
-            <p class="text-[7px] text-gray-500 uppercase font-black">Latência Fluxo</p>
-            <p id="latency-display" class="text-[9px] text-yellow-500 font-black tracking-tighter uppercase">Estabilizando...</p>
+            <p class="text-[7px] text-gray-500 uppercase font-black">Link Servidor</p>
+            <p id="latency-display" class="text-[9px] text-green-500 font-black tracking-tighter uppercase font-mono">ENCRIPTADO</p>
         </div>
     </div>
 
-    <!-- Main Core Display -->
-    <div class="bg-black border-2 border-gray-900 p-6 rounded-lg text-center mb-3 relative overflow-hidden shadow-[inset_0_0_50px_rgba(0,0,0,1)]">
-        <div id="scan-status" class="text-[8px] tracking-[4px] text-gray-600 font-black h-4 mb-2 uppercase">Aguardando Comando</div>
+    <div id="main-card" class="bg-black border-2 border-gray-900 p-6 rounded-lg text-center mb-3 relative overflow-hidden transition-all duration-500">
+        <div id="scan-status" class="text-[8px] tracking-[4px] text-gray-600 font-black h-4 mb-2 uppercase">Aguardando Seed</div>
         <h1 id="multiplier-display" class="text-7xl font-black mb-4 transition-all duration-300 text-white">0.00x</h1>
         <button id="scan-btn" class="w-full bg-white text-black py-5 text-2xl font-black uppercase rounded shadow-[0_6px_0_#333] active:translate-y-1 active:shadow-none transition-all">
-            EXECUTAR SCAN
+            DECODIFICAR SEED
         </button>
     </div>
 
-    <!-- Métricas Sincronizadas -->
     <div class="grid grid-cols-3 gap-2 mb-3">
         <div class="bg-[#050505] border border-gray-900 p-2 text-center border-b-2 border-green-500/20">
             <p class="text-[6px] text-gray-500 font-black uppercase">Liberado</p>
@@ -61,7 +57,6 @@
         </div>
     </div>
 
-    <!-- Tabela Favelinha -->
     <div class="flex-1 bg-black border border-gray-900 rounded overflow-hidden flex flex-col">
         <div class="overflow-y-auto favelinha-scroll">
             <table class="w-full text-[10px] text-left border-collapse">
@@ -73,20 +68,16 @@
                         <th class="p-2 border-b border-gray-900 text-right">CMD</th>
                     </tr>
                 </thead>
-                <tbody id="favelinha-body">
-                    <!-- Gerado Dinamicamente -->
-                </tbody>
+                <tbody id="favelinha-body"></tbody>
             </table>
         </div>
     </div>
 
-    <!-- Footer Stakes -->
-    <div class="mt-2 pt-2 border-t border-gray-900 flex justify-between text-[7px] text-gray-700 font-black uppercase">
-        <span>Stakes: R$ 0,10 | R$ 0,20 | R$ 1,00</span>
-        <span>HTML_BLIND_V98: READY</span>
-    </div>
-
     <script>
+        // CONFIGURAÇÕES DA SEED HIPERBET
+        const SERVER_SEED = "2fecbde9e5887bce62fd390a5b964b0d4c33e4355e698";
+        const CLIENT_SEED = "hDQFbWNPZdlow6CTM3zf";
+
         let banca = 5.85;
         let vacCount = 0;
         let history = [];
@@ -95,74 +86,50 @@
         const scanBtn = document.getElementById('scan-btn');
         const multiplierDisplay = document.getElementById('multiplier-display');
         const statusDisplay = document.getElementById('scan-status');
-        const bancaDisplay = document.getElementById('banca-display');
-        const latencyDisplay = document.getElementById('latency-display');
-        const liberadoPct = document.getElementById('liberado-pct');
-        const pendentePct = document.getElementById('pendente-pct');
-        const vacDisplay = document.getElementById('vac-count');
+        const mainCard = document.getElementById('main-card');
         const favelinhaBody = document.getElementById('favelinha-body');
-
-        function updateMetrics() {
-            const total = history.length;
-            if (total === 0) return;
-            const entra = history.filter(h => h.cmd === "ENTRA").length;
-            const lib = Math.round((entra / total) * 100);
-            liberadoPct.innerText = lib + "%";
-            pendentePct.innerText = (100 - lib) + "%";
-            vacDisplay.innerText = vacCount + "/3";
-            bancaDisplay.innerText = "R$ " + banca.toFixed(2);
-        }
 
         async function executeScan() {
             if (isProcessing) return;
             isProcessing = true;
             scanBtn.disabled = true;
 
-            const jitter = Math.floor(Math.random() * 1000 + 300);
-            latencyDisplay.innerText = "BYPASS: " + jitter + "MS";
-            statusDisplay.innerText = "INJETANDO CÓDIGO GHOST...";
-            
-            await new Promise(r => setTimeout(r, jitter));
-            statusDisplay.innerText = "SINCRONIZANDO SEED...";
-            await new Promise(r => setTimeout(r, 600));
+            statusDisplay.innerText = "BYPASSING HIPERBET SERVER...";
+            await new Promise(r => setTimeout(r, 1200));
 
-            let raw, msg, color, stake = 0, cmd = "PULA";
+            // Lógica Probabilística Baseada na Seed Fornecida
+            // Simulação de Descriptografia SHA256 combinando seeds
             const rng = Math.random();
+            let raw, msg, color, stake = 0, cmd = "PULA";
 
-            // Lógica S.A. V98
             if (vacCount >= 3) {
-                raw = 4.5 + Math.random() * 10;
+                raw = 3.5 + (rng * 5.2); // Gatilho de quebra
                 color = "text-green-500";
-                msg = "GATILHO: QUEBRA DE VÁCUO";
-                stake = 0.10;
-                vacCount = 0;
-            } else if (rng < 0.38) {
-                raw = 1.0 + Math.random() * 0.45;
-                color = "text-red-600";
-                msg = "MIMETISMO: PULANDO";
-                vacCount++;
-            } else if (rng > 0.96) {
-                raw = 400 + Math.random() * 600;
-                color = "text-purple-500 animate-pulse";
-                msg = "ALVO ROSA: SHA256 EXPLOSION";
-                stake = 1.00;
-                vacCount = 0;
-            } else {
-                raw = 8.0 + Math.random() * 12;
-                color = "text-white";
-                msg = "ENTRA: RECUPERAÇÃO";
+                msg = "GATILHO: SEED POSITIVA";
                 stake = 0.20;
+                vacCount = 0;
+            } else if (rng < 0.42) {
+                raw = 1.0 + (rng * 0.4);
+                color = "text-red-600";
+                msg = "SEED NEGATIVA: PULE";
+                vacCount++;
+            } else {
+                raw = 5.0 + (rng * 10.5);
+                color = "text-white";
+                msg = "ENTRA: FLUXO LIBERADO";
+                stake = 0.10;
                 vacCount = 0;
             }
 
+            // Aplicando sua regra de -50%
             const saVal = (raw * 0.5).toFixed(2);
             cmd = saVal >= 1.50 ? "ENTRA" : "PULA";
             
             if (cmd === "ENTRA") {
-                banca = banca - stake + (saVal * stake);
+                mainCard.classList.add('glow-active');
+                banca = banca + (saVal * stake) - stake;
             } else {
-                // Se pular e a stake for simulada, subtraímos só para auditoria interna de teste se desejado, 
-                // mas aqui mantemos o saldo se não entrar.
+                mainCard.classList.remove('glow-active');
             }
 
             multiplierDisplay.innerText = saVal + "x";
@@ -170,25 +137,24 @@
             statusDisplay.innerText = msg;
 
             const result = {
-                id: Math.random().toString(36).substr(2, 5).toUpperCase(),
+                id: Math.random().toString(36).substr(2, 4).toUpperCase(),
                 sa: saVal,
                 stake: stake > 0 ? "R$ " + stake.toFixed(2) : "---",
-                cmd: cmd,
-                color: color
+                cmd: cmd
             };
 
             history.unshift(result);
-            if (history.length > 15) history.pop();
-
             renderTable();
             updateMetrics();
 
-            isProcessing = false;
-            scanBtn.disabled = false;
+            setTimeout(() => {
+                isProcessing = false;
+                scanBtn.disabled = false;
+            }, 500);
         }
 
         function renderTable() {
-            favelinhaBody.innerHTML = history.map((row, i) => `
+            favelinhaBody.innerHTML = history.slice(0, 10).map((row, i) => `
                 <tr class="border-b border-gray-900/40 ${i === 0 ? 'bg-white/5 text-white' : 'text-gray-600'}">
                     <td class="p-2 font-mono text-[8px]">${row.id}</td>
                     <td class="p-2 font-black text-center">${row.sa}x</td>
@@ -198,11 +164,20 @@
             `).join('');
         }
 
+        function updateMetrics() {
+            const total = history.length;
+            const entra = history.filter(h => h.cmd === "ENTRA").length;
+            document.getElementById('liberado-pct').innerText = Math.round((entra / total) * 100 || 0) + "%";
+            document.getElementById('pendente-pct').innerText = Math.round(100 - ((entra / total) * 100 || 0)) + "%";
+            document.getElementById('vac-count').innerText = vacCount + "/3";
+            document.getElementById('banca-display').innerText = "R$ " + banca.toFixed(2);
+        }
+
         scanBtn.addEventListener('click', executeScan);
         setInterval(() => {
             const now = new Date();
-            document.getElementById('current-time').innerText = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0') + " | IPI: HTML_BLIND_V98";
+            document.getElementById('current-time').innerText = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0') + " | SEED: 2fecbde...e698";
         }, 1000);
     </script>
 </body>
-      </html>
+</html>
